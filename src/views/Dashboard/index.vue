@@ -31,8 +31,9 @@ export default {
 <style lang="scss" scoped>
 .dashboard-container {
   // margin: 10px;
-  height: 900px;
+  // height: 900px;
   // background-color: pink;
+
   li {
     list-style: none;
   }

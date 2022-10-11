@@ -10,7 +10,4 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-#app .sidebar-container .el-menu a li:hover span {
-  color: #fff;
-}
 </style>

@@ -1,13 +1,12 @@
 <template>
   <div class="department-container">
-    <span class="department-text">
-      <Navbar :title="title" :icon="icon" />
-      职位中心
-    </span>
+    <Navbar :title="title" :icon="icon" />
+    职位中心
   </div>
 </template>
 <script>
 import Navbar from '@/layout/components/Navbar.vue'
+
 export default {
   name: 'Department',
   components: { Navbar },
@@ -21,4 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.department-container {
+  position: relative;
+}
 </style>

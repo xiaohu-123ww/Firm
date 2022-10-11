@@ -11,6 +11,7 @@
         <!-- <navbar /> -->
       </div>
       <app-main />
+      <Footer class="footer" />
     </div>
   </div>
 </template>
@@ -18,13 +19,15 @@
 <script>
 import { Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import Footer from '../views/footer/index.vue'
 
 export default {
   name: 'Layout',
   components: {
     // Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    Footer
   },
   mixins: [ResizeMixin],
   computed: {
@@ -64,12 +67,24 @@ export default {
 
   width: 100%;
   // min-width: 1280px;
-  height: auto;
+  height: 100%;
   background-color: #f4f6f9;
   overflow: hidden;
   &.mobile.openSidebar {
     position: fixed;
     top: 0;
+  }
+  .main-container {
+    height: auto;
+    position: relative;
+    .footer {
+      height: 30px;
+      // background-color: aqua;
+      text-align: center;
+      color: #a4a6a8;
+      font-size: 15px;
+      width: 100%;
+    }
   }
 }
 .drawer-bg {
