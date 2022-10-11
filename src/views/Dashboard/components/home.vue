@@ -10,7 +10,17 @@
       </div>
     </div>
     <div class="header">
-      <div class="my">我的职位</div>
+      <div class="my">
+        <el-row>
+          <el-col :span="21"
+            ><div class="grid-content bg-purple">我的职位</div></el-col
+          >
+          <el-col :span="2">
+            <el-button type="warning" round class="bt"
+              >发布职位<i class="el-icon-plus"></i></el-button
+          ></el-col>
+        </el-row>
+      </div>
       <div class="Communication">
         <div v-for="item in position" :key="item.id" class="chunk">
           <div class="chunk-nn">{{ item.title }}</div>
@@ -129,6 +139,9 @@ export default {
       line-height: 50px;
       padding-left: 29px;
       font-weight: 700;
+      .bt {
+        margin-right: 10px;
+      }
     }
     .Communication {
       height: 110px;
