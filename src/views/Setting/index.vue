@@ -1,9 +1,7 @@
 <template>
   <div class="setting-container">
-    <span class="setting-text">
-      <Navbar :title="title" />
-      人才推荐
-    </span>
+    <Navbar :title="title" :icon="icon" />
+    人才推荐
   </div>
 </template>
 <script>
@@ -13,7 +11,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '人才推荐'
+      title: '人才推荐',
+      icon: 'tui'
     }
   }
 }

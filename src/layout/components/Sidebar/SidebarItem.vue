@@ -137,7 +137,7 @@ export default {
             console.log(i)
             but[i].style.backgroundColor = ''
           }
-          this.style.backgroundColor = '#409eff'
+          this.style.backgroundColor = '#256efd'
         }
       }
     }

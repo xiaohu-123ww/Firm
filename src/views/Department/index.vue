@@ -1,7 +1,7 @@
 <template>
   <div class="department-container">
     <span class="department-text">
-      <Navbar :title="title" />
+      <Navbar :title="title" :icon="icon" />
       职位中心
     </span>
   </div>
@@ -13,7 +13,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '职位中心'
+      title: '职位中心',
+      icon: 'biao'
     }
   }
 }

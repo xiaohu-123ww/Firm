@@ -1,20 +1,21 @@
 <template>
   <div class="dashboard-container">
-    <Navbar :title="title" />
-    this is Dashboard
+    <Navbar :title="title" :icon="icon" />
+    <Home />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import Navbar from '@/layout/components/Navbar'
 import Navbar from '@/layout/components/Navbar.vue'
+import Home from './components/home.vue'
 export default {
   name: 'Dashboard',
-  components: { Navbar },
+  components: { Navbar, Home },
   data () {
     return {
-      title: '首页'
+      title: '首页',
+      icon: 'el-icon-s-home'
     }
   },
   computed: {
@@ -30,7 +31,7 @@ export default {
 <style lang="scss" scoped>
 .dashboard-container {
   // margin: 10px;
-  height: 800px;
+  height: 900px;
   // background-color: pink;
   li {
     list-style: none;

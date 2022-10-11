@@ -1,6 +1,6 @@
 <template>
   <div class="salary-container">
-    <span class="salary-text"> <Navbar :title="title" />人才管理</span>
+    <Navbar :title="title" :icon="icon" />人才管理
   </div>
 </template>
 <script>
@@ -10,7 +10,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '人才管理'
+      title: '人才管理',
+      icon: 'el-icon-user'
     }
   }
 }

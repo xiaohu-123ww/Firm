@@ -1,7 +1,7 @@
 <template>
   <div class="permission-container">
     <span class="permission-text">
-      <Navbar :title="title" />
+      <Navbar :title="title" :icon="icon" />
       互动消息
     </span>
   </div>
@@ -14,7 +14,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '互动消息'
+      title: '互动消息',
+      icon: 'el-icon-chat-dot-round'
     }
   }
 }

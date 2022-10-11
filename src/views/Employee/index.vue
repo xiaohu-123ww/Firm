@@ -1,7 +1,7 @@
 <template>
   <div class="employee-container">
     <span class="employee-text">
-      <Navbar :title="title" />
+      <Navbar :title="title" :icon="icon" />
       人才搜索
     </span>
   </div>
@@ -13,7 +13,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '人才搜索'
+      title: '人才搜索',
+      icon: 'sou'
     }
   }
 }

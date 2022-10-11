@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar :title="title" />
+    <Navbar :title="title" :icon="icon" />
     人才信息
   </div>
 </template>
@@ -11,7 +11,8 @@ export default {
   components: { Navbar },
   data () {
     return {
-      title: '人才信息'
+      title: '人才信息',
+      icon: 'el-icon-collection-tag'
     }
   }
 }

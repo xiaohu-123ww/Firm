@@ -11,7 +11,10 @@
       ></el-col>
       <el-col :span="17"
         ><div class="grid-content bg-purple">
-          <el-button class="navbar-bt" type="primary">{{ title }}</el-button>
+          <div class="navbar-bt">
+            <Item :icon="icon" />
+            {{ title }}
+          </div>
         </div></el-col
       >
       <el-col :span="3"
@@ -52,11 +55,13 @@
 </template>
 
 <script>
+import Item from '@/layout/components/Sidebar/Item.vue'
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 export default {
   components: {
-    Hamburger
+    Hamburger,
+    Item
   },
   computed: {
     ...mapGetters([
@@ -65,6 +70,9 @@ export default {
   },
   props: {
     title: {
+      type: String
+    },
+    icon: {
       type: String
     }
   },
@@ -88,6 +96,7 @@ export default {
   overflow: hidden;
   position: relative;
   line-height: 60px;
+  background-color: #fff;
   // background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
   box-shadow: 0 1px 6px rgba(0, 21, 41, 0.08);
   .hamburger-container {
@@ -105,14 +114,16 @@ export default {
     }
   }
   .navbar-bt {
-    width: 90px;
+    width: 100px;
     margin: 10px 20px;
-    // background-color: rgba(238, 238, 238);
+    background-color: #256efd;
     border-radius: 20px;
-    height: 35px;
+    height: 38px;
     text-align: center;
-    color: black;
-    font-weight: 600;
+    color: #fff;
+    line-height: 38px;
+    font-size: 14px;
+    // font-weight: 600;
   }
   .navbar-firm {
     color: rgba(112, 112, 112);
