@@ -67,8 +67,9 @@ export default {
 
   width: 100%;
   // min-width: 1280px;
-  height: 100%;
+  height: auto;
   background-color: #f4f6f9;
+  // background-color: pink;
   overflow: hidden;
   &.mobile.openSidebar {
     position: fixed;
@@ -77,8 +78,9 @@ export default {
   .main-container {
     height: auto;
     position: relative;
+
     .footer {
-      height: 30px;
+      height: 45px;
       // background-color: aqua;
       text-align: center;
       color: #a4a6a8;

@@ -31,7 +31,7 @@ export default {
 <style lang="scss" scoped>
 .dashboard-container {
   // margin: 10px;
-  // height: 900px;
+  // height: 80px;
   // background-color: pink;
 
   li {

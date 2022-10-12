@@ -20,4 +20,8 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.footer {
+  height: 100px;
+  background-color: #f4f6f9;
+}
 </style>

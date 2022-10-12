@@ -22,5 +22,6 @@ export default {
 <style lang="scss" scoped>
 .department-container {
   position: relative;
+  height: 100%;
 }
 </style>

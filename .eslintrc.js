@@ -200,6 +200,7 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-indent': 'off',
     'vue/require-default-prop': 'off',
-    'vue/order-in-components': 'off'
+    'vue/order-in-components': 'off',
+    'vue/valid-template-root': 'off'
   }
 }
