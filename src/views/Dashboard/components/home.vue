@@ -16,7 +16,10 @@
             ><div class="grid-content bg-purple">我的职位</div></el-col
           >
           <el-col :span="2">
-            <el-button type="warning" round class="bt"
+            <el-button
+              round
+              class="bt"
+              style="background-color: #f09667; color: #fff"
               >发布职位<i class="el-icon-plus"></i></el-button
           ></el-col>
         </el-row>
@@ -29,7 +32,17 @@
       </div>
     </div>
     <el-card class="card">
-      <div class="my">我的面试</div>
+      <div class="my">
+        <el-row>
+          <el-col :span="23"
+            ><div class="grid-content bg-purple">我的面试</div></el-col
+          >
+          <el-col :span="1">
+            <el-button type="text"
+              >更多<i class="el-icon-arrow-right"></i></el-button
+          ></el-col>
+        </el-row>
+      </div>
       <template>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="date" label="日期" width="250">
@@ -139,6 +152,7 @@ export default {
       line-height: 50px;
       padding-left: 29px;
       font-weight: 700;
+
       .bt {
         margin-right: 10px;
       }
@@ -171,10 +185,13 @@ export default {
   .card {
     border-radius: 20px;
     .my {
-      height: 40px;
+      height: 50px;
       // background-color: blueviolet;
       padding-left: 9px;
       font-weight: 700;
+      .grid-content {
+        padding-top: 12px;
+      }
     }
     .column {
       color: #64affa;
