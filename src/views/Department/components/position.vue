@@ -1,90 +1,104 @@
 <template>
   <div>
-    <div class="position">
-      <div class="position-manage">
-        <el-row>
-          <el-col :span="21"> 职位管理 </el-col>
-          <el-col :span="3">
-            <el-button
-              round
-              class="bt"
-              style="background-color: #f09667; color: #fff; font-size: 1px"
-              @click="postJob"
-              >发布职位<i class="el-icon-plus"></i
-            ></el-button>
-          </el-col>
-        </el-row>
+    <div v-if="show">
+      <div class="position">
+        <div class="position-manage">
+          <el-row>
+            <el-col :span="21"> 职位管理 </el-col>
+            <el-col :span="3">
+              <el-button
+                round
+                class="bt"
+                style="
+                  background-color: #f09667;
+                  color: #fff;
+                  font-size: 1px;
+                  margin-top: 10px;
+                "
+                @click="postJob"
+                >发布职位<i class="el-icon-plus"></i
+              ></el-button>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="position-state">
+          <el-row>
+            <el-col :span="3"
+              ><div
+                :class="{ bd: changeColor === 1 }"
+                class="line"
+                @click="onLine"
+              >
+                在线中
+              </div></el-col
+            >
+            <el-col :span="3">
+              <div
+                :class="{ bd: changeColor === 2 }"
+                class="line"
+                @click="noOnLine"
+              >
+                未上线
+              </div>
+            </el-col>
+            <el-col :span="3">
+              <div
+                :class="{ bd: changeColor === 3 }"
+                class="line"
+                @click="underReview"
+              >
+                审核中
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div
+                :class="{ bd: changeColor === 4 }"
+                class="line"
+                @click="notPass"
+              >
+                未通过
+              </div>
+            </el-col>
+            <el-col :span="5" class="bt">
+              <el-input
+                v-model="text"
+                placeholder="输入职位名称/城市"
+                prefix-icon="el-icon-search"
+              ></el-input>
+              <el-button
+                style="
+                  background-color: #256efd;
+                  height: 33px;
+                  line-height: 5px;
+                  color: #fff;
+                "
+                >搜索</el-button
+              >
+            </el-col>
+          </el-row>
+        </div>
       </div>
-      <div class="position-state">
-        <el-row>
-          <el-col :span="3"
-            ><div
-              :class="{ bd: changeColor === 1 }"
-              class="line"
-              @click="onLine"
-            >
-              在线中
-            </div></el-col
-          >
-          <el-col :span="3">
-            <div
-              :class="{ bd: changeColor === 2 }"
-              class="line"
-              @click="noOnLine"
-            >
-              未上线
-            </div>
-          </el-col>
-          <el-col :span="3">
-            <div
-              :class="{ bd: changeColor === 3 }"
-              class="line"
-              @click="underReview"
-            >
-              审核中
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div
-              :class="{ bd: changeColor === 4 }"
-              class="line"
-              @click="notPass"
-            >
-              未通过
-            </div>
-          </el-col>
-          <el-col :span="5" class="bt">
-            <el-input
-              v-model="text"
-              placeholder="输入职位名称/城市"
-              prefix-icon="el-icon-search"
-            ></el-input>
-            <el-button
-              style="
-                background-color: #256efd;
-                height: 30px;
-                line-height: 5px;
-                color: #fff;
-              "
-              >搜索</el-button
-            >
-          </el-col>
-        </el-row>
-      </div>
+      <List :num="num" />
+      <Page
+        class="position-page"
+        :total="num.length"
+        @handleSize="handleSize"
+      />
     </div>
-    <List :num="num" />
-    <Page class="position-page" :total="num.length" @handleSize="handleSize" />
+    <Post v-else @reset="reset" />
   </div>
 </template>
 <script>
 import List from './list.vue'
 import Page from './page.vue'
+import Post from './post.vue'
 export default {
-  components: { List, Page },
+  components: { List, Page, Post },
   data () {
     return {
       changeColor: 0,
       text: '',
+      show: true,
       num: [
         {
           id: '1',
@@ -179,7 +193,10 @@ export default {
       console.log(page)
     },
     postJob () {
-
+      this.show = false
+    },
+    reset (i) {
+      this.show = i
     }
 
   }
@@ -188,11 +205,11 @@ export default {
 <style scoped lang="scss">
 .position {
   padding-left: 30px;
-  height: 100px;
+  height: 110px;
   background-color: #fff;
   // background-color: pink;
   .position-manage {
-    height: 60px;
+    height: 65px;
     // background-color: aqua;s
     line-height: 50px;
   }

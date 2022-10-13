@@ -93,14 +93,14 @@ export default {
 </script>
 <style scoped lang="scss">
 .list {
-  height: 110px;
+  height: 120px;
   background-color: #fff;
-  margin: 20px 10px;
+  margin: 12px 10px;
   border-radius: 20px;
   overflow: hidden;
   // border: 1px solid #f9f7f7;
   .list-context {
-    height: 70px;
+    height: 75px;
     // background-color: aqua;
     border-bottom: 2px solid #f9f7f7;
     .bg-purple {
@@ -152,7 +152,7 @@ export default {
     }
   }
   .list-my {
-    height: 40px;
+    height: 45px;
     // background-color: #256efd;
     padding-left: 20px;
     line-height: 33px;
@@ -165,7 +165,7 @@ export default {
       margin-top: 3px;
     }
     .list-my-bt {
-      font-size: 10px;
+      font-size: 12px;
       border-radius: 20px;
       height: 34px;
       width: 80px;
