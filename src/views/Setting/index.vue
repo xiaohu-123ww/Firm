@@ -1,14 +1,16 @@
 <template>
   <div class="setting-container">
     <Navbar :title="title" :icon="icon" />
-    人才推荐
+    <Talents />
   </div>
 </template>
 <script>
 import Navbar from '@/layout/components/Navbar.vue'
+import Talents from './components/talents.vue'
+// import Recommend from './components/recommend.vue'
 export default {
   name: 'Setting',
-  components: { Navbar },
+  components: { Navbar, Talents },
   data () {
     return {
       title: '人才推荐',

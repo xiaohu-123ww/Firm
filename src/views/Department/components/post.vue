@@ -545,6 +545,7 @@ export default {
     background-color: #fff;
     line-height: 60px;
     padding-left: 30px;
+    font-weight: 700;
   }
   .post-card {
     margin: 20px;

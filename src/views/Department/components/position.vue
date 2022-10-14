@@ -208,7 +208,8 @@ export default {
   .position-manage {
     height: 65px;
     // background-color: aqua;s
-    line-height: 50px;
+    line-height: 65px;
+    font-weight: 700;
   }
   .position-state {
     height: 30px;
