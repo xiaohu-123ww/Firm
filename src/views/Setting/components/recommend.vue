@@ -12,7 +12,7 @@
               <div class="message-name">
                 <div class="text">{{ item.name }}</div>
                 <div style="margin-right: 15px; font-size: 19px">
-                  <Item icon="item.sex === '男'？'nan'?''nv"></Item>
+                  <Item :icon="item.sex === '男' ? 'nan' : 'nv'"></Item>
                 </div>
                 <div class="onLine">{{ item.state }}</div>
               </div>
@@ -156,7 +156,7 @@ export default {
         color: #a3a3a3;
         display: flex;
         font-size: 13px;
-        line-height: 30px;
+        // line-height: 20px;
         .experience-time {
           height: 100%;
           width: 150px;
