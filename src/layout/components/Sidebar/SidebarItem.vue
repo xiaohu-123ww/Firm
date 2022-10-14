@@ -130,6 +130,7 @@ export default {
     },
     changeColor () {
       var but = document.getElementsByClassName('my')
+      // but[0].style.backgroundColor = '#256efd'
       for (var i = 0; i < but.length; i++) {
         console.log(but[i])
         but[i].onclick = function () {

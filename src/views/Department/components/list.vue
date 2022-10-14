@@ -1,75 +1,98 @@
 <template>
   <div>
-    <div v-for="item in num" :key="item.id" class="list">
-      <div class="list-context">
-        <el-row>
-          <el-col :span="10"
-            ><div class="bg-purple">
-              <div class="bg-purple-nn">
-                <span style="font-size: 18px; margin-right: 10px">{{
-                  item.job
-                }}</span>
-                <span style="font-size: 12px; color: #676767">{{
-                  item.address
-                }}</span>
-              </div>
-              <div class="bg-purple-sss">
-                <span
-                  style="font-size: 14px; color: #fe6b49; margin-right: 10px"
-                  >{{ item.money }} {{ item.month }}</span
+    <div v-if="show">
+      <div v-for="item in num" :key="item.id" class="list">
+        <div class="list-context">
+          <el-row>
+            <el-col :span="10"
+              ><div class="bg-purple">
+                <div class="bg-purple-nn">
+                  <span style="font-size: 18px; margin-right: 10px">{{
+                    item.job
+                  }}</span>
+                  <span style="font-size: 12px; color: #676767">{{
+                    item.address
+                  }}</span>
+                </div>
+                <div class="bg-purple-sss">
+                  <span
+                    style="font-size: 14px; color: #fe6b49; margin-right: 10px"
+                    >{{ item.money }} {{ item.month }}</span
+                  >
+                  <span style="font-size: 12px; color: #676767">{{
+                    item.education
+                  }}</span>
+                </div>
+              </div></el-col
+            >
+            <el-col :span="11"
+              ><div class="bg-purple-light">
+                <div class="bg-purple-bty">
+                  <div class="text">新消息</div>
+                  <div style="font-size: 38px">{{ item.message }}</div>
+                </div>
+              </div></el-col
+            >
+            <el-col :span="1"
+              ><div class="bg-purpl-el">
+                <el-button class="elButton"
+                  ><Item icon="aixin" class="Icon" /> 职位取消</el-button
                 >
-                <span style="font-size: 12px; color: #676767">{{
-                  item.education
-                }}</span>
               </div>
-            </div></el-col
-          >
-          <el-col :span="11"
-            ><div class="bg-purple-light">
-              <div class="bg-purple-bty">
-                <div class="text">新消息</div>
-                <div style="font-size: 38px">{{ item.message }}</div>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="list-my">
+          <el-row>
+            <el-col :span="1">
+              <div class="list-image">
+                <img
+                  :src="item.image"
+                  alt=""
+                  style="height: 30px; width: 30px"
+                />
               </div>
-            </div></el-col
+            </el-col>
+            <el-col :span="1"
+              ><div style="font-size: 13px">{{ item.name }}</div></el-col
+            >
+            <el-col :span="18"
+              ><div style="font-size: 13px; color: #676767">
+                发布时间：{{ item.time }}
+              </div></el-col
+            >
+
+            <el-col :span="4" class="list-button">
+              <div class="list-button">
+                <el-button class="list-my-bt" round @click="details"
+                  ><Item icon="xiugai" />修改</el-button
+                >
+                <el-button class="list-my-bt" round
+                  ><Item icon="exit" />下线</el-button
+                >
+                <el-button class="list-my-bt" round
+                  ><Item icon="fuzhi" />复制</el-button
+                >
+              </div>
+            </el-col></el-row
           >
-          <el-col :span="1"
-            ><div class="bg-purpl-el">
-              <el-button class="elButton"
-                ><Item icon="aixin" class="Icon" /> 职位取消</el-button
-              >
-            </div>
-          </el-col>
-        </el-row>
+        </div>
       </div>
-      <div class="list-my">
-        <el-row>
-          <el-col :span="1">
-            <div class="list-image">
-              <img :src="item.image" alt="" style="height: 30px; width: 30px" />
-            </div>
-          </el-col>
-          <el-col :span="1"
-            ><div style="font-size: 13px">{{ item.name }}</div></el-col
-          >
-          <el-col :span="20"
-            ><div style="font-size: 13px; color: #676767">
-              发布时间：{{ item.time }}
-            </div></el-col
-          >
-          <el-col :span="1"
-            ><el-button class="list-my-bt"
-              ><Item icon="fuzhi" class="Icon" /> 复制</el-button
-            ></el-col
-          >
-        </el-row>
-      </div>
+      <Page
+        class="position-page"
+        :total="list.length"
+        @handleSize="handleSize"
+      />
     </div>
+    <Details v-else />
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
+import Details from './details.vue'
+import Page from './page.vue'
 export default {
-  components: { Item },
+  components: { Item, Details, Page },
   props: {
     num: {
       type: Array
@@ -77,7 +100,75 @@ export default {
   },
   data () {
     return {
+      show: true,
+      list: [
+        {
+          id: '1',
+          job: '机械臂控制工程师',
+          address: '北京海淀区西小口',
+          money: '8000-15000',
+          month: '13薪',
+          education: '5-10年 本科',
+          message: '30',
+          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          name: '张继科',
+          time: '2022.04.08',
+          onLine: '3日后下线'
+        },
+        {
+          id: '2',
+          job: '机械臂控制工程师',
+          address: '北京海淀区西小口',
+          money: '8000-15000',
+          month: '13薪',
+          education: '5-10年 本科',
+          message: '30',
+          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          name: '张继科',
+          time: '2022.04.08',
+          onLine: '3日后下线'
+        },
+        {
+          id: '3',
+          job: '机械臂控制工程师',
+          address: '北京海淀区西小口',
+          money: '8000-15000',
+          month: '13薪',
+          education: '5-10年 本科',
+          message: '30',
+          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          name: '张继科',
+          time: '2022.04.08',
+          onLine: '3日后下线'
+        },
+        {
+          id: '4',
+          job: '机械臂控制工程师',
+          address: '北京海淀区西小口',
+          money: '8000-15000',
+          month: '13薪',
+          education: '5-10年 本科',
+          message: '30',
+          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          name: '张继科',
+          time: '2022.04.08',
+          onLine: '3日后下线'
+        },
+        {
+          id: '5',
+          job: '机械臂控制工程师',
+          address: '北京海淀区西小口',
+          money: '8000-15000',
+          month: '13薪',
+          education: '5-10年 本科',
+          message: '30',
+          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          name: '张继科',
+          time: '2022.04.08',
+          onLine: '3日后下线'
+        }
 
+      ]
     }
   },
   mounted () {
@@ -87,7 +178,14 @@ export default {
 
   },
   methods: {
-
+    // 第几页
+    handleSize (page) {
+      console.log(page)
+    },
+    details () {
+      this.show = false
+      this.$emit('hidden', false)
+    }
   }
 }
 </script>
@@ -164,14 +262,24 @@ export default {
       overflow: hidden;
       margin-top: 3px;
     }
-    .list-my-bt {
-      font-size: 12px;
-      border-radius: 20px;
-      height: 34px;
-      width: 80px;
-      // line-height: 0.5px;
-      margin-top: 5px;
+    .list-button {
+      // background-color: #25fd9f;
+      .list-my-bt {
+        font-size: 12px;
+
+        height: 32px;
+        width: 55px;
+        padding: 5px 10px;
+
+        // background-color: #256efd;
+        margin: 5px;
+      }
     }
   }
+}
+.position-page {
+  // background-color: pink;
+  width: 600px;
+  margin: 0 0 30px 700px;
 }
 </style>

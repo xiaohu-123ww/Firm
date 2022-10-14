@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="header">
-      <div class="my">我的沟通</div>
+      <div class="my" style="background-color: #fff">我的沟通</div>
       <div class="Communication">
         <div v-for="item in chunk" :key="item.id" class="chunk">
           <div class="chunk-nn">{{ item.title }}</div>
@@ -12,9 +12,7 @@
     <div class="header">
       <div class="my">
         <el-row>
-          <el-col :span="21"
-            ><div class="grid-content bg-purple">我的职位</div></el-col
-          >
+          <el-col :span="21"><div class="">我的职位</div></el-col>
           <el-col :span="2">
             <el-button
               round
@@ -34,9 +32,7 @@
     <el-card class="card">
       <div class="my">
         <el-row>
-          <el-col :span="23"
-            ><div class="grid-content bg-purple">我的面试</div></el-col
-          >
+          <el-col :span="23"><div>我的面试</div></el-col>
           <el-col :span="1">
             <el-button type="text"
               >更多<i class="el-icon-arrow-right"></i></el-button
@@ -149,6 +145,7 @@ export default {
     .my {
       height: 50px;
       // background-color: blueviolet;
+
       line-height: 50px;
       padding-left: 29px;
       font-weight: 700;

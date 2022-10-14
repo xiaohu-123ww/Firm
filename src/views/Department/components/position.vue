@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="show">
-      <div class="position">
+      <div v-if="flagShow" class="position">
         <div class="position-manage">
           <el-row>
             <el-col :span="21"> 职位管理 </el-col>
@@ -78,27 +78,24 @@
           </el-row>
         </div>
       </div>
-      <List :num="num" />
-      <Page
-        class="position-page"
-        :total="num.length"
-        @handleSize="handleSize"
-      />
+      <List :num="num" @hidden="hidden" />
     </div>
     <Post v-else @reset="reset" />
   </div>
 </template>
 <script>
 import List from './list.vue'
-import Page from './page.vue'
+
 import Post from './post.vue'
+
 export default {
-  components: { List, Page, Post },
+  components: { List, Post },
   data () {
     return {
       changeColor: 0,
       text: '',
       show: true,
+      flagShow: true,
       num: [
         {
           id: '1',
@@ -188,15 +185,15 @@ export default {
     notPass () {
       this.changeColor = 4
     },
-    // 第几页
-    handleSize (page) {
-      console.log(page)
-    },
+
     postJob () {
       this.show = false
     },
     reset (i) {
       this.show = i
+    },
+    hidden (i) {
+      this.flagShow = i
     }
 
   }
