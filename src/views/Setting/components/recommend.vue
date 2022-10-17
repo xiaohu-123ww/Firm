@@ -24,7 +24,7 @@
               </div>
             </div></el-col
           >
-          <el-col :span="13"
+          <el-col :span="12"
             ><div class="recommend-time">
               <div
                 v-for="(itemss, index) in item.work"
@@ -37,8 +37,8 @@
               </div>
             </div></el-col
           >
-          <el-col :span="2"
-            ><div class="recommend-bt">
+          <el-col :span="3"
+            ><div v-if="!item.job" class="recommend-bt">
               <el-button
                 v-if="item.state1 === '已查看'"
                 round
@@ -54,13 +54,20 @@
               <el-button v-else round class="recommend-button"
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
-            </div></el-col
-          >
+            </div>
+            <div
+              v-else
+              class="recommend-bt"
+              style="font-size: 13px; color: #b2b2b2"
+            >
+              <Item icon="点" />5小时前发起聊天
+            </div>
+          </el-col>
         </el-row>
       </div>
       <div class="technical-ability">
         <el-row>
-          <el-col :span="23"
+          <el-col :span="19"
             ><div class="technical">
               <div
                 v-for="(skills, index) in item.skill"
@@ -69,13 +76,52 @@
               >
                 {{ skills }}
               </div>
+              <div
+                v-if="item.job"
+                style="font-size: 13px; color: #a2a2a2; line-height: 30px"
+              >
+                沟通职位：机械工程师
+              </div>
             </div></el-col
           >
-          <el-col :span="1"
+          <el-col :span="5"
             ><div v-if="item.state1" class="bg-purple-light">
+              <Item icon="点" />
               {{ item.state1 }}
-            </div></el-col
-          >
+            </div>
+            <div v-if="item.job">
+              <el-button
+                class="chnical"
+                round
+                style="
+                  color: #228efa;
+                  background-color: #e6f1fc;
+                  border: 1px solid #afd4fe;
+                "
+                >已收藏</el-button
+              >
+              <el-button
+                round
+                class="chnical"
+                style="
+                  color: #0d975e;
+                  background-color: #f1fffd;
+                  border: 1px solid #bfefad8;
+                "
+                >可以聊</el-button
+              >
+              <el-button
+                round
+                class="chnical"
+                style="
+                  color: #d24f3d;
+                  background-color: #fce6e6;
+                  border: 1px solid #fcc9c4;
+                "
+                >不合适</el-button
+              >
+            </div>
+          </el-col>
         </el-row>
         <el-row> </el-row>
       </div>
@@ -209,6 +255,8 @@ export default {
     }
     .recommend-bt {
       margin-left: 40px;
+      // background-color: pink;
+      text-align: center;
       .recommend-button {
         width: 70px;
         height: 30px;
@@ -225,12 +273,14 @@ export default {
     height: 40px;
     width: 100%;
     // background-color: #119954;
-    padding: 7px 20px;
+
     // display: flex;
+
     .technical {
       // background-color: pink;
 
       display: flex;
+      padding: 7px 20px;
       .ability {
         width: 50px;
         height: 25px;
@@ -248,9 +298,19 @@ export default {
       // background-color: #218dfa;
       height: 25px;
       font-size: 13px;
+      padding-left: 180px;
+      // text-align: center;
       line-height: 25px;
       color: #b2b2b2;
     }
   }
+}
+.chnical {
+  // background-color: pink;
+  margin-top: 4px;
+  font-size: 13px;
+  width: 80px;
+  height: 30px;
+  line-height: 3px;
 }
 </style>

@@ -1,18 +1,10 @@
 <template>
   <div>
     <div class="search">
-      <div class="search-input">
-        <div style="width: 100%">
-          <el-input
-            v-model="form.text"
-            placeholder="请输入关键词"
-            style="width: 500px"
-          ></el-input>
-          <el-button type="primary">搜索</el-button>
-        </div>
-        <div class="seek">
+      <div class="search-form">
+        <el-form :model="form" label-width="80px">
           <div class="search-checkbox">
-            <span class="seek-span">快捷搜索</span>
+            <span style="margin: 5px 10px">沟通职位</span>
             <el-radio-group v-model="form.search" size="mini">
               <el-radio-button
                 v-for="(item, index) in firm"
@@ -23,14 +15,6 @@
               >
             </el-radio-group>
           </div>
-        </div>
-      </div>
-      <div class="search-form">
-        <el-form
-          :model="form"
-          label-width="80px"
-          style="width: 1000px; margin: 0 auto"
-        >
           <div class="search-checkbox">
             <span style="margin: 5px 10px">学历要求</span>
             <el-checkbox-group v-model="form.checkboxGroup" size="mini">
@@ -52,7 +36,15 @@
               <el-radio-button label="211" class="radio"></el-radio-button>
             </el-radio-group>
           </div>
-          <div style="display: flex; margin-left: 90px">
+          <div style="display: flex; margin-left: 100px">
+            <el-form-item label="沟通日期">
+              <el-date-picker
+                v-model="form.time"
+                type="date"
+                placeholder="选择日期"
+                style="width: 100%; margin-right: 243px"
+              ></el-date-picker>
+            </el-form-item>
             <el-form-item label="年龄要求" style="margin-right: 30px">
               <el-select
                 v-model="form.age"
@@ -72,26 +64,9 @@
                 <el-option label="35" value="2"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="期望职位">
-              <el-select
-                v-model="form.job"
-                multiple
-                placeholder="请选择职业"
-                class="box"
-                style="width: 300px"
-              >
-                <el-option
-                  v-for="item in keyWord"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
           </div>
-          <div style="display: flex; margin-left: 90px">
-            <el-form-item label="年限要求" style="margin-right: 30px">
+          <div style="display: flex; margin-left: 100px">
+            <el-form-item label="年限要求" style="margin-right: 100px">
               <el-select
                 v-model="form.month"
                 placeholder="不限"
@@ -121,46 +96,8 @@
               </el-select>
             </el-form-item>
           </div>
-          <div style="display: flex; margin-left: 90px">
-            <el-form-item label="薪资要求" style="margin-right: 30px">
-              <el-select
-                v-model="form.money"
-                placeholder="不限"
-                style="width: 200px"
-              >
-                <el-option label="不限" value="1"></el-option>
-                <el-option label="8k" value="2"></el-option>
-              </el-select>
-              -
-              <el-select
-                v-model="form.lastMoney"
-                placeholder="不限"
-                style="width: 200px"
-              >
-                <el-option label="不限" value="1"></el-option>
-                <el-option label="10k" value="2"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="活跃时间">
-              <el-date-picker
-                v-model="form.time"
-                type="date"
-                placeholder="选择日期"
-                style="width: 100%"
-              ></el-date-picker>
-            </el-form-item>
-          </div>
-          <div style="display: flex; margin-left: 90px">
-            <el-form-item label="性别" style="margin-right: 173px">
-              <el-select
-                v-model="form.sex"
-                placeholder="不限"
-                style="width: 270px"
-              >
-                <el-option label="男" value="1"></el-option>
-                <el-option label="女" value="2"></el-option>
-              </el-select>
-            </el-form-item>
+
+          <div style="display: flex; margin-left: 100px">
             <el-form-item label="期望城市">
               <el-select
                 v-model="form.city"
@@ -172,14 +109,6 @@
               </el-select>
             </el-form-item>
           </div>
-          <div class="search-checkbox">
-            <span style="margin: 5px 18px">筛选</span>
-            <el-radio-group v-model="form.screen" size="mini">
-              <el-radio-button label="不限" class="radio"></el-radio-button>
-              <el-radio-button label="已看过" class="radio"></el-radio-button>
-              <el-radio-button label="已聊过" class="radio"></el-radio-button>
-            </el-radio-group>
-          </div>
         </el-form>
       </div>
     </div>
@@ -189,30 +118,25 @@
 </template>
 <script>
 import Recommend from '@/views/Setting/components/recommend.vue'
-import Page from '../../Department/components/page.vue'
+import Page from '@/views/Department/components/page.vue'
 export default {
   components: { Recommend, Page },
   data () {
     return {
       form: {
         search: '',
-        text: '',
         checkboxGroup: [],
         radio: '',
         age: '',
         lastAge: '',
-        job: '',
         month: '',
         lastMonth: '',
-        money: '',
-        lastMoney: '',
         time: '',
         state: '',
-        sex: '',
-        city: '',
-        screen: ''
+        city: ''
+
       },
-      firm: ['机械工程师', 'JAVA工程师', '工业机器人工程师', '视觉工程师'],
+      firm: ['不限', '机械工程师', 'JAVA工程师', '工业机器人工程师', '视觉工程师'],
       cities: ['不限', '初中', '高中', '中专/中技', '大专', '本科', '硕士', 'MVA/EMBA', '博士'],
       keyWord: [
         {
@@ -252,7 +176,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          state1: '已查看'
+          job: '机械工程师'
+
         },
         {
           id: 2,
@@ -281,7 +206,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          state1: '已沟通'
+          job: '机器视觉工程师'
+
         },
         {
           id: 3,
@@ -310,7 +236,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          state1: '已查看'
+          job: 'JAVA机械工程师'
+
         },
         {
           id: 4,
@@ -339,7 +266,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          state1: '已查看'
+          job: '工业机器人工程师'
+
         },
         {
           id: 5,
@@ -368,7 +296,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          state1: '已沟通'
+          job: '前端工程师'
+
         }
       ],
       total: 100
@@ -400,26 +329,15 @@ export default {
   height: 100%;
   background-color: #fff;
   padding: 15px 0;
-  .search-input {
-    height: 80px;
-    // background-color: pink;
-    text-align: center;
-    margin-bottom: 20px;
-    .seek {
-      // background-color: aqua;
-      margin-top: 12px;
-      .seek-span {
-        font-size: 14px;
-        margin-right: 13px;
-      }
-    }
-  }
+  margin: 20px;
   .search-form {
     width: 100%;
     // height: 200px;
     // background-color: aqua;
+    // margin: 20px;
     .search-checkbox {
-      margin: 0 auto;
+      // margin: 0 auto;
+      margin-left: 105px;
       width: 800px;
       margin-bottom: 15px;
       display: flex;
