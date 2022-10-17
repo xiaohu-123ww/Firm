@@ -78,11 +78,7 @@
           >
         </div>
       </div>
-      <Page
-        class="position-page"
-        :total="list.length"
-        @handleSize="handleSize"
-      />
+      <Page class="position-page" :total="total" @handleSize="handleSize" />
     </div>
     <Details v-else />
   </div>
@@ -168,7 +164,8 @@ export default {
           onLine: '3日后下线'
         }
 
-      ]
+      ],
+      total: 100
     }
   },
   mounted () {

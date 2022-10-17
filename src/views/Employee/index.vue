@@ -2,15 +2,16 @@
   <div class="employee-container">
     <span class="employee-text">
       <Navbar :title="title" :icon="icon" />
-      人才搜索
+      <Search />
     </span>
   </div>
 </template>
 <script>
 import Navbar from '@/layout/components/Navbar.vue'
+import Search from './components/search.vue'
 export default {
   name: 'Employee',
-  components: { Navbar },
+  components: { Navbar, Search },
   data () {
     return {
       title: '人才搜索',

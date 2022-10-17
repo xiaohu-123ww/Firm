@@ -39,7 +39,19 @@
           >
           <el-col :span="2"
             ><div class="recommend-bt">
-              <el-button round class="recommend-button"
+              <el-button
+                v-if="item.state1 === '已查看'"
+                round
+                class="recommend-button"
+                style="
+                  color: #179b59;
+                  border: 1px solid #aae8c9;
+                  background-color: #f1fffd;
+                "
+                @click="changeDialog"
+                ><Item icon="消息" /> 继续聊
+              </el-button>
+              <el-button v-else round class="recommend-button"
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
             </div></el-col
@@ -47,17 +59,35 @@
         </el-row>
       </div>
       <div class="technical-ability">
-        <div v-for="(skills, index) in item.skill" :key="index" class="ability">
-          {{ skills }}
-        </div>
+        <el-row>
+          <el-col :span="23"
+            ><div class="technical">
+              <div
+                v-for="(skills, index) in item.skill"
+                :key="index"
+                class="ability"
+              >
+                {{ skills }}
+              </div>
+            </div></el-col
+          >
+          <el-col :span="1"
+            ><div v-if="item.state1" class="bg-purple-light">
+              {{ item.state1 }}
+            </div></el-col
+          >
+        </el-row>
+        <el-row> </el-row>
       </div>
     </div>
+    <Dialog :dialog-visible="dialogVisible" @reset="reset" />
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
+import Dialog from './dialog.vue'
 export default {
-  components: { Item },
+  components: { Item, Dialog },
   props: {
     list: {
       type: Array
@@ -65,7 +95,7 @@ export default {
   },
   data () {
     return {
-
+      dialogVisible: false
     }
   },
   mounted () {
@@ -75,26 +105,32 @@ export default {
 
   },
   methods: {
-
+    changeDialog () {
+      this.dialogVisible = true
+      console.log(1)
+    },
+    reset (i) {
+      this.dialogVisible = i
+    }
   }
 }
 </script>
 <style scoped lang="scss">
 .recommend {
-  height: 120px;
+  height: 125px;
   background-color: #fff;
-  margin: 20px;
+  margin: 15px 20px;
   border-radius: 20px;
   overflow: hidden;
   .recommend-my {
-    height: 80px;
+    height: 85px;
     // background-color: blueviolet;
     border-bottom: 2px solid #f8f8f8;
-    padding: 10px 20px;
+    padding: 13px 20px;
     .recommend-img {
       width: 45px;
       height: 45px;
-      background-color: pink;
+      // background-color: pink;
       margin-top: 3px;
       border-radius: 100px;
       overflow: hidden;
@@ -112,7 +148,6 @@ export default {
         width: 100%;
         // background-color: aqua;
         display: flex;
-
         .text {
           font-size: 17px;
           margin-right: 10px;
@@ -132,7 +167,7 @@ export default {
         height: 40px;
         width: 100%;
         // background-color: darkgreen;
-        margin-top: 5px;
+        // margin-top: 5px;
         display: flex;
         color: #808080;
         font-size: 13px;
@@ -173,34 +208,48 @@ export default {
       }
     }
     .recommend-bt {
-      margin: 10px 40px;
+      margin-left: 40px;
       .recommend-button {
         width: 70px;
-        height: 35px;
+        height: 30px;
         border: 1px solid #acd5fe;
         background-color: #e6f1fc;
         color: #218dfa;
-        line-height: 2px;
-        padding-left: 6px;
-        font-size: 13px;
+        // line-height: 1px;
+        padding: 6px 2px;
+        font-size: 12px;
       }
     }
   }
   .technical-ability {
     height: 40px;
+    width: 100%;
     // background-color: #119954;
     padding: 7px 20px;
-    display: flex;
-    .ability {
-      width: 50px;
+    // display: flex;
+    .technical {
+      // background-color: pink;
+
+      display: flex;
+      .ability {
+        width: 50px;
+        height: 25px;
+        background-color: #f3f7ff;
+        // border-radius: 20px;
+        text-align: center;
+        line-height: 25px;
+        font-size: 12px;
+        text-align: center;
+        color: #799ce3;
+        margin-right: 15px;
+      }
+    }
+    .bg-purple-light {
+      // background-color: #218dfa;
       height: 25px;
-      background-color: #f3f7ff;
-      // border-radius: 20px;
+      font-size: 13px;
       line-height: 25px;
-      font-size: 12px;
-      text-align: center;
-      color: #799ce3;
-      margin-right: 15px;
+      color: #b2b2b2;
     }
   }
 }
