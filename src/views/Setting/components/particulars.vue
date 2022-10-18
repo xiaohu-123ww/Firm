@@ -15,7 +15,7 @@
             <div style="font-size: 18px; margin-bottom: 8px; font-weight: 700">
               洛先生
             </div>
-            <div style="font-size: 12px; color: #c0c0c0">
+            <div style="font-size: 12px; color: #999">
               面试岗位：机械臂控制工程师
             </div>
           </div>
@@ -30,7 +30,13 @@
         </p>
         <p v-else>面试结果：<span style="color: red">未完成</span></p>
       </div>
-
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="20"
+        style="margin: 10px 0 0 300px"
+      >
+      </el-pagination>
       <span slot="footer" class="dialog-footer">
         <el-button
           v-if="arr.interview"

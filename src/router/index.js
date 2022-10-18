@@ -71,16 +71,16 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/permission',
-    component: Layout,
-    children: [{
-      path: '',
-      name: 'permissions',
-      component: () => import('@/views/Permission/index'),
-      meta: { title: '互动消息', icon: 'el-icon-chat-dot-round' }
-    }]
-  },
+  // {
+  //   path: '/permission',
+  //   component: Layout,
+  //   children: [{
+  //     path: '',
+  //     name: 'permissions',
+  //     component: () => import('@/views/Permission/index'),
+  //     meta: { title: '互动消息', icon: 'el-icon-chat-dot-round' }
+  //   }]
+  // },
 
   {
     path: '/salarys',
