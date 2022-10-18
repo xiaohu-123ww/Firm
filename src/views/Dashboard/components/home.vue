@@ -18,6 +18,7 @@
               round
               class="bt"
               style="background-color: #f09667; color: #fff"
+              @click="$router.push('/department')"
               >发布职位<i class="el-icon-plus"></i></el-button
           ></el-col>
         </el-row>

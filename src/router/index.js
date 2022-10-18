@@ -90,7 +90,7 @@ export const constantRoutes = [
       path: '',
       name: 'salarys',
       component: () => import('@/views/Salary'),
-      meta: { title: '人才管理', icon: 'el-icon-user' }
+      meta: { title: '人才管理', icon: '人才信息' }
     }]
   },
   {
@@ -101,7 +101,7 @@ export const constantRoutes = [
       path: '',
       name: 'information',
       component: () => import('@/views/Information'),
-      meta: { title: '人才信息', icon: 'el-icon-collection-tag' }
+      meta: { title: '人才信息', icon: 'el-icon-user' }
     }]
   },
   {
