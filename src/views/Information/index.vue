@@ -1,14 +1,15 @@
 <template>
   <div>
     <Navbar :title="title" :icon="icon" />
-    人才信息
+    <Message />
   </div>
 </template>
 <script>
 import Navbar from '@/layout/components/Navbar.vue'
+import Message from './components/message.vue'
 export default {
   name: 'Information',
-  components: { Navbar },
+  components: { Navbar, Message },
   data () {
     return {
       title: '人才信息',
