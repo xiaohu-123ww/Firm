@@ -19,7 +19,12 @@
       >
       <el-col :span="3"
         ><div class="grid-content bg-purple-light">
-          <a href="./firm" class="navbar-firm">企业主页</a>
+          <a
+            href="javascript:;"
+            class="navbar-firm"
+            @click="$router.push('/firm')"
+            >企业主页</a
+          >
         </div></el-col
       >
       <el-col :span="1"

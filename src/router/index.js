@@ -12,11 +12,6 @@ export const constantRoutes = [
     component: () => import('@/views/Login/index'),
     hidden: true
   },
-  {
-    path: '/firm',
-    component: () => import('@/views/firm/index'),
-    hidden: true
-  },
 
   {
     path: '/',
@@ -27,6 +22,19 @@ export const constantRoutes = [
       name: 'Dashboard',
       component: () => import('@/views/Dashboard/index'),
       meta: { title: '首页', icon: 'el-icon-s-home' }
+    }
+
+    ]
+  },
+
+  {
+    path: '/firm',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'firm',
+      component: () => import('@/views/firm/index.vue')
+
     }]
   },
 

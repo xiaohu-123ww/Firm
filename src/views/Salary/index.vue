@@ -1,8 +1,18 @@
 <template>
   <div class="salary-container">
     <Navbar :title="title" :icon="icon" />
-    <Person />
-    <Talents />
+    <Person
+      @change="change"
+      @changeJava="changeJava"
+      @changeRobot="changeRobot"
+      @changevision="changevision"
+    />
+    <Talents
+      :show="show"
+      :call="call"
+      :communication="communication"
+      :face="face"
+    />
   </div>
 </template>
 <script>
@@ -15,7 +25,37 @@ export default {
   data () {
     return {
       title: '人才管理',
-      icon: 'el-icon-user'
+      icon: 'el-icon-user',
+      show: false,
+      call: true,
+      communication: false,
+      face: false
+
+    }
+  },
+  methods: {
+    change (i) {
+      this.call = i
+      this.show = false
+      this.face = false
+    },
+    changeJava (i) {
+      this.show = i
+      this.call = false
+      this.communication = false
+      this.face = false
+    },
+    changeRobot (i) {
+      this.show = false
+      this.call = false
+      this.communication = i
+      this.face = false
+    },
+    changevision (i) {
+      this.show = false
+      this.call = false
+      this.communication = false
+      this.face = i
     }
   }
 }

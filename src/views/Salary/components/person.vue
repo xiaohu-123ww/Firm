@@ -69,7 +69,7 @@
 export default {
   data () {
     return {
-      backgroundColor: 0,
+      backgroundColor: 1,
       text: ''
     }
   },
@@ -82,15 +82,19 @@ export default {
   methods: {
     change () {
       this.backgroundColor = 1
+      this.$emit('change', true)
     },
     changeJAVA () {
       this.backgroundColor = 2
+      this.$emit('changeJava', true)
     },
     robot () {
       this.backgroundColor = 3
+      this.$emit('changeRobot', true)
     },
     vision () {
       this.backgroundColor = 4
+      this.$emit('changevision', true)
     },
     visionss () {
       this.backgroundColor = 5

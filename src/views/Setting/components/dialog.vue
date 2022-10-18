@@ -1,23 +1,25 @@
 <template>
-  <el-dialog
-    title="沟通职位"
-    :visible.sync="dialogVisible"
-    width="30%"
-    :before-close="close"
-  >
-    <el-radio
-      v-for="item in radioArray"
-      :key="item"
-      v-model="radio"
-      :label="item"
-      style="height: 40px"
-      >{{ item }}</el-radio
+  <div>
+    <el-dialog
+      title="沟通职位"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="close"
     >
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="close">取 消</el-button>
-      <el-button type="primary" @click="close">确 定</el-button>
-    </span>
-  </el-dialog>
+      <el-radio
+        v-for="item in radioArray"
+        :key="item"
+        v-model="radio"
+        :label="item"
+        style="height: 40px"
+        >{{ item }}</el-radio
+      >
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="close">取 消</el-button>
+        <el-button type="primary" @click="close">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 <script>
 export default {

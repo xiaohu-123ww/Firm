@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="1"
             ><div class="recommend-img">
-              <img :src="item.image" class="image" /></div
+              <img src="../../../assets/img/touxiang.png" class="image" /></div
           ></el-col>
           <el-col :span="8"
             ><div class="recommend-message">
@@ -67,7 +67,7 @@
       </div>
       <div class="technical-ability">
         <el-row>
-          <el-col :span="19"
+          <el-col :span="18"
             ><div class="technical">
               <div
                 v-for="(skills, index) in item.skill"
@@ -84,37 +84,90 @@
               </div>
             </div></el-col
           >
-          <el-col :span="5"
+          <el-col :span="6"
             ><div v-if="item.state1" class="bg-purple-light">
               <Item icon="点" />
               {{ item.state1 }}
             </div>
-            <div v-if="item.job">
+            <div v-if="item.job" class="">
               <el-button
-                class="chnical"
+                class="chnical right"
+                :class="{ left: communication === true }"
                 round
                 style="
-                  color: #228efa;
+                  color: #2891fa;
                   background-color: #e6f1fc;
-                  border: 1px solid #afd4fe;
+                  border: 1px solid #acd5fd;
                 "
                 >已收藏</el-button
               >
+
               <el-button
+                v-if="show"
                 round
                 class="chnical"
                 style="
                   color: #0d975e;
                   background-color: #f1fffd;
-                  border: 1px solid #bfefad8;
+                  border: 1px solid #cef4e2;
+                  padding-left: 13px;
+                "
+                >提醒对方</el-button
+              >
+              <el-button
+                v-if="call"
+                round
+                class="chnical"
+                style="
+                  color: #0d975e;
+                  background-color: #f1fffd;
+                  border: 1px solid #cef4e2;
+                  padding-left: 13px;
                 "
                 >可以聊</el-button
+              >
+              <el-button
+                v-if="communication"
+                round
+                class="chnical"
+                style="
+                  color: #0d975e;
+                  background-color: #f1fffd;
+                  border: 1px solid #cef4e2;
+                  padding-left: 13px;
+                "
+                >要简历</el-button
+              >
+              <el-button
+                v-if="communication"
+                round
+                class="chnical"
+                style="
+                  color: #f2e52f;
+                  background-color: #fff;
+                  border: 1px solid #f6e79d;
+                "
+                @click="interview"
+                >约面试</el-button
+              >
+              <el-button
+                v-if="face"
+                round
+                class="chnical"
+                style="
+                  color: #0d975e;
+                  background-color: #f1fffd;
+                  border: 1px solid #cef4e2;
+                  padding-left: 13px;
+                "
+                @click="particulars(item)"
+                >面试详情</el-button
               >
               <el-button
                 round
                 class="chnical"
                 style="
-                  color: #d24f3d;
+                  color: #d55948;
                   background-color: #fce6e6;
                   border: 1px solid #fcc9c4;
                 "
@@ -127,21 +180,41 @@
       </div>
     </div>
     <Dialog :dialog-visible="dialogVisible" @reset="reset" />
+    <Interview :flag-show="flagShow" @reset="reset" />
+    <Particulars :flag="flag" :arr="arr" @reset="reset" />
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Dialog from './dialog.vue'
+import Interview from './interview.vue'
+import Particulars from './particulars.vue'
 export default {
-  components: { Item, Dialog },
+  components: { Item, Dialog, Interview, Particulars },
   props: {
     list: {
       type: Array
+    },
+    show: {
+      type: Boolean
+    },
+    call: {
+      type: Boolean
+    },
+    communication: {
+      type: Boolean
+    },
+    face: {
+      type: Boolean
     }
+
   },
   data () {
     return {
-      dialogVisible: false
+      dialogVisible: false,
+      flagShow: false,
+      flag: false,
+      arr: {}
     }
   },
   mounted () {
@@ -157,6 +230,16 @@ export default {
     },
     reset (i) {
       this.dialogVisible = i
+      this.flagShow = i
+      this.flag = i
+    },
+    interview () {
+      this.flagShow = true
+    },
+    particulars (i) {
+      this.flag = true
+      this.arr = i
+      console.log(i)
     }
   }
 }
@@ -298,7 +381,7 @@ export default {
       // background-color: #218dfa;
       height: 25px;
       font-size: 13px;
-      padding-left: 180px;
+      padding-left: 225px;
       // text-align: center;
       line-height: 25px;
       color: #b2b2b2;
@@ -309,8 +392,15 @@ export default {
   // background-color: pink;
   margin-top: 4px;
   font-size: 13px;
-  width: 80px;
-  height: 30px;
+  width: 73px;
+  height: 28px;
   line-height: 3px;
+  padding-left: 15px;
+}
+.right {
+  margin-left: 80px;
+}
+.left {
+  margin-left: 5px;
 }
 </style>

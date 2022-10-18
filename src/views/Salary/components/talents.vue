@@ -112,7 +112,13 @@
         </el-form>
       </div>
     </div>
-    <Recommend :list="list" />
+    <Recommend
+      :list="list"
+      :show="show"
+      :call="call"
+      :communication="communication"
+      :face="face"
+    />
     <Page class="position-page" :total="total" @handleSize="handleSize" />
   </div>
 </template>
@@ -120,6 +126,21 @@
 import Recommend from '@/views/Setting/components/recommend.vue'
 import Page from '@/views/Department/components/page.vue'
 export default {
+  props: {
+
+    show: {
+      type: Boolean
+    },
+    call: {
+      type: Boolean
+    },
+    communication: {
+      type: Boolean
+    },
+    face: {
+      type: Boolean
+    }
+  },
   components: { Recommend, Page },
   data () {
     return {
@@ -151,7 +172,7 @@ export default {
       list: [
         {
           id: 1,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          image: '../../../assets/img/touxiang.png',
           name: '洛先生',
           sex: '男',
           state: '在线',
@@ -176,12 +197,13 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          job: '机械工程师'
+          job: '机械工程师',
+          interview: true
 
         },
         {
           id: 2,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          image: '../../../assets/img/touxiang.png',
           name: '洛先生',
           sex: '女',
           state: '在线',
@@ -206,12 +228,13 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          job: '机器视觉工程师'
+          job: '机器视觉工程师',
+          interview: false
 
         },
         {
           id: 3,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          image: '../../../assets/img/touxiang.png',
           name: '洛先生',
           sex: '男',
           state: '在线',
@@ -236,12 +259,13 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          job: 'JAVA机械工程师'
+          job: 'JAVA机械工程师',
+          interview: true
 
         },
         {
           id: 4,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          image: '../../../assets/img/touxiang.png',
           name: '洛先生',
           sex: '女',
           state: '在线',
@@ -266,12 +290,13 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          job: '工业机器人工程师'
+          job: '工业机器人工程师',
+          interview: false
 
         },
         {
           id: 5,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
+          image: '../../../assets/img/touxiang.png',
           name: '洛先生',
           sex: '男',
           state: '在线',
@@ -296,7 +321,8 @@ export default {
             }
           ],
           skill: ['机械臂', '前端', '后端'],
-          job: '前端工程师'
+          job: '前端工程师',
+          interview: true
 
         }
       ],
