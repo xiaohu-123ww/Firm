@@ -120,3 +120,10 @@ svg.svg-icon {
 .el-form-item__content {
   line-height: 30px;
 }
+textarea.el-textarea__inner {
+  height: 184px !important;
+  width: 884px;
+}
+.el-textarea .el-input__count {
+  right: 120px;
+}

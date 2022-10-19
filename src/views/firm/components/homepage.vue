@@ -62,7 +62,7 @@
       </div>
     </el-card>
     <Essential v-if="status === 1" @reset="reset" />
-    <Profile v-if="status === 2" />
+    <Profile v-if="status === 2" @reset="reset" />
     <WorkFare v-if="status === 3" />
     <Corporate v-if="status === 4" />
   </div>
