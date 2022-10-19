@@ -12,8 +12,8 @@
       <el-col :span="17"
         ><div class="grid-content bg-purple">
           <div class="navbar-bt">
-            <Item :icon="icon" />
-            {{ title }}
+            <!-- <Item :icon="icon" />
+            {{ title }} -->
           </div>
         </div></el-col
       >
@@ -60,13 +60,13 @@
 </template>
 
 <script>
-import Item from '@/layout/components/Sidebar/Item.vue'
+// import Item from '@/layout/components/Sidebar/Item.vue'
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 export default {
   components: {
-    Hamburger,
-    Item
+    Hamburger
+
   },
   computed: {
     ...mapGetters([
@@ -124,7 +124,7 @@ export default {
   .navbar-bt {
     width: 100px;
     margin: 10px 20px;
-    background-color: #256efd;
+    background-color: #fff;
     border-radius: 20px;
     height: 38px;
     text-align: center;

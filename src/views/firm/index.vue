@@ -1,11 +1,15 @@
 <template>
-  <div>1</div>
+  <div>
+    <Nava :show="false" />
+  </div>
 </template>
 <script>
+import Nava from './components/nava.vue'
 export default {
+  components: { Nava },
   data () {
     return {
-
+      show: false
     }
   },
   computed: {
