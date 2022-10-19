@@ -22,9 +22,11 @@
           <a
             href="javascript:;"
             class="navbar-firm"
-            @click="$router.push('/firm')"
-            >企业主页</a
+            :class="{ color: bg === 1 }"
+            @click="onClick"
           >
+            <div>企业主页</div>
+          </a>
         </div></el-col
       >
       <el-col :span="1"
@@ -86,12 +88,16 @@ export default {
   },
   data () {
     return {
-
+      bg: 0
     }
   },
   methods: {
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
+    },
+    onClick () {
+      this.$router.push('/firm')
+      this.bg = 1
     }
 
   }
@@ -136,7 +142,7 @@ export default {
   .navbar-firm {
     color: rgba(112, 112, 112);
     font-size: 14px;
-    // line-height: 60px;
+    background-color: pink;
   }
   .navar-news {
     // background-color: pink;
@@ -168,5 +174,10 @@ export default {
   .navbar-dropdown {
     font-size: 24px;
   }
+}
+.color {
+  background-color: #e6f1ff;
+  width: 60px;
+  height: 100%;
 }
 </style>

@@ -19,12 +19,11 @@
       >
       <el-col :span="3"
         ><div class="grid-content bg-purple-light">
-          <a
-            href="javascript:;"
-            class="navbar-firm"
-            @click="$router.push('/firm')"
-            >企业主页</a
-          >
+          <a href="javascript:;" class="navbar-firm">
+            <div style="background-color: #e6f1ff; width: 60px; height: 100%">
+              企业主页
+            </div>
+          </a>
         </div></el-col
       >
       <el-col :span="1"
@@ -79,10 +78,8 @@ export default {
     },
     icon: {
       type: String
-    },
-    show: {
-      type: String
     }
+
   },
   data () {
     return {
