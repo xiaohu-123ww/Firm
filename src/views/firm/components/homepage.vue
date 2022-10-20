@@ -65,7 +65,7 @@
     <Essential v-if="status === 1" @reset="reset" />
     <Profile v-if="status === 2" @reset="reset" />
     <WorkFare v-if="status === 3" @reset="reset" />
-    <Corporate v-if="status === 4" />
+    <Corporate v-if="status === 4" @reset="reset" />
   </div>
 </template>
 <script>

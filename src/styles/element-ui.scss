@@ -127,3 +127,12 @@ textarea.el-textarea__inner {
 .el-textarea .el-input__count {
   right: 120px;
 }
+.el-upload.el-upload--picture-card {
+  border-radius: 40px !important;
+}
+img.el-upload-list__item-thumbnail {
+  border-radius: 40px;
+}
+.el-upload-list--picture-card .el-upload-list__item {
+  border: 0;
+}
