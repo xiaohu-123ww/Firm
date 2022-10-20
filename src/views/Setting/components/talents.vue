@@ -5,40 +5,48 @@
       <div class="recommend">
         <el-row>
           <el-col :span="2"
-            ><div
-              class="grid-content"
-              :class="{ bg: backgroundColor === 1 }"
-              @click="change"
-            >
-              机械臂工程师
-            </div></el-col
+            ><a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 1 }"
+                @click="change"
+              >
+                机械臂工程师
+              </div></a
+            ></el-col
           >
           <el-col :span="2"
-            ><div
-              class="grid-content"
-              :class="{ bg: backgroundColor === 2 }"
-              @click="changeJAVA"
-            >
-              JAVA工程师
-            </div></el-col
+            ><a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 2 }"
+                @click="changeJAVA"
+              >
+                JAVA工程师
+              </div></a
+            ></el-col
           >
           <el-col :span="3"
-            ><div
-              class="grid-content"
-              :class="{ bg: backgroundColor === 3 }"
-              @click="robot"
-            >
-              机械机器人工程师
-            </div></el-col
+            ><a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 3 }"
+                @click="robot"
+              >
+                机械机器人工程师
+              </div></a
+            ></el-col
           >
-          <el-col :span="2"
-            ><div
-              class="grid-content"
-              :class="{ bg: backgroundColor === 4 }"
-              @click="vision"
-            >
-              机器视觉设计师
-            </div></el-col
+          <el-col :span="2">
+            <a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 4 }"
+                @click="vision"
+              >
+                机器视觉设计师
+              </div></a
+            ></el-col
           >
         </el-row>
       </div>

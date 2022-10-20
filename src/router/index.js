@@ -37,6 +37,15 @@ export const constantRoutes = [
 
     }]
   },
+  {
+    path: '/personage',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'personage',
+      component: () => import('@/views/personage/index.vue')
+    }]
+  },
 
   {
     path: '/department',

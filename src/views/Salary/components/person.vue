@@ -3,50 +3,60 @@
     <div class="talents-recommend">人才管理</div>
     <div class="recommend">
       <el-row>
-        <el-col :span="2"
-          ><div
-            class="grid-content"
-            :class="{ bg: backgroundColor === 1 }"
-            @click="change"
-          >
-            新招呼（7）
-          </div></el-col
+        <el-col :span="2">
+          <a href="javascript:;"
+            ><div
+              class="grid-content"
+              :class="{ bg: backgroundColor === 1 }"
+              @click="change"
+            >
+              新招呼（7）
+            </div></a
+          ></el-col
         >
         <el-col :span="2"
-          ><div
-            class="grid-content"
-            :class="{ bg: backgroundColor === 2 }"
-            @click="changeJAVA"
-          >
-            未回复（8）
-          </div></el-col
+          ><a href="javascript:;">
+            <div
+              class="grid-content"
+              :class="{ bg: backgroundColor === 2 }"
+              @click="changeJAVA"
+            >
+              未回复（8）
+            </div></a
+          ></el-col
         >
         <el-col :span="2"
-          ><div
-            class="grid-content"
-            :class="{ bg: backgroundColor === 3 }"
-            @click="robot"
-          >
-            沟通中（3）
-          </div></el-col
+          ><a href="javascript:;">
+            <div
+              class="grid-content"
+              :class="{ bg: backgroundColor === 3 }"
+              @click="robot"
+            >
+              沟通中（3）
+            </div></a
+          ></el-col
         >
         <el-col :span="2"
-          ><div
-            class="grid-content"
-            :class="{ bg: backgroundColor === 4 }"
-            @click="vision"
-          >
-            已约面（8）
-          </div></el-col
+          ><a href="javascript:;"
+            ><div
+              class="grid-content"
+              :class="{ bg: backgroundColor === 4 }"
+              @click="vision"
+            >
+              已约面（8）
+            </div></a
+          ></el-col
         >
         <el-col :span="2"
-          ><div
-            class="grid-content"
-            :class="{ bg: backgroundColor === 5 }"
-            @click="visionss"
-          >
-            不合适（8）
-          </div></el-col
+          ><a href="javascript:;"
+            ><div
+              class="grid-content"
+              :class="{ bg: backgroundColor === 5 }"
+              @click="visionss"
+            >
+              不合适（8）
+            </div></a
+          ></el-col
         >
 
         <el-col :span="13" style="padding-left: 400px; display: flex">

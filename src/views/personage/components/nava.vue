@@ -20,7 +20,7 @@
       <el-col :span="3"
         ><div class="grid-content bg-purple-light">
           <a href="javascript:;" class="navbar-firm" @click="onClick">
-            <div :class="{ bg: state === 1 }">企业主页</div>
+            <div>企业主页</div>
           </a>
         </div></el-col
       >
@@ -88,8 +88,8 @@ export default {
   },
   data () {
     return {
-      state: 1,
-      arr: 1
+
+      arr: 2
     }
   },
   methods: {

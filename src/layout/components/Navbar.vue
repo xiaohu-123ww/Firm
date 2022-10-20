@@ -32,15 +32,15 @@
       <el-col :span="1"
         ><div class="grid-content bg-purple">
           <div class="navar-news">
-            <a href=""><i class="el-icon-message"></i></a>
+            <a href="javascript:;"><i class="el-icon-message"></i></a>
             <div class="navbar-div">1</div>
           </div>
         </div></el-col
       >
 
       <el-col :span="1"
-        ><div class="grid-content bg-purple-light">
-          <a href=""> <i class="el-icon-user"></i></a></div
+        ><div class="grid-content bg-purple-light" @click="change">
+          <a href="javascript:;"> <i class="el-icon-user"></i></a></div
       ></el-col>
       <el-col :span="1"
         ><div class="grid-content bg-purple">
@@ -98,6 +98,9 @@ export default {
     onClick () {
       this.$router.push('/firm')
       this.bg = 1
+    },
+    change () {
+      this.$router.push('/personage')
     }
 
   }

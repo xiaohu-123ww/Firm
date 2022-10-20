@@ -24,40 +24,48 @@
         <div class="position-state">
           <el-row>
             <el-col :span="3"
-              ><div
-                :class="{ bd: changeColor === 1 }"
-                class="line"
-                @click="onLine"
-              >
-                在线中
-              </div></el-col
+              ><a href="javascript:;"
+                ><div
+                  :class="{ bd: changeColor === 1 }"
+                  class="line"
+                  @click="onLine"
+                >
+                  在线中
+                </div></a
+              ></el-col
             >
             <el-col :span="3">
-              <div
-                :class="{ bd: changeColor === 2 }"
-                class="line"
-                @click="noOnLine"
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 2 }"
+                  class="line"
+                  @click="noOnLine"
+                >
+                  未上线
+                </div></a
               >
-                未上线
-              </div>
             </el-col>
             <el-col :span="3">
-              <div
-                :class="{ bd: changeColor === 3 }"
-                class="line"
-                @click="underReview"
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 3 }"
+                  class="line"
+                  @click="underReview"
+                >
+                  审核中
+                </div></a
               >
-                审核中
-              </div>
             </el-col>
             <el-col :span="8">
-              <div
-                :class="{ bd: changeColor === 4 }"
-                class="line"
-                @click="notPass"
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 4 }"
+                  class="line"
+                  @click="notPass"
+                >
+                  未通过
+                </div></a
               >
-                未通过
-              </div>
             </el-col>
             <el-col :span="5" class="bt">
               <el-input
