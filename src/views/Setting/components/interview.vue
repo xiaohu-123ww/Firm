@@ -46,7 +46,11 @@
         <el-input v-model="ruleForm.address" style="width: 430px"></el-input>
       </el-form-item>
       <el-form-item label="注意事项" prop="desc">
-        <el-input v-model="ruleForm.desc" type="textarea"></el-input>
+        <el-input
+          v-model="ruleForm.desc"
+          type="textarea"
+          style="width: 300px"
+        ></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -104,6 +108,12 @@ export default {
     async close () {
       await this.$refs.rf.validate()
       await this.$emit('reset', false)
+      this.ruleForm.date1 = ''
+      this.ruleForm.date2 = ''
+      this.ruleForm.model = ''
+      this.ruleForm.address = ''
+      this.ruleForm.anme = ''
+      this.ruleForm.desc = ''
     }
   }
 }

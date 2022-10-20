@@ -5,15 +5,39 @@
         企业图片
       </div>
       <el-upload
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="#"
         list-type="picture-card"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
+        :auto-upload="false"
+        :before-upload="beforeAvatarUpload"
         :limit="5"
         :on-exceed="handleExceed"
-        :before-upload="handleInfoPic"
       >
-        <i class="el-icon-plus"></i>
+        <i slot="default" class="el-icon-plus"></i>
+        <div slot="file" slot-scope="{ file }">
+          <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+          <span class="el-upload-list__item-actions">
+            <span
+              class="el-upload-list__item-preview"
+              @click="handlePictureCardPreview(file)"
+            >
+              <i class="el-icon-zoom-in"></i>
+            </span>
+            <span
+              v-if="!disabled"
+              class="el-upload-list__item-delete"
+              @click="handleDownload(file)"
+            >
+              <i class="el-icon-download"></i>
+            </span>
+            <span
+              v-if="!disabled"
+              class="el-upload-list__item-delete"
+              @click="handleRemove(file)"
+            >
+              <i class="el-icon-delete"></i>
+            </span>
+          </span>
+        </div>
       </el-upload>
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="" />
@@ -34,7 +58,7 @@
         :before-upload="beforeUploadVideo"
         :show-file-list="false"
         :headers="headers"
-        :limit="5"
+        :limit="1"
         :on-exceed="handleExceeds"
       >
         <video
@@ -78,6 +102,7 @@ export default {
     return {
       dialogImageUrl: '',
       dialogVisible: false,
+      disabled: false,
       videoFlag: false,
       // 是否显示进度条
       videoUploadPercent: '',
@@ -92,28 +117,33 @@ export default {
   },
   methods: {
     // 图片
-    handleInfoPic (file) {
+
+    beforeAvatarUpload (file) {
+      this.dialogImageUrl = URL.createObjectURL(file)
       console.log(file)
       const isJPG = file.type === 'image/jpeg'
       const isJPG2 = file.type === 'image/jpg'
       const isPNG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 10
-      if (!isJPG && !isPNG && !isJPG2) this.$message.error('请上传格式为 png, jpeg,jpg 的图片！')
+      const isLt2M = file.size / 1024 / 1024 < 5
+      if (!isJPG && !isJPG2 && !isPNG) this.$message.error('请上传格式为 png, jpeg 的图片！')
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!')
+        this.$message.error('上传头像图片大小不能超过 5MB!')
       }
-      return isJPG || isPNG || isLt2M || isJPG2
+      return isJPG || isJPG2 || isPNG || isLt2M
     },
-    handleExceed (file, fileList) {
-      // console.log(file, fileList);
-      this.$message.error('上传失败，限制上传数量5张图片以内！')
-    },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    handleRemove (file) {
+      console.log(file)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
+    },
+    handleDownload (file) {
+      console.log(file)
+    },
+    handleExceed (file, fileList) {
+      // console.log(file, fileList);
+      this.$message.error('上传失败，限制上传数量5张图片！')
     },
 
     // 上传前回调 视频
@@ -202,9 +232,10 @@ export default {
   color: #8c939d;
   width: 148px;
   height: 148px;
-  line-height: 178px;
+  line-height: 130px;
   text-align: center;
   border-radius: 40px;
+  padding-top: 10px;
 }
 .avatar {
   width: 300px;
