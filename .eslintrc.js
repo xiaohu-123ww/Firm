@@ -201,6 +201,7 @@ module.exports = {
     'vue/html-indent': 'off',
     'vue/require-default-prop': 'off',
     'vue/order-in-components': 'off',
-    'vue/valid-template-root': 'off'
+    'vue/valid-template-root': 'off',
+    'no-undef': 'off'
   }
 }

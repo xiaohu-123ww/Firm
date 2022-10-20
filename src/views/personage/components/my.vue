@@ -1,5 +1,25 @@
 <template>
-  <div>3</div>
+  <div>
+    <div class="my-card">
+      <el-row>
+        <el-col :span="3">
+          <div class="card-image"></div>
+        </el-col>
+        <el-col :span="17">
+          <p style="font-size: 18px">北京XXXX科技有限公司</p>
+          <div class="text">
+            <span class="spann">企业编号：0000001</span>
+            <span style="margin-left: 20px">2022年3月21日加入</span>
+          </div>
+        </el-col>
+        <el-col :span="4" style="line-height: 100px">
+          <el-button style="background-color: #256efd; color: #fff"
+            >离开企业</el-button
+          >
+        </el-col>
+      </el-row>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -19,5 +39,27 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+.my-card {
+  // width: 100%;
+  height: 100px;
+  margin: 50px;
+  // border-radius: 18px;
+  background-color: #fff;
+
+  .card-image {
+    width: 100px;
+    height: 100px;
+    background-color: burlywood;
+  }
+  .text {
+    font-size: 14px;
+    color: #999;
+    .spann {
+      padding-right: 30px;
+      // background-color: green;
+      border-right: 1px solid #999;
+    }
+  }
+}
 </style>
