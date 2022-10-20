@@ -19,7 +19,7 @@
       >
       <el-col :span="3"
         ><div class="grid-content bg-purple-light">
-          <a href="javascript:;" class="navbar-firm">
+          <a href="javascript:;" class="navbar-firm" @click="onClick">
             <div style="background-color: #e6f1ff; width: 60px; height: 100%">
               企业主页
             </div>
@@ -89,6 +89,10 @@ export default {
   methods: {
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
+    },
+    onClick () {
+      this.$router.push('/firm')
+      this.$emit('reset', 0)
     }
 
   }

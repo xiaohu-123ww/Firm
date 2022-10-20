@@ -1,5 +1,9 @@
 <template>
-  <div>4</div>
+  <div>
+    <el-card class="corporate">
+      <div></div>
+    </el-card>
+  </div>
 </template>
 <script>
 export default {

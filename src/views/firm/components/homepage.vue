@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Nava :flag-show="show" @reset="reset" />
     <el-card v-if="show" class="homePage">
       <div class="homePage-text">完善企业主页信息，更快的了解您的企业</div>
       <div v-for="(item, index) in list" :key="index" class="homePage-content">
@@ -63,11 +64,12 @@
     </el-card>
     <Essential v-if="status === 1" @reset="reset" />
     <Profile v-if="status === 2" @reset="reset" />
-    <WorkFare v-if="status === 3" />
+    <WorkFare v-if="status === 3" @reset="reset" />
     <Corporate v-if="status === 4" />
   </div>
 </template>
 <script>
+import Nava from './nava.vue'
 import b1 from '@/assets/picture/dui@2x.png'
 import b2 from '@/assets/picture/zhuyi@2x.png'
 import b3 from '@/assets/picture/cuo@2x.png'
@@ -80,11 +82,12 @@ import Profile from './profile.vue'
 // 工作福利
 import WorkFare from './workfare.vue'
 export default {
-  components: { Corporate, Essential, Profile, WorkFare },
+  components: { Corporate, Essential, Profile, WorkFare, Nava },
   data () {
     return {
       status: 0,
       show: true,
+      flagShow: false,
       list: [
         {
           id: 1,
