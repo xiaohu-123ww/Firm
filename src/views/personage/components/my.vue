@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my">
     <div class="my-card">
       <el-row>
         <el-col :span="3">
@@ -12,7 +12,7 @@
             <span style="margin-left: 20px">2022年3月21日加入</span>
           </div>
         </el-col>
-        <el-col :span="4" style="line-height: 100px">
+        <el-col :span="4" style="line-height: 80px">
           <el-button style="background-color: #256efd; color: #fff"
             >离开企业</el-button
           >
@@ -40,16 +40,20 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.my {
+  height: 120px;
+  background-color: #fff;
+  margin: 50px;
+}
 .my-card {
   // width: 100%;
-  height: 100px;
-  margin: 50px;
+  height: 80px;
+  padding: 20px 20px;
   // border-radius: 18px;
-  background-color: #fff;
 
   .card-image {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-color: burlywood;
   }
   .text {
