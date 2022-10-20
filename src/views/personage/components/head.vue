@@ -40,7 +40,7 @@
         </el-row>
       </div>
     </div>
-    <Information v-if="state === 1" />
+    <Information v-if="state === 1" @reset="reset" />
     <Safety v-if="state === 2" />
     <My v-if="state === 3" />
   </div>
@@ -53,6 +53,7 @@ export default {
   components: { Information, Safety, My },
   data () {
     return {
+      backgroundColor: 1,
       state: 1
 
     }
@@ -75,6 +76,9 @@ export default {
     robot () {
       this.backgroundColor = 3
       this.state = 3
+    },
+    reset (i) {
+      this.state = 1
     }
   }
 }
