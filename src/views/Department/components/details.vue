@@ -87,14 +87,24 @@
           兆信数字技术使企业提高能力，赢得消费者，赢得市场增长。
         </p>
       </div>
+      <div>
+        <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler" />
+      </div>
     </el-card>
   </div>
 </template>
 <script>
+import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
 export default {
+  components: {
+    BaiduMap
+  },
   data () {
     return {
-      weal: ['五险一金', '年终奖', '弹性福利', '节日福利', '带薪休假']
+      weal: ['五险一金', '年终奖', '弹性福利', '节日福利', '带薪休假'],
+      ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK',
+      center: { lng: 0, lat: 0 },
+      zoom: 0
 
     }
   },
@@ -105,6 +115,12 @@ export default {
 
   },
   methods: {
+    handler ({ BMap, map }) {
+      console.log(BMap, map)
+      this.center.lng = 116.358248
+      this.center.lat = 40.052628
+      this.zoom = 15
+    }
 
   }
 }
@@ -281,5 +297,9 @@ export default {
   line-height: 40px;
   font-size: 20px;
   font-weight: 700;
+}
+.map {
+  width: 1000px;
+  height: 300px;
 }
 </style>

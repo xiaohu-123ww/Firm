@@ -263,9 +263,8 @@ export default {
       // background-color: #25fd9f;
       .list-my-bt {
         font-size: 12px;
-
         height: 32px;
-        width: 55px;
+        width: 60px;
         padding: 5px 10px;
 
         // background-color: #256efd;

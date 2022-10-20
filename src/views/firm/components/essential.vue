@@ -4,7 +4,14 @@
       <div class="essential-name">
         <el-row>
           <el-col :span="16">
-            <div style="font-size: 18px; margin-bottom: 10px; font-weight: 700">
+            <div
+              style="
+                font-size: 18px;
+                margin-bottom: 20px;
+                font-weight: 700;
+                margin-left: 80px;
+              "
+            >
               企业名称
             </div>
             <div style="font-size: 14px; margin-bottom: 50px">
@@ -23,7 +30,14 @@
                 </el-form-item>
               </el-form>
             </div>
-            <div style="font-size: 18px; margin-bottom: 10px; font-weight: 700">
+            <div
+              style="
+                font-size: 18px;
+                margin-bottom: 20px;
+                font-weight: 700;
+                margin-left: 80px;
+              "
+            >
               所属行业（主业 / 副业）
             </div>
             <div>
@@ -62,7 +76,13 @@
                 :rules="image"
               >
                 <el-form-item label="" prop="image">
-                  <div style="font-size: 18px; font-weight: 700">
+                  <div
+                    style="
+                      font-size: 18px;
+                      font-weight: 700;
+                      margin-bottom: 10px;
+                    "
+                  >
                     <span style="color: red; margin-left: 10px">* </span
                     ><span style="color: black">企业LOGO</span>
                   </div>
@@ -273,7 +293,7 @@ export default {
   border-radius: 18px;
   padding: 30px;
   .essential-name {
-    height: 210px;
+    height: 250px;
     // background-color: pink;
     // margin-top: 20px;
   }
@@ -315,5 +335,8 @@ i.el-icon-plus.avatar-uploader-icon {
 .bt {
   height: 35px;
   padding-top: 10px;
+}
+.el-form-item__content {
+  margin-left: 0px !important;
 }
 </style>

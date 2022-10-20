@@ -94,6 +94,6 @@ export default {
 .profile {
   margin: 30px;
   border-radius: 18px;
-  padding: 40px;
+  padding: 50px;
 }
 </style>
