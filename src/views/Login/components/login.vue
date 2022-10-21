@@ -18,12 +18,12 @@
                 <p :class="isuser == true ? 'active' : ''" @click="user">
                   账号登录
                 </p>
-                <!-- <p
+                <p
                   :class="isuser == false ? 'active' : ''"
                   @click="cepateLogin"
                 >
                   验证码登录
-                </p> -->
+                </p>
               </div>
               <el-form
                 ref="rf"
@@ -78,16 +78,16 @@
 
 export default {
   data () {
-    // var validatePass = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入密码'))
-    //   } else {
-    //     if (this.ruleForm.checkPass !== '') {
-    //       this.$refs.ruleForm.validateField('checkPass')
-    //     }
-    //     callback()
-    //   }
-    // }
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
     return {
       isuser: true,
       loginForm: {

@@ -8,7 +8,7 @@
             placeholder="请输入关键词"
             style="width: 500px"
           ></el-input>
-          <el-button type="primary">搜索</el-button>
+          <el-button class="button">搜索</el-button>
         </div>
         <div class="seek">
           <div class="search-checkbox">
@@ -442,5 +442,13 @@ export default {
   // background-color: pink;
   width: 600px;
   margin: 0 0 30px 700px;
+}
+.button {
+  width: 70px;
+  height: 35px;
+  padding: 10px;
+  background-color: #256efd;
+  color: #fff;
+  margin-left: 10px;
 }
 </style>

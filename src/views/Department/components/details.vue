@@ -27,7 +27,7 @@
               <div class="bg-purple-image">
                 <div class="bg-image">
                   <img
-                    src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274"
+                    src="../../../assets/img/touxiang.png"
                     alt=""
                     style="width: 50xp; height: 50px"
                   />
