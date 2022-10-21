@@ -169,7 +169,7 @@
             >
             <el-switch v-model="list.show"></el-switch>
           </el-form-item>
-          <el-form-item label="" prop="financing" style="margin-bottom: 50px">
+          <el-form-item label="" prop="address" style="margin-bottom: 50px">
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业注册地</span>
@@ -223,6 +223,9 @@ export default {
         ],
         financing: [
           { required: true, message: '请选择企业融资状态', trigger: 'change' }
+        ],
+        address: [
+          { required: true, message: '请选择企业注册状态', trigger: 'change' }
         ]
       },
       ruless: {
