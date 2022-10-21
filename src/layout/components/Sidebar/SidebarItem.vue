@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!item.hidden" class="my" @click="changeColor">
+  <div v-if="!item.hidden" class="my" @click="changeColor(item.path)">
     <template
       v-if="
         hasOneShowingChild(item.children, item) &&
@@ -86,7 +86,8 @@ export default {
     // TODO: refactor with render function
     this.onlyOneChild = null
     return {
-      changePath: 0
+      changePath: 0,
+      state: ''
     }
   },
   created () {
@@ -129,8 +130,8 @@ export default {
       return path.resolve(this.basePath, routePath)
     },
     changeColor () {
-      var but = document.getElementsByClassName('my')
-      // but[0].style.backgroundColor = '#256efd'
+      const but = document.getElementsByClassName('my')
+
       for (var i = 0; i < but.length; i++) {
         console.log(but[i])
         but[i].onclick = function () {
@@ -141,6 +142,9 @@ export default {
           this.style.backgroundColor = '#256efd'
         }
       }
+      // console.log(a)
+
+      // this.state = ''
     }
   }
 }
@@ -160,7 +164,7 @@ export default {
 }
 
 .liBackground {
-  background-color: #409eff;
+  background-color: #256efd;
 }
 .ba {
   background-color: aqua;

@@ -102,9 +102,9 @@ export default {
       console.log(res, file, fileList)
       this.testImage = URL.createObjectURL(file.raw)
     },
-    submit () {
-      this.$refs.form.validate()
-      this.$message.success('保存成功')
+    async submit () {
+      await this.$refs.form.validate()
+      await this.$message.success('保存成功')
     },
     onClick () {
       this.$emit('reset', 1)

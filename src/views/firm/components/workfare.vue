@@ -286,7 +286,7 @@ export default {
       this.list.city = res.result.addressComponent.province
 
       this.list.address = res.result.addressComponent.district
-      this.list.addressAll = res.result.addressComponent.street
+      this.list.addressAll = res.result.addressComponent.street + res.result.business
     },
     onClick () {
       this.$emit('reset', 0)
