@@ -47,7 +47,7 @@
             <el-col :span="1">
               <div class="list-image">
                 <img
-                  :src="item.image"
+                  src="../../../assets/img/touxiang.png"
                   alt=""
                   style="height: 30px; width: 30px"
                 />
