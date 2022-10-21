@@ -21,7 +21,7 @@
               placeholder="请输入验证码"
               style="width: 260px"
             ></el-input>
-            <el-button type="primary" style="margin-left: 8px"
+            <el-button class="button" style="margin-left: 8px"
               >验证码</el-button
             >
           </el-form-item>
@@ -66,5 +66,12 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+.button {
+  width: 70px;
+  height: 33px;
+  padding: 10px;
+  background-color: #256efd;
+  color: #fff;
+}
 </style>
