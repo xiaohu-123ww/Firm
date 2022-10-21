@@ -202,6 +202,7 @@ module.exports = {
     'vue/require-default-prop': 'off',
     'vue/order-in-components': 'off',
     'vue/valid-template-root': 'off',
-    'no-undef': 'off'
+    'no-undef': 'off',
+    'no-unused-vars': 'off'
   }
 }
