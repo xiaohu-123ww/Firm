@@ -1,46 +1,79 @@
 <template>
   <div class="details">
-    <div class="details-position">职位详情</div>
+    <div class="details-position">
+      <el-row>
+        <el-col :span="22"> 职位详情</el-col>
+        <el-col :span="2">
+          <el-button
+            class="list-my-bt"
+            type="text"
+            style="margin-left: 45px; font-size: 20px"
+            @click="resetForm"
+            ><Item icon="KHCFDC" /></el-button
+        ></el-col>
+      </el-row>
+    </div>
     <el-card class="details-card">
       <div class="details-my">
         <el-row>
           <el-col :span="18"
             ><div class="bg-purple">
               <div class="bg-purple-my">
-                <div class="bg-purple-trade">机械臂控制工程师</div>
+                <div class="bg-purple-trade">{{ particulars.fullname }}</div>
                 <div class="bg-purple-weal">
                   <div
-                    v-for="(item, index) in weal"
+                    v-for="(item, index) in particulars.tag"
                     :key="index"
                     class="bg-weal"
                   >
-                    {{ item }}
+                    {{ item.name }}
                   </div>
                 </div>
               </div>
-              <div class="bg-purple-money">8000-15000 13薪</div>
+              <div class="bg-purple-money">
+                {{ particulars.salary_min }} - {{ particulars.salary_max }} .{{
+                  particulars.salary_unit
+                }}薪
+              </div>
               <div class="bg-purple-firm">
-                <div class="bg-firm">北京海淀</div>
-                <div class="bg-firm">1-3年</div>
-                <div class="bg-firm">本科</div>
+                <div class="bg-firm">
+                  {{ particulars.adcode.second }}{{ particulars.adcode.third }}
+                </div>
+                <div class="bg-firm">{{ particulars.job_experience.name }}</div>
+                <div class="bg-firm">{{ particulars.education.name }}</div>
               </div>
               <div class="bg-purple-image">
                 <div class="bg-image">
                   <img
-                    src="../../../assets/img/touxiang.png"
+                    :src="disposeImg(particulars.users.image)"
                     alt=""
-                    style="width: 50xp; height: 50px"
+                    style="width: 50xp; height: 50px; background-color: pink"
                   />
                 </div>
-                <div style="line-height: 50px; margin-right: 30px">张继科</div>
-                <div class="bg-text">发布时间：2022.04.08 (3日后下线)</div>
-                <div class="bg-text">工作地点：北京-海淀-西小口</div>
+                <div style="line-height: 50px; margin-right: 30px">
+                  {{ particulars.users.name }}
+                </div>
+                <div class="bg-text">
+                  发布时间：{{
+                    parseTime(
+                      new Date(particulars.users.create_time).toLocaleString()
+                    )
+                  }}({{ particulars.users.post_last_days }}日后下线)
+                </div>
+                <div class="bg-text">
+                  工作地点： {{ particulars.adcode.second
+                  }}{{ particulars.adcode.third
+                  }}{{ particulars.work_adcode.adcode_detail }}
+                </div>
               </div>
             </div></el-col
           >
           <el-col :span="4"
-            ><div class="bg-purple-light">
-              <div class="bg-purple-time">30</div>
+            ><div
+              v-if="typeof particulars.post_days === 'number'"
+              class="bg-purple-light"
+            >
+              <div class="bg-purple-time">{{ particulars.post_days }}</div>
               <div style="color: #999999; font-size: 13px; margin-top: 5px">
                 上线时间
               </div>
@@ -51,12 +84,7 @@
       <div class="jobDescription">
         <div class="job">职位描述</div>
         <div class="description">
-          <p>1、负责公司项目：pc端、H5端、小程序端的前端页面开发工作。</p>
-          <p>2、负责公司产品前端公共组件库的开发。</p>
-          <p>3、与后端团队紧密配合，确保代码有效对接。</p>
-          <p>
-            4、与产品团队紧密配合，优化用户体验和资源占用，提高产品易用性和可靠性
-          </p>
+          <div style="margin: 20px 30px" v-html="particulars.job_content"></div>
         </div>
       </div>
       <div class="certificate">
@@ -65,27 +93,32 @@
           claa="certificate-img"
           style="height: 140px; padding-top: 10px; display: flex"
         >
-          <div class="require-img">
-            <img src="../../../assets/img/证书3.png" alt="" class="image" />
-          </div>
-          <div class="require-img">
-            <img src="../../../assets/img/证书1.png" alt="" class="image" />
-          </div>
-          <div class="require-img">
-            <img src="../../../assets/img/证书2.png" alt="" class="image" />
+          <div
+            v-for="(item, index) in particulars.certificationInfo_id"
+            :key="index"
+            class="require-img"
+          >
+            <img :src="disposeImg(item.image)" alt="" class="image" />
           </div>
         </div>
       </div>
       <div class="firm">
         <div class="job">工作地点</div>
-        <p style="font-weight: 700">北京智能智造科技有限公司</p>
-        <p style="font-size: 14px; line-height: 20px">
+        <p style="font-weight: 700">
+          {{ particulars.adcode.second }}{{ particulars.adcode.third
+          }}{{ particulars.work_adcode.adcode_detail }}
+        </p>
+        <!-- <p style="font-size: 14px; line-height: 20px">
           是国内研究产品数字身份管理技术及应用的国家级高新技术企业。
           信标中信标客服通过25年的科技行业经验，积累了全环节数字化集成解决方案，帮助企业通过数字化管理，提高生产效率、流通效率，打破数据孤岛，实现数据系列化;
           通过生产线末端多一码、一码的材料编码，帮助企业实现高效品质后湖;
           通过数字化营销，洞察消费者，实现精准接触，CRM管理，从而优化营销决策。
           兆信数字技术使企业提高能力，赢得消费者，赢得市场增长。
-        </p>
+        </p> -->
+        <div
+          style="line-height: 20px"
+          v-html="particulars.enterprise_data.introduction"
+        ></div>
       </div>
       <div>
         <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler" />
@@ -95,9 +128,15 @@
 </template>
 <script>
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
+import Item from '@/layout/components/Sidebar/Item.vue'
 export default {
+  props: {
+    particulars: {
+      type: Object
+    }
+  },
   components: {
-    BaiduMap
+    BaiduMap, Item
   },
   data () {
     return {
@@ -112,14 +151,28 @@ export default {
 
   },
   computed: {
-
+    commendContent () {
+      // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
+      const arr = this.particulars.job_content
+      return arr.map((item) => {
+        return item === '\n' ? '<br>' : item
+      }).join('')
+    }
+  },
+  watch: {
+    particulars (newVal, oldVal) {
+      console.log('122', newVal)
+    }
   },
   methods: {
     handler ({ BMap, map }) {
       console.log(BMap, map)
-      this.center.lng = 116.358248
-      this.center.lat = 40.052628
+      this.center.lng = this.particulars.work_adcode.longitude
+      this.center.lat = this.particulars.work_adcode.latitude
       this.zoom = 15
+    },
+    resetForm () {
+      this.$emit('reset', true)
     }
 
   }
@@ -138,6 +191,7 @@ export default {
     margin: 20px;
     border-radius: 10px;
     // background-color: aqua;
+    padding: 20px;
     .details-my {
       height: 180px;
       // background-color: aqua;
@@ -207,8 +261,9 @@ export default {
         display: flex;
         padding-top: 5px;
         .bg-firm {
-          width: 80px;
-          height: 25px;
+          // width: 80px;
+          padding-right: 10px;
+          height: 23px;
           margin-right: 8px;
           // background-color: red;
           border-right: 1px solid #e6e6e6;
@@ -226,7 +281,7 @@ export default {
         .bg-image {
           width: 50px;
           height: 50px;
-          // background-color: pink;
+          background-color: pink;
           border-radius: 100px;
           overflow: hidden;
           margin-right: 10px;
@@ -243,9 +298,10 @@ export default {
     }
     .jobDescription {
       width: 100%;
-      height: 200px;
+      height: auto;
+
       // background-color: pink;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
       .job {
         width: 100%;
         height: 40px;
@@ -255,7 +311,7 @@ export default {
         font-weight: 700;
       }
       .description {
-        height: 140px;
+        height: auto;
         width: 100%;
         // background-color: red;
       }
@@ -276,7 +332,7 @@ export default {
       .require-img {
         width: 200px;
         height: 120px;
-        background-color: aqua;
+        // background-color: aqua;
         margin-right: 20px;
         .image {
           width: 200px;

@@ -4,17 +4,14 @@ import Cookies from 'js-cookie'
 
 const TokenKey = 'hr_token'
 
-// 获取token的方法
-export function getToken() {
-  return Cookies.get(TokenKey)
+export function getToken () {
+  return localStorage.getItem(TokenKey)
 }
 
-// 设置方法
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+export function setToken (token) {
+  localStorage.setItem(TokenKey, token)
 }
 
-// 删除方法
-export function removeToken() {
-  return Cookies.remove(TokenKey)
+export function removeToken () {
+  localStorage.removeItem(TokenKey)
 }

@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import 'normalize.css/normalize.css'
+import Element from 'element-ui'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
+import 'element-ui/lib/theme-chalk/icon.css'
+// import './styles/element-variables.scss'
+// import './plugins/element.js'
 
 import '@/styles/index.scss' // global css
 
@@ -20,9 +25,16 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { VueJsonp } from 'vue-jsonp'
+import { disposeImg, parseTime } from './utils/disposeImg'
+
 Vue.use(VueJsonp)
 
 Vue.use(ElementUI)
+Vue.use(Element)
+// Vue.use(Element, {
+//   size: Cookies.get('size') || 'medium' // set element-ui default size
+//   // locale: enLang // 如果使用中文，无需设置，请删除
+// })
 Vue.use(VueQuillEditor)
 
 Vue.use(Upload)
@@ -32,6 +44,8 @@ Vue.use(BaiduMap, {
 })
 
 Vue.config.productionTip = false
+Vue.prototype.disposeImg = disposeImg
+Vue.prototype.parseTime = parseTime
 
 // vue实例化
 new Vue({

@@ -203,6 +203,7 @@ module.exports = {
     'vue/order-in-components': 'off',
     'vue/valid-template-root': 'off',
     'no-undef': 'off',
-    'no-unused-vars': 'off'
+    'no-unused-vars': 'off',
+    'indent': 'off'
   }
 }

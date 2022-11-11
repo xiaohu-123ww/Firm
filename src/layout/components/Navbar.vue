@@ -49,7 +49,7 @@
               <i class="el-icon-more"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="$router.push('/login')"
+              <el-dropdown-item @click.native="$router.push('/')"
                 >退出登录</el-dropdown-item
               >
               <el-dropdown-item>首页</el-dropdown-item>

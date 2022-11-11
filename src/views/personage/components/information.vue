@@ -21,10 +21,10 @@
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </div>
-      <p style="font-size: 15px; margin: 30px 32px">
+      <p style="font-size: 15px; margin: 30px 25px">
         用户名 <span style="margin-left: 50px">张先生</span>
       </p>
-      <p style="margin: 20px 47px; font-size: 15px">
+      <p style="margin: 20px 38px; font-size: 15px">
         姓名 <span style="margin-left: 50px">张三丰</span>
       </p>
       <el-form ref="form" :model="form" label-width="80px" :rules="rules">

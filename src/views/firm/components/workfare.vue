@@ -30,8 +30,9 @@
               <el-col :span="7">
                 <el-form-item label="" prop="address">
                   <el-select v-model="list.address" placeholder="海淀区">
-                    <el-option label="西小口" value="西小口"></el-option>
+                    <el-option label="海淀区" value="海淀区"></el-option>
                     <el-option label="武清" value="武清"></el-option>
+                    <el-option label="昌平区" value="昌平区"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -236,8 +237,9 @@ export default {
     },
     async geoTest () {
       // 调用百度地图API,根据地址获取经纬度
+      // this.list.city + this.list.address ||
       await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.list.city + this.list.address || this.list.city + this.list.address + this.list.addressAll, // input框输入的地址
+        address: this.list.city + this.list.address + this.list.addressAll, // input框输入的地址
         output: 'json',
         ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
       })

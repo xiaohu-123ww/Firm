@@ -133,10 +133,10 @@ export default {
       const but = document.getElementsByClassName('my')
 
       for (var i = 0; i < but.length; i++) {
-        console.log(but[i])
+        // console.log(but[i])
         but[i].onclick = function () {
           for (var i = 0; i < but.length; i++) {
-            console.log(i)
+            // console.log(i)
             but[i].style.backgroundColor = ''
           }
           this.style.backgroundColor = '#256efd'

@@ -8,17 +8,17 @@ import Layout from '@/layout'
 
 export const constantRoutes = [
   {
-    path: '/login',
+    path: '/',
     component: () => import('@/views/Login/index'),
     hidden: true
   },
 
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '',
     children: [{
-      path: 'dashboard',
+      path: '/dashboard',
       name: 'Dashboard',
       component: () => import('@/views/Dashboard/index'),
       meta: { title: '首页', icon: 'el-icon-s-home' }

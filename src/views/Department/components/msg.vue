@@ -359,6 +359,7 @@
               multiple
               style="width: 900px"
               @change="certificate"
+              @click.native="getList"
             >
               <div style="display: flex">
                 <div style="width: 150px">
@@ -400,9 +401,15 @@
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Bai from '@/components/bai/index.vue'
-import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake } from '@/api/department/online'
+import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getMake } from '@/api/department/online'
 export default {
+  props: {
+    jobAmend: {
+      type: Object,
+      default: () => { }
+    }
 
+  },
   components: {
     Item,
     Bai
@@ -440,7 +447,7 @@ export default {
         salary_min: '',
         salary_max: '',
         // 几薪
-        salary: '',
+        salary_unit: '',
         // 职位福利
         tag: [],
         // 人数
@@ -458,8 +465,52 @@ export default {
         longitude: '',
         // 纬度
         latitude: '',
-        jobNature: ''
+        jobNature: '',
+        id: 0
 
+      },
+      list: {
+        // 名称
+        fullname: '',
+        // 工作性质
+        job_nature: '',
+        // 职位描述
+        job_content: '',
+        // 岗位类型
+        pst_class: '',
+        // 行业类型
+        field: [],
+        // 学历要求
+        education: '',
+        // 经验
+        job_experience: '',
+        // 职位关键字
+        jobkeywords: [],
+        // 工作地点
+        address: '',
+        // 薪资
+        salary_min: '',
+        salary_max: '',
+        // 几薪
+        salary_unit: '',
+        // 职位福利
+        tag: [],
+        // 人数
+        number_of_employers: '',
+        // 邮箱
+        email: '',
+        // 资格证书
+        certificationInfo_id: [],
+
+        // 地点adcode
+        adcode: '',
+        // 详细地址
+        adcode_detail: '',
+        // 经度
+        longitude: '',
+        // 纬度
+        latitude: '',
+        id: 0
       },
       optionss: {},
       tradelist: {},
@@ -513,8 +564,8 @@ export default {
           { required: true, message: '请选择几薪', trigger: 'change' }
         ],
         number_of_employers: [
-          { required: true, message: '请输入招聘人数', trigger: 'blur' },
-          { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+          { required: true, message: '请输入招聘人数', trigger: 'blur' }
+
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -555,12 +606,53 @@ export default {
       fieldNan: [],
       certList: {},
       nature: {},
-      hidden: true
+      hidden: false
 
     }
   },
   watch: {
+    jobAmend: {
+      handler (newVal, oldVal) {
+        console.log(newVal)
+        // this.ruleForm = newVal
+        this.ruleForm.fullname = newVal.fullname
+        this.ruleForm.jobNature = newVal.job_nature.name
+        this.ruleForm.job_nature = newVal.job_nature.id
+        this.ruleForm.address = newVal.adcode.second + newVal.adcode.third + newVal.adcode_detail
+        this.ruleForm.salary_min = newVal.salary_min
+        this.ruleForm.salary_max = newVal.salary_max
+        this.ruleForm.longitude = newVal.longitude
+        this.ruleForm.latitude = newVal.longitude
+        this.ruleForm.salary_unit = newVal.salary_unit
+        this.ruleForm.tag = newVal.tag.map(item => item.id)
+        this.ruleForm.job_content = newVal.job_content
 
+        this.ruleForm.education = newVal.education.id
+        this.ruleForm.job_experience = newVal.job_experience.name
+
+        this.ruleForm.number_of_employers = newVal.number_of_employers
+        this.ruleForm.email = newVal.email
+        // 行业类型
+        const firm = newVal.field.map(item => item.children)
+        this.ruleForm.field = firm.map(item => item.name)
+        // 岗位类型
+        this.ruleForm.pst_class = newVal.pst_class.name
+        // 职位关键字
+        const job = newVal.jobkeywords.map(item => item.children)
+        this.ruleForm.jobkeywords = job.map(item => item.name)
+        // 资格证书
+        const jobJob = newVal.certificationInfo_id.map(item => item.name)
+        const bb = new Set(jobJob)
+        this.ruleForm.certificationInfo_id = Array.from(bb)
+        console.log('2', this.ruleForm.certificationInfo_id)
+
+        this.ruleForm.longitude = newVal.longitude
+        this.ruleForm.latitude = newVal.latitude
+      },
+      deep: true,
+      immediate: true
+
+    }
   },
   created () {
     this.getPostList()
@@ -585,10 +677,109 @@ export default {
     submitForm () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
-          console.log(this.ruleForm)
-          const res = await getPositionMake(this.ruleForm)
-          console.log('添加职位', res)
-          this.$message.success('添加职位数据成功')
+          this.list.fullname = this.ruleForm.fullname
+          this.list.job_nature = this.ruleForm.job_nature
+          this.list.job_content = this.ruleForm.job_content
+          // 行业
+          const firm = this.jobAmend.field.map(item => item.children)
+          const aa = firm.map(item => item.name)
+          const bb = this.ruleForm.field
+          if (bb.toString() === aa.toString()) {
+            const cc = firm.map(item => item.id)
+
+            this.list.field = cc
+            console.log('cc', this.list.field)
+          } else {
+            if (aa[0] === bb[0]) {
+              bb[0] = firm[0].id
+            }
+            if (aa[1] === bb[1]) {
+              bb[1] = firm[1].id
+            }
+            if (aa[1] === bb[0]) {
+              bb[0] = firm[1].id
+            }
+            this.list.field = Array.from(new Set(bb))
+            console.log('aa', this.list.field)
+          }
+          // 岗位
+          const num = this.jobAmend.pst_class.name
+          if (this.ruleForm.pst_class === num) {
+            this.list.pst_class = this.jobAmend.pst_class.id
+          } else {
+            this.list.pst_class = this.ruleForm.pst_class
+          }
+          const jobNum = this.jobAmend.job_experience.name
+          if (this.ruleForm.job_experience === jobNum) {
+            this.list.job_experience = this.jobAmend.job_experience.id
+          } else {
+            this.list.job_experience = this.ruleForm.job_experience
+          }
+          this.list.education = this.ruleForm.education
+          this.list.email = this.ruleForm.email
+          this.list.number_of_employers = this.ruleForm.number_of_employers
+          // 福利
+          this.list.tag = this.ruleForm.tag
+          const jobs = this.jobAmend.jobkeywords.map(item => item.children)
+          console.log('job', jobs)
+          const ss = jobs.map(item => item.name)
+          const nn = this.ruleForm.jobkeywords
+          if (ss.toString() === nn.toString()) {
+            const cc = jobs.map(item => item.id)
+            this.list.jobkeywords = cc
+            console.log('ss', this.list.jobkeywords)
+          } else {
+            if (ss[0] === nn[0]) {
+              nn[0] = jobs[0].id
+            }
+            if (ss[1] === nn[1]) {
+              nn[1] = jobs[1].id
+            }
+            if (nn[1] === ss[0]) {
+              nn[0] = jobs[0].id
+            }
+            if (nn[2] === ss[0]) {
+              nn[2] = jobs[0].id
+            }
+            if (nn[3] === ss[0]) {
+              nn[3] = jobs[0].id
+            }
+            // if (nn[2] === ss[3]) {
+            //   nn[0] = jobs[3].id
+            // }
+            // if (nn[2] === ss[4]) {
+            //   nn[0] = jobs[4].id
+            // }
+            // if (nn[3] === ss[4]) {
+            //   nn[0] = jobs[4].id
+            // }
+            this.list.jobkeywords = nn
+            console.log('nn', this.list.jobkeywords)
+          }
+          const adrsss = this.jobAmend.adcode.second + this.jobAmend.adcode.third + this.jobAmend.adcode_detail
+          if (adrsss === this.ruleForm.address) {
+            this.list.adcode = this.jobAmend.adcode.id
+            this.list.adcode_detail = this.jobAmend.adcode_detail
+          } else {
+            this.list.adcode = this.ruleForm.adcode
+            this.list.adcode_detail = this.ruleForm.adcode_detail
+          }
+          this.list.longitude = this.ruleForm.longitude
+          this.list.latitude = this.ruleForm.latitude
+          this.list.id = this.jobAmend.id
+          this.list.salary_min = this.ruleForm.salary_min
+          this.list.salary_max = this.ruleForm.salary_max
+          this.list.salary_unit = this.ruleForm.salary_unit
+          console.log('222', this.list)
+          const id = this.ruleForm.certificationInfo_id
+          if (this.hidden === false) {
+            const jobJob = this.jobAmend.certificationInfo_id.map(item => item.id)
+            this.list.certificationInfo_id = jobJob
+          }
+          //  const name = this.ruleForm.certificationInfo_id
+          const res = await getMake(this.list)
+          console.log('修改职位', res)
+          this.$message.success('职位修改成功')
           this.$emit('reset', true)
           this.clear()
         }
@@ -596,13 +787,13 @@ export default {
       // this.$emit('reset', true)
     },
     resetForm () {
-      this.$confirm('确定取消职位添加吗？', '提示', {
+      this.$confirm('确定取消职位修改吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
 
       }).then(() => {
-        this.$emit('reset', true)
+        this.$emit('reset')
         this.clear()
       })
     },
@@ -696,6 +887,7 @@ export default {
         this.$message.warning('最多可选择三个行业类型')
         this.ruleForm.field.splice(-1)
       }
+      console.log(this.ruleForm.field)
     },
     // 其他要求
     async jobRequirement () {
@@ -774,6 +966,12 @@ export default {
       this.ruleForm.longitude = ''
       this.ruleForm.latitude = ''
       this.ruleForm.jobNature = ''
+    },
+    getList () {
+      this.hidden = true
+      this.$message.error('避免信息错误，请重新选择资格证书')
+      this.ruleForm.certificationInfo_id = []
+      this.list.certificationInfo_id = this.ruleForm.certificationInfo_id
     }
 
   }

@@ -6,10 +6,11 @@ import request from '@/utils/request'
  * @param {*} data { mobile,password}
  * @return {*} promise
  */
-export function login(data) {
-  return request({
-    url: '/sys/login',
-    method: 'POST',
-    data
-  })
+export function login (data) {
+  return request.post('/user/enterprise-login/v1.0.0/', data)
+}
+
+// 刷新状态
+export function getStates () {
+  return request.get('/utils/online_status/v1.0.0/')
 }
