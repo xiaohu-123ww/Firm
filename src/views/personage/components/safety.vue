@@ -10,14 +10,14 @@
               >
               <el-col :span="12"
                 ><div class="grid-content bg-purple-light">
-                  +86 {{ photo }}
+                  +86 {{ photo ? photo : '去绑定手机号吧' }}
                 </div></el-col
               >
               <el-col :span="4"
                 ><div class="grid-content bg-purple">
-                  <el-button class="bg" round @click="photoChange"
-                    >解绑</el-button
-                  >
+                  <el-button class="bg" round @click="photoChange">{{
+                    photo ? '解绑' : '绑定'
+                  }}</el-button>
                 </div></el-col
               >
             </el-row>
@@ -29,14 +29,14 @@
               >
               <el-col :span="12"
                 ><div class="grid-content bg-purple-light">
-                  {{ email }}
+                  {{ email ? email : '绑定邮箱吧' }}
                 </div></el-col
               >
               <el-col :span="4"
                 ><div class="grid-content bg-purple">
-                  <el-button class="bg" round @click="emailChange"
-                    >解绑</el-button
-                  >
+                  <el-button class="bg" round @click="emailChange">{{
+                    email ? '解绑' : '绑定'
+                  }}</el-button>
                 </div></el-col
               >
             </el-row>
@@ -60,7 +60,7 @@
               >
             </el-row>
           </div>
-          <div class="safety">
+          <!-- <div class="safety">
             <el-row>
               <el-col :span="7"
                 ><div class="grid-content bg-purple">微信</div></el-col
@@ -81,7 +81,7 @@
                 </div></el-col
               >
             </el-row>
-          </div>
+          </div> -->
           <div class="safety">
             <el-row>
               <el-col :span="7"
@@ -89,13 +89,23 @@
               >
               <el-col :span="12"
                 ><div class="grid-content bg-purple-light">
-                  {{ people }}
+                  姓名：{{ name ? name : 'XXX' }}
+                  <span style="margin-left: 10px"
+                    >身份证号：{{ card_id ? card_id : 'XXXXXXXX' }}</span
+                  >
                 </div></el-col
               >
               <el-col :span="4"
                 ><div class="grid-content bg-purple">
-                  <el-button class="bg" round @click="peopleChange"
+                  <el-button
+                    v-if="name && card_id"
+                    class="bg"
+                    round
+                    @click="peopleNum"
                     >解绑</el-button
+                  >
+                  <el-button v-else class="bg" round @click="peopleChange"
+                    >绑定</el-button
                   >
                 </div></el-col
               >
@@ -104,7 +114,7 @@
         </div>
         <PhotoDialog :is-show="isShow" @reset="reset" />
         <EmailDialog :email-show="emailShow" @reset="reset" />
-        <Password :show="show" @reset="reset" />
+        <Password :show="show" :num="num" @reset="reset" />
         <Chat :we-chat-show="weChatShow" @reset="reset" />
         <People :people-show="peopleShow" @reset="reset" />
         <el-dialog
@@ -136,21 +146,27 @@ import EmailDialog from './resume/emailDialog.vue'
 import Password from './resume/password.vue'
 import Chat from './resume/weChat'
 import People from './resume/people.vue'
-
+import { getAuthentication, getAuthen } from '@/api/personage/index'
 export default {
   components: { PhotoDialog, EmailDialog, Password, Chat, People },
   data () {
     return {
-      photo: '12889933456',
-      email: '12345678@163.com',
-      weChat: '123',
+      photo: '',
+      email: '',
+      weChat: '',
       isShow: false,
       emailShow: false,
       show: false,
       weChatShow: false,
       dialogVisible: false,
-      people: '姓名：张三丰 身份证：1392341998******14',
-      peopleShow: false
+      people: '',
+      peopleShow: false,
+      card_id: '',
+      name: '',
+      num: '',
+      list: {
+
+      }
 
     }
   },
@@ -159,6 +175,9 @@ export default {
   },
   mounted () {
 
+  },
+  created () {
+    this.getList()
   },
   methods: {
     photoChange () {
@@ -170,9 +189,20 @@ export default {
       this.show = i
       this.weChatShow = i
       this.peopleShow = i
+      this.getList()
     },
     emailChange () {
       this.emailShow = true
+    },
+    async getList () {
+      const { data } = await getAuthentication()
+      console.log('安全信息', data)
+      this.list = data.data
+      this.photo = data.data.phone_number
+      this.email = data.data.email
+      this.name = data.data.real_name_authentication.name
+      this.card_id = data.data.real_name_authentication.card_id
+      this.num = data.data.phone_number
     },
     changePassword () {
       this.show = true
@@ -188,8 +218,14 @@ export default {
     },
     peopleChange () {
       this.peopleShow = true
+    },
+    // 解绑
+    async peopleNum () {
+      const res = await getAuthen()
+      console.log('res', res)
+      this.$message.success('实名认证解绑成功')
+      this.getList()
     }
-
   }
 }
 </script>

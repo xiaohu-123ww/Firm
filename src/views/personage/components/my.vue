@@ -3,13 +3,19 @@
     <div class="my-card">
       <el-row>
         <el-col :span="3">
-          <div class="card-image"></div>
+          <div class="card-image">
+            <img
+              :src="disposeImg(list.logo)"
+              alt=""
+              style="width: 80px; height: 80px"
+            />
+          </div>
         </el-col>
         <el-col :span="17">
-          <p style="font-size: 18px">北京XXXX科技有限公司</p>
+          <p style="font-size: 18px">{{ list.name }}</p>
           <div class="text">
-            <span class="spann">企业编号：0000001</span>
-            <span style="margin-left: 20px">2022年3月21日加入</span>
+            <span class="spann">企业编号：{{ list.uid }}</span>
+            <span style="margin-left: 20px">{{ list.join_date }} 加入</span>
           </div>
         </el-col>
         <el-col :span="4" style="line-height: 80px">
@@ -22,10 +28,11 @@
   </div>
 </template>
 <script>
+import { getPersonal } from '@/api/personage/index'
 export default {
   data () {
     return {
-
+      list: {}
     }
   },
   mounted () {
@@ -34,8 +41,15 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getList()
+  },
   methods: {
-
+    async getList () {
+      const res = await getPersonal()
+      console.log('res', res)
+      this.list = res.data.data
+    }
   }
 }
 </script>

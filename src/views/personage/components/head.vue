@@ -26,7 +26,7 @@
               </div></a
             ></el-col
           >
-          <el-col :span="3"
+          <!-- <el-col :span="3"
             ><a href="javascript:;">
               <div
                 class="grid-content"
@@ -36,21 +36,21 @@
                 我的企业
               </div></a
             ></el-col
-          >
+          > -->
         </el-row>
       </div>
     </div>
     <Information v-if="state === 1" @reset="reset" />
     <Safety v-if="state === 2" />
-    <My v-if="state === 3" />
+    <!-- <My v-if="state === 3" /> -->
   </div>
 </template>
 <script>
 import Information from './information.vue'
 import Safety from './safety.vue'
-import My from './my.vue'
+// import My from './my.vue'
 export default {
-  components: { Information, Safety, My },
+  components: { Information, Safety },
   data () {
     return {
       backgroundColor: 1,
