@@ -84,9 +84,9 @@
                 </el-col>
 
                 <el-col :span="11">
-                  <el-form-item label="">
+                  <el-form-item label="" prop="field_vice">
                     <el-select
-                      v-model="list.job"
+                      v-model="list.field_vice"
                       placeholder="人力资源服务"
                       style="width: 240px"
                     >
@@ -299,7 +299,7 @@ export default {
         financing_status: '',
         is_financing_status: false,
         registered_address: '',
-        job: ''
+        field_vice: ''
 
       },
       scale: [
@@ -457,10 +457,10 @@ export default {
       required: {
         field: [
           { required: true, message: '请选择所属行业', trigger: 'change' }
+        ],
+        field_vice: [
+          { required: true, message: '请选择所属行业', trigger: 'change' }
         ]
-        // field: [
-        //   { required: true, message: '请选择所属行业', trigger: 'change' }
-        // ]
       },
       image: {
         image: [
@@ -525,6 +525,9 @@ export default {
           if (this.list.field === this.num.field.children.name) {
             this.list.field = this.num.field.children.id
           }
+          if (this.list.field_vice === this.num.field_vice.children.name) {
+            this.list.field_vice = this.num.field_vice.children.id
+          }
           if (this.list.registered_address === this.num.registered_address.name) {
             this.list.registered_address = this.num.registered_address.id
           }
@@ -570,6 +573,7 @@ export default {
       this.list.staff_size = data.data.staff_size.id
       this.list.financing_status = data.data.financing_status.id
       const res = data.data.financing_status.is_financing_status.name
+      this.list.field_vice = data.data.field_vice.children.name
       if (res === '不展示') {
         this.list.is_financing_status = false
       } else {
