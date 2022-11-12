@@ -15,24 +15,57 @@
           </div>
           <div style="margin-bottom: 15px">
             <el-row>
-              <el-col :span="5">
-                <el-form-item label="" prop="city">
+              <el-col :span="6">
+                <el-form-item label="">
                   <el-select
                     v-model="list.city"
-                    placeholder="北京"
-                    style="margin-right: 50px"
+                    placeholder="省"
+                    style="width: 200px; margin-left: 0px"
                   >
-                    <el-option label="北京" value="北京"></el-option>
-                    <el-option label="天津" value="天津"></el-option>
+                    <el-option
+                      v-for="item in cityAll"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="cityChange(item)"
+                      >{{ item.name }}</el-option
+                    >
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="7">
-                <el-form-item label="" prop="address">
-                  <el-select v-model="list.address" placeholder="海淀区">
-                    <el-option label="海淀区" value="海淀区"></el-option>
-                    <el-option label="武清" value="武清"></el-option>
-                    <el-option label="昌平区" value="昌平区"></el-option>
+              <el-col :span="6">
+                <el-form-item label="">
+                  <el-select
+                    v-model="list.addressAll"
+                    placeholder="市"
+                    style="width: 200px"
+                  >
+                    <el-option
+                      v-for="item in town"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="townChange(item)"
+                      >{{ item.name }}</el-option
+                    >
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="">
+                  <el-select
+                    v-model="list.third"
+                    placeholder="区/县"
+                    style="margin-right: 50px"
+                  >
+                    <el-option
+                      v-for="item in prefecture"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="prefectureChange(item.adcode)"
+                      >{{ item.name }}</el-option
+                    >
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -40,7 +73,7 @@
           </div>
           <el-form-item prop="addressAll">
             <el-input
-              v-model="list.addressAll"
+              v-model="list.address"
               placeholder="请输入详细地址"
               style="width: 300px; margin-bottom: 15px"
             ></el-input>
@@ -80,12 +113,12 @@
             </bm-marker>
           </baidu-map>
         </el-form-item>
-        <el-form-item prop="time">
+        <el-form-item prop="work_time">
           <div style="font-size: 18px; font-weight: 700; margin: 20px 0">
             <span style="color: red">* </span
             ><span style="color: black">工作时间</span>
           </div>
-          <el-radio-group v-model="list.time">
+          <el-radio-group v-model="list.work_time">
             <div style="margin-bottom: 10px">
               <el-row>
                 <el-col :span="6"
@@ -98,7 +131,8 @@
                 <el-col :span="9"
                   ><el-form-item>
                     <el-time-picker
-                      v-model="list.date1"
+                      v-model="list.work_time_start"
+                      :disabled="list.work_time === '弹性工作时间'"
                       placeholder="开始时间"
                       style="width: 100%"
                     ></el-time-picker></el-form-item
@@ -107,7 +141,8 @@
                 <el-col :span="8"
                   ><el-form-item>
                     <el-time-picker
-                      v-model="list.date2"
+                      v-model="list.work_time_end"
+                      :disabled="list.work_time === '弹性工作时间'"
                       placeholder="结束时间"
                       style="width: 100%"
                     ></el-time-picker></el-form-item
@@ -117,37 +152,59 @@
             <el-radio label="弹性工作时间"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="timeRest">
+        <el-form-item prop="rest_time_status">
           <div style="font-size: 18px; font-weight: 700; margin: 20px 0">
             <span style="color: red">* </span
             ><span style="color: black">休息时间</span>
           </div>
           <el-radio-group
             v-for="item in rest"
-            :key="item"
-            v-model="list.timeRest"
+            :key="item.id"
+            v-model="list.rest_time_status"
           >
-            <el-radio :label="item" style="margin-right: 20px">{{
-              item
+            <el-radio :label="item.id" style="margin-right: 20px">{{
+              item.name
             }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item prop="workOvertime">
+        <el-form-item prop="work_overtime_status">
           <div style="font-size: 18px; font-weight: 700; margin: 20px 0">
             <span style="color: red">* </span
             ><span style="color: black">加班时间</span>
           </div>
           <el-radio-group
             v-for="item in overtime"
-            :key="item"
-            v-model="list.workOvertime"
+            :key="item.id"
+            v-model="list.work_overtime_status"
           >
-            <el-radio :label="item" style="margin-right: 20px">{{
-              item
+            <el-radio :label="item.id" style="margin-right: 20px">{{
+              item.name
             }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="" prop="tags" style="height: 40px">
+          <div style="font-size: 18px; font-weight: 700; margin: 20px 0">
+            <span style="color: red">* </span
+            ><span style="color: black">福利标签</span>
+          </div>
+          <el-select
+            v-model="list.tags"
+            multiple
+            placeholder="请选择职位福利"
+            class="box"
+            style="width: 800px"
+            @change="welfareChange"
+          >
+            <el-option
+              v-for="item in welfareList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item style="margin-top: 110px">
           <el-button round class="bt" @click="onClick">退出编辑</el-button>
           <el-button
             round
@@ -163,15 +220,17 @@
 </template>
 
 <script>
-// let timeId;
+import { getCity } from '@/api/bai/index'
+import { getWorkSystem, getWorkSystemAmend } from '@/api/firm/index'
+import { getwelfare } from '@/api/department/online'
 export default {
   data () {
     return {
       center: '',
       locations: {
         // 红色标点的经纬度需要设一个初始值，不然地图无法渲染处理
-        lng: 116.379463,
-        lat: 39.91668
+        lng: 0,
+        lat: 0
       },
       zoom: 3,
 
@@ -179,42 +238,94 @@ export default {
         city: '',
         address: '',
         addressAll: '',
-        time: '',
-        date1: '',
-        date2: '',
-        timeRest: '',
-        workOvertime: ''
+        work_time: '',
+        work_time_status: '',
+        rest_time_status: '',
+        work_overtime_status: '',
+        tags: [],
+        third: '',
+        ascode: '',
+        lat: '',
+        lng: '',
+        work_time_start: '',
+        work_time_end: '',
+        new_tags: []
+
       },
-      rest: ['周末双休', '单休', '大小周', '排班轮休'],
-      overtime: ['不加班', '偶尔加班', '有偿加班'],
+
+      rest: [
+        {
+          id: 1,
+          name: '周末双休'
+        }, {
+          id: 2,
+          name: '单休'
+        },
+        {
+          id: 3,
+          name: '大小周'
+        },
+        {
+          id: 4,
+          name: '排班轮休'
+        }
+
+      ],
+      overtime: [
+        {
+          id: 1,
+          name: '不加班'
+        },
+        {
+          id: 2,
+          name: '偶尔加班'
+        },
+        {
+          id: 3,
+          name: '有偿加班'
+        }
+      ],
+
       rules: {
         city: [
           { required: true, message: '请选择城市', trigger: 'change,blur' }
         ],
-        address: [
+        addressAll: [
           { required: true, message: '请选择区域', trigger: 'change,blur' }
         ],
-        addressAll: [
+        address: [
           { required: true, message: '请输入具体地址', trigger: 'blur' },
           { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
-        time: [
+        work_time: [
           { required: true, message: '请选择工作时间', trigger: 'change' }
         ],
 
-        timeRest: [
+        rest_time_status: [
           { required: true, message: '请选择休息时间', trigger: 'change' }
         ],
-        workOvertime: [
+        work_overtime_status: [
           { required: true, message: '请选择加班时间', trigger: 'change' }
+        ],
+        tags: [
+          { required: true, message: '请选择职位福利', trigger: 'change' }
         ]
-      }
+      },
+      welfareList: [],
+      // 城市
+      cityAll: [],
+      town: [],
+      prefecture: [],
+      adcode: 0
 
     }
   },
   created () {
     this.geoTest()
     this.getAddress()
+    this.getList()
+    this.getCityList()
+    this.getwelfareChange()
   },
   methods: {
     // 地图
@@ -239,7 +350,7 @@ export default {
       // 调用百度地图API,根据地址获取经纬度
       // this.list.city + this.list.address ||
       await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.list.city + this.list.address + this.list.addressAll, // input框输入的地址
+        address: this.list.city + this.list.address + this.list.third + this.list.addressAll, // input框输入的地址
         output: 'json',
         ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
       })
@@ -286,15 +397,93 @@ export default {
       })
       console.log('122', res)
       this.list.city = res.result.addressComponent.province
-
+      this.list.third = res.result.addressComponent.district
       this.list.address = res.result.addressComponent.district
       this.list.addressAll = res.result.addressComponent.street + res.result.addressComponent.street_number
     },
     onClick () {
-      this.$emit('reset', 0)
+      this.$confirm('确定退出编辑吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { this.$emit('reset', 0) })
     },
     submit () {
-      this.$refs.rf.validate()
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          console.log(1)
+          console.log(this.list.work_time)
+          if (this.list.work_time === '弹性工作时间') {
+            this.list.work_time_status = '2'
+            delete this.list.work_time_start
+            delete this.list.work_time_end
+          } else {
+            this.list.work_time_status = '1'
+
+            this.list.work_time_start = this.changeDateToStr1(this.list.work_time_start)
+            this.list.work_time_end = this.changeDateToStr1(this.list.work_time_end)
+          }
+          this.list.lng = this.locations.lng
+          this.list.lat = this.locations.lat
+
+          console.log(this.list)
+          const res = await getWorkSystemAmend(this.list)
+          console.log('res', res)
+          this.$message.success('修改信息成功，内容在审核中')
+          this.$emit('reset', 0)
+        }
+      })
+    },
+
+    // 城市
+    async getCityList () {
+      const { data } = await getCity()
+      console.log('城市', data)
+      this.cityAll = data.data
+      console.log(this.cityAll)
+    },
+    // 市
+    cityChange (i) {
+      console.log(i)
+      this.town = i.children
+    },
+    // 区
+    townChange (item) {
+      console.log(item)
+      this.prefecture = item.children
+    },
+    // 县
+    prefectureChange (adcode) {
+      console.log(adcode)
+      this.list.ascode = adcode
+    },
+    // 信息
+    async getList () {
+      const { data } = await getWorkSystem()
+      console.log('工作制度', data)
+      this.list.city = data.data.address.location.first
+      this.list.addressAll = data.data.address.location.second
+      this.list.address = data.data.address.address
+      this.list.third = data.data.address.location.third
+      this.locations.lng = data.data.address.lng
+      this.locations.lat = data.data.address.lat
+      this.list.rest_time_status = data.data.rest_time.id
+      this.list.work_overtime_status = data.data.work_overtime.id
+      this.list.tags = data.data.tags.map(item => item.id)
+      this.list.work_time = data.data.work_time.name
+      this.list.ascode = data.data.address.location.adcode
+    },
+    welfareChange (e) {
+      if (e.length > 5) {
+        this.$message.warning('最多可选择五个职位福利')
+        this.list.tags.splice(-1)
+      }
+    },
+    // 福利
+    async getwelfareChange () {
+      const { data } = await getwelfare()
+      console.log('福利', data)
+      this.welfareList = data.data
     }
 
   }

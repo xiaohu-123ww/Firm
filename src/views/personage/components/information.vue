@@ -7,7 +7,7 @@
       <div style="margin: 50px">
         <el-upload
           class="avatar-uploader"
-          action="http://1.13.8.165/enterprise/personal-base-data/v1.0.1/"
+          action="#"
           :show-file-list="false"
           :before-upload="handleInfoPic"
           :http-request="testUpload"
@@ -61,6 +61,7 @@
 </template>
 <script>
 import { getBase, getBaseData } from '@/api/personage/index'
+import { planInsert } from '@/api/firm/index'
 
 export default {
   data () {
@@ -112,9 +113,17 @@ export default {
       if (!isJPG && !isJPG2 && !isPNG) this.$message.error('请上传格式为 png, jpg, jpeg 的图片！')
       return isJPG || isJPG2 || isPNG
     },
-    testUpload (content) {
-      console.log(content)
-      content.onSuccess()
+    async testUpload (file) {
+      var formData = new FormData()
+      formData.append('image', file.file)
+      const res = await planInsert(formData)
+      console.log('res', res)
+      if (res.code === 200) {
+        this.$message.success(res.data.msg)
+        this.getPer()
+      } else {
+        this.message.error(res.data.msg)
+      }
     },
     uploadSuccess (res, file, fileList) {
       console.log(res, file, fileList)

@@ -25,7 +25,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { VueJsonp } from 'vue-jsonp'
-import { disposeImg, parseTime } from './utils/disposeImg'
+import { disposeImg, parseTime, changeDateToStr1 } from './utils/disposeImg'
 
 Vue.use(VueJsonp)
 
@@ -46,6 +46,7 @@ Vue.use(BaiduMap, {
 Vue.config.productionTip = false
 Vue.prototype.disposeImg = disposeImg
 Vue.prototype.parseTime = parseTime
+Vue.prototype.changeDateToStr1 = changeDateToStr1
 
 // vue实例化
 new Vue({

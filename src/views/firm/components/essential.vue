@@ -9,21 +9,19 @@
                 font-size: 18px;
                 margin-bottom: 20px;
                 font-weight: 700;
-                margin-left: 80px;
+                margin-left: 92px;
               "
             >
               企业名称
             </div>
-            <div style="font-size: 14px; margin-bottom: 50px">
-              <el-form
-                ref="firm"
-                :model="list"
-                label-width="80px"
-                :rules="ruless"
-              >
-                <el-form-item prop="firm">
+            <div
+              style="font-size: 14px; margin-bottom: 50px; margin-left: 12px"
+            >
+              <el-form ref="firm" :model="list" label-width="80px">
+                <el-form-item>
                   <el-input
                     v-model="list.firm"
+                    disabled
                     placeholder="请输入企业名称"
                     style="width: 300px"
                   ></el-input>
@@ -38,9 +36,14 @@
                 margin-left: 80px;
               "
             >
-              所属行业（主业 / 副业）
+              <div
+                style="font-size: 18px; font-weight: 700; margin-bottom: 18px"
+              >
+                <span style="color: red">* </span
+                ><span style="color: black"> 所属行业（主业 / 副业）</span>
+              </div>
             </div>
-            <div>
+            <div style="margin-left: 8px">
               <el-form
                 ref="required"
                 :model="list"
@@ -48,19 +51,67 @@
                 :rules="required"
               >
                 <el-col :span="8">
-                  <el-form-item label="" prop="industry">
-                    <el-select v-model="list.industry" placeholder="IT互联网">
-                      <el-option label="IT互联网" value="1"></el-option>
-                      <el-option label="销售" value="2"></el-option>
+                  <el-form-item label="" prop="field">
+                    <el-select
+                      v-model="list.field"
+                      placeholder="IT互联网"
+                      style="width: 240px"
+                    >
+                      <div style="display: flex">
+                        <div style="width: 150px">
+                          <el-option
+                            v-for="(item, index) in IndustryList"
+                            :key="index"
+                            :label="index"
+                            :value="index"
+                            disabled
+                            @mousemove.native="industryChange(item)"
+                          >
+                          </el-option>
+                        </div>
+                        <div>
+                          <el-option
+                            v-for="(item, index) in field"
+                            :key="index"
+                            :label="index"
+                            :value="item"
+                          >
+                          </el-option>
+                        </div>
+                      </div>
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="11">
-                  <el-form-item label="" prop="job">
-                    <el-select v-model="list.job" placeholder="人力资源服务">
-                      <el-option label="人力资源服务" value="1"></el-option>
-                      <el-option label="UI" value="2"></el-option>
+                  <el-form-item label="">
+                    <el-select
+                      v-model="list.job"
+                      placeholder="人力资源服务"
+                      style="width: 240px"
+                    >
+                      <div style="display: flex">
+                        <div style="width: 150px">
+                          <el-option
+                            v-for="(item, index) in IndustryList"
+                            :key="index"
+                            :label="index"
+                            :value="index"
+                            disabled
+                            @mousemove.native="industryChange(item)"
+                          >
+                          </el-option>
+                        </div>
+                        <div>
+                          <el-option
+                            v-for="(item, index) in field"
+                            :key="index"
+                            :label="index"
+                            :value="item"
+                          >
+                          </el-option>
+                        </div>
+                      </div>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -75,7 +126,7 @@
                 label-width="80px"
                 :rules="image"
               >
-                <el-form-item label="" prop="image">
+                <el-form-item label="">
                   <div
                     style="
                       font-size: 18px;
@@ -95,8 +146,8 @@
                     :on-success="uploadSuccess"
                   >
                     <img
-                      v-if="list.testImage"
-                      :src="list.testImage"
+                      v-if="list.logo"
+                      :src="list.logo"
                       style="width: 120px"
                     />
                     <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -120,66 +171,102 @@
       </div>
       <div>
         <el-form ref="list" :model="list" label-width="80px" :rules="rules">
-          <el-form-item label="" prop="resource" style="margin-bottom: 50px">
+          <el-form-item label="" prop="nature" style="margin-bottom: 50px">
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业性质</span>
             </div>
             <el-radio-group
-              v-for="(item, index) in property"
-              :key="index"
-              v-model="list.resource"
+              v-for="item in property"
+              :key="item.id"
+              v-model="list.nature"
               style="margin-right: 30px"
             >
-              <el-radio :label="item">{{ item }}</el-radio>
+              <el-radio :label="item.id">{{ item.name }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="" prop="people" style="margin-bottom: 50px">
+          <el-form-item label="" prop="staff_size" style="margin-bottom: 50px">
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业规模</span>
             </div>
             <el-radio-group
-              v-for="(item, index) in scale"
-              :key="index"
-              v-model="list.people"
+              v-for="item in scale"
+              :key="item.id"
+              v-model="list.staff_size"
               style="margin-right: 30px"
             >
-              <el-radio :label="item">{{ item }}</el-radio>
+              <el-radio :label="item.id">{{ item.name }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="" prop="financing" style="margin-bottom: 50px">
+          <el-form-item
+            label=""
+            prop="financing_status"
+            style="margin-bottom: 50px"
+          >
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业上市/投融资状态</span>
             </div>
             <el-radio-group
-              v-for="(item, index) in financingSate"
-              :key="index"
-              v-model="list.financing"
+              v-for="item in financingSate"
+              :key="item.id"
+              v-model="list.financing_status"
               style="margin-right: 30px"
             >
-              <el-radio :label="item">{{ item }}</el-radio>
+              <el-radio :label="item.id">{{ item.name }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="">
             <span
-              style="font-size: 18px; font-weight: 700; margin: 0 20px 50px 0"
+              style="
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0 20px 60px 12px;
+              "
               >是否想求职者展示</span
             >
-            <el-switch v-model="list.show"></el-switch>
+            <el-switch v-model="list.is_financing_status"></el-switch>
           </el-form-item>
-          <el-form-item label="" prop="address" style="margin-bottom: 50px">
+          <el-form-item
+            label=""
+            prop="registered_address"
+            style="margin-bottom: 50px; margin-top: 20px"
+          >
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业注册地</span>
             </div>
-            <el-select v-model="list.address" placeholder="北京">
-              <el-option label="北京" value="1"></el-option>
-              <el-option label="上海" value="2"></el-option>
+            <el-select
+              v-model="list.registered_address"
+              placeholder="北京"
+              style="width: 260px; margin-left: 12px"
+            >
+              <div style="display: flex">
+                <div style="width: 150px">
+                  <el-option
+                    v-for="item in cityAll"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                    disabled
+                    @mousemove.native="cityChange(item)"
+                  >
+                  </el-option>
+                </div>
+                <div tyle="width: 150px">
+                  <el-option
+                    v-for="item in town"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </div>
+              </div>
             </el-select>
           </el-form-item>
-          <el-form-item>
+          <el-form-item style="margin-left: 10px">
             <el-button round class="bt" @click="onClick">退出编辑</el-button>
             <el-button
               round
@@ -193,60 +280,201 @@
       </div>
     </el-card>
   </div>
-</template>item
+</template>
 <script>
+import { getEnterprise, getEnterpriseList, getImgDelete, getWork } from '@/api/firm/index'
+import { getIndustryField } from '@/api/department/online'
+import { getCity } from '@/api/bai/index'
+import { disposeImg } from '@/utils/disposeImg'
 export default {
   data () {
     return {
 
       list: {
         firm: '',
-        industry: '',
-        job: '',
-        testImage: null,
-        resource: '',
-        people: '',
-        financing: '',
-        show: false,
-        address: ''
+        logo: '',
+        field: '',
+        nature: '',
+        staff_size: '',
+        financing_status: '',
+        is_financing_status: false,
+        registered_address: '',
+        job: ''
+
       },
-      scale: ['20以下', '20-99人', '100-299人', '300-499人', '1000-9999人', '10000以上'],
-      financingSate: ['未融资', '天使轮', 'A轮', 'B轮', 'C轮', 'D轮及以上', '已上市', '不需要融资'],
-      property: ['国企', '外企独资', '代表处', '合资', '民营', '股份制企业', '上市公司', '国家机关', '事业单位', '银行', '医院', '学校/下级院校', '律师事务所', '社会团体', '港澳台公司', '其他'],
+      scale: [
+        {
+          id: 2,
+          name: '20以下'
+        },
+        {
+          id: 3,
+          name: '20-99人'
+        },
+        {
+          id: 4,
+          name: '100-299人'
+        },
+        {
+          id: 5,
+          name: '300-499人'
+        },
+        {
+          id: 6,
+          name: '500-999人'
+        },
+        {
+          id: 7,
+          name: '1000-9999人'
+        },
+        {
+          id: 8,
+          name: '10000以上'
+        }
+
+      ],
+      financingSate: [
+        {
+          id: 1,
+          name: '未融资'
+        },
+        {
+          id: 2,
+          name: '天使轮'
+        },
+        {
+          id: 3,
+          name: 'A轮'
+        },
+        {
+          id: 4,
+          name: 'B轮'
+        },
+        {
+          id: 5,
+          name: 'C轮'
+        },
+        {
+          id: 6,
+          name: 'D轮及以上'
+        },
+        {
+          id: 7,
+          name: '已上市'
+        },
+        {
+          id: 8,
+          name: '无融资计划'
+        }
+
+      ],
+      property: [
+        {
+          id: 1,
+          name: '国企'
+        },
+        {
+          id: 2,
+          name: '民营'
+        },
+        {
+          id: 3,
+          name: '合资'
+        },
+        {
+          id: 4,
+          name: '外商独资'
+        },
+        {
+          id: 5,
+          name: '股份制企业'
+        },
+        {
+          id: 6,
+          name: '上市公司'
+        },
+        {
+          id: 7,
+          name: '代表处'
+        },
+        {
+          id: 8,
+          name: '国家机关'
+        }, {
+          id: 9,
+          name: '事业单位'
+        },
+        {
+          id: 10,
+          name: '银行'
+        },
+        {
+          id: 11,
+          name: '医院'
+        },
+        {
+          id: 12,
+          name: '学校/下级学院'
+        },
+        {
+          id: 13,
+          name: '律师事务所'
+        },
+        {
+          id: 14,
+          name: '社会团体'
+        },
+        {
+          id: 15,
+          name: '港澳台公司'
+        },
+        {
+          id: 16,
+          name: '其他'
+        }
+
+      ],
+
       rules: {
 
         resource: [
           { required: true, message: '请选择企业性质', trigger: 'change' }
         ],
-        people: [
+        nature: [
           { required: true, message: '请选择企业规模', trigger: 'change' }
         ],
-        financing: [
+        staff_size: [
+          { required: true, message: '请选择企业规模', trigger: 'change' }
+        ],
+        financing_status: [
           { required: true, message: '请选择企业融资状态', trigger: 'change' }
         ],
-        address: [
+        registered_address: [
           { required: true, message: '请选择企业注册状态', trigger: 'change' }
         ]
       },
-      ruless: {
-        firm: [
-          { required: true, message: '请输入公司名称', trigger: 'blur' },
-          { min: 1, max: 30, message: '长度在 1到 30 个字符', trigger: 'blur' }
-        ]
-      },
+
       required: {
-        industry: [
-          { required: true, message: '请选择所属行业', trigger: 'change' }
-        ],
-        job: [
+        field: [
           { required: true, message: '请选择所属行业', trigger: 'change' }
         ]
+        // field: [
+        //   { required: true, message: '请选择所属行业', trigger: 'change' }
+        // ]
       },
       image: {
         image: [
           { required: true, message: '请选择企业LOGO', trigger: 'change' }
         ]
-      }
+      },
+      lists: {
+        logo: ''
+      },
+      IndustryList: {},
+      field: {},
+      cityAll: [],
+      town: [],
+      num: {}
     }
   },
   mounted () {
@@ -254,6 +482,11 @@ export default {
   },
   computed: {
 
+  },
+  created () {
+    this.getList()
+    this.getIndustry()
+    this.getCityList()
   },
   methods: {
     handleInfoPic (file) {
@@ -268,22 +501,105 @@ export default {
       }
       return isJPG || isPNG || isLt2M
     },
-    testUpload (content) {
-      console.log(content)
-      content.onSuccess()
+    async testUpload (file) {
+      var formData = new FormData()
+      formData.append('image', file.file)
+      const res = await getEnterprise(formData)
+      console.log('res', res)
+      if (res.code === 200) {
+        this.$message.success('图片选择成功')
+        const image = res.data.data.image
+        this.lists.logo = image
+        console.log(this.list)
+      } else {
+        this.message.error(res.data.msg)
+      }
     },
     uploadSuccess (res, file, fileList) {
       console.log(res, file, fileList)
-      this.list.testImage = URL.createObjectURL(file.raw)
+      this.list.logo = URL.createObjectURL(file.raw)
     },
     submit () {
-      this.$refs.list.validate()
-      this.$refs.firm.validate()
-      this.$refs.required.validate()
-      this.$refs.image.validate()
+      this.$refs.list.validate(async (vaild) => {
+        if (vaild) {
+          if (this.list.field === this.num.field.children.name) {
+            this.list.field = this.num.field.children.id
+          }
+          if (this.list.registered_address === this.num.registered_address.name) {
+            this.list.registered_address = this.num.registered_address.id
+          }
+          if (this.list.is_financing_status === false) {
+            this.list.is_financing_status = 0
+          } else {
+            this.list.is_financing_status = 1
+          }
+
+          console.log(this.list)
+          const res = await getWork(this.list)
+          console.log('编辑', res)
+          this.$message.success('修改信息成功,信息审核中！')
+          this.$emit('reset', 0)
+        }
+      })
     },
     onClick () {
-      this.$emit('reset', 0)
+      this.$confirm('确定退出编辑吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(async () => {
+        const res = await getImgDelete(this.lists)
+        console.log('resa', res)
+        this.$emit('reset', 0)
+      })
+    },
+    async getList () {
+      const { data } = await getEnterpriseList()
+      console.log('信息', data)
+      this.num = data.data
+      this.list.firm = data.data.name
+      this.list.field = data.data.field.children.name
+      this.list.nature = data.data.nature.id
+      this.list.staff_size = data.data.staff_size.id
+      this.list.financing_status = data.data.financing_status.id
+      const res = data.data.financing_status.is_financing_status.name
+      if (res === '不展示') {
+        this.list.is_financing_status = false
+      } else {
+        this.list.is_financing_status = true
+      }
+      this.list.registered_address = data.data.registered_address.name
+      this.list.logo = this.disposeImg(data.data.logo)
+    },
+    // 行业领域分类
+    async getIndustry () {
+      const { data } = await getIndustryField()
+      console.log('行业领域', data)
+      this.IndustryList = data
+    },
+    industryChange (item) {
+      console.log('1121', item)
+      this.field = item
+    },
+    fieldChange (e) {
+      console.log('hangye', e)
+      // if (e.length > 3) {
+      //   this.$message.warning('最多可选择三个行业类型')
+      //   this.ruleForm.field.splice(-1)
+      // }
+    },
+    // 城市
+    async getCityList () {
+      const { data } = await getCity()
+      console.log('城市', data)
+      this.cityAll = data.data
+      console.log(this.cityAll)
+    },
+    // 市
+    cityChange (i) {
+      console.log(i)
+      this.town = i.children
     }
   }
 
@@ -341,5 +657,8 @@ i.el-icon-plus.avatar-uploader-icon {
 }
 .el-form-item__content {
   margin-left: 0px !important;
+}
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
 }
 </style>

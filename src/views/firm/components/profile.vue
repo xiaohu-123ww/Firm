@@ -3,13 +3,17 @@
     <el-card class="profile">
       <div>
         <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-          <el-form-item label="" style="margin-bottom: 50px" prop="textarea">
+          <el-form-item
+            label=""
+            style="margin-bottom: 50px"
+            prop="introduction"
+          >
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
               <span style="color: red">* </span
               ><span style="color: black">企业介绍</span>
             </div>
             <el-input
-              v-model="form.textarea"
+              v-model="form.introduction"
               type="textarea"
               placeholder="请输入内容"
               maxlength="2000"
@@ -26,7 +30,7 @@
               <span style="color: black">企业成立时间</span>
             </div>
             <el-date-picker
-              v-model="form.date1"
+              v-model="form.establish_year"
               type="date"
               placeholder="选择日期"
               style="width: 200px"
@@ -38,7 +42,7 @@
               <span style="color: black">官方地址</span>
             </div>
             <el-input
-              v-model="form.address"
+              v-model="form.site_url"
               style="width: 300px"
               placeholder="请输入官方地址"
             ></el-input>
@@ -59,16 +63,17 @@
   </div>
 </template>
 <script>
+import { getStatus, getIntroduction } from '@/api/firm/index'
 export default {
   data () {
     return {
       form: {
-        textarea: '',
-        date1: '',
-        address: ''
+        introduction: '',
+        establish_year: '',
+        site_url: ''
       },
       rules: {
-        textarea: [
+        introduction: [
           { required: true, message: '请输入公司介绍', trigger: 'blur' },
           { min: 1, max: 2000, message: '长度在 1 到 2000 个字符', trigger: 'blur' }
         ]
@@ -81,11 +86,39 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getList()
+  },
   methods: {
     onClick () {
-      this.$emit('reset', 0)
+      this.$confirm('确定退出编辑吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { this.$emit('reset', 0) })
     }, submit () {
-      this.$refs.form.validate()
+      this.$refs.form.validate(async (vaild) => {
+        if (vaild) {
+          console.log(this.form)
+          const time = this.form.establish_year
+          const establish_year = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+          this.form.establish_year = establish_year.substr(0, 4)
+          console.log(this.form)
+          const res = await getIntroduction(this.form)
+          console.log('编辑', res)
+          this.$message.success('编辑成功，内容在审核中')
+          this.$emit('reset', 0)
+        }
+      })
+    },
+    async getList () {
+      const { data } = await getStatus()
+      console.log('res', data)
+      this.form.introduction = data.data.introduction
+      this.form.site_url = data.data.site_url
+      const res = data.data.establish_year
+      this.form.establish_year = res.toString()
+      console.log(this.form)
     }
   }
 }

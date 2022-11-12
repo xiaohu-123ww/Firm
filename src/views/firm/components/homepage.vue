@@ -21,7 +21,7 @@
               {{ item.content }}
             </div>
             <div
-              v-if="item.state === 3"
+              v-if="item.state === 0"
               style="
                 font-size: 10px;
                 color: #999;
@@ -32,7 +32,7 @@
               *{{ item.text }}内容未审核通过
             </div>
             <div
-              v-if="item.state === 2"
+              v-if="item.state === 1"
               style="
                 font-size: 10px;
                 color: #999;
@@ -41,6 +41,17 @@
               "
             >
               审核中
+            </div>
+            <div
+              v-if="item.state === 2"
+              style="
+                font-size: 10px;
+                color: #999;
+                margin-top: 8px;
+                color: #d67f32;
+              "
+            >
+              已通过
             </div>
           </el-col>
           <el-col :span="2"
@@ -81,6 +92,7 @@ import Essential from './essential.vue'
 import Profile from './profile.vue'
 // 工作福利
 import WorkFare from './workfare.vue'
+import { getStatusList } from '@/api/firm/index'
 export default {
   components: { Corporate, Essential, Profile, WorkFare, Nava },
   data () {
@@ -94,33 +106,34 @@ export default {
           img: '',
           text: '基本信息',
           content: ' 真实完整的基本信息，是求职者了解企业的第一步',
-          state: 1
+          state: 0
         },
         {
           id: 2,
           img: '',
           text: '企业介绍',
           content: '详细描述企业成立时间、业务发展等，同时 告诉大家企业有何魅力',
-          state: 3
+          state: 0
         },
         {
           id: 3,
           img: '',
           text: '工作福利',
           content: '工作时间和福利待遇等仅为求职者参考，不代表企业所有只为状况',
-          state: 2
+          state: 0
         },
         {
           id: 4,
           img: '',
           text: '企业形象',
           content: '亮眼的视频和图片是企业品牌建设的第一步',
-          state: 1
+          state: 0
         }
       ]
     }
   },
   mounted () {
+    this.getList()
     this.getImg()
   },
   computed: {
@@ -128,15 +141,7 @@ export default {
   },
   methods: {
     getImg () {
-      this.list.forEach(item => {
-        if (item.state === 1) {
-          item.img = b1
-        } else if (item.state === 2) {
-          item.img = b2
-        } else {
-          item.img = b3
-        }
-      })
+
     },
     onClick (id) {
       console.log(id)
@@ -146,6 +151,24 @@ export default {
     reset (i) {
       this.status = i
       this.show = true
+      this.getList()
+    },
+    async getList () {
+      const { data } = await getStatusList()
+      console.log('res', data)
+      this.list[0].state = data.data.status
+      this.list[1].state = data.data.status_corporate
+      this.list[2].state = data.data.status_introduction
+      this.list[3].state = data.data.status_work
+      this.list.forEach(item => {
+        if (item.state === 0) {
+          item.img = b3
+        } else if (item.state === 1) {
+          item.img = b2
+        } else {
+          item.img = b1
+        }
+      })
     }
   }
 }
