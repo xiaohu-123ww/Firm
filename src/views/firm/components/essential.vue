@@ -549,9 +549,15 @@ export default {
         type: 'warning'
 
       }).then(async () => {
-        const res = await getImgDelete(this.lists)
-        console.log('resa', res)
-        this.$emit('reset', 0)
+        if (this.lists.logo === '') {
+          const res = await getImgDelete()
+          console.log('resa', res)
+          this.$emit('reset', 0)
+        } else {
+          const res = await getImgDelete(this.lists)
+          console.log('resa', res)
+          this.$emit('reset', 0)
+        }
       })
     },
     async getList () {
