@@ -195,7 +195,7 @@ export default {
 
       this.loading = true
       this.status = 3
-      const res = await getOnline(this.status, this.limit, this.offset)
+      const res = await getOnline(this.status, this.limit)
       console.log('未上线', res)
       if (res.data.data.results.length === 0) {
         this.lodingState = true
@@ -217,7 +217,7 @@ export default {
       this.changeColor = 3
       this.loading = true
       this.status = 1
-      const res = await getOnline(this.status, this.limit, this.offset)
+      const res = await getOnline(this.status, this.limit)
       console.log('审核', res)
       if (res.data.data.results.length === 0) {
         this.lodingState = true
@@ -239,7 +239,7 @@ export default {
       this.changeColor = 4
       this.loading = true
       this.status = 0
-      const res = await getOnline(this.status, this.limit, this.offset)
+      const res = await getOnline(this.status, this.limit)
       console.log('未通过', res)
       if (res.data.data.results.length === 0) {
         this.lodingState = true
@@ -275,7 +275,7 @@ export default {
     async getOnlineList () {
       this.loading = true
       this.status = 2
-      const res = await getOnline(this.status, this.limit, this.offset)
+      const res = await getOnline(this.status, this.limit)
       console.log('在线中', res)
       if (res.data.data.results.length === 0) {
         this.lodingState = true

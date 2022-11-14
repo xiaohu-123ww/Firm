@@ -30,7 +30,7 @@
             >
             <el-col :span="7"
               ><div class="bg-purple-light">
-                <div class="bg-purple-bty">
+                <div v-if="buttonOnLine" class="bg-purple-bty">
                   <div class="text">新消息</div>
                   <div style="font-size: 38px">{{ item.message }}</div>
                 </div>

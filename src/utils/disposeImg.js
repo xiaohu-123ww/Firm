@@ -64,3 +64,20 @@ export function changeDateToStr1 (date) {
   second = second < 10 ? ('0' + second) : second
   return h + ':' + minute + ':' + second
 }
+
+export function changeDate (date) {
+  var date1 = new Date(date)
+  var y = date1.getFullYear()
+  var m = date1.getMonth() + 1
+  m = m < 10 ? ('0' + m) : m
+  var d = date1.getDate()
+  d = d < 10 ? ('0' + d) : d
+  // var h = date.getHours()
+  // h = h < 10 ? ('0' + h) : h
+  // var minute = date.getMinutes()
+  // minute = minute < 10 ? ('0' + minute) : minute
+  // var second = date.getSeconds()
+  // second = second < 10 ? ('0' + second) : second
+  return y + '-' + m + '-' + d
+  // return h + ':' + minute + ':' + second
+}

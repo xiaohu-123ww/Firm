@@ -42,11 +42,27 @@
       </div>
       <template>
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="date" label="日期" width="250">
+          <el-table-column label="日期" width="250" prop="start_time">
+            <!-- <div>{{ changeDate(start_time) }}</div> -->
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="300">
+          <el-table-column prop="interviewer_info.avatar" width="80">
+            <template scope="scope">
+              <img
+                :src="disposeImg(scope.row.interviewer_info.avatar)"
+                width="50"
+                height="50"
+                class="img"
+                style="border-radius: 50%; overflow: hidden"
+              />
+            </template>
           </el-table-column>
-          <el-table-column prop="address" label="备注"> </el-table-column>
+          <el-table-column
+            prop="interviewer_info.name"
+            label="姓名"
+            width="300"
+          >
+          </el-table-column>
+          <el-table-column prop="position_name" label="备注"> </el-table-column>
           <el-table-column label="操作">
             <el-button type="text" size="medium">详情</el-button>
           </el-table-column>
@@ -56,6 +72,8 @@
   </div>
 </template>
 <script>
+import { getPersonal, getInterviewsShort, getMyComm } from '@/api/dashboard/index'
+
 export default {
   data () {
     return {
@@ -98,27 +116,7 @@ export default {
           number: 7
         }
       ],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '线下面试：机械工程师',
-        operate: '详情'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '线下面试：机械工程师',
-        operate: '详情'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '线下面试：机械工程师',
-        operate: '详情'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '线下面试：机械工程师',
-        operate: '详情'
-      }]
+      tableData: []
     }
   },
   mounted () {
@@ -127,7 +125,39 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getJobList()
+    this.getInterview()
+    this.getCommn()
+  },
   methods: {
+    // 我的职位
+    async getJobList () {
+      const { data } = await getPersonal()
+      console.log('我的职位', data)
+      this.position[0].number = data.data.due
+      this.position[1].number = data.data.examine
+      this.position[2].number = data.data.online
+    },
+    // 我的面试
+    async getInterview () {
+      const { data } = await getInterviewsShort()
+      console.log('我的面试', data)
+      this.tableData = data
+      for (var i = 0; i < this.tableData.length; i++) {
+        console.log(i)
+        this.tableData[i].start_time = this.changeDate(this.tableData[i].start_time)
+      }
+    },
+    // 我的沟通
+    async getCommn () {
+      const { data } = await getMyComm()
+      console.log('我的沟通', data)
+      this.chunk[0].number = data.new
+      this.chunk[1].number = data.waiting
+      this.chunk[2].number = data.comming
+      this.chunk[3].number = data.collection
+    }
 
   }
 }
@@ -161,9 +191,10 @@ export default {
       display: flex;
       padding-left: 100px;
       .chunk {
-        width: 100px;
+        // width: 100px;
         // background-color: blueviolet;
         margin: 0 80px;
+        text-align: center;
 
         .chunk-nn {
           height: 30px;
