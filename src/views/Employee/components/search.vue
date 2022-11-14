@@ -19,7 +19,7 @@
                 :key="index"
                 class="radio"
                 :label="item"
-                >{{ item }}</el-radio-button
+                >{{ item.name }}</el-radio-button
               >
             </el-radio-group>
           </div>
@@ -190,6 +190,7 @@
 <script>
 import Recommend from '@/views/Setting/components/recommend.vue'
 import Page from '../../Department/components/page.vue'
+import { getEnterprise } from '@/api/setting/index'
 export default {
   components: { Recommend, Page },
   data () {
@@ -212,7 +213,7 @@ export default {
         city: '',
         screen: ''
       },
-      firm: ['机械工程师', 'JAVA工程师', '工业机器人工程师', '视觉工程师'],
+      firm: [],
       cities: ['不限', '初中', '高中', '中专/中技', '大专', '本科', '硕士', 'MVA/EMBA', '博士'],
       keyWord: [
         {
@@ -381,6 +382,9 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getJob()
+  },
   methods: {
     // 第几页
     handleSize (page) {
@@ -389,6 +393,11 @@ export default {
     details () {
       this.show = false
       this.$emit('hidden', false)
+    },
+    async getJob () {
+      const { data } = await getEnterprise()
+      console.log('job', data)
+      this.firm = data.data
     }
 
   }

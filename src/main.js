@@ -25,7 +25,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { VueJsonp } from 'vue-jsonp'
-import { disposeImg, parseTime, changeDateToStr1, changeDate } from './utils/disposeImg'
+import { disposeImg, parseTime, changeDateToStr1, changeDate, changeDateTo } from './utils/disposeImg'
 
 Vue.use(VueJsonp)
 
@@ -48,6 +48,7 @@ Vue.prototype.disposeImg = disposeImg
 Vue.prototype.parseTime = parseTime
 Vue.prototype.changeDateToStr1 = changeDateToStr1
 Vue.prototype.changeDate = changeDate
+Vue.prototype.changeDateTo = changeDateTo
 
 // vue实例化
 new Vue({

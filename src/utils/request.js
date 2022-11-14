@@ -1,3 +1,4 @@
+import router from '@/router'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import { getToken } from './auth'
@@ -26,35 +27,60 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-  response => {
-    const code = response.data.code || 200// 若未设置默认成功状态
-    switch (code) {
-      case 200:// 为200执行该行
-        return response.data// 成功直接返回
+  /**
+   * If you want to get http information such as headers or status
+   * Please return  response => response
+  */
 
-      case 401:// 为1300执行该行
-        MessageBox.confirm('登录状态已过期，重新登录', '系统提示', {
-          confirmButtonText: '重新登录',
-          type: 'warning',
-          showCancelButton: false,
-          showClose: false
-        }).then(() => { window.location.href = '/' })// 跳转登录页
-          .catch(() => { window.location.href = '/' })// 跳转登录页
-        return response.data
-      default:// 都不相同执行该行
-        return response.data
+  /**
+   * Determine the request status by custom code
+   * Here is just an example
+   * You can also judge the status by HTTP Status Code
+   */
+  response => {
+    const res = response.data
+
+    // if the custom code is not 20000, it is judged as an error.
+    if (res.code !== 1000 && res.code !== 200 && res.code !== 1001 && res.code !== 504) {
+      //  (res.code);
+      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+      if (res.code === 0 || res.code === 50011 || res.code === 50012 || res.code === 50014) {
+        // to re-login
+        //  ("500");
+        MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          //  ("501");
+          store.dispatch('user/removeUserInfo').then(() => {
+            //  ("500");
+            location.reload()
+            router.replace('/')
+          })
+        })
+      } else {
+        Message({
+          message: res.data.msg || res.msg,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
+      return res
+      // return Promise.reject(new Error(res.msg || 'Error'))
+    } else {
+      return res
     }
   },
   error => {
-    console.log('axios中response报错', error)
+    //  (error.message);
+    // for debug
     Message({
-      showClose: true,
-      message: error.message, // 弹出失败原因
-      type: 'error'
+      message: error.msg,
+      type: 'error',
+      duration: 5 * 1000
     })
     return Promise.reject(error)
   }
-
 )
-
 export default service

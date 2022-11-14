@@ -4,18 +4,20 @@
       <div class="talents-recommend">人才推荐</div>
       <div class="recommend">
         <el-row>
-          <el-col :span="2"
+          <el-col v-for="item in jobName" :key="item.id" :span="3"
             ><a href="javascript:;">
               <div
+                style="padding: 5px 20px 0px"
                 class="grid-content"
-                :class="{ bg: backgroundColor === 1 }"
-                @click="change"
+                @click="change(item.id)"
               >
-                机械臂工程师
+                <div class="name" :class="{ bg: backgroundColor === item.id }">
+                  {{ item.name }}
+                </div>
               </div></a
             ></el-col
           >
-          <el-col :span="2"
+          <!-- <el-col :span="3"
             ><a href="javascript:;">
               <div
                 class="grid-content"
@@ -37,7 +39,7 @@
               </div></a
             ></el-col
           >
-          <el-col :span="2">
+          <el-col :span="3">
             <a href="javascript:;">
               <div
                 class="grid-content"
@@ -47,162 +49,35 @@
                 机器视觉设计师
               </div></a
             ></el-col
-          >
+          > -->
         </el-row>
       </div>
     </div>
-    <Recommend :list="list" />
+    <div
+      v-if="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgb(244, 246, 249)"
+      style="height: 700px; font-size: 100px"
+    ></div>
+    <Recommend v-else :list="list" :position="position" />
   </div>
 </template>
 <script>
 import Recommend from '../components/recommend.vue'
+import { getEnterprise, getCvRecommend } from '@/api/setting/index'
 export default {
   components: { Recommend },
   data () {
     return {
       backgroundColor: 0,
+      jobName: [],
       list: [
-        {
-          id: 1,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端']
-        },
-        {
-          id: 2,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
-          name: '洛先生',
-          sex: '女',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端']
-        },
-        {
-          id: 3,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端']
-        },
-        {
-          id: 4,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
-          name: '洛先生',
-          sex: '女',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端']
-        },
-        {
-          id: 5,
-          image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.pp-sp.com%2FUploadFiles%2Fimg_2_164802939_3427154249_27.jpg&refer=http%3A%2F%2Fwww.pp-sp.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668145104&t=ab93370abf8808218cb63d0f8f2e6274',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端']
-        }
-      ]
+
+      ],
+      position: 0,
+      loading: true
     }
   },
   mounted () {
@@ -211,19 +86,43 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getJob()
+  },
   methods: {
-    change () {
-      this.backgroundColor = 1
+    async change (i) {
+      this.backgroundColor = i
+      this.position = i
+      const { data } = await getCvRecommend(i)
+      console.log('列表', data)
+      this.list = data.data
+      this.loading = false
     },
-    changeJAVA () {
-      this.backgroundColor = 2
-    },
-    robot () {
-      this.backgroundColor = 3
-    },
-    vision () {
-      this.backgroundColor = 4
+    // changeJAVA () {
+    //   this.backgroundColor = 2
+    // },
+    // robot () {
+    //   this.backgroundColor = 3
+    // },
+    // vision () {
+    //   this.backgroundColor = 4
+    // },
+    // 岗位
+    async getJob () {
+      const { data } = await getEnterprise()
+      console.log('岗位', data)
+
+      this.backgroundColor = data.data[0].id
+      this.jobName = data.data
+      this.loading = false
+      this.position = data.data[0].id
+      const res = await getCvRecommend(data.data[0].id)
+      this.list = res.data.data
     }
+    // 列表
+    //     async getCvRecom(){
+    // const {data}
+    //     }
   }
 }
 </script>
@@ -245,6 +144,8 @@ export default {
   }
   .grid-content {
     text-align: center;
+    // background-color: pink;
+    padding: 0px 5px;
     height: 35px;
     font-size: 15px;
   }
@@ -252,5 +153,9 @@ export default {
 .bg {
   border-bottom: 2px solid #256efd;
   color: #256efd;
+}
+.name {
+  padding: 0px 5px 10px;
+  // background-color: #256efd;
 }
 </style>

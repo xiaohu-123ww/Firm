@@ -5,35 +5,37 @@
         <el-row>
           <el-col :span="1"
             ><div class="recommend-img">
-              <img src="../../../assets/img/touxiang.png" class="image" /></div
+              <img :src="disposeImg(item.image)" class="image" /></div
           ></el-col>
           <el-col :span="8"
             ><div class="recommend-message">
               <div class="message-name">
-                <div class="text">{{ item.name }}</div>
+                <div class="text">{{ item.user_name }}</div>
                 <div style="margin-right: 15px; font-size: 19px">
-                  <Item :icon="item.sex === '男' ? 'nan' : 'nv'"></Item>
+                  <Item :icon="item.sex === 1 ? 'nan' : 'nv'"></Item>
                 </div>
-                <div class="onLine">{{ item.state }}</div>
+                <div class="onLine">{{ item.online_status.name }}</div>
               </div>
               <div class="message-age">
                 <div class="age-four">{{ item.age }}岁</div>
-                <div class="age-four four">{{ item.education }}</div>
-                <div class="age-four four">{{ item.regular }}</div>
-                <div style="margin-left: 10px">{{ item.stateNext }}</div>
+                <div class="age-four four">{{ item.work_date }}年</div>
+                <div class="age-four four">{{ item.education.name }}</div>
+                <div style="margin-left: 10px">{{ item.status.name }}</div>
               </div>
             </div></el-col
           >
           <el-col :span="12"
             ><div class="recommend-time">
               <div
-                v-for="(itemss, index) in item.work"
+                v-for="(itemss, index) in item.job_experience"
                 :key="index"
                 class="recommend-experience"
               >
-                <div class="experience-time">{{ itemss.time }}</div>
-                <div class="experience-firm">{{ itemss.firm }}</div>
-                <div>{{ itemss.job }}</div>
+                <div class="experience-time">
+                  {{ itemss.start_date }}-{{ itemss.start_date }}
+                </div>
+                <div class="experience-firm">{{ itemss.enterprise }}</div>
+                <div>{{ itemss.position }}</div>
               </div>
             </div></el-col
           >
@@ -51,7 +53,11 @@
                 @click="changeDialog"
                 ><Item icon="消息" /> 继续聊
               </el-button>
-              <el-button v-else round class="recommend-button"
+              <el-button
+                v-else
+                round
+                class="recommend-button"
+                @click="talk(item.user_id)"
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
             </div>
@@ -70,11 +76,11 @@
           <el-col :span="18"
             ><div class="technical">
               <div
-                v-for="(skills, index) in item.skill"
+                v-for="(skills, index) in item.job_keywords"
                 :key="index"
                 class="ability"
               >
-                {{ skills }}
+                {{ skills.name }}
               </div>
               <div
                 v-if="item.job"
@@ -189,6 +195,7 @@ import Item from '@/layout/components/Sidebar/Item.vue'
 import Dialog from './dialog.vue'
 import Interview from './interview.vue'
 import Particulars from './particulars.vue'
+import { getInterests } from '@/api/setting/index'
 export default {
   components: { Item, Dialog, Interview, Particulars },
   props: {
@@ -206,6 +213,9 @@ export default {
     },
     face: {
       type: Boolean
+    },
+    position: {
+      type: Number
     }
 
   },
@@ -240,6 +250,13 @@ export default {
       this.flag = true
       this.arr = i
       console.log(i)
+    },
+    // 沟通
+    async talk (id) {
+      console.log(id, this.position)
+      const res = await getInterests(id, this.position)
+      console.log('res', res)
+      this.$message.success(res.data.msg)
     }
   }
 }
@@ -248,7 +265,7 @@ export default {
 .recommend {
   height: 125px;
   background-color: #fff;
-  margin: 15px 20px;
+  margin: 20px 30px;
   border-radius: 20px;
   overflow: hidden;
   .recommend-my {
@@ -283,7 +300,7 @@ export default {
         }
         .onLine {
           width: 70px;
-          height: 20px;
+          height: 23px;
           background-color: #f1fffd;
           color: #119954;
           font-size: 13px;
@@ -301,8 +318,9 @@ export default {
         color: #808080;
         font-size: 13px;
         .age-four {
-          width: 50px;
-          height: 18px;
+          // width: 50px;
+          height: 16px;
+          padding: 0px 10px;
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }
@@ -314,6 +332,7 @@ export default {
     .recommend-time {
       height: 70px;
       // background-color: #119954;
+      margin-top: 5px;
       .recommend-experience {
         height: 20px;
         // background-color: rgb(169, 83, 97);
