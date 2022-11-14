@@ -143,8 +143,7 @@ export default {
       this.$emit('hidden', false)
     },
     reset (i) {
-      console.log(i)
-      this.total = i
+      this.getLikeJob()
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)

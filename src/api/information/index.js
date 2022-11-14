@@ -54,3 +54,7 @@ export function getListSex (limit, offset, keywords) {
   })
 }
 
+export function getDelete (data) {
+  return request.delete('/enterprise/position-collection/v1.0.1/', { data: data })
+}
+

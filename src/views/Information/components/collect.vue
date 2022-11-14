@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/valid-v-on -->
 <template>
   <div>
     <el-card class="collect">
@@ -27,7 +28,14 @@
           <el-table-column prop="join_date" label="收藏时间" width="180">
           </el-table-column>
           <el-table-column label="操作" width="100">
-            <el-button type="text" style="color: #1989fa">取消收藏</el-button>
+            <template scope="scope">
+              <el-button
+                type="text"
+                style="color: #1989fa"
+                @click.native="changeDelte(scope.row.id)"
+                >取消收藏</el-button
+              >
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -35,7 +43,7 @@
   </div>
 </template>
 <script>
-import { getList } from '@/api/information/index'
+import { getDelete } from '@/api/information/index'
 export default {
   props: {
     tableData: {
@@ -45,6 +53,9 @@ export default {
   data () {
     return {
       // tableData: []
+      list: {
+        id: 0
+      }
     }
   },
   mounted () {
@@ -55,7 +66,14 @@ export default {
   },
 
   methods: {
-
+    async changeDelte (id) {
+      console.log(id)
+      this.list.id = id
+      const res = await getDelete(this.list)
+      console.log('取消', res)
+      this.$message.success('res.data.msg')
+      this.$emit('reset')
+    }
   }
 }
 </script>
