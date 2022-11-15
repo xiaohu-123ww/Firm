@@ -5,45 +5,53 @@
         <el-row>
           <el-col :span="1"
             ><div class="recommend-img">
-              <img :src="disposeImg(item.image)" class="image" /></div
+              <img :src="disposeImg(item.left_data.image)" class="image" /></div
           ></el-col>
           <el-col :span="8"
             ><div class="recommend-message">
               <div class="message-name">
                 <div class="text" style="margin-left: 10px">
-                  {{ item.user_name }}
+                  {{ item.left_data.user_name }}
                 </div>
                 <div style="margin-right: 15px; font-size: 19px">
-                  <Item :icon="item.sex === 1 ? 'nan' : 'nv'"></Item>
+                  <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
                 </div>
-                <div class="onLine">{{ item.online_status.name }}</div>
+                <div class="onLine">{{ item.left_data.online_status }}</div>
               </div>
               <div class="message-age">
-                <div class="age-four">{{ item.age }}岁</div>
-                <div class="age-four four">{{ item.work_date }}年</div>
-                <div class="age-four four">{{ item.education.name }}</div>
-                <div style="margin-left: 10px">{{ item.status.name }}</div>
+                <div class="age-four">{{ item.left_data.age }}岁</div>
+                <div class="age-four four">
+                  {{ item.left_data.work_date }}年
+                </div>
+                <div class="age-four four">{{ item.left_data.education }}</div>
+                <div style="margin-left: 10px">{{ item.left_data.status }}</div>
               </div>
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
                   {{
-                    item.position_class_data.position_class.name
-                      ? item.position_class_data.position_class.name
+                    item.left_data.position_class_data.city !== null
+                      ? item.left_data.position_class_data.city
                       : '意向岗位'
                   }}
                 </div>
                 <div class="age-four four">
                   求职意向：{{
-                    item.position_class_data.city.name
-                      ? item.position_class_data.city.name
+                    item.left_data.position_class_data.position_class !== null
+                      ? item.left_data.position_class_data.position_class
                       : '城市'
                   }}
                 </div>
                 <div class="age-four four">
                   {{
-                    item.position_class_data.salary.length !== 0
-                      ? item.position_class_data.salary
-                      : '薪资'
+                    item.left_data.position_class_data.salary.salary_min !==
+                    null
+                      ? item.left_data.position_class_data.salary.salary_min
+                      : '1千'
+                  }}-{{
+                    item.left_data.position_class_data.salary.salary_max !==
+                    null
+                      ? item.left_data.position_class_data.salary.salary_max
+                      : '1千'
                   }}
                 </div>
               </div>
@@ -52,7 +60,7 @@
           <el-col :span="12"
             ><div class="recommend-time">
               <div
-                v-for="(itemss, index) in item.job_experience"
+                v-for="(itemss, index) in item.right_data.jobexperience_data"
                 :key="index"
                 class="recommend-experience"
               >
@@ -69,7 +77,7 @@
               <el-button
                 round
                 class="recommend-button"
-                @click="talk(item.user_id)"
+                @click="talk(item.left_data.user_id)"
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
             </div>
@@ -81,11 +89,11 @@
           <el-col :span="18"
             ><div class="technical">
               <div
-                v-for="(skills, index) in item.job_keywords"
+                v-for="(skills, index) in item.right_data.job_keywords"
                 :key="index"
                 class="ability"
               >
-                {{ skills.name }}
+                {{ skills }}
               </div>
               <!-- <div
                 v-if="item.job"
@@ -190,19 +198,19 @@
         <el-row> </el-row>
       </div>
     </div>
-    <Dialog :dialog-visible="dialogVisible" @reset="reset" />
-    <Interview :flag-show="flagShow" @reset="reset" />
-    <Particulars :flag="flag" :arr="arr" @reset="reset" />
+    <Dialog :id="id" :dialog-visible="dialogVisible" @reset="reset" />
+    <!-- <Interview :flag-show="flagShow" @reset="reset" />
+    <Particulars :flag="flag" :arr="arr" @reset="reset" /> -->
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Dialog from './dialog.vue'
-import Interview from './interview.vue'
-import Particulars from './particulars.vue'
-import { getInterests } from '@/api/setting/index'
+// import Interview from './interview.vue'
+// import Particulars from './particulars.vue'
+// import { getInterests } from '@/api/setting/index'
 export default {
-  components: { Item, Dialog, Interview, Particulars },
+  components: { Item, Dialog },
   props: {
     list: {
       type: Array
@@ -229,7 +237,8 @@ export default {
       dialogVisible: false,
       flagShow: false,
       flag: false,
-      arr: {}
+      arr: {},
+      id: 0
     }
   },
   mounted () {
@@ -258,10 +267,13 @@ export default {
     },
     // 沟通
     async talk (id) {
-      console.log(id, this.position)
-      const res = await getInterests(id, this.position)
-      console.log('res', res)
-      this.$message.success(res.data.msg)
+      this.dialogVisible = true
+      this.id = id
+      console.log(id)
+      // console.log(id, this.position)
+      // const res = await getInterests(id, this.position)
+      // console.log('res', res)
+      // this.$message.success(res.data.msg)
     }
   }
 }
