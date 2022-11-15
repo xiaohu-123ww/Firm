@@ -1,4 +1,4 @@
-import { login } from '@/api/user'
+import { login, getCodeLogin } from '@/api/user'
 import { getToken, removeToken, setToken } from '@/utils/auth'
 export default {
   namespaced: true,
@@ -28,6 +28,15 @@ export default {
       } else if (res.code === 1001) {
         removeToken()
       }
+    },
+    async getCode ({ commit }, code, mobile) {
+      const res = await getCodeLogin(code, mobile)
+      console.log('res', res)
+      // if (res.code === 200) {
+      //   commit('setToken', res.data.data)
+      // } else if (res.code === 1001) {
+      //   removeToken()
+      // }
     }
   }
 }

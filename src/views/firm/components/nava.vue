@@ -48,7 +48,7 @@
               <i class="el-icon-more"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="$router.push('/')"
+              <el-dropdown-item @click.native="logout"
                 >退出登录</el-dropdown-item
               >
               <el-dropdown-item>首页</el-dropdown-item>
@@ -102,6 +102,36 @@ export default {
     },
     change () {
       this.$router.push('/personage')
+    },
+    logout () {
+      // 1. 询问用户
+      this.$confirm('确认退出登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 确定逻辑
+        // 2. 清空数据 跳转登录页
+        // vuex
+        // 使用mutation
+        this.$store.commit('user/removeUserInfo')
+        // this.$router.push('/login')
+        // 从哪里发生的退出登录 重新登录之后再回到这个页面
+        // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
+        // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
+        // 还跳转到首页
+        this.$router.push({
+          path: '/',
+          query: {
+            // 携带的路由参数
+            redirect: this.$route.fullPath
+            // to.path -> 只包含路径
+            // fullPatch 既有路径也有参数
+          }
+        })
+      }).catch(() => {
+
+      })
     }
 
   }
