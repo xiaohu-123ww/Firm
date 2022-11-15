@@ -76,7 +76,7 @@
 </template>
 <script>
 import Collect from './collect.vue'
-import { getList, getListOne, getListTwo, getListThree, getListFour, getListFive, getListSex } from '@/api/information/index'
+import { getList, getListOne, getListTwo, getListThree, getListFour, getListFive, getListSex, getLists } from '@/api/information/index'
 export default {
   components: { Collect },
   data () {
@@ -109,6 +109,9 @@ export default {
         {
           id: 4,
           name: '不合适'
+        }, {
+          id: 5,
+          name: '不限'
         }
 
       ],
@@ -184,7 +187,7 @@ export default {
       // console.log(this.keywords, this.start_time, this.end_time, this.status)
 
       if (this.keywords !== '' && this.end_time === '' && this.start_time === '' && this.status === '') {
-        const res = await getListTwo(this.limit, this.offset, this.keywords)
+        const res = await getListTwo(this.limit, this.keywords)
         console.log('res1', res)
         this.tableData = res.data.data.results
         if (res.data.data.count === 0) {
@@ -196,7 +199,7 @@ export default {
         this.start_time = this.changeDateTo(this.start_time)
         this.end_time = this.changeDateTo(this.end_time)
 
-        const res = await getListFour(this.limit, this.offset, this.start_time, this.end_time, this.keywords)
+        const res = await getListFour(this.limit, this.start_time, this.end_time, this.keywords)
         console.log('res1', res)
         this.tableData = res.data.data.results
         if (res.data.data.count === 0) {
@@ -208,7 +211,7 @@ export default {
         this.start_time = this.changeDateTo(this.start_time)
         this.end_time = this.changeDateTo(this.end_time)
 
-        const res = await getListThree(this.limit, this.offset, this.status, this.start_time, this.end_time)
+        const res = await getListThree(this.limit, this.status, this.start_time, this.end_time)
         console.log('res1', res)
         this.tableData = res.data.data.results
         if (res.data.data.count === 0) {
@@ -217,34 +220,59 @@ export default {
         // this.start_time = ''
         // this.end_time = ''
       } else if (this.keywords !== '' && this.end_time === '' && this.start_time === '' && this.status !== '') {
-        const res = await getListFive(this.limit, this.offset, this.status, this.start_time, this.end_time)
-        console.log('res1', res)
-        this.tableData = res.data.data.results
-        if (res.data.data.count === 0) {
-          this.state = false
+        if (this.status === 5) {
+          const res = await getListTwo(this.limit, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        } else {
+          const res = await getListFive(this.limit, this.status, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
         }
         // this.start_time = ''
         // this.end_time = ''
       } else if (this.keywords === '' && this.end_time === '' && this.start_time === '' && this.status !== '') {
-        const res = await getListSex(this.limit, this.offset, this.status)
-        console.log('res1', res)
-        this.tableData = res.data.data.results
-        if (res.data.data.count === 0) {
-          this.state = false
+        if (this.status === 5) {
+          this.getLikeJob()
+        } else {
+          const res = await getListSex(this.limit, this.status)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
         }
         // this.start_time = ''
         // this.end_time = ''
       }
 
       if (this.start_time !== '' && this.end_time !== '' && this.keywords !== '' && this.status !== '') {
-        this.start_time = this.changeDateTo(this.start_time)
-        this.end_time = this.changeDateTo(this.end_time)
+        if (this.status === 5) {
+          this.start_time = this.changeDateTo(this.start_time)
+          this.end_time = this.changeDateTo(this.end_time)
 
-        const res = await getList(this.limit, this.offset, this.status, this.start_time, this.end_time, this.keywords)
-        console.log('res1', res)
-        this.tableData = res.data.data.results
-        if (res.data.data.count === 0) {
-          this.state = false
+          const res = await getListFour(this.limit, this.start_time, this.end_time, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        } else {
+          this.start_time = this.changeDateTo(this.start_time)
+          this.end_time = this.changeDateTo(this.end_time)
+
+          const res = await getLists(this.limit, this.status, this.start_time, this.end_time, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
         }
         // this.start_time = ''
         // this.end_time = ''
