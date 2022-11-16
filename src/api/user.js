@@ -32,3 +32,17 @@ export function getCodeLogin (code, mobile) {
     }
   })
 }
+
+/**
+ * 企业注册
+ */
+export function sendCapteLogin (data) {
+  return request.post('/user/enterprise-code-login/v1.0.0/', data)
+}
+
+/**
+ * 找回密码
+ */
+export function sendPasswordLogin (data) {
+  return request.put('/user/enterprise-login/v1.0.0/', data)
+}

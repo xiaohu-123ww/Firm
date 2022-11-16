@@ -14,132 +14,225 @@
         <el-col :span="11"
           ><div class="login-form">
             <div class="form">
-              <div v-if="!registerShow">
-                <div class="Qiehuan">
-                  <p :class="isuser == true ? 'active' : ''" @click="user">
-                    账号登录
-                  </p>
-                  <p
-                    :class="isuser == false ? 'active' : ''"
-                    @click="cepateLogin"
-                  >
-                    验证码登录
-                  </p>
-                </div>
-                <div v-if="show">
-                  <el-form
-                    ref="rf"
-                    :model="loginForm"
-                    status-icon
-                    :rules="rules"
-                    label-width="100px"
-                    class="demo-ruleForm"
-                  >
-                    <el-form-item label="账号" prop="username">
-                      <el-input
-                        v-model="loginForm.username"
-                        class="elInput"
-                        placeholder="请输入账号"
-                        :rows="10"
-                      ></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="password">
-                      <el-input
-                        v-model="loginForm.password"
-                        :type="passw"
-                        class="elInput"
-                        autocomplete="off"
-                        placeholder="请输入密码"
-                      >
-                        <i slot="suffix" :class="icon" @click="showPass"></i>
-                      </el-input>
-                      <div class="passw">忘记密码</div>
-                    </el-form-item>
-
-                    <el-form-item>
-                      <el-button
-                        type="primary"
-                        round
-                        style="
-                          width: 300px;
-                          background-color: #256efd;
-                          margin-top: 35px;
-                        "
-                        @click="handleLogin"
-                        >登录</el-button
-                      >
-                    </el-form-item>
-                  </el-form>
-                </div>
-                <div v-if="flagShow">
-                  <el-form
-                    ref="rf"
-                    :model="ruleForm"
-                    status-icon
-                    label-width="100px"
-                    :rules="loginRules"
-                    class="demo-ruleForm"
-                  >
-                    <el-form-item label="手机号" prop="mobile">
-                      <div style="display: flex" class="elInput">
-                        <div class="elInput-photo">+86</div>
+              <div v-if="!retrievePassword">
+                <div v-if="!registerShow">
+                  <div class="Qiehuan">
+                    <p :class="isuser == true ? 'active' : ''" @click="user">
+                      账号登录
+                    </p>
+                    <p
+                      :class="isuser == false ? 'active' : ''"
+                      @click="cepateLogin"
+                    >
+                      验证码登录
+                    </p>
+                  </div>
+                  <div v-if="show">
+                    <el-form
+                      ref="rf"
+                      :model="loginForm"
+                      status-icon
+                      :rules="rules"
+                      label-width="100px"
+                      class="demo-ruleForm"
+                    >
+                      <el-form-item label="账号" prop="username">
                         <el-input
-                          v-model="ruleForm.mobile"
-                          style="width: 250px; height: 50px"
-                          placeholder="请输入手机号"
+                          v-model="loginForm.username"
+                          class="elInput"
+                          placeholder="请输入账号"
                           :rows="10"
                         ></el-input>
-                      </div>
-                    </el-form-item>
-                    <el-form-item label="验证码" prop="code">
-                      <div class="elInput" style="display: flex">
+                      </el-form-item>
+                      <el-form-item label="密码" prop="password">
                         <el-input
-                          v-model="ruleForm.code"
+                          v-model="loginForm.password"
                           :type="passw"
+                          class="elInput"
                           autocomplete="off"
-                          placeholder="请输入验证码"
-                          style="width: 200px; height: 50px"
+                          placeholder="请输入密码"
                         >
+                          <i slot="suffix" :class="icon" @click="showPass"></i>
                         </el-input>
-                        <el-button
-                          :class="{ 'disabled-style': getCodeBtnDisable }"
-                          :disabled="getCodeBtnDisable"
-                          type="primary"
-                          @click="getCode()"
-                          >{{ codeBtnWord }}</el-button
+                        <a href="javascript:;">
+                          <div class="passw" @click="password">忘记密码</div></a
                         >
-                        <div></div>
-                      </div>
+                      </el-form-item>
 
-                      <div class="passw">忘记密码</div>
-                    </el-form-item>
+                      <el-form-item>
+                        <el-button
+                          type="primary"
+                          round
+                          style="
+                            width: 300px;
+                            background-color: #256efd;
+                            margin-top: 35px;
+                          "
+                          @click="handleLogin"
+                          >登录</el-button
+                        >
+                      </el-form-item>
+                    </el-form>
+                  </div>
+                  <div v-if="flagShow">
+                    <el-form
+                      ref="rf"
+                      :model="ruleForm"
+                      status-icon
+                      label-width="100px"
+                      :rules="loginRules"
+                      class="demo-ruleForm"
+                    >
+                      <el-form-item label="手机号" prop="mobile">
+                        <div style="display: flex" class="elInput">
+                          <div class="elInput-photo">+86</div>
+                          <el-input
+                            v-model="ruleForm.mobile"
+                            style="width: 250px; height: 50px"
+                            placeholder="请输入手机号"
+                            :rows="10"
+                          ></el-input>
+                        </div>
+                      </el-form-item>
+                      <el-form-item label="验证码" prop="code">
+                        <div class="elInput" style="display: flex">
+                          <el-input
+                            v-model="ruleForm.code"
+                            :type="passw"
+                            autocomplete="off"
+                            placeholder="请输入验证码"
+                            style="width: 200px; height: 50px"
+                          >
+                          </el-input>
+                          <el-button
+                            :class="{ 'disabled-style': getCodeBtnDisable }"
+                            :disabled="getCodeBtnDisable"
+                            type="primary"
+                            @click="getCode()"
+                            >{{ codeBtnWord }}</el-button
+                          >
+                          <div></div>
+                        </div>
+                      </el-form-item>
 
-                    <el-form-item>
+                      <el-form-item>
+                        <el-button
+                          type="primary"
+                          round
+                          style="
+                            width: 300px;
+                            background-color: #256efd;
+                            margin-top: 35px;
+                          "
+                          @click="PhotoLogin"
+                          >登录</el-button
+                        >
+                      </el-form-item>
+                    </el-form>
+                  </div>
+                  <div class="register">
+                    没有帐户？<a
+                      href="javascript:;"
+                      style="color: #1890ff"
+                      @click="register"
+                      >立即注册</a
+                    >
+                  </div>
+                </div>
+                <div v-if="registerShow">
+                  <div class="registers">立即注册</div>
+                  <div>
+                    <div
+                      style="display: flex; margin: 20px 0px 20px 80px"
+                      class="elInput"
+                    >
+                      <div class="elInput-photo">+86</div>
+                      <el-input
+                        v-model="rule.mobile"
+                        style="width: 250px; height: 50px"
+                        placeholder="请输入手机号"
+                        :rows="10"
+                      ></el-input>
+                    </div>
+
+                    <div
+                      class="elInput"
+                      style="display: flex; margin: 20px 0px 20px 80px"
+                    >
+                      <el-input
+                        v-model="rule.code"
+                        :type="passw"
+                        autocomplete="off"
+                        placeholder="请输入验证码"
+                        style="width: 200px; height: 50px"
+                      >
+                      </el-input>
+                      <el-button
+                        :class="{ 'disabled-style': getCodeBtn }"
+                        :disabled="getCodeBtn"
+                        type="primary"
+                        @click="Code()"
+                        >{{ codeBtnWord }}</el-button
+                      >
+                      <div></div>
+                    </div>
+
+                    <el-input
+                      v-model="rule.password"
+                      :type="passw"
+                      class="elInput"
+                      autocomplete="off"
+                      placeholder="请输入密码"
+                      style="margin: 0px 0px 20px 80px"
+                    >
+                      <i slot="suffix" :class="icon" @click="showPass"></i>
+                    </el-input>
+
+                    <el-form
+                      ref="ruleForm"
+                      :model="num"
+                      label-width="80px"
+                      :rules="amend"
+                    >
+                      <el-form-item prop="radio">
+                        <el-checkbox-group v-model="num.radio">
+                          <el-checkbox label="1" name="type"
+                            >我已同意<span style="color: rgb(37, 110, 253)"
+                              >《###使用协议》</span
+                            >和
+                            <span style="color: rgb(37, 110, 253)"
+                              >《用户隐私协议》</span
+                            ></el-checkbox
+                          >
+                        </el-checkbox-group>
+                      </el-form-item>
+
                       <el-button
                         type="primary"
                         round
                         style="
                           width: 300px;
                           background-color: #256efd;
-                          margin-top: 35px;
+                          margin: 0px 0px 0px 80px;
                         "
-                        @click="PhotoLogin"
-                        >登录</el-button
+                        @click="firmLogin"
+                        >注册</el-button
                       >
-                    </el-form-item>
-                  </el-form>
-                </div>
-                <div class="register">
-                  没有帐户？<a
-                    href="javascript:;"
-                    style="color: #1890ff"
-                    @click="register"
-                    >立即注册</a
-                  >
+                    </el-form>
+
+                    <div class="register">
+                      已有账号？<a
+                        href="javascript:;"
+                        style="color: #1890ff"
+                        @click="loginChange"
+                        >立即登录</a
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div v-if="registerShow">
-                <div class="registers">立即注册</div>
+              <div v-if="retrievePassword">
+                <div class="registers">找回密码</div>
                 <div>
                   <div
                     style="display: flex; margin: 20px 0px 20px 80px"
@@ -147,7 +240,7 @@
                   >
                     <div class="elInput-photo">+86</div>
                     <el-input
-                      v-model="ruleForm.mobile"
+                      v-model="newPassword.mobile"
                       style="width: 250px; height: 50px"
                       placeholder="请输入手机号"
                       :rows="10"
@@ -159,7 +252,7 @@
                     style="display: flex; margin: 20px 0px 20px 80px"
                   >
                     <el-input
-                      v-model="ruleForm.code"
+                      v-model="newPassword.code"
                       :type="passw"
                       autocomplete="off"
                       placeholder="请输入验证码"
@@ -167,36 +260,25 @@
                     >
                     </el-input>
                     <el-button
-                      :class="{ 'disabled-style': getCodeBtnDisable }"
-                      :disabled="getCodeBtnDisable"
+                      :class="{ 'disabled-style': getBtn }"
+                      :disabled="getBtn"
                       type="primary"
-                      @click="getCode()"
+                      @click="passwordCode"
                       >{{ codeBtnWord }}</el-button
                     >
                     <div></div>
                   </div>
 
                   <el-input
-                    v-model="loginForm.password"
+                    v-model="newPassword.password"
                     :type="passw"
                     class="elInput"
                     autocomplete="off"
                     placeholder="请输入密码"
-                    style="margin: 0px 0px 20px 80px"
+                    style="margin: 0px 0px 0px 80px"
                   >
                     <i slot="suffix" :class="icon" @click="showPass"></i>
                   </el-input>
-
-                  <el-checkbox-group v-model="radio" style="margin-left: 80px">
-                    <el-checkbox label="" name="type"
-                      >我已同意<span style="color: rgb(37, 110, 253)"
-                        >《###使用协议》</span
-                      >和
-                      <span style="color: rgb(37, 110, 253)"
-                        >《用户隐私协议》</span
-                      ></el-checkbox
-                    >
-                  </el-checkbox-group>
 
                   <el-button
                     type="primary"
@@ -206,15 +288,15 @@
                       background-color: #256efd;
                       margin: 30px 0px 20px 80px;
                     "
-                    @click="PhotoLogin"
-                    >注册</el-button
+                    @click="passwordLogin"
+                    >找回密码</el-button
                   >
 
                   <div class="register">
                     已有账号？<a
                       href="javascript:;"
                       style="color: #1890ff"
-                      @click="loginChange"
+                      @click="passwordChange"
                       >立即登录</a
                     >
                   </div>
@@ -228,8 +310,9 @@
   </div>
 </template>
 <script>
-import { sendCapte, getCodeLogin } from '@/api/user'
+import { sendCapte, getCodeLogin, sendCapteLogin, sendPasswordLogin } from '@/api/user'
 import { setToken } from '@/utils/auth'
+import passwordVue from '@/views/personage/components/resume/password.vue'
 export default {
   data () {
     // 校验手机号
@@ -270,7 +353,25 @@ export default {
       waitTime: 61,
       registerShow: false,
       // 获取验证码按钮失效时间,
-      radio: '1'
+      num: {
+        radio: []
+      },
+      rule: {
+        mobile: null,
+        code: null,
+        password: ''
+      },
+      amend: {
+        radio: [
+          { required: true, message: '请勾选后注册', trigger: 'change' }
+        ]
+      },
+      retrievePassword: false,
+      newPassword: {
+        mobile: '',
+        code: '',
+        password: ''
+      }
 
     }
   },
@@ -286,6 +387,34 @@ export default {
       get () {
         if (this.waitTime === 61) {
           if (this.ruleForm.mobile) {
+            return false
+          }
+          return true
+        }
+        return true
+      },
+      // 注意：因为计算属性本身没有set方法，不支持在方法中进行修改，而下面我要进行这个操作，所以需要手动添加
+      set () { }
+
+    },
+    getCodeBtn: {
+      get () {
+        if (this.waitTime === 61) {
+          if (this.rule.mobile) {
+            return false
+          }
+          return true
+        }
+        return true
+      },
+      // 注意：因为计算属性本身没有set方法，不支持在方法中进行修改，而下面我要进行这个操作，所以需要手动添加
+      set () { }
+
+    },
+    getBtn: {
+      get () {
+        if (this.waitTime === 61) {
+          if (this.newPassword.mobile) {
             return false
           }
           return true
@@ -389,12 +518,115 @@ export default {
         }, 1000)
       }
     },
+    // 注册
+    Code () {
+      if (this.rule.mobile) {
+        sendCapte({ type: '1', mobile: this.rule.mobile }).then(
+          (res) => {
+            if (res.code === 1000) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+            }
+          }
+        )
+
+        // 因为下面用到了定时器，需要保存this指向
+        const that = this
+        that.waitTime--
+        that.getCodeBtnDisable = true
+        this.codeBtnWord = `${this.waitTime}s 后重新获取`
+        const timer = setInterval(function () {
+          if (that.waitTime > 1) {
+            that.waitTime--
+            that.codeBtnWord = `${that.waitTime}s 后重新获取`
+          } else {
+            clearInterval(timer)
+            that.codeBtnWord = '获取验证码'
+            that.getCodeBtnDisable = false
+            that.waitTime = 61
+          }
+        }, 1000)
+      }
+    },
     // 企业注册
     register () {
       this.registerShow = true
     },
     loginChange () {
       this.registerShow = false
+      this.user()
+    },
+    // 企业注册账号
+    firmLogin () {
+      if (this.rule.mobile === '' || this.rule.code === '' || this.rule.password === '') {
+        this.$message.error('手机号、验证码、密码不可为空')
+      } else {
+        this.$refs.ruleForm.validate(async (vaild) => {
+          if (vaild) {
+            console.log(123)
+            this.rule.mobile = Number(this.rule.mobile)
+            this.rule.code = Number(this.rule.code)
+            const res = await sendCapteLogin(this.rule)
+            console.log('注册', res)
+            this.$message.success(res.data.msg)
+          }
+        })
+      }
+    },
+    // 找回密码
+    password () {
+      this.retrievePassword = true
+    },
+    passwordCode () {
+      if (this.newPassword.mobile) {
+        sendCapte({ type: '1', mobile: this.newPassword.mobile }).then(
+          (res) => {
+            if (res.code === 1000) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+            }
+          }
+        )
+
+        // 因为下面用到了定时器，需要保存this指向
+        const that = this
+        that.waitTime--
+        that.getCodeBtnDisable = true
+        this.codeBtnWord = `${this.waitTime}s 后重新获取`
+        const timer = setInterval(function () {
+          if (that.waitTime > 1) {
+            that.waitTime--
+            that.codeBtnWord = `${that.waitTime}s 后重新获取`
+          } else {
+            clearInterval(timer)
+            that.codeBtnWord = '获取验证码'
+            that.getCodeBtnDisable = false
+            that.waitTime = 61
+          }
+        }, 1000)
+      }
+    },
+    async passwordLogin () {
+      if (this.newPassword.mobile === '' || this.newPassword.code === '' || this.newPassword.password === '') {
+        this.$message.error('手机号、验证码、密码不能为空')
+      } else {
+        const res = await sendPasswordLogin(this.newPassword)
+        console.log('修改密码', res)
+        if (res.code === 200) {
+          this.$message.success('修改密码成功,去登陆吧')
+        } else if (res.code === 1200) {
+          this.$message.success(res.data.msg)
+        }
+      }
+    },
+    passwordChange () {
+      this.retrievePassword = false
+      this.flagShow = false
+      this.show = true
     }
   }
 }
