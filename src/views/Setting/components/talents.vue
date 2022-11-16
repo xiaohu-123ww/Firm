@@ -2,7 +2,7 @@
   <div class="ta">
     <div class="talents">
       <div class="talents-recommend">人才推荐</div>
-      <div class="recommend">
+      <div class="recommend" style="overflow: auto">
         <el-row>
           <el-col v-for="item in jobName" :key="item.id" :span="3"
             ><a href="javascript:;">
@@ -62,6 +62,11 @@
       style="height: 700px; font-size: 100px"
     ></div>
     <Recommend v-else :list="list" :position="position" />
+    <el-empty
+      v-if="list.length === 0"
+      description="暂无数据"
+      style="height: 500px"
+    ></el-empty>
   </div>
 </template>
 <script>

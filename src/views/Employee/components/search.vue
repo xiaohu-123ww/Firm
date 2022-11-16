@@ -680,6 +680,9 @@ export default {
       const { data } = await getEnterprise()
       console.log('job', data)
       this.firm = data.data
+      if (this.firm.length > 8) {
+        this.firm.splice(7, this.firm.length - 7)
+      }
     },
     // 岗位
     async getPostList () {
