@@ -1,79 +1,58 @@
 <template>
-  <div class="ta">
-    <div class="talents">
-      <div class="talents-recommend">人才推荐</div>
-      <div class="recommend" style="overflow: auto">
-        <el-row>
-          <el-col v-for="item in jobName" :key="item.id" :span="3"
-            ><a href="javascript:;">
-              <div
-                style="padding: 5px 20px 0px"
-                class="grid-content"
-                @click="change(item.id)"
-              >
-                <div class="name" :class="{ bg: backgroundColor === item.id }">
-                  {{ item.name }}
-                </div>
-              </div></a
-            ></el-col
-          >
-          <!-- <el-col :span="3"
-            ><a href="javascript:;">
-              <div
-                class="grid-content"
-                :class="{ bg: backgroundColor === 2 }"
-                @click="changeJAVA"
-              >
-                JAVA工程师
-              </div></a
-            ></el-col
-          >
-          <el-col :span="3"
-            ><a href="javascript:;">
-              <div
-                class="grid-content"
-                :class="{ bg: backgroundColor === 3 }"
-                @click="robot"
-              >
-                机械机器人工程师
-              </div></a
-            ></el-col
-          >
-          <el-col :span="3">
-            <a href="javascript:;">
-              <div
-                class="grid-content"
-                :class="{ bg: backgroundColor === 4 }"
-                @click="vision"
-              >
-                机器视觉设计师
-              </div></a
-            ></el-col
-          > -->
-        </el-row>
+  <div>
+    <div v-if="!details" class="ta">
+      <div class="talents">
+        <div class="talents-recommend">人才推荐</div>
+        <div class="recommend" style="overflow: auto">
+          <el-row>
+            <el-col v-for="item in jobName" :key="item.id" :span="3"
+              ><a href="javascript:;">
+                <div
+                  style="padding: 5px 20px 0px"
+                  class="grid-content"
+                  @click="change(item.id)"
+                >
+                  <div
+                    class="name"
+                    :class="{ bg: backgroundColor === item.id }"
+                  >
+                    {{ item.name }}
+                  </div>
+                </div></a
+              ></el-col
+            >
+          </el-row>
+        </div>
       </div>
+      <div
+        v-if="loading"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgb(244, 246, 249)"
+        style="height: 700px; font-size: 100px"
+      ></div>
+      <Recommend
+        v-else
+        :list="list"
+        :position="position"
+        @newResume="newResume"
+      />
+      <el-empty
+        v-if="list.length === 0"
+        description="暂无数据"
+        style="height: 500px"
+      ></el-empty>
     </div>
-    <div
-      v-if="loading"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgb(244, 246, 249)"
-      style="height: 700px; font-size: 100px"
-    ></div>
-    <Recommend v-else :list="list" :position="position" />
-    <el-empty
-      v-if="list.length === 0"
-      description="暂无数据"
-      style="height: 500px"
-    ></el-empty>
+    <Recommendsss v-if="details" :resume-list="resumeList" />
   </div>
 </template>
 <script>
 import Recommend from '../components/recommend.vue'
-import { getEnterprise, getCvRecommend } from '@/api/setting/index'
+import { getEnterprise, getCvRecommend, getResume } from '@/api/setting/index'
+import Recommendsss from './resumeDetails.vue'
 export default {
-  components: { Recommend },
+  components: { Recommend, Recommendsss },
   data () {
     return {
       backgroundColor: 0,
@@ -82,7 +61,9 @@ export default {
 
       ],
       position: 0,
-      loading: true
+      loading: true,
+      details: false,
+      resumeList: {}
     }
   },
   mounted () {
@@ -123,11 +104,16 @@ export default {
       this.position = data.data[0].id
       const res = await getCvRecommend(data.data[0].id)
       this.list = res.data.data
+    },
+    // 简历详情
+    async newResume (id) {
+      console.log(id)
+      const res = await getResume(id, this.position)
+      console.log('简历', res)
+      this.resumeList = res.data.data
+      this.details = true
     }
-    // 列表
-    //     async getCvRecom(){
-    // const {data}
-    //     }
+
   }
 }
 </script>

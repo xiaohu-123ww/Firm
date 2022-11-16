@@ -10,8 +10,8 @@
                 v-for="(item, index) in firm"
                 :key="index"
                 class="radio"
-                :label="item"
-                >{{ item }}</el-radio-button
+                :label="item.id"
+                >{{ item.name }}</el-radio-button
               >
             </el-radio-group>
           </div>
@@ -21,9 +21,9 @@
               <el-checkbox-button
                 v-for="(vItem, vIndex) in cities"
                 :key="vIndex"
-                :label="vItem"
+                :label="vItem.id"
                 style="margin-right: 10px"
-                >{{ vItem }}</el-checkbox-button
+                >{{ vItem.name }}</el-checkbox-button
               >
             </el-checkbox-group>
           </div>
@@ -32,18 +32,23 @@
             <el-radio-group v-model="form.radio" size="mini">
               <el-radio-button label="不限" class="radio"></el-radio-button>
               <el-radio-button label="统招" class="radio"></el-radio-button>
-              <el-radio-button label="985" class="radio"></el-radio-button>
-              <el-radio-button label="211" class="radio"></el-radio-button>
+              <el-radio-button label="非统招" class="radio"></el-radio-button>
             </el-radio-group>
           </div>
           <div style="display: flex; margin-left: 100px">
-            <el-form-item label="沟通日期">
-              <el-date-picker
+            <el-form-item label="活跃日期" style="margin-right: 268px">
+              <el-select
                 v-model="form.time"
-                type="date"
-                placeholder="选择日期"
-                style="width: 100%; margin-right: 243px"
-              ></el-date-picker>
+                placeholder="不限"
+                style="width: 270px"
+              >
+                <el-option
+                  v-for="(item, index) in data"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="年龄要求" style="margin-right: 30px">
               <el-select
@@ -51,17 +56,25 @@
                 placeholder="不限"
                 style="width: 200px"
               >
-                <el-option label="不限" value="1"></el-option>
-                <el-option label="22" value="2"></el-option>
+                <el-option
+                  v-for="(item, index) in startAge"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
               </el-select>
-              -
+              <span style="margin: 0px 5px; color: rgb(220, 223, 230)">——</span>
               <el-select
                 v-model="form.lastAge"
                 placeholder="不限"
                 style="width: 200px"
               >
-                <el-option label="30" value="1"></el-option>
-                <el-option label="35" value="2"></el-option>
+                <el-option
+                  v-for="(item, index) in startAge"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -72,27 +85,38 @@
                 placeholder="不限"
                 style="width: 200px"
               >
-                <el-option label="不限" value="1"></el-option>
-                <el-option label="1年" value="2"></el-option>
+                <el-option
+                  v-for="(item, index) in yearsWorking"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
               </el-select>
-              -
+              <span style="margin: 0px 5px; color: rgb(220, 223, 230)">——</span>
               <el-select
                 v-model="form.lastMonth"
                 placeholder="不限"
                 style="width: 200px"
               >
-                <el-option label="不限" value="1"></el-option>
-                <el-option label="2年" value="2"></el-option>
-              </el-select>
-            </el-form-item>
+                <el-option
+                  v-for="(item, index) in yearsWorking"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option> </el-select
+            ></el-form-item>
             <el-form-item label="工作状态">
               <el-select
                 v-model="form.state"
                 placeholder="不限"
                 style="width: 270px"
               >
-                <el-option label="在职" value="1"></el-option>
-                <el-option label="离职" value="2"></el-option>
+                <el-option
+                  v-for="(item, index) in status"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
@@ -104,27 +128,50 @@
                 placeholder="不限"
                 style="width: 270px"
               >
-                <el-option label="上海" value="1"></el-option>
-                <el-option label="北京" value="2"></el-option>
+                <div style="display: flex">
+                  <div style="width: 150px">
+                    <el-option
+                      v-for="item in cityAll"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                      disabled
+                      @mousemove.native="cityChange(item)"
+                    >
+                    </el-option>
+                  </div>
+                  <div tyle="width: 150px">
+                    <el-option
+                      v-for="item in town"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    >
+                    </el-option>
+                  </div>
+                </div>
               </el-select>
             </el-form-item>
           </div>
         </el-form>
       </div>
     </div>
-    <Recommend
+
+    <!-- <Recommend
       :list="list"
       :show="show"
       :call="call"
       :communication="communication"
       :face="face"
     />
-    <Page class="position-page" :total="total" @handleSize="handleSize" />
+    <Page class="position-page" :total="total" @handleSize="handleSize" /> -->
   </div>
 </template>
 <script>
-import Recommend from '@/views/Setting/components/recommend.vue'
-import Page from '@/views/Department/components/page.vue'
+
+import { getEnterprise } from '@/api/setting/index'
+import { getCity } from '@/api/bai/index'
+
 export default {
   props: {
 
@@ -141,192 +188,349 @@ export default {
       type: Boolean
     }
   },
-  components: { Recommend, Page },
+
   data () {
     return {
       form: {
         search: '',
         checkboxGroup: [],
         radio: '',
-        age: '',
-        lastAge: '',
-        month: '',
-        lastMonth: '',
+        age: null,
+        lastAge: null,
+        month: null,
+        lastMonth: null,
         time: '',
         state: '',
         city: ''
 
       },
-      firm: ['不限', '机械工程师', 'JAVA工程师', '工业机器人工程师', '视觉工程师'],
-      cities: ['不限', '初中', '高中', '中专/中技', '大专', '本科', '硕士', 'MVA/EMBA', '博士'],
-      keyWord: [
+      firm: [],
+      cities: [
         {
-          value: '互联网',
-          label: '互联网'
+          name: '不限',
+          id: 0
+        },
+
+        {
+          name: '初中以下',
+          id: 1
         },
         {
-          value: '人工智能',
-          label: '人工智能'
+          name: '高中',
+          id: 2
+        },
+        {
+          name: '中专/技校',
+          id: 3
+        },
+        {
+          name: '大专',
+          id: 4
+        },
+        {
+          name: '本科',
+          id: 5
+        },
+        {
+          name: '硕士',
+          id: 6
+        },
+        {
+          name: 'MBA/EMBA',
+          id: 7
+        },
+        {
+          name: '博士',
+          id: 8
         }
       ],
+      data: [
+        {
+          name: '不限',
+          id: 0
+        },
+        {
+          name: '最近3天',
+          id: 1
+        },
+        {
+          name: '最近一周',
+          id: 2
+        },
+        {
+          name: '最近两周',
+          id: 3
+        },
+        {
+          name: '最近两周',
+          id: 3
+        },
+        {
+          name: '最近一个月',
+          id: 4
+        },
+        {
+          name: '最近三个月',
+          id: 5
+        }, {
+          name: '最近半年',
+          id: 6
+        }, {
+          name: '最近一年',
+          id: 7
+        }
+      ],
+      startAge: [
+        {
+          name: '不限',
+          id: ''
+        },
+        {
+          name: '16岁',
+          id: 16
+        },
+        {
+          name: '17岁',
+          id: 17
+        },
+        {
+          name: '18岁',
+          id: 18
+        },
+        {
+          name: '19岁',
+          id: 19
+        },
+        {
+          name: '20岁',
+          id: 20
+        },
+        {
+          name: '21岁',
+          id: 21
+        },
+        {
+          name: '22岁',
+          id: 22
+        },
+        {
+          name: '23岁',
+          id: 23
+        },
+        {
+          name: '24岁',
+          id: 24
+        },
+        {
+          name: '25岁',
+          id: 25
+        },
+        {
+          name: '26岁',
+          id: 26
+        },
+        {
+          name: '27岁',
+          id: 27
+        },
+        {
+          name: '28岁',
+          id: 28
+        },
+        {
+          name: '29岁',
+          id: 29
+        },
+        {
+          name: '30岁',
+          id: '30'
+        },
+        {
+          name: '31岁',
+          id: 31
+        },
+        {
+          name: '32岁',
+          id: 32
+        },
+        {
+          name: '33岁',
+          id: 33
+        },
+        {
+          name: '34岁',
+          id: 34
+        },
+        {
+          name: '35岁',
+          id: 35
+        },
+        {
+          name: '36岁',
+          id: 36
+        },
+        {
+          name: '37岁',
+          id: 37
+        },
+        {
+          name: '38岁',
+          id: 38
+        },
+        {
+          name: '39岁',
+          id: 39
+        },
+        {
+          name: '40岁',
+          id: 40
+        },
+        {
+          name: '41岁',
+          id: 41
+        },
+        {
+          name: '42岁',
+          id: 42
+        },
+        {
+          name: '43岁',
+          id: 43
+        },
+        {
+          name: '44岁',
+          id: 44
+        },
+        {
+          name: '45岁',
+          id: 45
+        },
+        {
+          name: '46岁',
+          id: 46
+        },
+        {
+          name: '47岁',
+          id: 47
+        },
+        {
+          name: '48岁',
+          id: 48
+        },
+        {
+          name: '49岁',
+          id: 49
+        },
+        {
+          name: '50岁',
+          id: 50
+        }],
+      yearsWorking: [
+        {
+          name: '不限',
+          id: ''
+        },
+        {
+          name: '无经验',
+          id: 0
+        },
+        {
+          name: '1年',
+          id: 1
+        },
+        {
+          name: '2年',
+          id: 2
+        },
+        {
+          name: '3年',
+          id: 3
+        },
+        {
+          name: '4年',
+          id: 4
+        },
+        {
+          name: '5年',
+          id: 5
+        },
+        {
+          name: '6年',
+          id: 6
+        },
+        {
+          name: '7年',
+          id: 7
+        },
+        {
+          name: '8年',
+          id: 8
+        },
+        {
+          name: '9年',
+          id: 9
+        },
+        {
+          name: '10年',
+          id: 10
+        },
+        {
+          name: '11年',
+          id: 11
+        },
+        {
+          name: '12年',
+          id: 12
+        },
+        {
+          name: '13年',
+          id: 13
+        },
+        {
+          name: '14年',
+          id: 14
+        },
+        {
+          name: '15年',
+          id: 15
+        },
+        {
+          name: '16年及以上',
+          id: 16
+        }
+
+      ],
+      status: [
+        {
+          name: '不限',
+          id: 4
+        },
+        {
+          name: '离职-随时到岗',
+          id: 0
+        },
+        {
+          name: '在职-暂不考虑',
+          id: 1
+        },
+        {
+          name: '在职-考虑机会',
+          id: 2
+        },
+        {
+          name: '在职-月内到岗',
+          id: 3
+        }
+      ],
+
       list: [
-        {
-          id: 1,
-          image: '../../../assets/img/touxiang.png',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端'],
-          job: '机械工程师',
-          interview: true
 
-        },
-        {
-          id: 2,
-          image: '../../../assets/img/touxiang.png',
-          name: '洛先生',
-          sex: '女',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端'],
-          job: '机器视觉工程师',
-          interview: false
-
-        },
-        {
-          id: 3,
-          image: '../../../assets/img/touxiang.png',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端'],
-          job: 'JAVA机械工程师',
-          interview: true
-
-        },
-        {
-          id: 4,
-          image: '../../../assets/img/touxiang.png',
-          name: '洛先生',
-          sex: '女',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端'],
-          job: '工业机器人工程师',
-          interview: false
-
-        },
-        {
-          id: 5,
-          image: '../../../assets/img/touxiang.png',
-          name: '洛先生',
-          sex: '男',
-          state: '在线',
-          age: '23',
-          education: '1-3年',
-          regular: '本科',
-          stateNext: '在职正在找工作',
-          work: [
-            {
-              time: '2021-07-至今',
-              firm: '北京智能智造科技有限公司',
-              job: '嵌入式工程师'
-            },
-            {
-              time: '2020.07-2021.06',
-              firm: '北京百度科技有限公司',
-              job: '智能化工程师'
-            }, {
-              time: '2018.07-2020.06',
-              firm: '北京搜狐科技有限公司',
-              job: '智能化工程师'
-            }
-          ],
-          skill: ['机械臂', '前端', '后端'],
-          job: '前端工程师',
-          interview: true
-
-        }
       ],
-      total: 100
+      total: 100,
+      cityAll: [],
+      town: [],
+      offset: 0,
+      limit: 5
 
     }
   },
@@ -336,6 +540,10 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getJob()
+    this.getCityList()
+  },
   methods: {
     // 第几页
     handleSize (page) {
@@ -344,6 +552,27 @@ export default {
     details () {
       this.show = false
       this.$emit('hidden', false)
+    },
+    // 沟通职位
+    async getJob () {
+      const { data } = await getEnterprise()
+      console.log('job', data)
+      this.firm = data.data
+      if (this.firm.length > 8) {
+        this.firm.splice(7, this.firm.length - 7)
+      }
+    },
+    // 城市
+    async getCityList () {
+      const { data } = await getCity()
+      console.log('城市', data)
+      this.cityAll = data.data
+      console.log(this.cityAll)
+    },
+    // 市
+    cityChange (i) {
+      console.log(i)
+      this.town = i.children
     }
 
   }
@@ -351,11 +580,11 @@ export default {
 </script>
 <style scoped lang="scss">
 .search {
-  width: 100%;
+  // width: 100%;
   height: 100%;
   background-color: #fff;
   padding: 15px 0;
-  margin: 20px;
+  margin: 20px 30px;
   .search-form {
     width: 100%;
     // height: 200px;
@@ -386,5 +615,8 @@ export default {
   // background-color: pink;
   width: 600px;
   margin: 0 0 30px 700px;
+}
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
 }
 </style>

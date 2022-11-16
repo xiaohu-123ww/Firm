@@ -19,6 +19,7 @@
                 :key="index"
                 class="radio"
                 :label="item"
+                @click.native="fast($event, item.id)"
                 >{{ item.name }}</el-radio-button
               >
             </el-radio-group>
@@ -290,7 +291,7 @@ import { getCity } from '@/api/bai/index'
 import Page from '../../Department/components/page.vue'
 import { getEnterprise } from '@/api/setting/index'
 import { getShowClass } from '@/api/department/online'
-import { getRetrivel, getRetrivelList } from '@/api/employee/index'
+import { getRetrivel, getRetrivelList, getCandidate } from '@/api/employee/index'
 import List from './list.vue'
 export default {
   components: { List },
@@ -651,7 +652,8 @@ export default {
       limit: 5,
       offset: 1,
       loading: false,
-      classPlt: []
+      classPlt: [],
+      position: 0
 
     }
   },
@@ -830,6 +832,18 @@ export default {
     },
     searchList () {
       this.getList()
+    },
+    async fast (e, id) {
+      if (e.target.tagName === 'INPUT') return
+      this.position = id
+      console.log(id)
+      this.loading = true
+      const res = await getCandidate(id, this.limit)
+      console.log('快捷搜索12', res)
+
+      this.list = res.data.results
+      this.total = res.data.count
+      this.loading = false
     }
   }
 }

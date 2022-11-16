@@ -25,3 +25,15 @@ export function getRetrivelList (limit, offset, data) {
     data: data // data就是body参数
   })
 }
+
+/**
+ * 快捷搜索
+ */
+
+export function getCandidate (id, limit, offset) {
+  return request.get(`/enterprise/candidate-retrivel/${id}/`, {
+    params: {
+      limit, offset
+    }
+  })
+}

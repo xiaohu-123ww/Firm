@@ -1,3 +1,4 @@
+<!-- eslint-disable no-redeclare -->
 <template>
   <div>
     <div class="message">
@@ -153,6 +154,7 @@ export default {
       this.$emit('handleSize', val)
       this.limit = this.val
       this.getLikeJob()
+      this.amend()
     },
     async handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
@@ -190,6 +192,10 @@ export default {
         const res = await getListTwo(this.limit, this.keywords)
         console.log('res1', res)
         this.tableData = res.data.data.results
+        for (var i = 0; i < this.tableData.length; i++) {
+          // console.log(i)
+          this.tableData[i].join_date = this.changeDate(this.tableData[i].join_date)
+        }
         if (res.data.data.count === 0) {
           this.state = false
         }
@@ -202,6 +208,10 @@ export default {
         const res = await getListFour(this.limit, this.start_time, this.end_time, this.keywords)
         console.log('res1', res)
         this.tableData = res.data.data.results
+        for (var a = 0; a < this.tableData.length; a++) {
+          // console.log(i)
+          this.tableData[a].join_date = this.changeDate(this.tableData[a].join_date)
+        }
         if (res.data.data.count === 0) {
           this.state = false
         }
@@ -214,6 +224,10 @@ export default {
         const res = await getListThree(this.limit, this.status, this.start_time, this.end_time)
         console.log('res1', res)
         this.tableData = res.data.data.results
+        for (var s = 0; s < this.tableData.length; s++) {
+          // console.log(i)
+          this.tableData[s].join_date = this.changeDate(this.tableData[s].join_date)
+        }
         if (res.data.data.count === 0) {
           this.state = false
         }
@@ -224,6 +238,10 @@ export default {
           const res = await getListTwo(this.limit, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
+          for (var d = 0; d < this.tableData.length; d++) {
+            // console.log(i)
+            this.tableData[d].join_date = this.changeDate(this.tableData[d].join_date)
+          }
           if (res.data.data.count === 0) {
             this.state = false
           }
@@ -231,6 +249,10 @@ export default {
           const res = await getListFive(this.limit, this.status, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
+          for (var c = 0; c < this.tableData.length; c++) {
+            // console.log(i)
+            this.tableData[c].join_date = this.changeDate(this.tableData[c].join_date)
+          }
           if (res.data.data.count === 0) {
             this.state = false
           }
@@ -244,6 +266,10 @@ export default {
           const res = await getListSex(this.limit, this.status)
           console.log('res1', res)
           this.tableData = res.data.data.results
+          for (var f = 0; f < this.tableData.length; f++) {
+            // console.log(i)
+            this.tableData[f].join_date = this.changeDate(this.tableData[f].join_date)
+          }
           if (res.data.data.count === 0) {
             this.state = false
           }
@@ -260,6 +286,10 @@ export default {
           const res = await getListFour(this.limit, this.start_time, this.end_time, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
+          for (var n = 0; n < this.tableData.length; n++) {
+            // console.log(i)
+            this.tableData[n].join_date = this.changeDate(this.tableData[n].join_date)
+          }
           if (res.data.data.count === 0) {
             this.state = false
           }
@@ -270,6 +300,10 @@ export default {
           const res = await getLists(this.limit, this.status, this.start_time, this.end_time, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
+          for (var w = 0; w < this.tableData.length; w++) {
+            // console.log(i)
+            this.tableData[w].join_date = this.changeDate(this.tableData[w].join_date)
+          }
           if (res.data.data.count === 0) {
             this.state = false
           }
