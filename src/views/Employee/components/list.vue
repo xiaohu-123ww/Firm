@@ -21,7 +21,7 @@
               <div class="message-age">
                 <div class="age-four">{{ item.left_data.age }}岁</div>
                 <div class="age-four four">
-                  {{ item.left_data.work_date }}年
+                  {{ item.left_data.work_date }}
                 </div>
                 <div class="age-four four">{{ item.left_data.education }}</div>
                 <div style="margin-left: 10px">{{ item.left_data.status }}</div>
@@ -29,9 +29,9 @@
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
                   {{
-                    item.left_data.position_class_data.city !== null
-                      ? item.left_data.position_class_data.city
-                      : '意向岗位'
+                    item.comm_info.comm_position === null
+                      ? '求职意向'
+                      : item.comm_info.comm_position
                   }}
                 </div>
                 <div class="age-four four">

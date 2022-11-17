@@ -83,7 +83,7 @@
     </div>
     <div v-if="!loading">
       <el-empty
-        v-if="form.length === 0"
+        v-if="list.length === 0"
         description="暂无信息"
         style="height: 500px"
       ></el-empty>
@@ -131,10 +131,15 @@ export default {
   computed: {
 
   },
+  created () {
+    this.getNew()
+  },
   methods: {
     change () {
       this.backgroundColor = 1
+      this.getNew()
     },
+    // 未回复
     async changeJAVA () {
       this.backgroundColor = 2
       this.loading = true
@@ -160,6 +165,14 @@ export default {
       console.log(`当前页: ${val}`)
 
       this.$emit('handleCurrentChange', val)
+    },
+    // 新招呼
+    async getNew () {
+      this.loading = true
+      const res = await getNewList(this.limit, this.lists)
+      console.log('新招呼', res)
+      this.list = res.data.results
+      this.loading = false
     }
 
   }

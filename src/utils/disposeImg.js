@@ -5,7 +5,7 @@ export function disposeImg (img) {
     if (img.substr(0, 1) === '/') {
       img = img.substr(1)
     }
-    return 'http://1.13.8.165/' + img
+    return 'http://1.13.8.165/loc/' + img
   }
 }
 export function parseTime (time, pattern) {
