@@ -12,6 +12,11 @@ export const constantRoutes = [
     component: () => import('@/views/Login/index'),
     hidden: true
   },
+  {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
 
   {
     path: '/dashboard',

@@ -1,159 +1,176 @@
 <template>
   <div>
     <div class="search">
-      <div class="search-form">
-        <el-form :model="form" label-width="80px">
-          <div class="search-checkbox">
-            <span style="margin: 5px 10px">沟通职位</span>
-            <el-radio-group v-model="form.search" size="mini">
-              <el-radio-button
-                v-for="(item, index) in firm"
-                :key="index"
-                class="radio"
-                :label="item.id"
-                >{{ item.name }}</el-radio-button
-              >
-            </el-radio-group>
-          </div>
-          <div class="search-checkbox">
-            <span style="margin: 5px 10px">学历要求</span>
-            <el-checkbox-group v-model="form.checkboxGroup" size="mini">
-              <el-checkbox-button
-                v-for="(vItem, vIndex) in cities"
-                :key="vIndex"
-                :label="vItem.id"
-                style="margin-right: 10px"
-                >{{ vItem.name }}</el-checkbox-button
-              >
-            </el-checkbox-group>
-          </div>
-          <div class="search-checkbox">
-            <span style="margin: 5px 10px">院校要求</span>
-            <el-radio-group v-model="form.radio" size="mini">
-              <el-radio-button label="不限" class="radio"></el-radio-button>
-              <el-radio-button label="统招" class="radio"></el-radio-button>
-              <el-radio-button label="非统招" class="radio"></el-radio-button>
-            </el-radio-group>
-          </div>
-          <div style="display: flex; margin-left: 100px">
-            <el-form-item label="活跃日期" style="margin-right: 268px">
-              <el-select
-                v-model="form.time"
-                placeholder="不限"
-                style="width: 270px"
-              >
-                <el-option
-                  v-for="(item, index) in data"
+      <div>
+        <div class="search-form">
+          <el-form :model="form" label-width="80px">
+            <div class="search-checkbox">
+              <span style="margin: 5px 10px">沟通职位</span>
+              <el-radio-group v-model="position" size="mini">
+                <el-radio-button
+                  v-for="(item, index) in firm"
                   :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="年龄要求" style="margin-right: 30px">
-              <el-select
-                v-model="form.age"
-                placeholder="不限"
-                style="width: 200px"
+                  class="radio"
+                  :label="item.id"
+                  @click.native="fast($event, item.id)"
+                  >{{ item.name }}</el-radio-button
+                >
+              </el-radio-group>
+            </div>
+            <div class="search-checkbox">
+              <span style="margin: 5px 10px">学历要求</span>
+              <el-checkbox-group v-model="num" size="mini">
+                <el-checkbox-button
+                  v-for="(vItem, vIndex) in cities"
+                  :key="vIndex"
+                  :label="vItem.id"
+                  style="margin-right: 10px"
+                  >{{ vItem.name }}</el-checkbox-button
+                >
+              </el-checkbox-group>
+            </div>
+            <div class="search-checkbox">
+              <span style="margin: 5px 10px">院校要求</span>
+              <el-radio-group
+                v-model="ud"
+                size="mini"
+                @click.native="numm($event)"
               >
-                <el-option
-                  v-for="(item, index) in startAge"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-              <span style="margin: 0px 5px; color: rgb(220, 223, 230)">——</span>
-              <el-select
-                v-model="form.lastAge"
-                placeholder="不限"
-                style="width: 200px"
-              >
-                <el-option
-                  v-for="(item, index) in startAge"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-          <div style="display: flex; margin-left: 100px">
-            <el-form-item label="年限要求" style="margin-right: 100px">
-              <el-select
-                v-model="form.month"
-                placeholder="不限"
-                style="width: 200px"
-              >
-                <el-option
-                  v-for="(item, index) in yearsWorking"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-              <span style="margin: 0px 5px; color: rgb(220, 223, 230)">——</span>
-              <el-select
-                v-model="form.lastMonth"
-                placeholder="不限"
-                style="width: 200px"
-              >
-                <el-option
-                  v-for="(item, index) in yearsWorking"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option> </el-select
-            ></el-form-item>
-            <el-form-item label="工作状态">
-              <el-select
-                v-model="form.state"
-                placeholder="不限"
-                style="width: 270px"
-              >
-                <el-option
-                  v-for="(item, index) in status"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
+                <el-radio-button label="不限" class="radio"></el-radio-button>
+                <el-radio-button label="统招" class="radio"></el-radio-button>
+                <el-radio-button label="非统招" class="radio"></el-radio-button>
+              </el-radio-group>
+            </div>
+            <div style="display: flex; margin-left: 100px">
+              <el-form-item label="活跃日期" style="margin-right: 268px">
+                <el-select
+                  v-model="form.active"
+                  placeholder="不限"
+                  style="width: 270px"
+                >
+                  <el-option
+                    v-for="(item, index) in data"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="年龄要求" style="margin-right: 30px">
+                <el-select
+                  v-model="form.age_min"
+                  placeholder="不限"
+                  style="width: 200px"
+                >
+                  <el-option
+                    v-for="(item, index) in startAge"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+                <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
+                  >——</span
+                >
+                <el-select
+                  v-model="form.age_max"
+                  placeholder="不限"
+                  style="width: 200px"
+                >
+                  <el-option
+                    v-for="(item, index) in startAge"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div style="display: flex; margin-left: 100px">
+              <el-form-item label="年限要求" style="margin-right: 100px">
+                <el-select
+                  v-model="form.year_min"
+                  placeholder="不限"
+                  style="width: 200px"
+                >
+                  <el-option
+                    v-for="(item, index) in yearsWorking"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+                <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
+                  >——</span
+                >
+                <el-select
+                  v-model="form.year_max"
+                  placeholder="不限"
+                  style="width: 200px"
+                >
+                  <el-option
+                    v-for="(item, index) in yearsWorking"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option> </el-select
+              ></el-form-item>
+              <el-form-item label="工作状态">
+                <el-select
+                  v-model="form.candidate_status"
+                  placeholder="不限"
+                  style="width: 270px"
+                >
+                  <el-option
+                    v-for="(item, index) in status"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
 
-          <div style="display: flex; margin-left: 100px">
-            <el-form-item label="期望城市">
-              <el-select
-                v-model="form.city"
-                placeholder="不限"
-                style="width: 270px"
+            <div style="display: flex; margin-left: 100px">
+              <el-form-item label="期望城市">
+                <el-select
+                  v-model="form.city"
+                  placeholder="不限"
+                  style="width: 270px"
+                >
+                  <div style="display: flex">
+                    <div style="width: 150px">
+                      <el-option
+                        v-for="item in cityAll"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                        disabled
+                        @mousemove.native="cityChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div tyle="width: 150px">
+                      <el-option
+                        v-for="item in town"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                      >
+                      </el-option>
+                    </div>
+                  </div>
+                </el-select>
+              </el-form-item>
+              <el-button
+                type="primary"
+                style="height: 30px; padding-top: 6px; margin-left: 730px"
+                @click="search"
+                >搜索</el-button
               >
-                <div style="display: flex">
-                  <div style="width: 150px">
-                    <el-option
-                      v-for="item in cityAll"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                      disabled
-                      @mousemove.native="cityChange(item)"
-                    >
-                    </el-option>
-                  </div>
-                  <div tyle="width: 150px">
-                    <el-option
-                      v-for="item in town"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    >
-                    </el-option>
-                  </div>
-                </div>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-form>
+            </div>
+          </el-form>
+        </div>
       </div>
     </div>
 
@@ -187,21 +204,23 @@ export default {
     face: {
       type: Boolean
     }
+
   },
 
   data () {
     return {
+      num: [],
+      ud: '',
       form: {
-        search: '',
-        checkboxGroup: [],
-        radio: '',
-        age: null,
-        lastAge: null,
-        month: null,
-        lastMonth: null,
-        time: '',
-        state: '',
-        city: ''
+        edu: null,
+        ur: null,
+        age_min: null,
+        age_max: null,
+        active: null,
+        candidate_status: null,
+        year_min: null,
+        year_max: null,
+        city: null
 
       },
       firm: [],
@@ -530,7 +549,22 @@ export default {
       cityAll: [],
       town: [],
       offset: 0,
-      limit: 5
+      limit: 5,
+      position: '',
+      type: [
+        {
+          id: 1,
+          name: '不限'
+        },
+        {
+          id: 2,
+          name: '统招'
+        },
+        {
+          id: 3,
+          name: '非统招'
+        }
+      ]
 
     }
   },
@@ -543,8 +577,12 @@ export default {
   created () {
     this.getJob()
     this.getCityList()
+    // this.search()
   },
   methods: {
+    buttonss (id) {
+      this.ud = id
+    },
     // 第几页
     handleSize (page) {
       console.log(page)
@@ -558,8 +596,8 @@ export default {
       const { data } = await getEnterprise()
       console.log('job', data)
       this.firm = data.data
-      if (this.firm.length > 8) {
-        this.firm.splice(7, this.firm.length - 7)
+      if (this.firm.length > 5) {
+        this.firm.splice(5, this.firm.length - 5)
       }
     },
     // 城市
@@ -573,6 +611,61 @@ export default {
     cityChange (i) {
       console.log(i)
       this.town = i.children
+    },
+    numm (e) {
+      if (e.target.tagName === 'INPUT') return
+      console.log(e)
+    },
+    fast (e, id) {
+      if (e.target.tagName === 'INPUT') return
+      this.$emit('fast', id)
+    },
+    search (e) {
+      if (e.target.tagName === 'INPUT') return
+      const list = this.form
+      // this.salary = Number(this.end_money)
+      // this.edu = this.num[0]
+      if (this.ud === '不限' || this.ud === '' || list.ur === null) {
+        delete list.ur
+      } else if (this.ud === '统招') {
+        list.ur = true
+      } else if (this.ud === '非统招') {
+        list.ur = false
+      }
+      if (this.num.length === 0) {
+        delete list.edu
+      } else if (this.num[0] === 0) {
+        delete list.edu
+      } else {
+        list.edu = this.num[0]
+      }
+      if (list.age_min === '' || list.age_min === null) {
+        delete list.age_min
+      }
+      if (list.age_max === '' || list.age_max === null) {
+        delete list.age_max
+      }
+      if (list.year_min === null || list.year_min === '') {
+        delete list.year_min
+      }
+      if (list.year_max === null || list.year_max === '') {
+        delete list.year_max
+      }
+      if (list.candidate_status === null || list.candidate_status === 4) {
+        delete list.candidate_status
+      }
+      if (list.active === null || list.active === 0) {
+        delete list.active
+      }
+      if (list.city === null) {
+        delete list.city
+      }
+      if (list.active === '' || list.active === null) {
+        delete list.active
+      }
+      // console.log(this.num)
+      console.log(list, this.ud)
+      this.$emit('search', list)
     }
 
   }

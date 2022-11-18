@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-dupe-keys -->
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="recommend">
@@ -5,14 +6,24 @@
         <el-row>
           <el-col :span="1"
             ><div class="recommend-img">
-              <img :src="disposeImg(item.left_data.image)" class="image" /></div
+              <img
+                :src="disposeImg(item.left_data.image)"
+                class="image"
+                @click="resume(item.left_data.user_id)"
+              /></div
           ></el-col>
           <el-col :span="8"
             ><div class="recommend-message">
               <div class="message-name">
-                <div class="text" style="margin-left: 10px">
-                  {{ item.left_data.user_name }}
-                </div>
+                <a href="javascript:;">
+                  <div
+                    class="text"
+                    style="margin-left: 10px"
+                    @click="resume(item.left_data.user_id)"
+                  >
+                    {{ item.left_data.user_name }}
+                  </div>
+                </a>
                 <div style="margin-right: 15px; font-size: 19px">
                   <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
                 </div>
@@ -28,7 +39,11 @@
               </div>
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
-                  {{ item.comm_info.comm_position }}
+                  {{
+                    item.comm_info.comm_position === null
+                      ? '求职意向'
+                      : item.comm_info.comm_position
+                  }}
                 </div>
                 <div class="age-four four">
                   求职意向：{{
@@ -51,6 +66,16 @@
                   }}
                 </div>
               </div>
+              <div
+                style="
+                  font-size: 13px;
+                  color: #a2a2a2;
+                  line-height: 20px;
+                  margin-left: 8px;
+                "
+              >
+                沟通职位：{{ item.comm_info.comm_position }}
+              </div>
             </div></el-col
           >
           <el-col :span="12"
@@ -68,21 +93,32 @@
               </div>
             </div></el-col
           >
-          <el-col :span="3"
-            ><div v-if="!item.job" class="recommend-bt">
+          <el-col :span="3">
+            <div
+              style="
+                font-size: 13px;
+                color: #a2a2a2;
+                line-height: 20px;
+                margin-left: 8px;
+                margin-top: 70px;
+              "
+            >
+              {{ item.comm_info.comm_time }}
+            </div>
+            <!-- <div v-if="!item.job" class="recommend-bt">
               <el-button
                 round
                 class="recommend-button"
                 @click="talk(item.left_data.user_id)"
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
-            </div>
+            </div> -->
           </el-col>
         </el-row>
       </div>
       <div class="technical-ability">
         <el-row>
-          <el-col :span="18"
+          <el-col :span="19"
             ><div class="technical">
               <div
                 v-for="(skills, index) in item.right_data.job_keywords"
@@ -91,32 +127,14 @@
               >
                 {{ skills }}
               </div>
-              <!-- <div
-                v-if="item.job"
-                style="font-size: 13px; color: #a2a2a2; line-height: 30px"
-              >
-                沟通职位：机械工程师
-              </div> -->
             </div></el-col
           >
-          <!-- <el-col :span="6"
-            ><div v-if="item.state1" class="bg-purple-light">
+          <el-col :span="5">
+            <!-- <div v-if="item.state1" class="bg-purple-light">
               <Item icon="点" />
               {{ item.state1 }}
-            </div>
-            <div v-if="item.job" class="">
-              <el-button
-                class="chnical right"
-                :class="{ left: communication === true }"
-                round
-                style="
-                  color: #2891fa;
-                  background-color: #e6f1fc;
-                  border: 1px solid #acd5fd;
-                "
-                >已收藏</el-button
-              >
-
+            </div> -->
+            <div class="" :class="{ left: communication === false }">
               <el-button
                 v-if="show"
                 round
@@ -127,7 +145,8 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
-                >提醒对方</el-button
+                @click="chat(item.comm_info.comm_id)"
+                >可以聊</el-button
               >
               <el-button
                 v-if="call"
@@ -139,8 +158,10 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
-                >可以聊</el-button
+                @click="interests(item.comm_info.comm_id)"
+                >提醒对方</el-button
               >
+              <!-- v-if="communication" -->
               <el-button
                 v-if="communication"
                 round
@@ -151,8 +172,10 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
+                @click="chating(item.comm_info.comm_id)"
                 >要简历</el-button
               >
+              <!-- v-if="communication" -->
               <el-button
                 v-if="communication"
                 round
@@ -162,7 +185,9 @@
                   background-color: #fff;
                   border: 1px solid #f6e79d;
                 "
-                @click="interview"
+                @click="
+                  interview(item.left_data.user_id, item.comm_info.comm_id)
+                "
                 >约面试</el-button
               >
               <el-button
@@ -175,10 +200,19 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
-                @click="particulars(item)"
+                @click="
+                  particulars(
+                    item.comm_info.last_interview_id,
+                    item.comm_info.interview_id,
+                    item.left_data.user_id,
+                    item.comm_info.comm_id
+                  )
+                "
                 >面试详情</el-button
               >
+              <!-- v-if="show || call || communication || face" -->
               <el-button
+                v-if="show || call || communication || face"
                 round
                 class="chnical"
                 style="
@@ -186,27 +220,69 @@
                   background-color: #fce6e6;
                   border: 1px solid #fcc9c4;
                 "
+                @click="reject(item.comm_info.comm_id)"
                 >不合适</el-button
               >
+              <el-button
+                v-if="position"
+                round
+                class="chnical"
+                style="
+                  color: #0d975e;
+                  background-color: #f1fffd;
+                  border: 1px solid #cef4e2;
+                  padding-left: 13px;
+                "
+                @click="particular(item.comm_info.last_interview_id)"
+                >面试详情</el-button
+              >
+              <el-button
+                v-if="position"
+                round
+                class="chnical"
+                style="
+                  color: #d55948;
+                  background-color: #fce6e6;
+                  border: 1px solid #fcc9c4;
+                  width: 90px;
+                "
+                @click="reject(item.comm_info.comm_id)"
+                >撤销不合适</el-button
+              >
             </div>
-          </el-col> -->
+          </el-col>
         </el-row>
         <el-row> </el-row>
       </div>
     </div>
-    <Dialog :id="id" :dialog-visible="dialogVisible" @reset="reset" />
-    <!-- <Interview :flag-show="flagShow" @reset="reset" />
-    <Particulars :flag="flag" :arr="arr" @reset="reset" /> -->
+    <Dialog
+      :id="id"
+      :flag-show="flagShow"
+      :interviewer="interviewer"
+      :position-list="positionList"
+      @reset="reset"
+    />
+    <!-- <Interview :flag-show="flagShow" @reset="reset" />-->
+    <Particulars
+      :flag="flag"
+      :firm="firm"
+      :interviews="interviews"
+      @submit="submit"
+      @reset1="reset1"
+    />
+    <Flag :flags="flags" :num="num" @reset2="reset2" />
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
+import { getChat, getReject, getInterests, getChating, getFirm } from '@/api/salarys/index'
 import Dialog from './dialog.vue'
 // import Interview from './interview.vue'
-// import Particulars from './particulars.vue'
+import Particulars from './particulars.vue'
 // import { getInterests } from '@/api/setting/index'
+import Flag from './flag.vue'
 export default {
-  components: { Item, Dialog },
+  components: { Item, Dialog, Particulars, Flag },
   props: {
     list: {
       type: Array
@@ -224,7 +300,7 @@ export default {
       type: Boolean
     },
     position: {
-      type: Number
+      type: Boolean
     }
 
   },
@@ -234,7 +310,13 @@ export default {
       flagShow: false,
       flag: false,
       arr: {},
-      id: 0
+      id: 0,
+      interviewer: 0,
+      positionList: 0,
+      firm: {},
+      interviews: [],
+      flags: false,
+      num: {}
     }
   },
   mounted () {
@@ -244,45 +326,94 @@ export default {
 
   },
   methods: {
-    changeDialog () {
-      this.dialogVisible = true
-      console.log(1)
+
+    // 可以聊
+    async chat (id) {
+      const res = await getChat(id)
+      console.log('可以聊', res)
+      this.$message.success('已向求职发送消息')
+      this.$emit('chat')
+    },
+    // 不合适
+    async reject (id) {
+      const res = await getReject(id)
+      this.$message.success('操作成功')
+      this.$emit('reject')
+    },
+    // 提醒对方
+    async interests (id) {
+      const res = await getInterests(id)
+      if (res.code === 200) {
+        this.$message.success('已向求职者发送提醒')
+        this.$emit('interests')
+      } else if (res.code === 1003) {
+        // this.$message.success('同一个用户一天只可提醒一次')
+      }
+    },
+    resume (id) {
+      console.log(id)
+      this.$emit('newResume', id)
+    },
+    interview (user, id) {
+      this.flagShow = true
+      this.interviewer = user
+      this.positionList = id
+    },
+    async chating (id) {
+      const res = await getChating(id)
+      console.log('要简历', res)
+      this.$message.success('成功发送')
+      this.$emit('chating')
     },
     reset (i) {
-      this.dialogVisible = i
       this.flagShow = i
-      this.flag = i
+      this.$emit('reject')
     },
-    interview () {
+    async particulars (id, last, user_id, i) {
+      console.log(id, last)
+      this.last = id
+      this.interviews = last
+      // console.log(this.last, this.interviews)
+      const res = await getFirm(id)
+      console.log('面试详情', res)
+      this.firm = res.data
+      this.flag = true
+      this.interviewer = user_id
+      this.positionList = i
+    },
+    submit () {
+      this.flag = false
       this.flagShow = true
     },
-    particulars (i) {
-      this.flag = true
-      this.arr = i
-      console.log(i)
+    reset1 () {
+      this.flag = false
     },
-    // 沟通
-    async talk (id) {
-      this.dialogVisible = true
-      this.id = id
+    async particular (id) {
       console.log(id)
-      // console.log(id, this.position)
-      // const res = await getInterests(id, this.position)
-      // console.log('res', res)
-      // this.$message.success(res.data.msg)
+      if (id !== null) {
+        const res = await getFirm(id)
+        console.log('面试详情', res)
+        this.num = res.data
+        this.flags = true
+      } else {
+        this.$message.success('暂无记录')
+      }
+    },
+    reset2 () {
+      this.flags = false
     }
   }
 }
 </script>
 <style scoped lang="scss">
 .recommend {
-  height: 140px;
+  height: 150px;
   background-color: #fff;
   margin: 20px 30px;
   border-radius: 20px;
   overflow: hidden;
   .recommend-my {
-    height: 100px;
+    height: 110px;
     // background-color: blueviolet;
     border-bottom: 2px solid #f8f8f8;
     padding: 13px 20px;
@@ -397,8 +528,9 @@ export default {
       display: flex;
       padding: 7px 20px;
       .ability {
-        width: 50px;
-        height: 25px;
+        // width: 50px;
+        // height: 25px;
+        padding: 0px 5px;
         background-color: #f3f7ff;
         // border-radius: 20px;
         text-align: center;
@@ -433,6 +565,6 @@ export default {
   margin-left: 80px;
 }
 .left {
-  margin-left: 5px;
+  margin-left: 90px;
 }
 </style>

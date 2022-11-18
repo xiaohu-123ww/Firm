@@ -53,11 +53,8 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           //  ("501");
-          store.dispatch('user/removeUserInfo').then(() => {
-            //  ("500");
-            location.reload()
-            router.replace('/')
-          })
+          store.commit('user/removeUserInfo')
+          router.push('/')
         })
       } else {
         Message({

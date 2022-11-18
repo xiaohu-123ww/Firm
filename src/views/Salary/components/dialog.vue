@@ -1,0 +1,163 @@
+<template>
+  <el-dialog
+    title="面试邀约"
+    :visible.sync="flagShow"
+    width="40%"
+    :before-close="close"
+  >
+    <el-form
+      ref="rf"
+      :model="ruleForm"
+      :rules="rules"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item label="面试时间" required>
+        <el-col :span="10">
+          <el-form-item prop="start_time">
+            <el-date-picker
+              v-model="ruleForm.start_time"
+              type="datetime"
+              placeholder="选择日期时间"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col class="line" :span="1">-</el-col>
+        <el-col :span="11">
+          <el-form-item prop="end_time">
+            <el-date-picker
+              v-model="ruleForm.end_time"
+              type="datetime"
+              placeholder="选择日期"
+              style="width: 100%"
+            ></el-date-picker>
+          </el-form-item> </el-col
+      ></el-form-item>
+      <el-form-item label="面试方式" prop="model">
+        <el-radio-group v-model="ruleForm.model">
+          <el-radio-button label="线下"
+            ><Item icon="添加" />线下面试</el-radio-button
+          >
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="面试地点" prop="address">
+        <el-input v-model="ruleForm.address" style="width: 430px"></el-input>
+      </el-form-item>
+      <el-form-item label="联系人" prop="contactor">
+        <el-input v-model="ruleForm.contactor" style="width: 430px"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话" prop="contact">
+        <el-input v-model="ruleForm.contact" style="width: 430px"></el-input>
+      </el-form-item>
+      <el-form-item label="注意事项" prop="notice">
+        <el-input
+          v-model="ruleForm.notice"
+          type="textarea"
+          style="width: 300px"
+        ></el-input>
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="submit">发送面试</el-button>
+    </span>
+  </el-dialog>
+</template>
+<script>
+import Item from '@/layout/components/Sidebar/Item.vue'
+import { getInterview } from '@/api/salarys/index'
+export default {
+  props: {
+    flagShow: {
+      type: Boolean
+    },
+    interviewer: {
+      type: Number
+    },
+    positionList: {
+      type: Number
+    }
+  },
+  components: { Item },
+  data () {
+    const validateUsername = (rule, value, callback) => {
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        callback(new Error('请输入合法的手机号'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      ruleForm: {
+        start_time: '',
+        end_time: '',
+        contact: '',
+        address: '',
+        contactor: '',
+        notice: ''
+      },
+      rules: {
+        start_time: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        end_time: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        model: [
+          { required: true, message: '请选择面试方式', trigger: 'change' }
+        ],
+        address: [
+          { required: true, message: '请输入面试地点', trigger: 'blur' },
+          { min: 1, max: 100, message: '长度在 1 到 100个字符', trigger: 'blur' }
+        ],
+        contactor: [
+          { required: true, message: '请输入联系人', trigger: 'blur' },
+          { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ],
+        notice: [
+          { required: true, message: '请填注意事项', trigger: 'blur' }
+        ],
+        contact: [{ required: true, trigger: 'blur', validator: validateUsername }]
+
+      }
+    }
+  },
+
+  methods: {
+    close () {
+      this.$emit('reset', false)
+      this.clear()
+    },
+    clear () {
+      this.ruleForm.start_time = ''
+      this.ruleForm.end_time = ''
+      this.ruleForm.contact = ''
+      this.ruleForm.contactor = ''
+      this.ruleForm.notice = ''
+      this.ruleForm.address = ''
+    },
+    submit () {
+      this.$refs.rf.validate(async (valid) => {
+        if (vaild) {
+          this.ruleForm.interviewer = this.interviewer
+          this.ruleForm.position = this.positionList
+          console.log(this.changeDateTo(this.ruleForm.start_time))
+          const time = this.changeDateTo(this.ruleForm.start_time)
+          console.log(time)
+          this.ruleForm.start_time = time
+          const end = this.changeDateTo(this.ruleForm.end_time)
+          this.ruleForm.end_time = end
+          console.log(this.ruleForm)
+
+          const res = await getInterview(this.ruleForm)
+          console.log('约面试', res)
+          this.$message.success('已发送给求职者')
+          this.$emit('reset', false)
+        }
+      })
+    }
+  }
+}
+</script>
+<style scoped lang="scss">
+</style>

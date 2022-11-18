@@ -5,14 +5,24 @@
         <el-row>
           <el-col :span="1"
             ><div class="recommend-img">
-              <img :src="disposeImg(item.left_data.image)" class="image" /></div
+              <img
+                :src="disposeImg(item.left_data.image)"
+                class="image"
+                @click="resume(item.left_data.user_id)"
+              /></div
           ></el-col>
           <el-col :span="8"
             ><div class="recommend-message">
               <div class="message-name">
-                <div class="text" style="margin-left: 10px">
-                  {{ item.left_data.user_name }}
-                </div>
+                <a href="javascript:;">
+                  <div
+                    class="text"
+                    style="margin-left: 10px"
+                    @click="resume(item.left_data.user_id)"
+                  >
+                    {{ item.left_data.user_name }}
+                  </div>
+                </a>
                 <div style="margin-right: 15px; font-size: 19px">
                   <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
                 </div>
@@ -274,6 +284,10 @@ export default {
       // const res = await getInterests(id, this.position)
       // console.log('res', res)
       // this.$message.success(res.data.msg)
+    },
+    resume (id) {
+      console.log(id)
+      this.$emit('newResume', id)
     }
   }
 }
@@ -401,8 +415,9 @@ export default {
       display: flex;
       padding: 7px 20px;
       .ability {
-        width: 50px;
-        height: 25px;
+        // width: 50px;
+        // height: 25px;
+        padding: 0px 5px;
         background-color: #f3f7ff;
         // border-radius: 20px;
         text-align: center;

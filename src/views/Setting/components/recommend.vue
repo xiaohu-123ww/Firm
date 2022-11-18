@@ -403,8 +403,9 @@ export default {
       display: flex;
       padding: 7px 20px;
       .ability {
-        width: 50px;
-        height: 25px;
+        // width: 50px;
+        // height: 25px;
+        padding: 0px 5px;
         background-color: #f3f7ff;
         // border-radius: 20px;
         text-align: center;

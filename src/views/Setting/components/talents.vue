@@ -45,6 +45,12 @@
       ></el-empty>
     </div>
     <Recommendsss v-if="details" :resume-list="resumeList" />
+
+    <el-empty
+      v-if="empty"
+      description="暂无数据"
+      style="height: 500px"
+    ></el-empty>
   </div>
 </template>
 <script>
@@ -63,7 +69,8 @@ export default {
       position: 0,
       loading: true,
       details: false,
-      resumeList: {}
+      resumeList: {},
+      empty: false
     }
   },
   mounted () {
@@ -97,13 +104,22 @@ export default {
     async getJob () {
       const { data } = await getEnterprise()
       console.log('岗位', data)
+      const list = Object.values(data.data)
+      if (list.length === 0) {
+        this.loading = false
+        this.empty = true
+      } else {
+        console.log('list', list)
 
-      this.backgroundColor = data.data[0].id
-      this.jobName = data.data
-      this.loading = false
-      this.position = data.data[0].id
-      const res = await getCvRecommend(data.data[0].id)
-      this.list = res.data.data
+        this.backgroundColor = list[0].id
+        this.empty = false
+        this.jobName = data.data
+        this.loading = false
+        this.position = list[0].id
+        const res = await getCvRecommend(list[0].id)
+        console.log('123', res)
+        this.list = res.data.data
+      }
     },
     // 简历详情
     async newResume (id) {

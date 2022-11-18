@@ -63,5 +63,23 @@ export function getwork () {
 }
 
 /**
- * 教育jin'l
+ * 教育经历
  */
+
+export function getExperiences () {
+  return request.get('/user/cv-education-experiences/v1.0.0/31/')
+}
+/**
+ *
+ * 项目经历
+ */
+export function getProject () {
+  return request.get('/user/cv-project-experiences/v1.0.0/31/')
+}
+/**
+ * 证书
+ */
+
+export function getCertification () {
+  return request.get('/user/cv-certification/v1.0.0/31/')
+}

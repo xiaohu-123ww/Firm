@@ -571,6 +571,11 @@ export default {
             const res = await sendCapteLogin(this.rule)
             console.log('注册', res)
             this.$message.success(res.data.msg)
+            if (res.code === 200) {
+              setToken(res.data.data)
+              this.$router.push('/register')
+            }
+            // this.$router.push('/register')
           }
         })
       }

@@ -9,7 +9,11 @@
               <el-row>
                 <el-col :span="4">
                   <div class="img">
-                    <img :src="disposeImg(resumeList.image)" alt="" />
+                    <img
+                      :src="disposeImg(resumeList.image)"
+                      alt=""
+                      style="width: 110px; height: 110px; border-radius: 100px"
+                    />
                   </div>
                 </el-col>
                 <el-col :span="18">
@@ -18,7 +22,7 @@
                       <span style="margin: 0px 30px 0px 16px">{{
                         resumeList.name
                       }}</span>
-                      <span style="color: rgb(207, 212, 215)">{{
+                      <span style="color: rgb(118 120 122)">{{
                         resumeList.status
                       }}</span>
                     </div>
@@ -90,7 +94,7 @@
                         {{ item.position_info.position_name }}
                       </div>
                     </el-col>
-                    <el-col :span="6" style="color: rgb(207, 212, 215)"
+                    <el-col :span="6" style="color: rgb(118 120 122)"
                       >{{ item.start_date }} -{{ item.end_date }}</el-col
                     >
                   </el-row>
@@ -117,34 +121,125 @@
             </div>
             <div class="job">
               <div class="one">教育经历</div>
-              <div class="education">
-                <el-row>
-                  <el-col :span="12">1</el-col>
-                  <el-col :span="12">2</el-col>
+              <div v-for="item in experiences" :key="item.id" class="education">
+                <el-row style="margin-bottom: 25px">
+                  <el-col :span="18" style="font-weight: 800">{{
+                    item.education_info.school
+                  }}</el-col>
+                  <el-col :span="6" style="color: rgb(118 120 122)"
+                    >{{ item.start_date }}- {{ item.end_date }}</el-col
+                  >
+                </el-row>
+                <div style="margin-bottom: 18px">
+                  <span
+                    style="
+                      padding-right: 40px;
+                      border-right: 1px solid rgb(207, 212, 215);
+                    "
+                    >{{ item.degree }}</span
+                  >
+                  <span style="margin-left: 30px">{{
+                    item.education_info.major
+                  }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="job">
+              <div class="one">项目经历</div>
+              <div v-for="item in project" :key="item.id" class="three">
+                <div style="margin-bottom: 18px">
+                  <el-row>
+                    <el-col :span="18">
+                      <div style="font-weight: 800">
+                        {{ item.project_info.project_name }}
+                      </div>
+                    </el-col>
+                    <el-col :span="6" style="color: rgb(118 120 122)"
+                      >{{ item.start_date }} -{{ item.end_date }}</el-col
+                    >
+                  </el-row>
+                </div>
+
+                <div style="margin-bottom: 18px">工作描述：</div>
+                <div
+                  style="margin-bottom: 18px"
+                  class="like-text"
+                  v-html="item.project_info.project_desc"
+                ></div>
+              </div>
+            </div>
+            <div class="job" style="border: 0">
+              <div class="one">资格证书</div>
+              <div v-for="item in certification" :key="item.id">
+                <el-row class="qualification">
+                  <el-col :span="8">
+                    <div
+                      style="
+                        width: 200px;
+                        height: 100px;
+                        background-color: pink;
+                      "
+                    >
+                      <img
+                        :src="disposeImg(item.cert_info.sample)"
+                        alt=""
+                        style="width: 200px; height: 100px"
+                      />
+                    </div>
+                  </el-col>
+                  <el-col
+                    :span="10"
+                    style="font-weight: 800; line-height: 100px"
+                    >{{ item.cert_info.cert_name }}-{{
+                      item.cert_info.cert_level
+                    }}</el-col
+                  >
+                  <el-col :span="6" style="color: rgb(118 120 122)">{{
+                    item.cert_date
+                  }}</el-col>
                 </el-row>
               </div>
             </div>
           </div>
         </el-col>
-        <el-col :span="5">2</el-col>
+        <el-col :span="5">
+          <el-button
+            style="
+              background-color: rgb(37, 110, 253);
+              color: #fff;
+              margin: 80px;
+              width: 200px;
+            "
+            @click="downItem"
+            ><Item icon="xiazai" />下载简历</el-button
+          >
+        </el-col>
       </el-row>
     </div>
   </div>
 </template>
 <script>
-import { getJob, getLike, getwork } from '@/api/setting/index'
+import { getJob, getLike, getwork, getExperiences, getProject, getCertification } from '@/api/setting/index'
+import { getIntroduction } from '@/api/firm'
+import Item from '@/layout/components/Sidebar/Item'
+import axios from 'axios'
+
 export default {
   props: {
     resumeList: {
       type: Object
     }
   },
+  components: { Item },
   data () {
     return {
       jobList: [],
       text: '',
       workList: [],
-      dec: ''
+      dec: '',
+      experiences: [],
+      project: [],
+      certification: []
     }
   },
   mounted () {
@@ -160,7 +255,14 @@ export default {
     },
     commend () {
       // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
-      const arr = this.workList.position_info.job_desc
+      const arr = this.workList.map(item => item.position_info.job_desc)
+      return arr.map((item) => {
+        return item === '\n' ? '<br>' : item
+      }).join('')
+    },
+    commendList () {
+      // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
+      const arr = this.project.map(item => item.project_info.project_desc)
       return arr.map((item) => {
         return item === '\n' ? '<br>' : item
       }).join('')
@@ -171,6 +273,9 @@ export default {
     this.getJobList()
     this.getText()
     this.getWorkList()
+    this.getExperiencesList()
+    this.getProjectList()
+    this.getCertificationList()
   },
   methods: {
     // 求职意向
@@ -192,9 +297,43 @@ export default {
       console.log('工作', res)
       this.workList = res.data.data
       // this.dec = res.data.data.position_info.job_desc
+    },
+    // 教育经历
+    async getExperiencesList () {
+      const res = await getExperiences()
+      console.log('教育经历', res)
+      this.experiences = res.data.data
+      console.log(this.experiences)
+    },
+    // 项目经历
+    async getProjectList () {
+      const res = await getProject()
+      console.log('项目经历', res)
+      this.project = res.data.data
+    },
+    // 证书
+    async getCertificationList () {
+      const res = await getCertification()
+      console.log('证书', res)
+      this.certification = res.data.data
+    },
+    downItem () {
+      if (this.resumeList.cvfile !== '') {
+        var downloadPath = `http://1.13.8.165/loc/${this.resumeList.cvfile}`
+        var downloadLink = document.createElement('a')
+        downloadLink.style.display = 'none' // 使其隐藏
+        downloadLink.href = downloadPath
+        downloadLink.download = ''
+        downloadLink.click()
+        document.body.removeChild(downloadLink)
+      } else {
+        this.$message.success('暂无简历可下载')
+      }
     }
   }
+
 }
+
 </script>
 <style scoped lang="scss">
 .resume {
@@ -272,9 +411,18 @@ export default {
       .three {
         padding-left: 50px;
         font-size: 17px;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
       }
       .education {
+        // margin-top: 30px;
+        font-size: 17px;
+        margin-left: 50px;
+        margin-bottom: 50px;
+      }
+      .qualification {
+        margin-top: 30px;
+        margin-left: 50px;
+        margin-bottom: 50px;
       }
     }
   }

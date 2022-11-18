@@ -5,13 +5,13 @@ import Cookies from 'js-cookie'
 const TokenKey = 'hr_token'
 
 export function getToken () {
-  return localStorage.getItem(TokenKey)
+  return sessionStorage.getItem(TokenKey)
 }
 
 export function setToken (token) {
-  localStorage.setItem(TokenKey, token)
+  sessionStorage.setItem(TokenKey, token)
 }
 
 export function removeToken () {
-  localStorage.removeItem(TokenKey)
+  sessionStorage.removeItem(TokenKey)
 }
