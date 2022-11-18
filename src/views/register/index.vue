@@ -637,6 +637,8 @@ export default {
       this.showFlag = false
       this.number = false
       this.emailss = false
+      this.business = false
+      this.noun = false
     },
     authentication () {
       this.job = true
@@ -644,6 +646,8 @@ export default {
       this.showFlag = true
       this.number = false
       this.emailss = false
+      this.business = false
+      this.noun = false
     },
     enterprise () {
       this.enterprisess = true
@@ -651,6 +655,8 @@ export default {
       this.showFlag = false
       this.number = true
       this.emailss = false
+      this.business = false
+      this.noun = false
     },
     async down () {
       console.log(1)
