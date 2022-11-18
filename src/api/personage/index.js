@@ -53,7 +53,7 @@ export function getEmail (data) {
  * @returns
  */
 export function getEmailBound (data) {
-  return request.get('/user/bind-email/v1.0.0/', data)
+  return request.post('/user/bind-email/v1.0.0/', data)
 }
 /**
  * 修改密码
