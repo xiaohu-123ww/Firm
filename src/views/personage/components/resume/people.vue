@@ -136,6 +136,10 @@ export default {
           if (res.code === 200) {
             this.$message.error(res.data.data.msg)
             this.$emit('reset', false)
+            this.number = ''
+            this.number_code = ''
+            this.name = ''
+            this.card_id = ''
           }
         }
       })
@@ -182,6 +186,10 @@ export default {
       })
         .then(() => {
           this.$emit('reset', false)
+          this.number = ''
+          this.number_code = ''
+          this.name = ''
+          this.card_id = ''
         }
         )
     }

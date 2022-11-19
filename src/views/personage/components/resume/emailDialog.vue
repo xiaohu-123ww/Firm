@@ -119,16 +119,18 @@ export default {
     // 确定
     async emailClose () {
       console.log(this.ruleForm)
-      const res = await getEmailBound(this.ruleForm)
+      const res = await getEmailBound(this.ruleForm.email, this.ruleForm.code)
       console.log('邮箱', res)
       if (res.code === 200) {
         this.$message.success('邮箱绑定成功')
         this.$emit('submit', false, this.ruleForm.email)
         this.$emit('reset', false)
       }
+      this.ruleForm.email = ''
+      this.ruleForm.code = ''
     }, // 取消
     handleClose () {
-      this.$confirm('确定取微信绑定吗', '提示', {
+      this.$confirm('确定取消邮箱绑定吗', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -136,11 +138,16 @@ export default {
       }).then(() => {
         this.$emit('submit', false)
         this.$emit('reset', false)
+        this.ruleForm.email = ''
+        this.ruleForm.code = ''
       })
     },
     // 验证码
     async getCode () {
       if (this.ruleForm.email) {
+        if (this.ruleForm.code === '') {
+          delete this.ruleForm.code
+        }
         const res = await getEmail(this.ruleForm)
         console.log('res', res)
         if (res === undefined) {

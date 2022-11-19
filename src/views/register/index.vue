@@ -793,6 +793,9 @@ export default {
     },
     async getCodeList () {
       if (this.list.validation_email) {
+        if (this.list.code === '') {
+          delete this.list.code
+        }
         const res = await getEmail(this.list)
         console.log('res', res)
         if (res === undefined) {
@@ -828,12 +831,10 @@ export default {
       }
     },
     async emailClose () {
-      console.log(this.ruleForm)
-      const res = await getEmailBound(this.list)
+      const res = await getEmailBound(this.list.validation_email, this.list.code)
       console.log('邮箱', res)
       if (res.code === 200) {
         this.$message.success('邮箱绑定成功')
-        this.$emit('submit', false, this.ruleForm.email)
         this.$emit('reset', false)
       }
     }, // 取消

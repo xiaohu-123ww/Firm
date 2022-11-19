@@ -77,7 +77,7 @@
 </template>
 <script>
 import Collect from './collect.vue'
-import { getList, getListOne, getListTwo, getListThree, getListFour, getListFive, getListSex, getLists } from '@/api/information/index'
+import { getList, getListOne, getListTwo, getListThree, getListFour, getListFive, getListSex, getLists, getListOnes, getListTwos, getListThrees, getListFours, getListFives, getListSexs, getListss } from '@/api/information/index'
 export default {
   components: { Collect },
   data () {
@@ -171,6 +171,7 @@ export default {
         // console.log(i)
         this.tableData[i].join_date = this.changeDate(this.tableData[i].join_date)
       }
+      this.amends()
     },
     async getLikeJob () {
       const { data } = await getList(this.limit)
@@ -235,7 +236,7 @@ export default {
         // this.end_time = ''
       } else if (this.keywords !== '' && this.end_time === '' && this.start_time === '' && this.status !== '') {
         if (this.status === 5) {
-          const res = await getListTwo(this.limit, this.keywords)
+          const res = await getListOne(this.limit, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
           for (var d = 0; d < this.tableData.length; d++) {
@@ -298,6 +299,133 @@ export default {
           this.end_time = this.changeDateTo(this.end_time)
 
           const res = await getLists(this.limit, this.status, this.start_time, this.end_time, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          for (var w = 0; w < this.tableData.length; w++) {
+            // console.log(i)
+            this.tableData[w].join_date = this.changeDate(this.tableData[w].join_date)
+          }
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      }
+    },
+    async amends () {
+      // console.log(this.keywords, this.start_time, this.end_time, this.status)
+
+      if (this.keywords !== '' && this.end_time === '' && this.start_time === '' && this.status === '') {
+        const res = await getListTwos(this.limit, this.offset, this.keywords)
+        console.log('res1', res)
+        this.tableData = res.data.data.results
+        for (var i = 0; i < this.tableData.length; i++) {
+          // console.log(i)
+          this.tableData[i].join_date = this.changeDate(this.tableData[i].join_date)
+        }
+        if (res.data.data.count === 0) {
+          this.state = false
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      } else if (this.keywords !== '' && this.end_time !== '' && this.start_time !== '' && this.status === '') {
+        this.start_time = this.changeDateTo(this.start_time)
+        this.end_time = this.changeDateTo(this.end_time)
+
+        const res = await getListFours(this.limit, this.offset, this.start_time, this.end_time, this.keywords)
+        console.log('res1', res)
+        this.tableData = res.data.data.results
+        for (var a = 0; a < this.tableData.length; a++) {
+          // console.log(i)
+          this.tableData[a].join_date = this.changeDate(this.tableData[a].join_date)
+        }
+        if (res.data.data.count === 0) {
+          this.state = false
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      } else if (this.keywords === '' && this.end_time !== '' && this.start_time !== '' && this.status !== '') {
+        this.start_time = this.changeDateTo(this.start_time)
+        this.end_time = this.changeDateTo(this.end_time)
+
+        const res = await getListThrees(this.limit, this.offset, this.status, this.start_time, this.end_time)
+        console.log('res1', res)
+        this.tableData = res.data.data.results
+        for (var s = 0; s < this.tableData.length; s++) {
+          // console.log(i)
+          this.tableData[s].join_date = this.changeDate(this.tableData[s].join_date)
+        }
+        if (res.data.data.count === 0) {
+          this.state = false
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      } else if (this.keywords !== '' && this.end_time === '' && this.start_time === '' && this.status !== '') {
+        if (this.status === 5) {
+          const res = await getListOnes(this.limit, this.offset, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          for (var d = 0; d < this.tableData.length; d++) {
+            // console.log(i)
+            this.tableData[d].join_date = this.changeDate(this.tableData[d].join_date)
+          }
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        } else {
+          const res = await getListFives(this.limit, this.offset, this.status, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          for (var c = 0; c < this.tableData.length; c++) {
+            // console.log(i)
+            this.tableData[c].join_date = this.changeDate(this.tableData[c].join_date)
+          }
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      } else if (this.keywords === '' && this.end_time === '' && this.start_time === '' && this.status !== '') {
+        if (this.status === 5) {
+          this.getLikeJob()
+        } else {
+          const res = await getListSexs(this.limit, this.offset, this.status)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          for (var f = 0; f < this.tableData.length; f++) {
+            // console.log(i)
+            this.tableData[f].join_date = this.changeDate(this.tableData[f].join_date)
+          }
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        }
+        // this.start_time = ''
+        // this.end_time = ''
+      }
+
+      if (this.start_time !== '' && this.end_time !== '' && this.keywords !== '' && this.status !== '') {
+        if (this.status === 5) {
+          this.start_time = this.changeDateTo(this.start_time)
+          this.end_time = this.changeDateTo(this.end_time)
+
+          const res = await getListFours(this.limit, this.offset, this.start_time, this.end_time, this.keywords)
+          console.log('res1', res)
+          this.tableData = res.data.data.results
+          for (var n = 0; n < this.tableData.length; n++) {
+            // console.log(i)
+            this.tableData[n].join_date = this.changeDate(this.tableData[n].join_date)
+          }
+          if (res.data.data.count === 0) {
+            this.state = false
+          }
+        } else {
+          this.start_time = this.changeDateTo(this.start_time)
+          this.end_time = this.changeDateTo(this.end_time)
+
+          const res = await getListss(this.limit, this.offset, this.status, this.start_time, this.end_time, this.keywords)
           console.log('res1', res)
           this.tableData = res.data.data.results
           for (var w = 0; w < this.tableData.length; w++) {

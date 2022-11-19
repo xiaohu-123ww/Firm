@@ -262,6 +262,15 @@ export default {
     },
     reset (i) {
       this.show = i
+      if (this.changeColor === 1) {
+        this.getOnlineList()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else {
+        this.notPass()
+      }
     },
     // 职位详情
     async hidden (i) {

@@ -27,8 +27,8 @@
       <el-col :span="1"
         ><div class="grid-content bg-purple">
           <div class="navar-news">
-            <a href=""><i class="el-icon-message"></i></a>
-            <div class="navbar-div">1</div>
+            <!-- <a href=""><i class="el-icon-message"></i></a>
+            <div class="navbar-div">1</div> -->
           </div>
         </div></el-col
       >

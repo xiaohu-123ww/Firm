@@ -36,6 +36,7 @@
         v-else
         :list="list"
         :position="position"
+        :online="online"
         @newResume="newResume"
       />
       <el-empty
@@ -70,7 +71,8 @@ export default {
       loading: true,
       details: false,
       resumeList: {},
-      empty: false
+      empty: false,
+      online: {}
     }
   },
   mounted () {
@@ -89,6 +91,8 @@ export default {
       const { data } = await getCvRecommend(i)
       console.log('列表', data)
       this.list = data.data
+      this.online = data.user_online
+      console.log('this.online', this.online)
       this.loading = false
     },
     // changeJAVA () {
@@ -112,6 +116,7 @@ export default {
         console.log('list', list)
 
         this.backgroundColor = list[0].id
+
         this.empty = false
         this.jobName = data.data
         this.loading = false
@@ -119,6 +124,8 @@ export default {
         const res = await getCvRecommend(list[0].id)
         console.log('123', res)
         this.list = res.data.data
+        this.online = res.data.user_online
+        console.log('this.online', this.online)
       }
     },
     // 简历详情

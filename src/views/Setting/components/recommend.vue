@@ -26,7 +26,17 @@
                 <div style="margin-right: 15px; font-size: 19px">
                   <Item :icon="item.sex === 1 ? 'nan' : 'nv'"></Item>
                 </div>
-                <div class="onLine">{{ item.online_status.name }}</div>
+                <div v-if="online[item.id] === 0" class="onLine">当前在线</div>
+                <div v-if="online[item.id] === 1" class="onLine">今日在线</div>
+                <div v-if="online[item.id] === 2" class="onLine">近一周</div>
+                <div v-if="online[item.id] === 3" class="onLine">近两周</div>
+                <div v-if="online[item.id] === 4" class="onLine">近一个月</div>
+                <div v-if="online[item.id] === 5" class="onLine">近两个月</div>
+                <div v-if="online[item.id] === 6" class="onLine">近三个月</div>
+                <div v-if="online[item.id] === 7" class="onLine">近六个月</div>
+                <div v-if="online[item.id] === 8" class="onLine">
+                  六个月以前
+                </div>
               </div>
               <div class="message-age">
                 <div class="age-four">{{ item.age }}岁</div>
@@ -231,6 +241,9 @@ export default {
     },
     position: {
       type: Number
+    },
+    online: {
+      type: Object
     }
 
   },
