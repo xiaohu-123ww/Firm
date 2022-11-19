@@ -457,7 +457,7 @@ export default {
 
             if (this.$store.state.user.token) {
               this.$message.success('登录成功')
-              this.$router.push('/RtcScreen/dashboard')
+              this.$router.push('/dashboard')
             }
           } catch (error) {
             console.log(error)
@@ -476,7 +476,7 @@ export default {
             console.log('res1', res)
             if (res.code === 200) {
               setToken(res.data.data)
-              this.$router.push('/RtcScreen/dashboard')
+              this.$router.push('/dashboard')
             } else if (res.code === 1200) {
               this.$message.success(res.data.mag)
             }
@@ -573,7 +573,7 @@ export default {
             this.$message.success(res.data.msg)
             if (res.code === 200) {
               setToken(res.data.data)
-              this.$router.push('/RtcScreen/register')
+              this.$router.push('/register')
             }
             // this.$router.push('/register')
           }

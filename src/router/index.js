@@ -9,18 +9,18 @@ import Layout from '@/layout'
 export const constantRoutes = [
 
   {
-    path: '/RtcScreen/',
+    path: '/',
     component: () => import('@/views/Login/index'),
     hidden: true
   },
   {
-    path: '/RtcScreen/register',
+    path: '/register',
     component: () => import('@/views/register/index'),
     hidden: true
   },
 
   {
-    path: '/RtcScreen/dashboard',
+    path: '/dashboard',
     component: Layout,
     redirect: '',
     children: [{
@@ -34,7 +34,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/RtcScreen/firm',
+    path: '/firm',
     component: Layout,
     children: [{
       path: '',
@@ -44,7 +44,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/RtcScreen/personage',
+    path: '/personage',
     component: Layout,
     children: [{
       path: '',
@@ -54,7 +54,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/RtcScreen/department',
+    path: '/department',
     component: Layout,
     children: [{
       path: '',
@@ -65,7 +65,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/RtcScreen/setting',
+    path: '/setting',
     component: Layout,
     children: [{
       path: '',
@@ -76,7 +76,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/RtcScreen/employee',
+    path: '/employee',
     component: Layout,
     children: [{
       path: '',
@@ -98,7 +98,7 @@ export const constantRoutes = [
   // },
 
   {
-    path: '/RtcScreen/salarys',
+    path: '/salarys',
     component: Layout,
     hidden: false,
     children: [{
@@ -109,7 +109,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/RtcScreen/information',
+    path: '/information',
     component: Layout,
     hidden: false,
     children: [{
@@ -120,7 +120,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/RtcScreen/404',
+    path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   }
@@ -130,7 +130,8 @@ const createRouter = () => new Router({
   // mode: 'history', // require service support
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantRoutes,
+  base: './app/'
 })
 
 const router = createRouter()
