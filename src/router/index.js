@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 export const constantRoutes = [
   {
-    path: '/',
+    path: '/RtcScreen/',
     component: () => import('@/views/Login/index'),
     hidden: true
   },
