@@ -54,7 +54,7 @@ service.interceptors.response.use(
         }).then(() => {
           //  ("501");
           store.commit('user/removeUserInfo')
-          router.push('/')
+          router.push('/RtcScreen/')
         })
       } else {
         Message({

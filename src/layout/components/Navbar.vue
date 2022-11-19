@@ -96,11 +96,11 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     onClick () {
-      this.$router.push('/firm')
+      this.$router.push('/RtcScreen/firm')
       this.bg = 1
     },
     change () {
-      this.$router.push('/personage')
+      this.$router.push('/RtcScreen/personage')
     },
     logout () {
       // 1. 询问用户
@@ -120,7 +120,7 @@ export default {
         // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
         // 还跳转到首页
         this.$router.push({
-          path: '/'
+          path: '/RtcScreen/'
           // query: {
           //   // 携带的路由参数
           //   redirect: this.$route.fullPath

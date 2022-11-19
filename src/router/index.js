@@ -7,19 +7,20 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 export const constantRoutes = [
+
   {
     path: '/RtcScreen/',
     component: () => import('@/views/Login/index'),
     hidden: true
   },
   {
-    path: '/register',
+    path: '/RtcScreen/register',
     component: () => import('@/views/register/index'),
     hidden: true
   },
 
   {
-    path: '/dashboard',
+    path: '/RtcScreen/dashboard',
     component: Layout,
     redirect: '',
     children: [{
@@ -33,7 +34,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/firm',
+    path: '/RtcScreen/firm',
     component: Layout,
     children: [{
       path: '',
@@ -43,7 +44,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/personage',
+    path: '/RtcScreen/personage',
     component: Layout,
     children: [{
       path: '',
@@ -53,7 +54,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/department',
+    path: '/RtcScreen/department',
     component: Layout,
     children: [{
       path: '',
@@ -64,7 +65,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/setting',
+    path: '/RtcScreen/setting',
     component: Layout,
     children: [{
       path: '',
@@ -75,7 +76,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/employee',
+    path: '/RtcScreen/employee',
     component: Layout,
     children: [{
       path: '',
@@ -97,7 +98,7 @@ export const constantRoutes = [
   // },
 
   {
-    path: '/salarys',
+    path: '/RtcScreen/salarys',
     component: Layout,
     hidden: false,
     children: [{
@@ -108,7 +109,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/information',
+    path: '/RtcScreen/information',
     component: Layout,
     hidden: false,
     children: [{
@@ -119,7 +120,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/404',
+    path: '/RtcScreen/404',
     component: () => import('@/views/404'),
     hidden: true
   }
