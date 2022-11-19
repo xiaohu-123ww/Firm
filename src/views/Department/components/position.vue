@@ -475,6 +475,6 @@ export default {
 .position-page {
   // background-color: pink;
   width: 600px;
-  margin: 0 0 30px 700px;
+  margin: 0 0 30px 600px;
 }
 </style>

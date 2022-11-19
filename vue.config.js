@@ -9,9 +9,9 @@ function resolve (dir) {
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
 const port = process.env.port || process.env.npm_config_port || 8081 // dev port
-
+// publicPath: process.env.NODE_ENV === 'production' ? '/RtcScreen/' : './',
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/RtcScreen/' : './',
+  publicPath: '/RtcScreen/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',

@@ -9,7 +9,7 @@ import Layout from '@/layout'
 export const constantRoutes = [
 
   {
-    path: '/',
+    path: '/RtcScreen/',
     component: () => import('@/views/Login/index'),
     hidden: true
   },
@@ -131,9 +131,9 @@ const createRouter = () => new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes,
-  base: process.env.NODE_ENV === 'production' ? '/RtcScreen /' : './'
+  base: '/RtcScreen /'
 })
-
+// base: process.env.NODE_ENV === 'production' ? '/RtcScreen /' : './'
 const router = createRouter()
 
 // reset 路由方法
