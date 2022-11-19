@@ -81,39 +81,39 @@ export default {
         {
           id: 1,
           title: '最新消息',
-          number: 37
+          number: 0
         },
         {
           id: 2,
           title: '沟通未回复',
-          number: 5
+          number: 0
         },
         {
           id: 3,
           title: '沟通中',
-          number: 10
+          number: 0
         },
         {
           id: 4,
           title: '我的收藏',
-          number: 5
+          number: 0
         }
       ],
       position: [
         {
           id: 1,
           title: '在线职位',
-          number: 32
+          number: 0
         },
         {
           id: 2,
           title: '7天内到期',
-          number: 13
+          number: 0
         },
         {
           id: 3,
           title: '审核中',
-          number: 7
+          number: 0
         }
       ],
       tableData: []
