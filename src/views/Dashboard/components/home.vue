@@ -135,9 +135,9 @@ export default {
     async getJobList () {
       const { data } = await getPersonal()
       console.log('我的职位', data)
-      this.position[0].number = data.data.due
-      this.position[1].number = data.data.examine
-      this.position[2].number = data.data.online
+      this.position[0].number = data.data.online
+      this.position[1].number = data.data.due
+      this.position[2].number = data.data.examine
     },
     // 我的面试
     async getInterview () {

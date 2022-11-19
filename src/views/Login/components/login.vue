@@ -40,7 +40,7 @@
                         <el-input
                           v-model="loginForm.username"
                           class="elInput"
-                          placeholder="请输入账号"
+                          placeholder="请输入手机号或者邮箱"
                           :rows="10"
                         ></el-input>
                       </el-form-item>
