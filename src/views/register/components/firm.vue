@@ -190,7 +190,7 @@ export default {
           console.log('邮箱', res)
           if (res.code === 200) {
             this.$message.success('发送成功，待审核')
-            this.handleClosess()
+            this.$router.push('/register')
           } else {
             this.$message(res.data.msg)
           }

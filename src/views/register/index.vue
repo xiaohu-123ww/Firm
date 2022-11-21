@@ -215,9 +215,9 @@
                   <div class="email-three">
                     <div class="text">通过企业邮箱认证您和企业的关系</div>
                     <div class="text">(极速审核)</div>
-                    <div class="text" style="margin-top: 60px; color: red">
+                    <!-- <div class="text" style="margin-top: 60px; color: red">
                       审核中
-                    </div>
+                    </div> -->
                   </div>
                   <div>
                     <el-button
@@ -250,9 +250,9 @@
                   <div class="email-three">
                     <div class="text">提交企业营业执照认证</div>
                     <div class="text">(1-3个工作日)</div>
-                    <div class="text" style="margin-top: 60px; color: red">
+                    <!-- <div class="text" style="margin-top: 60px; color: red">
                       审核中
-                    </div>
+                    </div> -->
                   </div>
                   <div>
                     <el-button
@@ -281,9 +281,9 @@
                   <div class="email-three">
                     <div class="text">通过企业邮箱认证您和企业的关系</div>
                     <div class="text">(极速审核)</div>
-                    <div class="text" style="margin-top: 60px; color: red">
+                    <!-- <div class="text" style="margin-top: 60px; color: red">
                       审核中
-                    </div>
+                    </div> -->
                   </div>
                   <div>
                     <el-button
@@ -324,9 +324,9 @@
                   <div class="email-three">
                     <div class="text">提交企业营业执照认证</div>
                     <div class="text">(1-3个工作日)</div>
-                    <div class="text" style="margin-top: 60px; color: red">
+                    <!-- <div class="text" style="margin-top: 60px; color: red">
                       审核中
-                    </div>
+                    </div> -->
                   </div>
                   <div>
                     <el-button
