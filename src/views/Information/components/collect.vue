@@ -71,7 +71,7 @@ export default {
       this.list.id = id
       const res = await getDelete(this.list)
       console.log('取消', res)
-      this.$message.success('res.data.msg')
+      this.$message.success(res.data.msg)
       this.$emit('reset')
     }
   }
