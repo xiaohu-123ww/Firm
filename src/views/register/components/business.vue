@@ -100,7 +100,7 @@ export default {
       console.log('营业执照', res)
       if (res.code === 200) {
         this.$message.success('信息发送成功，待审核')
-        this.$router.push('/register')
+        this.$router.push('/')
       } else {
         this.$message(res.data.msg)
       }

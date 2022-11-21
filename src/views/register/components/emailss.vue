@@ -136,7 +136,7 @@ export default {
           if (res.code === 200) {
             this.$message.success('信息已发送，待审核')
             this.$emit('handleClose', false)
-            this.$router.push('/register')
+            this.$router.push('/')
           } else {
             this.$message(res.data.msg)
           }
