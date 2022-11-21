@@ -51,11 +51,7 @@ export default {
   },
   methods: {
     closeReset () {
-      this.$confirm('确定取消吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => { this.$emit('reset', false) })
+      this.$emit('reset', false)
     },
     async close () {
       console.log(this.radio)

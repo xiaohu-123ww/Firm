@@ -150,7 +150,7 @@ export default {
         }
         const res = await getEmail(this.ruleForm)
         console.log('res', res)
-        if (res === undefined) {
+        if (res === 1002) {
           this.$message({
             message: '该账号已被绑定',
             type: 'error',
