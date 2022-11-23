@@ -418,6 +418,7 @@ export default {
       const { data } = await getPositionMakeAmend(id)
       console.log('修改职位', data)
       this.amendJob = data.data
+
       this.$emit('amend', this.amendJob)
     }
 

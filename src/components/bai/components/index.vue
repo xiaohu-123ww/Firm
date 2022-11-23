@@ -8,70 +8,71 @@
     >
       <div style="margin-bottom: 15px">
         <el-form ref="form" :model="list" label-width="80px">
-          <div style="display: flex; margin-bottom: 20px">
-            <el-select
-              v-model="list.city"
-              placeholder="省"
-              style="width: 200px; margin-right: 10px"
-            >
-              <el-option
-                v-for="item in cityAll"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name"
-                @click.native="cityChange(item)"
-                >{{ item.name }}</el-option
-              >
-            </el-select>
+          <el-row>
+            <el-col :span="7">
+              <el-form-item label="">
+                <el-select
+                  v-model="list.city"
+                  placeholder="省"
+                  style="width: 200px; margin-left: 0px"
+                >
+                  <el-option
+                    v-for="item in cityAll"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name"
+                    @click.native="cityChange(item)"
+                    >{{ item.name }}</el-option
+                  >
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="">
+                <el-select
+                  v-model="list.address"
+                  placeholder="市"
+                  style="width: 200px"
+                >
+                  <el-option
+                    v-for="item in town"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name"
+                    @click.native="townChange(item)"
+                    >{{ item.name }}</el-option
+                  >
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="">
+                <el-select
+                  v-model="list.third"
+                  placeholder="区/县"
+                  style="margin-right: 50px"
+                >
+                  <el-option
+                    v-for="item in prefecture"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name"
+                    @click.native="prefectureChange(item.id)"
+                    >{{ item.name }}</el-option
+                  >
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-            <el-select
-              v-model="list.address"
-              placeholder="市"
-              style="width: 200px; margin-right: 10px"
-            >
-              <el-option
-                v-for="item in town"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name"
-                @click.native="townChange(item)"
-                >{{ item.name }}</el-option
-              >
-            </el-select>
-
-            <el-select
-              v-model="list.third"
-              placeholder="区/县"
-              style="margin-right: 50px"
-            >
-              <el-option
-                v-for="item in prefecture"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name"
-                @click.native="prefectureChange(item.id)"
-                >{{ item.name }}</el-option
-              >
-            </el-select>
-          </div>
-
-          <el-input
-            v-if="districtss"
-            v-model="list.add"
-            style="width: 450px; margin-bottom: 15px"
-            @click.native="handleClick"
-          ></el-input>
-
-          <div v-show="district">
-            <div>
-              <el-input
-                id="searchAddress"
-                v-model="list.addressAll"
-                placeholder="请输入详细地址"
-                style="width: 450px; margin-bottom: 15px"
-              ></el-input>
-            </div>
-          </div>
+          <el-form-item prop="addressAll">
+            <el-input
+              id="searchAddress"
+              v-model="list.addressAll"
+              placeholder="请输入详细地址"
+              style="width: 450px; margin-bottom: 15px"
+            ></el-input>
+          </el-form-item>
         </el-form>
 
         <baidu-map
@@ -124,14 +125,12 @@ export default {
   },
   data () {
     return {
-      district: false,
-      districtss: true,
+
       list: {
         city: '',
         address: '',
         third: '',
-        addressAll: '',
-        add: ''
+        addressAll: ''
       },
       // 地图
       center: '',
@@ -145,9 +144,7 @@ export default {
       cityAll: [],
       town: [],
       prefecture: [],
-      adcode: 0,
-      add: ''
-
+      adcode: 0
     }
   },
   mounted () {
@@ -159,7 +156,7 @@ export default {
   watch: {
     adcodeList: {
       handler (newVal, oldVal) {
-        console.log('1234', newVal)
+        console.log('123', newVal)
         if (newVal.adcode.first !== '') {
           this.list.address = newVal.adcode.first
         }
@@ -167,12 +164,10 @@ export default {
         this.list.address = newVal.adcode.second
         this.list.third = newVal.adcode.third
         this.adcode = newVal.adcode.adcode
-        this.list.add = newVal.adcode_detail
-        console.log('addressAll', this.list)
+        this.list.addressAll = newVal.adcode_detail
         this.locations.lng = newVal.longitude
-
         this.locations.lat = newVal.latitude
-        this.geoTest()
+        // this.list.city =
       },
       deep: false,
       immediate: true
@@ -182,7 +177,6 @@ export default {
     this.getCityList()
   },
   methods: {
-    // 地图
     // 地图
     geocAddress (point) {
       const that = this
@@ -330,7 +324,7 @@ export default {
         type: 'warning'
       }).then(() => {
         const address = this.list.city + this.list.address + this.list.third + this.list.addressAll
-        this.$emit('dialogReset', false, address, this.adcode, this.list.addressAll, this.locations)
+        // this.$emit('dialogReset', false, address, this.adcode, this.list.addressAll, this.locations)
       })
     },
 
@@ -367,11 +361,6 @@ export default {
       this.list.address = ''
       this.list.third = ''
       this.list.addressAll = ''
-    },
-    handleClick () {
-      console.log(1)
-      this.districtss = false
-      this.district = true
     }
   }
 }
@@ -388,3 +377,4 @@ export default {
   margin-left: 0px;
 }
 </style>
+

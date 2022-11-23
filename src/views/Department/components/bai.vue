@@ -19,7 +19,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.name"
-                @click.native="cityChange(item)"
+                @click.native="cityChange(item, item.name)"
                 >{{ item.name }}</el-option
               >
             </el-select>
@@ -34,44 +34,29 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.name"
-                @click.native="townChange(item)"
+                @click.native="townChange(item, item.name)"
                 >{{ item.name }}</el-option
               >
             </el-select>
 
-            <el-select
-              v-model="list.third"
-              placeholder="区/县"
-              style="margin-right: 50px"
-            >
+            <el-select v-model="list.third" placeholder="区/县" style="">
               <el-option
                 v-for="item in prefecture"
                 :key="item.id"
                 :label="item.name"
                 :value="item.name"
-                @click.native="prefectureChange(item.id)"
+                @click.native="prefectureChange(item.id, item.name)"
                 >{{ item.name }}</el-option
               >
             </el-select>
           </div>
 
           <el-input
-            v-if="districtss"
-            v-model="list.add"
+            id="searchAddress"
+            v-model="list.addressAll"
+            placeholder="请输入详细地址"
             style="width: 450px; margin-bottom: 15px"
-            @click.native="handleClick"
           ></el-input>
-
-          <div v-show="district">
-            <div>
-              <el-input
-                id="searchAddress"
-                v-model="list.addressAll"
-                placeholder="请输入详细地址"
-                style="width: 450px; margin-bottom: 15px"
-              ></el-input>
-            </div>
-          </div>
         </el-form>
 
         <baidu-map
@@ -111,27 +96,25 @@
 </template>
 <script>
 import { getCity } from '@/api/bai/index'
+import { sendCapte } from '@/api/user'
+import Baidusss from '@/components/bai/components/baidu/index.vue'
 
 export default {
 
   props: {
     dialog: {
       type: Boolean
-    },
-    adcodeList: {
-      type: Object
     }
   },
   data () {
     return {
-      district: false,
-      districtss: true,
+      // 搜索地址
+      searchAddress: '',
       list: {
         city: '',
         address: '',
         third: '',
-        addressAll: '',
-        add: ''
+        addressAll: ''
       },
       // 地图
       center: '',
@@ -146,8 +129,7 @@ export default {
       town: [],
       prefecture: [],
       adcode: 0,
-      add: ''
-
+      address: ''
     }
   },
   mounted () {
@@ -156,34 +138,15 @@ export default {
   computed: {
 
   },
-  watch: {
-    adcodeList: {
-      handler (newVal, oldVal) {
-        console.log('1234', newVal)
-        if (newVal.adcode.first !== '') {
-          this.list.address = newVal.adcode.first
-        }
-
-        this.list.address = newVal.adcode.second
-        this.list.third = newVal.adcode.third
-        this.adcode = newVal.adcode.adcode
-        this.list.add = newVal.adcode_detail
-        console.log('addressAll', this.list)
-        this.locations.lng = newVal.longitude
-
-        this.locations.lat = newVal.latitude
-        this.geoTest()
-      },
-      deep: false,
-      immediate: true
-    }
-  },
   created () {
     this.getCityList()
   },
   methods: {
-    // 地图
-    // 地图
+    add () {
+      console.log(1)
+    },
+    // 逆向解析地址
+    // 逆向解析地址
     geocAddress (point) {
       const that = this
       var geoc = new BMap.Geocoder()
@@ -324,14 +287,11 @@ export default {
       this.list.addressAll = res.result.addressComponent.street + res.result.addressComponent.street_number
     },
     dialogBeforeClose () {
-      this.$confirm('确定取消吗！', '提示', {
+      this.$confirm('确定取消城市选择吗? 不填写，职位数据会无法保存哦！', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        const address = this.list.city + this.list.address + this.list.third + this.list.addressAll
-        this.$emit('dialogReset', false, address, this.adcode, this.list.addressAll, this.locations)
-      })
+      }).then(() => { this.$emit('dialo', false) })
     },
 
     // 城市
@@ -342,37 +302,88 @@ export default {
       console.log(this.cityAll)
     },
     // 市
-    cityChange (i) {
+    async cityChange (i, name) {
       console.log(i)
       this.town = i.children
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     // 区
-    townChange (item) {
+    async townChange (item, name) {
       console.log(item)
       this.prefecture = item.children
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.list.city + name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     // 县
-    prefectureChange (adcode) {
+    async prefectureChange (adcode, name) {
       console.log(adcode)
       this.adcode = adcode
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.list.city + this.list.address + this.list.third + name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     btn () {
       this.geoTest()
       this.$message.success('地址加载成功')
     },
     confirm () {
-      const address = this.list.city + this.list.address + this.list.third + this.list.addressAll
+      // this.list.addressAll = sessionStorage.getItem('address')
+      const address = this.list.city + this.list.address + this.list.third + this.address
       this.$emit('dialogReset', false, address, this.adcode, this.list.addressAll, this.locations)
-      this.list.city = ''
-      this.list.address = ''
-      this.list.third = ''
-      this.list.addressAll = ''
-    },
-    handleClick () {
-      console.log(1)
-      this.districtss = false
-      this.district = true
+      // this.list.city = ''
+      // this.list.address = ''
+      // this.list.third = ''
+      // this.list.addressAll = ''
     }
+
   }
 }
 </script>

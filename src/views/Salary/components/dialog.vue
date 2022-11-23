@@ -138,7 +138,7 @@ export default {
     },
     submit () {
       this.$refs.rf.validate(async (valid) => {
-        if (vaild) {
+        if (valid) {
           this.ruleForm.interviewer = this.interviewer
           this.ruleForm.position = this.positionList
           console.log(this.changeDateTo(this.ruleForm.start_time))

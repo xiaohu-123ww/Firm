@@ -73,16 +73,11 @@
           </div>
           <el-form-item prop="addressAll">
             <el-input
+              id="searchAddress"
               v-model="list.address"
               placeholder="请输入详细地址"
-              style="width: 300px; margin-bottom: 15px"
+              style="width: 450px; margin-bottom: 15px"
             ></el-input>
-            <el-button
-              type="primary"
-              style="width: 90px; height: 35px; padding-top: 10px"
-              @click="btn"
-              >搜索</el-button
-            >
           </el-form-item>
 
           <baidu-map
@@ -135,6 +130,8 @@
                       :disabled="list.work_time === '弹性工作时间'"
                       placeholder="开始时间"
                       style="width: 100%"
+                      format="HH:mm:ss"
+                      value-format="HH:mm:ss"
                     ></el-time-picker></el-form-item
                 ></el-col>
                 <el-col :span="1">123</el-col>
@@ -145,6 +142,8 @@
                       :disabled="list.work_time === '弹性工作时间'"
                       placeholder="结束时间"
                       style="width: 100%"
+                      format="HH:mm:ss"
+                      value-format="HH:mm:ss"
                     ></el-time-picker></el-form-item
                 ></el-col>
               </el-row>
@@ -223,6 +222,7 @@
 import { getCity } from '@/api/bai/index'
 import { getWorkSystem, getWorkSystemAmend } from '@/api/firm/index'
 import { getwelfare } from '@/api/department/online'
+import Baidusss from '@/components/bai/components/baidu/index.vue'
 export default {
   data () {
     return {
@@ -329,8 +329,32 @@ export default {
   },
   methods: {
     // 地图
+    geocAddress (point) {
+      const that = this
+      var geoc = new BMap.Geocoder()
+      geoc.getLocation(point, function (geocInfo) {
+        // 设置基本信息
+        var addressInfo = geocInfo.addressComponents
+        // console.log(point.lat);
+        // console.log(addressInfo.province);
+        // console.log(addressInfo.city);
+        // console.log(addressInfo.district);
+        let address = addressInfo.street + addressInfo.streetNumber
+        if (geocInfo.surroundingPois.length > 0) {
+          address = address + geocInfo.surroundingPois[0].title
+        }
+        console.log(addressInfo.province + addressInfo.city + addressInfo.district + address)
+        that.list.city = addressInfo.province
+        that.list.addressAll = addressInfo.city
+        that.list.third = addressInfo.district
+        that.list.address = address
+      })
+    },
+
+    // 地图
     handler ({ BMap, map }) {
       console.log(55, BMap, map)
+      const that = this
       this.center = ''
       this.zoom = 15
       // 获取IP地址的经纬度，详情查看官方文档：
@@ -342,6 +366,49 @@ export default {
         this.locations.lng = res.point.lng
         this.locations.lat = res.point.lat
       })
+      /** 点击地图创建坐标事件End */
+
+      /** 搜索地址Start */
+      // 建立一个自动完成的对象
+      var ac = new BMap.Autocomplete({
+        input: 'searchAddress',
+        location: map
+      })
+      // 鼠标点击下拉列表后的事件
+      ac.addEventListener('onconfirm', function (e) {
+        map.clearOverlays()
+        var local = new BMap.LocalSearch(map, {
+          // 智能搜索
+
+          onSearchComplete: function (res) {
+            console.log('122', res, map)
+
+            const poi = res.getPoi(0) // 获取第一个智能搜索的结果
+            var searchpt = poi.point // 获取坐标
+            map.centerAndZoom(searchpt, 16)
+            map.addOverlay(new BMap.Marker(searchpt))
+            that.geocAddress(searchpt)
+            return searchpt
+          }
+
+        })
+        // 搜索词
+        var searchValue = e.item.value
+
+        console.log('123', searchValue)
+
+        local.search(
+          searchValue.province +
+          searchValue.city +
+          searchValue.district +
+          searchValue.street +
+          searchValue.business
+        )
+        // sessionStorage.setItem('address', searchValue.business)
+        return local
+      })
+
+      /** 搜索地址End */
     },
     locationSuccess () {
       console.log('定位成功')
@@ -398,8 +465,9 @@ export default {
       console.log('122', res)
       this.list.city = res.result.addressComponent.province
       this.list.third = res.result.addressComponent.district
-      this.list.address = res.result.addressComponent.district
-      this.list.addressAll = res.result.addressComponent.street + res.result.addressComponent.street_number
+      this.list.address = res.result.addressComponent.street + res.result.addressComponent.street_number
+      // res.result.addressComponent.street + res.result.addressComponent.street_number
+      this.list.addressAll = res.result.addressComponent.city
     },
     onClick () {
       this.$confirm('确定退出编辑吗', '提示', {
@@ -412,7 +480,8 @@ export default {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
           console.log(1)
-          console.log(this.list.work_time)
+          console.log(this.list)
+
           if (this.list.work_time === '弹性工作时间') {
             this.list.work_time_status = '2'
             delete this.list.work_time_start
@@ -420,13 +489,12 @@ export default {
           } else {
             this.list.work_time_status = '1'
 
-            this.list.work_time_start = this.changeDateToStr1(this.list.work_time_start)
-            this.list.work_time_end = this.changeDateToStr1(this.list.work_time_end)
+            // this.list.work_time_start = this.changeDateToStr1(this.list.work_time_start)
+            // this.list.work_time_end = this.changeDateToStr1(this.list.work_time_end)
           }
           this.list.lng = this.locations.lng
           this.list.lat = this.locations.lat
-
-          console.log(this.list)
+          if (this.list.tags) { console.log(this.list) }
           const res = await getWorkSystemAmend(this.list)
           console.log('res', res)
           this.$message.success('修改信息成功，内容在审核中')
@@ -470,8 +538,16 @@ export default {
       this.list.rest_time_status = data.data.rest_time.id
       this.list.work_overtime_status = data.data.work_overtime.id
       this.list.tags = data.data.tags.map(item => item.id)
-      this.list.work_time = data.data.work_time.name
+
       this.list.ascode = data.data.address.location.adcode
+      this.list.lng = data.data.address.lng
+      this.list.lat = data.data.address.lat
+      if (data.data.work_time.name === '固定工作时间') {
+        this.list.work_time_start = data.data.work_time.work_time_end
+
+        this.list.work_time_end = data.data.work_time.work_time_end
+      }
+      this.list.work_time = data.data.work_time.name
     },
     welfareChange (e) {
       if (e.length > 5) {

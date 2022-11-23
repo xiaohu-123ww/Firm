@@ -4,7 +4,7 @@
     <el-card class="post-card">
       <div>
         <el-form
-          ref="rf"
+          ref="rr"
           :model="ruleForm"
           :rules="rules"
           label-width="100px"
@@ -167,40 +167,37 @@
             </el-select>
           </el-form-item>
           <el-form-item label="学历要求" required style="height: 35px">
-            <el-row>
-              <el-col :span="7">
-                <el-form-item prop="education">
-                  <el-select
-                    v-model="ruleForm.education"
-                    placeholder="初中以下"
-                    style="width: 300px"
-                  >
-                    <el-option
-                      v-for="(item, index) in educationalRequirements"
-                      :key="index"
-                      :value="item"
-                      :label="index"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item prop="job_experience">
-                  <el-select
-                    v-model="ruleForm.job_experience"
-                    placeholder="经验不限"
-                    style="width: 300px"
-                  >
-                    <el-option
-                      v-for="(item, index) in experienceList"
-                      :key="index"
-                      :value="item"
-                      :label="index"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <div style="display: flex">
+              <el-form-item prop="education">
+                <el-select
+                  v-model="ruleForm.education"
+                  placeholder="初中以下"
+                  style="width: 300px; margin-right: 50px"
+                >
+                  <el-option
+                    v-for="(item, index) in educationalRequirements"
+                    :key="index"
+                    :value="item"
+                    :label="index"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item prop="job_experience">
+                <el-select
+                  v-model="ruleForm.job_experience"
+                  placeholder="经验不限"
+                  style="width: 300px"
+                >
+                  <el-option
+                    v-for="(item, index) in experienceList"
+                    :key="index"
+                    :value="item"
+                    :label="index"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
           </el-form-item>
 
           <el-form-item
@@ -252,54 +249,44 @@
             ></el-input>
           </el-form-item>
           <el-form-item required style="height: 40px" label="薪资福利">
-            <el-row>
-              <el-col :span="5">
-                <el-form-item
-                  prop="salary_min"
-                  style="color: rgb(220, 223, 230)"
-                >
-                  <el-input
-                    v-model="ruleForm.salary_min"
-                    style="width: 220px; margin-right: 5px"
-                    placeholder="最低薪资"
-                  ></el-input
-                  >K
-                </el-form-item>
-              </el-col>
+            <div style="display: flex">
+              <el-form-item prop="salary_min" style="color: rgb(220, 223, 230)">
+                <el-input
+                  v-model="ruleForm.salary_min"
+                  style="width: 220px; margin-right: 5px"
+                  placeholder="最低薪资"
+                ></el-input>
+              </el-form-item>
+              <el-col :span="1" style="color: rgb(220, 223, 230)">K</el-col>
               <el-col :span="1" style="color: rgb(220, 223, 230)">——</el-col>
-              <el-col :span="5">
-                <el-form-item
-                  prop="salary_max"
-                  style="color: rgb(220, 223, 230)"
-                >
-                  <el-input
-                    v-model="ruleForm.salary_max"
-                    style="width: 220px; margin-right: 5px"
-                    placeholder="最高薪资"
-                  ></el-input
-                  >K
-                </el-form-item>
-              </el-col>
+
+              <el-form-item prop="salary_max" style="color: rgb(220, 223, 230)">
+                <el-input
+                  v-model="ruleForm.salary_max"
+                  style="width: 220px; margin-right: 5px"
+                  placeholder="最高薪资"
+                ></el-input>
+              </el-form-item>
+              <el-col :span="1" style="color: rgb(220, 223, 230)">K</el-col>
               <el-col :span="1" style="color: rgb(220, 223, 230)">——</el-col>
-              <el-col :span="6">
-                <el-form-item prop="salary_unit">
-                  <el-select
-                    v-model="ruleForm.salary_unit"
-                    placeholder="12薪"
-                    style="width: 260px"
-                  >
-                    <el-option
-                      v-for="(item, index) in unit"
-                      :key="index"
-                      :lable="item"
-                      :value="item"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
+
+              <el-form-item prop="salary_unit">
+                <el-select
+                  v-model="ruleForm.salary_unit"
+                  placeholder="12薪"
+                  style="width: 260px"
+                >
+                  <el-option
+                    v-for="(item, index) in unit"
+                    :key="index"
+                    :lable="item"
+                    :value="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
           </el-form-item>
-          <el-form-item label="职位福利" prop="tag" style="height: 40px">
+          <el-form-item label="职位福利" prop="tag">
             <el-select
               v-model="ruleForm.tag"
               multiple
@@ -317,26 +304,18 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <div
-            style="
-              width: 800px;
-              display: flex;
-              line-height: 50px;
-              padding-right: 10px;
-            "
+
+          <el-form-item
+            label="招聘人数"
+            prop="number_of_employers"
+            style="width: 600px"
           >
-            <el-form-item
-              label="招聘人数"
-              prop="number_of_employers"
-              style="width: 600px"
-            >
-              <el-input
-                v-model="ruleForm.number_of_employers"
-                placeholder="请输入招聘人数"
-              ></el-input>
-            </el-form-item>
-            <div style="margin-left: 10px; color: #c0c0c0">人</div>
-          </div>
+            <el-input
+              v-model="ruleForm.number_of_employers"
+              placeholder="请输入招聘人数"
+            ></el-input>
+          </el-form-item>
+
           <el-form-item
             label="简历邮箱"
             prop="email"
@@ -394,18 +373,21 @@
         </el-form>
       </div>
     </el-card>
-    <Bai :dialog="dialog" @dialogReset="dialogReset" />
+    <Bai :dialog="dialog" @dialogReset="dialogReset" @dialo="dialo" />
   </div>
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
-import Bai from '@/components/bai/index.vue'
+import Bai from './bai.vue'
+import Baidusss from '@/components/bai/components/baidu/index.vue'
 import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake } from '@/api/department/online'
+
 export default {
 
   components: {
     Item,
     Bai
+    // Baidussss
   },
   data () {
     return {
@@ -480,6 +462,9 @@ export default {
         placeholder: '请输入正文'
       },
       rules: {
+        job_content: [
+          { required: true, message: '请输入职位描述', trigger: 'blur' }
+        ],
         fullname: [
           { required: true, message: '请输入职位名称', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
@@ -504,17 +489,49 @@ export default {
 
         ],
         salary_min: [
-          { required: true, message: '请选择薪资范围/几薪', trigger: 'change' }
+          { required: true, message: '请输入薪资范围', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         salary_max: [
-          { required: true, message: '请选择薪资范围/几薪', trigger: 'change' }
+          { required: true, message: '请输入薪资范围', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         salary_unit: [
           { required: true, message: '请选择几薪', trigger: 'change' }
         ],
         number_of_employers: [
           { required: true, message: '请输入招聘人数', trigger: 'blur' },
-          { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -555,7 +572,8 @@ export default {
       fieldNan: [],
       certList: {},
       nature: {},
-      hidden: true
+      hidden: true,
+      mapVisible: true
 
     }
   },
@@ -582,9 +600,19 @@ export default {
   },
 
   methods: {
-    submitForm () {
-      this.$refs.rf.validate(async (valid) => {
+    async submitForm () {
+      // console.log(1)
+      // this.$refs.rr.validate()
+
+      // await  const res = await getPositionMake(this.ruleForm)
+      // console.log('添加职位', res)
+      // this.$message.success('添加职位数据成功')
+      // console.log('添加职位', res)
+      // this.$message.success('添加职位数据成功')
+      this.$refs.rr.validate(async (valid) => {
+        console.log(1)
         if (valid) {
+          console.log(123)
           console.log(this.ruleForm)
           const res = await getPositionMake(this.ruleForm)
           console.log('添加职位', res)
@@ -593,7 +621,7 @@ export default {
           this.clear()
         }
       })
-      // this.$emit('reset', true)
+      this.$emit('reset', true)
     },
     resetForm () {
       this.$confirm('确定取消职位添加吗？', '提示', {
@@ -654,11 +682,15 @@ export default {
     },
     dialogReset (i, address, adcode, addressAll, locations) {
       this.dialog = i
-      this.ruleForm.address = address
+      console.log('address, adcode, addressAll, locations', address, adcode, addressAll, locations)
+      this.ruleForm.address = address + addressAll
       this.ruleForm.adcode = adcode
       this.ruleForm.adcode_detail = addressAll
       this.ruleForm.longitude = locations.lng
       this.ruleForm.latitude = locations.lat
+    },
+    dialo () {
+      this.dialog = false
     },
     // 岗位
     async getPostList () {

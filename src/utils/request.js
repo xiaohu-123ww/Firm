@@ -4,7 +4,7 @@ import { MessageBox, Message } from 'element-ui'
 import { getToken } from './auth'
 const service = axios.create({
   baseURL: 'http://1.13.8.165/',
-  timeout: 5000 // request timeout
+  timeout: 100000 // request timeout
 })
 
 // 请求拦截器

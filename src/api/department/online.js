@@ -21,7 +21,16 @@ export function getOnline (status, limit, offset) {
  * @param {*} offset
  * @returns
  */
-export function getfullnameCity (status, limit, offset, fullname_city) {
+export function getfullnameCity (status, limit, fullname_city) {
+  return request.get('/enterprise/position-select/v1.0.1/', {
+    params: {
+      status,
+      limit,
+      fullname_city
+    }
+  })
+}
+export function getfullname (status, limit, offset, fullname_city) {
   return request.get('/enterprise/position-select/v1.0.1/', {
     params: {
       status,

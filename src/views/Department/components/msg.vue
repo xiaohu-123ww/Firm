@@ -167,40 +167,37 @@
             </el-select>
           </el-form-item>
           <el-form-item label="学历要求" required style="height: 35px">
-            <el-row>
-              <el-col :span="7">
-                <el-form-item prop="education">
-                  <el-select
-                    v-model="ruleForm.education"
-                    placeholder="初中以下"
-                    style="width: 300px"
-                  >
-                    <el-option
-                      v-for="(item, index) in educationalRequirements"
-                      :key="index"
-                      :value="item"
-                      :label="index"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item prop="job_experience">
-                  <el-select
-                    v-model="ruleForm.job_experience"
-                    placeholder="经验不限"
-                    style="width: 300px"
-                  >
-                    <el-option
-                      v-for="(item, index) in experienceList"
-                      :key="index"
-                      :value="item"
-                      :label="index"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <div style="display: flex">
+              <el-form-item prop="education">
+                <el-select
+                  v-model="ruleForm.education"
+                  placeholder="初中以下"
+                  style="width: 300px; margin-right: 50px"
+                >
+                  <el-option
+                    v-for="(item, index) in educationalRequirements"
+                    :key="index"
+                    :value="item"
+                    :label="index"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item prop="job_experience">
+                <el-select
+                  v-model="ruleForm.job_experience"
+                  placeholder="经验不限"
+                  style="width: 300px"
+                >
+                  <el-option
+                    v-for="(item, index) in experienceList"
+                    :key="index"
+                    :value="item"
+                    :label="index"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
           </el-form-item>
 
           <el-form-item
@@ -252,52 +249,42 @@
             ></el-input>
           </el-form-item>
           <el-form-item required style="height: 40px" label="薪资福利">
-            <el-row>
-              <el-col :span="5">
-                <el-form-item
-                  prop="salary_min"
-                  style="color: rgb(220, 223, 230)"
-                >
-                  <el-input
-                    v-model="ruleForm.salary_min"
-                    style="width: 220px; margin-right: 5px"
-                    placeholder="最低薪资"
-                  ></el-input
-                  >K
-                </el-form-item>
-              </el-col>
+            <div style="display: flex">
+              <el-form-item prop="salary_min" style="color: rgb(220, 223, 230)">
+                <el-input
+                  v-model="ruleForm.salary_min"
+                  style="width: 220px; margin-right: 5px"
+                  placeholder="最低薪资"
+                ></el-input>
+              </el-form-item>
+              <el-col :span="1" style="color: rgb(220, 223, 230)">K</el-col>
               <el-col :span="1" style="color: rgb(220, 223, 230)">——</el-col>
-              <el-col :span="5">
-                <el-form-item
-                  prop="salary_max"
-                  style="color: rgb(220, 223, 230)"
-                >
-                  <el-input
-                    v-model="ruleForm.salary_max"
-                    style="width: 220px; margin-right: 5px"
-                    placeholder="最高薪资"
-                  ></el-input
-                  >K
-                </el-form-item>
-              </el-col>
+
+              <el-form-item prop="salary_max" style="color: rgb(220, 223, 230)">
+                <el-input
+                  v-model="ruleForm.salary_max"
+                  style="width: 220px; margin-right: 5px"
+                  placeholder="最高薪资"
+                ></el-input>
+              </el-form-item>
+              <el-col :span="1" style="color: rgb(220, 223, 230)">K</el-col>
               <el-col :span="1" style="color: rgb(220, 223, 230)">——</el-col>
-              <el-col :span="6">
-                <el-form-item prop="salary_unit">
-                  <el-select
-                    v-model="ruleForm.salary_unit"
-                    placeholder="12薪"
-                    style="width: 260px"
-                  >
-                    <el-option
-                      v-for="(item, index) in unit"
-                      :key="index"
-                      :lable="item"
-                      :value="item"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
+
+              <el-form-item prop="salary_unit">
+                <el-select
+                  v-model="ruleForm.salary_unit"
+                  placeholder="12薪"
+                  style="width: 260px"
+                >
+                  <el-option
+                    v-for="(item, index) in unit"
+                    :key="index"
+                    :lable="item"
+                    :value="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
           </el-form-item>
           <el-form-item label="职位福利" prop="tag" style="height: 40px">
             <el-select
@@ -395,7 +382,11 @@
         </el-form>
       </div>
     </el-card>
-    <Bai :dialog="dialog" @dialogReset="dialogReset" />
+    <Bai
+      :dialog="dialog"
+      :adcode-list="adcodeList"
+      @dialogReset="dialogReset"
+    />
   </div>
 </template>
 <script>
@@ -531,6 +522,9 @@ export default {
         placeholder: '请输入正文'
       },
       rules: {
+        job_content: [
+          { required: true, message: '请输入职位描述', trigger: 'blur' }
+        ],
         fullname: [
           { required: true, message: '请输入职位名称', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
@@ -555,17 +549,49 @@ export default {
 
         ],
         salary_min: [
-          { required: true, message: '请选择薪资范围/几薪', trigger: 'change' }
+          { required: true, message: '请输入薪资范围', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         salary_max: [
-          { required: true, message: '请选择薪资范围/几薪', trigger: 'change' }
+          { required: true, message: '请输入薪资范围', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         salary_unit: [
           { required: true, message: '请选择几薪', trigger: 'change' }
         ],
         number_of_employers: [
-          { required: true, message: '请输入招聘人数', trigger: 'blur' }
-
+          { required: true, message: '请输入招聘人数', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              } else {
+                cb()
+              }
+            }
+          }
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -606,7 +632,8 @@ export default {
       fieldNan: [],
       certList: {},
       nature: {},
-      hidden: false
+      hidden: false,
+      adcodeList: {}
 
     }
   },
@@ -648,6 +675,7 @@ export default {
 
         this.ruleForm.longitude = newVal.longitude
         this.ruleForm.latitude = newVal.latitude
+        this.adcodeList = newVal
       },
       deep: true,
       immediate: true
@@ -841,6 +869,7 @@ export default {
     },
     jobAddres () {
       this.dialog = true
+      this.adcodeList = this.jobAmend
       console.log(1)
     },
     dialogReset (i, address, adcode, addressAll, locations) {
@@ -848,9 +877,11 @@ export default {
       this.ruleForm.address = address
       this.ruleForm.adcode = adcode
       this.ruleForm.adcode_detail = addressAll
+
       this.ruleForm.longitude = locations.lng
       this.ruleForm.latitude = locations.lat
     },
+
     // 岗位
     async getPostList () {
       const { data } = await getShowClass()

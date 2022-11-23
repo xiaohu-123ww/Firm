@@ -141,7 +141,7 @@ import Page from './page.vue'
 import Post from './post.vue'
 import Msg from './msg.vue'
 import Copy from './copy.vue'
-import { getOnline, getfullnameCity } from '@/api/department/online'
+import { getOnline, getfullnameCity, getfullname } from '@/api/department/online'
 
 export default {
   components: { List, Post, Page, Msg, Copy },
@@ -314,6 +314,9 @@ export default {
       } else if (this.changeColor === 4) {
         this.notPass()
       }
+      if (this.text !== '') {
+        this.fullnameChange()
+      }
     },
     // 第几页
     async handleCurrentChange (val) {
@@ -374,15 +377,50 @@ export default {
           this.num = res.data.data.results
         }
       }
+
+      if (this.text !== '') {
+        if (this.changeColor === 1) {
+          this.status = 2
+          this.getfull()
+        } else if (this.changeColor === 2) {
+          this.status = 3
+          this.getfull()
+        } else if (this.changeColor === 3) {
+          this.status = 1
+          this.getfull()
+        } else if (this.changeColor === 4) {
+          this.status = 0
+          this.getfull()
+        }
+      }
     },
     // 搜索
     async getfullname () {
-      const { data } = await getfullnameCity(this.status, this.limit, this.offset, this.text)
+      this.loading = true
+      const { data } = await getfullnameCity(this.status, this.limit, this.text)
       console.log('搜素', data)
       if (data.data.results.length !== 0) {
         this.lodingState = false
         this.state = true
+        this.total = data.data.count
         this.num = data.data.results
+        this.loading = false
+      } else {
+        this.lodingState = true
+        this.state = false
+        this.num = []
+      }
+    },
+    async getfull () {
+      this.loading = true
+      const { data } = await getfullname(this.status, this.offset, this.limit, this.text)
+      console.log('搜素', data)
+      if (data.data.results.length !== 0) {
+        this.lodingState = false
+        this.state = true
+        this.total = data.data.count
+        this.num = data.data.results
+        this.loading = false
       } else {
         this.lodingState = true
         this.state = false
@@ -391,6 +429,7 @@ export default {
     },
     // 搜索
     async fullnameChange () {
+      console.log(this.text)
       if (this.text !== '') {
         if (this.changeColor === 1) {
           this.status = 2
@@ -406,7 +445,7 @@ export default {
           this.getfullname()
         }
       } else {
-        this.$message.error('搜索数据为空 ! 请去输入吧')
+        this.$message.error('搜索数据为空 ! 请去添加吧')
       }
     },
     // 职位下线
