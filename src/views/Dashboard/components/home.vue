@@ -17,7 +17,7 @@
             <el-button
               round
               class="bt"
-              style="background-color: #f09667; color: #fff"
+              style="background-color: #f09667; color: #fff; margin-top: 10px"
               @click="$router.push('/department')"
               >发布职位<i class="el-icon-plus"></i></el-button
           ></el-col>

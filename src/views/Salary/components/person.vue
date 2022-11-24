@@ -64,7 +64,7 @@
             <el-col :span="12" style="padding-left: 420px; display: flex">
               <el-input
                 v-model="qw"
-                placeholder="输入职位名称/城市"
+                placeholder="输入姓名搜索"
                 prefix-icon="el-icon-search"
                 style=""
               >
@@ -124,7 +124,7 @@
   </div>
 </template>
 <script>
-import { getNewList, getWaitingList, getCommuniCatingList, getRejectedList, getInterviewList, getNewLists, getWaitingLists, getCommuniCatingLists, getRejectedLists, getInterviewLists } from '@/api/salarys/index'
+import { getNewList, getWaitingList, getCommuniCatingList, getRejectedList, getInterviewList, getNewLists, getWaitingLists, getCommuniCatingLists, getRejectedLists, getInterviewLists, getState } from '@/api/salarys/index'
 import Talents from './talents.vue'
 import Loading from './loading.vue'
 import List from './list.vue'
@@ -172,8 +172,18 @@ export default {
   created () {
     this.getNew()
     this.getJob()
+    this.getStateList()
   },
   methods: {
+    async getStateList () {
+      const res = await getState()
+      console.log('res123', res)
+      this.callss = res.data.new
+      this.Noreply = res.data.waiting
+      this.communications = res.data.communicating
+      this.surface = res.data.interviewed
+      this.inappropriate = res.data.rejected
+    },
     async getJob () {
       const { data } = await getEnterprise()
       console.log('job', data)
@@ -188,8 +198,15 @@ export default {
       // }
       if (list.length === 0) {
         console.log(1)
-        this.$message.success('暂无上线职位，去上线招聘岗位吧')
-        this.pid = 0
+        this.$confirm('暂无上线职位，去上线招聘岗位吧', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+
+        }).then(() => {
+          this.pid = 0
+          this.$router.push('/department')
+        })
       } else {
         console.log(2)
         this.pid = list[0].id
@@ -206,20 +223,38 @@ export default {
       if (this.qw !== '') {
         this.num.qw = this.qw
       }
-      this.loading = true
-      console.log('123', this.num)
-      const res = await getRetrivel(this.limit, this.num)
-      console.log('搜索', res)
-      this.list = res.data.results
-      this.loading = false
+      if (this.pid !== 0) {
+        this.num.pid = this.pid
+      }
+      this.lists = this.num
+      if (this.backgroundColor === 1) {
+        this.getNew()
+      } else if (this.backgroundColor === 2) {
+        this.changeJAVA()
+      } else if (this.backgroundColor === 3) {
+        this.robot()
+      } else if (this.backgroundColor === 4) {
+        this.vision()
+      } else if (this.backgroundColor === 5) {
+        this.visionss()
+      }
     },
     async searchList () {
       if (this.qw !== '') {
         this.num.qw = this.qw
       }
-      console.log('123', this.num)
-      const res = await getRetrivel(this.limit, this.num)
-      console.log('搜索', res)
+      this.lists = this.num
+      if (this.backgroundColor === 1) {
+        this.getNew()
+      } else if (this.backgroundColor === 2) {
+        this.changeJAVA()
+      } else if (this.backgroundColor === 3) {
+        this.robot()
+      } else if (this.backgroundColor === 4) {
+        this.vision()
+      } else if (this.backgroundColor === 5) {
+        this.visionss()
+      }
     },
     // 未回复
     async changeJAVA () {
@@ -493,13 +528,13 @@ export default {
       this.details = true
     },
     async fast (id) {
-      this.loading = true
+      // this.loading = true
       this.pid = id
-      const res = await getCandidate(id, this.limit)
-      console.log('快捷搜索12', res)
-      this.list = res.data.results
-      this.total = res.data.count
-      this.loading = false
+      // const res = await getCandidate(id, this.limit)
+      // console.log('快捷搜索12', res)
+      // this.list = res.data.results
+      // this.total = res.data.count
+      // this.loading = false
     },
     chating () {
       this.robot()

@@ -73,7 +73,7 @@
               v-if="typeof particulars.post_days === 'number'"
               class="bg-purple-light"
             >
-              <div class="bg-purple-time">{{ particulars.post_days }}</div>
+              <div class="bg-purple-time">{{ particulars.post_last_days }}</div>
               <div style="color: #999999; font-size: 13px; margin-top: 5px">
                 上线时间
               </div>

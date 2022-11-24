@@ -19,7 +19,11 @@
             </div>
             <div class="search-checkbox">
               <span style="margin: 5px 10px">学历要求</span>
-              <el-checkbox-group v-model="num" size="mini">
+              <el-checkbox-group
+                v-model="num"
+                size="mini"
+                @change="handleCheckAllChange"
+              >
                 <el-checkbox-button
                   v-for="(vItem, vIndex) in cities"
                   :key="vIndex"
@@ -56,71 +60,63 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="年龄要求" style="margin-right: 30px">
-                <el-select
-                  v-model="form.age_min"
-                  placeholder="不限"
-                  style="width: 200px"
-                >
-                  <el-option
-                    v-for="(item, index) in startAge"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-                <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
-                  >——</span
-                >
-                <el-select
-                  v-model="form.age_max"
-                  placeholder="不限"
-                  style="width: 200px"
-                >
-                  <el-option
-                    v-for="(item, index) in startAge"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
+              <el-form-item label="年龄要求">
+                <div style="display: flex">
+                  <el-select v-model="form.age_min" placeholder="不限">
+                    <el-option
+                      v-for="(item, index) in startAge"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select>
+                  <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
+                    >——</span
+                  >
+                  <el-select v-model="form.age_max" placeholder="不限">
+                    <el-option
+                      v-for="(item, index) in startAge"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select>
+                </div>
               </el-form-item>
             </div>
             <div style="display: flex; margin-left: 100px">
               <el-form-item label="年限要求" style="margin-right: 100px">
-                <el-select
-                  v-model="form.year_min"
-                  placeholder="不限"
-                  style="width: 200px"
-                >
-                  <el-option
-                    v-for="(item, index) in yearsWorking"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-                <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
-                  >——</span
-                >
-                <el-select
-                  v-model="form.year_max"
-                  placeholder="不限"
-                  style="width: 200px"
-                >
-                  <el-option
-                    v-for="(item, index) in yearsWorking"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option> </el-select
+                <div style="display: flex">
+                  <el-select
+                    v-model="form.year_min"
+                    placeholder="不限"
+                    style="width: 200px"
+                  >
+                    <el-option
+                      v-for="(item, index) in yearsWorking"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select>
+                  <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
+                    >——</span
+                  >
+                  <el-select
+                    v-model="form.year_max"
+                    placeholder="不限"
+                    style="width: 200px"
+                  >
+                    <el-option
+                      v-for="(item, index) in yearsWorking"
+                      :key="index"
+                      :label="item.name"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select></div
               ></el-form-item>
               <el-form-item label="工作状态">
-                <el-select
-                  v-model="form.candidate_status"
-                  placeholder="不限"
-                  style="width: 270px"
-                >
+                <el-select v-model="form.candidate_status" placeholder="不限">
                   <el-option
                     v-for="(item, index) in status"
                     :key="index"
@@ -164,7 +160,7 @@
               </el-form-item>
               <el-button
                 type="primary"
-                style="height: 30px; padding-top: 6px; margin-left: 730px"
+                style="height: 35px; padding-top: 10px; margin-left: 400px"
                 @click="search"
                 >搜索</el-button
               >
@@ -580,6 +576,14 @@ export default {
     // this.search()
   },
   methods: {
+    handleCheckAllChange (value) {
+      console.log('value', value)
+      for (let i = 0; i < value.length; i++) {
+        if (this.num[i] === 0) {
+          this.num = [0]
+        }
+      }
+    },
     buttonss (id) {
       this.ud = id
     },
@@ -598,6 +602,7 @@ export default {
       this.firm = data.data
       if (this.firm.length > 5) {
         this.firm.splice(5, this.firm.length - 5)
+        this.position = this.firm[0].id
       }
     },
     // 城市
@@ -637,7 +642,7 @@ export default {
       } else if (this.num[0] === 0) {
         delete list.edu
       } else {
-        list.edu = this.num[0]
+        list.edu = this.num
       }
       if (list.age_min === '' || list.age_min === null) {
         delete list.age_min
@@ -648,7 +653,7 @@ export default {
       if (list.year_min === null || list.year_min === '') {
         delete list.year_min
       }
-      if (list.year_max === null || list.year_max === '') {
+      if (list.year_max === null || list.year_max === '' || list.year_max === 0) {
         delete list.year_max
       }
       if (list.candidate_status === null || list.candidate_status === 4) {

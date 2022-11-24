@@ -4,11 +4,11 @@
       title="沟通职位"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="close"
+      :before-close="closeReset"
     >
       <el-radio
         v-for="item in firm"
-        :key="item.name"
+        :key="item.id"
         v-model="radio"
         :label="item.id"
         style="height: 40px; margin-left: 40px"

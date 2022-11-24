@@ -31,9 +31,11 @@
             </div>
             <el-date-picker
               v-model="form.establish_year"
-              type="date"
+              type="year"
               placeholder="选择日期"
               style="width: 200px"
+              format="yyyy"
+              value-format="yyyy"
             ></el-date-picker>
             年
           </el-form-item>
@@ -100,10 +102,11 @@ export default {
       this.$refs.form.validate(async (vaild) => {
         if (vaild) {
           console.log(this.form)
-          const time = this.form.establish_year
-          const establish_year = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
-          this.form.establish_year = establish_year.substr(0, 4)
-          console.log(this.form)
+          // const time = this.form.establish_year
+          // const establish_year = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+
+          // this.form.establish_year = establish_year.substr(0, 4)
+          // console.log(this.form)
           const res = await getIntroduction(this.form)
           console.log('编辑', res)
           this.$message.success('编辑成功，内容在审核中')

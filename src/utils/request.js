@@ -1,7 +1,7 @@
 import router from '@/router'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
-import { getToken } from './auth'
+import { getToken, removeToken } from './auth'
 const service = axios.create({
   baseURL: 'http://1.13.8.165/',
   timeout: 100000 // request timeout
@@ -41,7 +41,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 1000 && res.code !== 200 && res.code !== 1001 && res.code !== 504) {
+    if (res.code !== 1000 && res.code !== 200 && res.code !== 1001 && res.code !== 504 && res.code === 1201 && res.code !== 1203 && res.code !== 1200) {
       //  (res.code);
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 0 || res.code === 50011 || res.code === 50012 || res.code === 50014) {
@@ -53,8 +53,9 @@ service.interceptors.response.use(
           type: 'warning'
         }).then(() => {
           //  ("501");
-          store.commit('user/removeUserInfo')
+          // store.commit('user/removeUserInfo')
           router.push('/')
+          removeToken()
         })
       } else {
         Message({

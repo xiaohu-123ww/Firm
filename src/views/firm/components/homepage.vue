@@ -157,9 +157,9 @@ export default {
       const { data } = await getStatusList()
       console.log('res', data)
       this.list[0].state = data.data.status
-      this.list[1].state = data.data.status_corporate
-      this.list[2].state = data.data.status_introduction
-      this.list[3].state = data.data.status_work
+      this.list[1].state = data.data.status_introduction
+      this.list[2].state = data.data.status_work
+      this.list[3].state = data.data.status_corporate
       this.list.forEach(item => {
         if (item.state === 0) {
           item.img = b3

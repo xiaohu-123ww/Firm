@@ -310,7 +310,7 @@
   </div>
 </template>
 <script>
-import { sendCapte, getCodeLogin, sendCapteLogin, sendPasswordLogin } from '@/api/user'
+import { sendCapte, getCodeLogin, sendCapteLogin, sendPasswordLogin, login } from '@/api/user'
 import { setToken } from '@/utils/auth'
 import passwordVue from '@/views/personage/components/resume/password.vue'
 export default {
@@ -452,15 +452,33 @@ export default {
     async handleLogin () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
-          try {
-            await this.$store.dispatch('user/fetchLogin', this.loginForm)
-
-            if (this.$store.state.user.token) {
-              this.$message.success('登录成功')
-              this.$router.push('/dashboard')
-            }
-          } catch (error) {
-            console.log(error)
+          const res = await login(this.loginForm)
+          console.log('res', res)
+          if (res.code === 200) {
+            setToken(res.data.data)
+            this.$message.success('登录成功')
+            this.$router.push('/dashboard')
+          } else if (res.code === 1001) {
+            store.commit('user/removeUserInfo')
+          } else if (res.code === 1201 || res.code === 1200) {
+            this.$confirm(res.data.msg, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              setToken(res.data.data)
+              this.$router.push('/register')
+            })
+          } else if (res.code === 1203) {
+            this.$confirm(res.data.msg, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              setToken(res.data.data)
+              // eslint-disable-next-line object-curly-spacing
+              this.$router.push({ name: 'register', params: { id: res.data.qcc_information_store } })
+            })
           }
         }
       })
@@ -476,9 +494,29 @@ export default {
             console.log('res1', res)
             if (res.code === 200) {
               setToken(res.data.data)
+              this.$message.success('登录成功')
               this.$router.push('/dashboard')
-            } else if (res.code === 1200) {
-              this.$message.success(res.data.mag)
+            } else if (res.code === 1001) {
+              store.commit('user/removeUserInfo')
+            } else if (res.code === 1201 || res.code === 1200) {
+              this.$confirm(res.data.msg, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                setToken(res.data.data)
+                this.$router.push('/register')
+              })
+            } else if (res.code === 1203) {
+              this.$confirm(res.data.msg, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                setToken(res.data.data)
+                // eslint-disable-next-line object-curly-spacing
+                this.$router.push({ name: 'register', params: { id: res.data.qcc_information_store } })
+              })
             }
           } catch (error) {
             console.log(error)
@@ -623,6 +661,9 @@ export default {
         console.log('修改密码', res)
         if (res.code === 200) {
           this.$message.success('修改密码成功,去登陆吧')
+          this.retrievePassword = false
+          this.flagShow = false
+          this.show = true
         } else if (res.code === 1200) {
           this.$message.success(res.data.msg)
         }

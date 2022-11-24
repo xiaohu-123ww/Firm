@@ -6,7 +6,7 @@
           <div style="width: 100%">
             <el-input
               v-model="form.qw"
-              placeholder="请输入关键词"
+              placeholder="请输入姓名搜索"
               style="width: 500px"
             ></el-input>
             <el-button class="button" @click="searchList">搜索</el-button>
@@ -35,7 +35,11 @@
           >
             <div class="search-checkbox">
               <span style="margin: 5px 10px">学历要求</span>
-              <el-checkbox-group v-model="num" size="mini">
+              <el-checkbox-group
+                v-model="num"
+                size="mini"
+                @change="handleCheckAllChange"
+              >
                 <el-checkbox-button
                   v-for="(vItem, vIndex) in cities"
                   :key="vIndex.id"
@@ -684,6 +688,14 @@ export default {
     this.getList()
   },
   methods: {
+    handleCheckAllChange (value) {
+      console.log('value', value)
+      for (let i = 0; i < value.length; i++) {
+        if (this.num[i] === 0) {
+          this.num = [0]
+        }
+      }
+    },
     // 第几页
     handleSize (page) {
       console.log(page)
@@ -789,7 +801,7 @@ export default {
       } else if (this.num[0] === 0) {
         delete list.edu
       } else {
-        list.edu = this.num[0]
+        list.edu = this.num
       }
       if (list.age_min === '' || list.age_min === null) {
         delete list.age_min

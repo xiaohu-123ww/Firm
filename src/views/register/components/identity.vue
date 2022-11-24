@@ -134,12 +134,15 @@ export default {
         if (vaild) {
           const res = await getAuthenList(this.formList)
           console.log('实名认证', res)
-          if (res.code === 1001) {
-            this.$message.error(res.data.msg)
+          if (res.code === 1003) {
+            this.$message.success(res.data.msg)
             this.$emit('handleEmail', this.formList)
           }
+          if (res.code === 1004) {
+            this.$message.error(res.data.msg)
+          }
           if (res.code === 200) {
-            this.$message.error('实名认证成功')
+            this.$message.success('实名认证成功')
             this.$emit('handleEmail', this.formList)
           }
         }

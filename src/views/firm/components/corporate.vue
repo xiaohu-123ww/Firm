@@ -77,7 +77,15 @@ export default {
     async getListNum () {
       const res = await getImage()
       console.log('res', res)
-      this.showPicList = res.data.data.images
+      const image = res.data.data.images.map(item => item.image)
+      const images = image.map(item => this.disposeImg(item))
+      const bb = images.map(item => ({
+
+        url: item
+      }))
+      this.showPicList = bb
+
+      console.log('this.showPicList', bb)
       const aa = res.data.data.images.length
       this.leg = 6 - aa
       console.log(this.leg)
@@ -123,8 +131,8 @@ export default {
     // 0.3.4 图片移除操作
     async handleRemove (file) {
       console.log(file)
-      this.img.image = file.image
-      console.log(this.img)
+      this.img.image = file.url.slice(22)
+      console.log('123', this.img)
       const res = await getImageDelete(this.img)
       console.log('移除', res)
       this.$message.success('移除图片成功')

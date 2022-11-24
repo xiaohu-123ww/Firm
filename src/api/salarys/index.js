@@ -190,3 +190,7 @@ export function getFirmData (id, data) {
 export function getFirmDelete (id) {
   return request.delete(`enterprise/interviews/${id}/`)
 }
+
+export function getState () {
+  return request.get('/enterprise/comm-list-count/')
+}

@@ -187,6 +187,7 @@
           认证方式
         </div>
         <div
+          v-if="inputChange"
           style="
             width: 100%;
             height: 30px;
@@ -199,8 +200,17 @@
             type="text"
             icon="el-icon-edit"
             style="color: rgb(32, 101, 206); margin-left: 20px"
+            @click="changeFirm"
             >更换公司</el-button
           >
+        </div>
+        <div v-else style="display: flex; margin: 20px 100px">
+          <el-input
+            v-model="name"
+            placeholder="请输入公司名称"
+            style="margin-right: 10px"
+          ></el-input>
+          <el-button type="primary" @click="numberChange">确定</el-button>
         </div>
         <div class="email">
           <div
@@ -215,9 +225,13 @@
                   <div class="email-three">
                     <div class="text">通过企业邮箱认证您和企业的关系</div>
                     <div class="text">(极速审核)</div>
-                    <!-- <div class="text" style="margin-top: 60px; color: red">
-                      审核中
-                    </div> -->
+                    <div
+                      v-if="state"
+                      class="text"
+                      style="margin-top: 60px; color: red"
+                    >
+                      {{ state }}
+                    </div>
                   </div>
                   <div>
                     <el-button
@@ -250,9 +264,13 @@
                   <div class="email-three">
                     <div class="text">提交企业营业执照认证</div>
                     <div class="text">(1-3个工作日)</div>
-                    <!-- <div class="text" style="margin-top: 60px; color: red">
-                      审核中
-                    </div> -->
+                    <div
+                      v-if="state"
+                      class="text"
+                      style="margin-top: 60px; color: red"
+                    >
+                      {{ state }}
+                    </div>
                   </div>
                   <div>
                     <el-button
@@ -272,6 +290,19 @@
                 </div>
               </el-col>
             </el-row>
+            <div style="margin-top: 30px">
+              <div style="padding-left: 60px"><Item icon="fill" />提示</div>
+              <div
+                style="
+                  font-size: 14px;
+                  color: #897e7e;
+                  padding: 10px 60px;
+                  line-height: 20px;
+                "
+              >
+                根据法规要求，在您注册成为经办人前，需确保您所提交的相关认证材料的真实性、合法性、有效性及来源于企业的授权使用，授权目的包括但不限于注册、使用企业名下的招聘者账号
+              </div>
+            </div>
           </div>
           <div v-if="condition.email_identity_valid">
             <el-row>
@@ -281,9 +312,13 @@
                   <div class="email-three">
                     <div class="text">通过企业邮箱认证您和企业的关系</div>
                     <div class="text">(极速审核)</div>
-                    <!-- <div class="text" style="margin-top: 60px; color: red">
-                      审核中
-                    </div> -->
+                    <div
+                      v-if="state"
+                      class="text"
+                      style="margin-top: 60px; color: red"
+                    >
+                      {{ state }}
+                    </div>
                   </div>
                   <div>
                     <el-button
@@ -303,6 +338,19 @@
                 </div>
               </el-col>
             </el-row>
+            <div style="margin-top: 30px">
+              <div style="padding-left: 60px"><Item icon="fill" />提示</div>
+              <div
+                style="
+                  font-size: 14px;
+                  color: #897e7e;
+                  padding: 10px 60px;
+                  line-height: 20px;
+                "
+              >
+                根据法规要求，在您注册成为经办人前，需确保您所提交的相关认证材料的真实性、合法性、有效性及来源于企业的授权使用，授权目的包括但不限于注册、使用企业名下的招聘者账号
+              </div>
+            </div>
           </div>
 
           <div v-if="condition.license_identity_valid">
@@ -324,9 +372,13 @@
                   <div class="email-three">
                     <div class="text">提交企业营业执照认证</div>
                     <div class="text">(1-3个工作日)</div>
-                    <!-- <div class="text" style="margin-top: 60px; color: red">
-                      审核中
-                    </div> -->
+                    <div
+                      v-if="state"
+                      class="text"
+                      style="margin-top: 60px; color: red"
+                    >
+                      {{ state }}
+                    </div>
                   </div>
                   <div>
                     <el-button
@@ -346,23 +398,38 @@
                 </div>
               </el-col>
             </el-row>
+            <div style="margin-top: 30px">
+              <div style="padding-left: 60px"><Item icon="fill" />提示</div>
+              <div
+                style="
+                  font-size: 14px;
+                  color: #897e7e;
+                  padding: 10px 60px;
+                  line-height: 20px;
+                "
+              >
+                根据法规要求，在您注册成为经办人前，需确保您所提交的相关认证材料的真实性、合法性、有效性及来源于企业的授权使用，授权目的包括但不限于注册、使用企业名下的招聘者账号
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div v-if="emailss" class="emilss">
-        <Emailss
-          :enterprise="form.enterprise_name"
-          @handleClose="handleClose"
-        />
-      </div>
-      <div v-if="business" class="emilss" style="padding-top: 40px">
-        <Firm
-          :enterprise="form.enterprise_name"
-          @handleClosess="handleClosess"
-        />
-      </div>
-      <div v-if="noun" class="emilss">
-        <Business :enterprise="form.enterprise_name" @handle="handle" />
+      <div>
+        <div v-if="emailss" class="emilss">
+          <Emailss
+            :enterprise="form.enterprise_name"
+            @handleClose="handleClose"
+          />
+        </div>
+        <div v-if="business" class="emilss" style="padding-top: 40px">
+          <Firm
+            :enterprise="form.enterprise_name"
+            @handleClosess="handleClosess"
+          />
+        </div>
+        <div v-if="noun" class="emilss">
+          <Business :enterprise="form.enterprise_name" @handle="handle" />
+        </div>
       </div>
     </div>
   </div>
@@ -376,9 +443,9 @@ import Identity from './components/identity.vue'
 import Firm from './components/firm.vue'
 
 import Business from './components/business.vue'
-
+import Item from '@/layout/components/Sidebar/Item'
 export default {
-  components: { Identity, Emailss, Firm, Business },
+  components: { Identity, Emailss, Firm, Business, Item },
   data () {
     return {
       details: false,
@@ -457,7 +524,10 @@ export default {
       check: {
 
       },
-      condition: {}
+      condition: {},
+      state: '',
+      name: '',
+      inputChange: true
 
     }
   },
@@ -470,8 +540,36 @@ export default {
   created () {
     this.getCityList()
     this.getIndustry()
+    this.getQuery()
   },
   methods: {
+    async getQuery () {
+      console.log('this.$route.params.id', this.$route.params.id)
+      if (this.$route.params.id.enterprise_id !== '') {
+        this.enterprisess = true
+        this.company = false
+        this.showFlag = false
+        this.number = true
+        this.details = true
+        this.emailss = false
+        this.business = false
+        this.noun = false
+        const id = this.$route.params.id.enterprise_id
+        console.log('id', id)
+        this.form.enterprise_name = id
+        this.state = this.$route.params.id.status.name
+        this.check.enterprise_name = this.form.enterprise_name
+        const res = await getCheckMethods(this.check)
+        console.log('验证方式', res)
+        this.job = true
+        this.condition = res.data
+      }
+
+      // const res = await getCheckMethods(id)
+      // console.log('验证方式', res)
+      // this.job = true
+      // this.condition = res.data
+    },
     firm () {
       this.details = true
       this.company = true
@@ -482,9 +580,7 @@ export default {
       this.noun = false
     },
     authentication () {
-      if (this.form.enterprise_name === '' || this.form.job === '' || this.form.address === '' || this.form.field === '') {
-        this.$message.error('请先完成企业内容填写')
-      } else {
+      if (this.$route.params.id.enterprise_id !== '') {
         this.job = true
         this.company = false
         this.showFlag = true
@@ -492,12 +588,22 @@ export default {
         this.emailss = false
         this.business = false
         this.noun = false
+      } else {
+        if (this.form.enterprise_name === '' || this.form.job === '' || this.form.address === '' || this.form.field === '') {
+          this.$message.error('请先完成企业内容填写')
+        } else {
+          this.job = true
+          this.company = false
+          this.showFlag = true
+          this.number = false
+          this.emailss = false
+          this.business = false
+          this.noun = false
+        }
       }
     },
     enterprise () {
-      if (this.formList.name === '' || this.formList.card_id === '' || this.formList.number === '' || this.formList.number_code === '') {
-        this.$message.error('请先完成实名认证')
-      } else {
+      if (this.$route.params.id.enterprise_id !== '') {
         this.enterprisess = true
         this.company = false
         this.showFlag = false
@@ -506,6 +612,19 @@ export default {
         this.emailss = false
         this.business = false
         this.noun = false
+      } else {
+        if (this.formList.name === '' || this.formList.card_id === '' || this.formList.number === '' || this.formList.number_code === '') {
+          this.$message.error('请先完成实名认证')
+        } else {
+          this.enterprisess = true
+          this.company = false
+          this.showFlag = false
+          this.number = true
+
+          this.emailss = false
+          this.business = false
+          this.noun = false
+        }
       }
     },
     async down () {
@@ -627,6 +746,23 @@ export default {
       this.emailss = false
       this.business = false
       this.noun = false
+    },
+    async numberChange () {
+      // console.log(1)
+      this.form.enterprise_name = this.name
+      this.inputChange = true
+      this.check.enterprise_name = this.form.enterprise_name
+      const res = await getCheckMethods(this.check)
+      console.log('验证方式', res)
+      this.job = true
+      this.condition = res.data
+    },
+    changeFirm () {
+      this.inputChange = false
+      console.log(1)
+    },
+    inChange () {
+
     }
   }
 
@@ -718,5 +854,8 @@ export default {
 }
 ::v-deep .el-upload.el-upload--text {
   background-color: #eeeef5;
+}
+.none {
+  pointer-events: none;
 }
 </style>

@@ -9,7 +9,7 @@
             @toggleClick="toggleSideBar"
           /></div
       ></el-col>
-      <el-col :span="17"
+      <el-col :span="19"
         ><div class="grid-content bg-purple">
           <div class="navbar-bt">
             <!-- <Item :icon="icon" />
@@ -17,7 +17,7 @@
           </div>
         </div></el-col
       >
-      <el-col :span="3"
+      <el-col :span="1"
         ><div class="grid-content bg-purple-light">
           <a href="javascript:;" class="navbar-firm" @click="onClick">
             <div :class="{ bg: state === 1 }">企业主页</div>
@@ -51,7 +51,6 @@
               <el-dropdown-item @click.native="logout"
                 >退出登录</el-dropdown-item
               >
-              <el-dropdown-item>首页</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div></el-col
