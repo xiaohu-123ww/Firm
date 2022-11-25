@@ -9,7 +9,7 @@
             @toggleClick="toggleSideBar"
           /></div
       ></el-col>
-      <el-col :span="19"
+      <el-col :span="18"
         ><div class="grid-content bg-purple">
           <div class="navbar-bt">
             <!-- <Item :icon="icon" />
@@ -17,7 +17,7 @@
           </div>
         </div></el-col
       >
-      <el-col :span="1"
+      <el-col :span="2"
         ><div class="grid-content bg-purple-light">
           <a href="javascript:;" class="navbar-firm" @click="onClick">
             <div :class="{ bg: state === 1 }">企业主页</div>
