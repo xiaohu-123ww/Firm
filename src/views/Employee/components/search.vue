@@ -295,7 +295,7 @@
         </div>
       </div>
     </div>
-    <Recommendsss v-if="detailss" :resume-list="resumeList" />
+    <Recommendsss v-if="detailss" :resume-list="resumeList" :pid="pid" />
   </div>
 </template>
 <script>
@@ -312,6 +312,7 @@ export default {
   components: { List, Recommendsss },
   data () {
     return {
+      pid: 0,
       detailss: false,
       resumeList: {},
       key: '',
@@ -880,6 +881,7 @@ export default {
     },
     async newResume (id) {
       console.log(id)
+      this.pid = id
       const res = await getResume(id)
       console.log('简历', res)
       this.resumeList = res.data.data

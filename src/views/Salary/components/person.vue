@@ -120,7 +120,7 @@
         </div>
       </div>
     </div>
-    <Recommendsss v-if="details" :resume-list="resumeList" />
+    <Recommendsss v-if="details" :resume-list="resumeList" :pid="pids" />
   </div>
 </template>
 <script>
@@ -137,6 +137,7 @@ export default {
   components: { Talents, Loading, List, Recommendsss },
   data () {
     return {
+      pids: '',
       backgroundColor: 1,
       qw: '',
       total: 100,
@@ -522,6 +523,7 @@ export default {
     },
     async newResume (id) {
       console.log(id)
+      this.pids = id
       const res = await getResume(id)
       console.log('简历', res)
       this.resumeList = res.data.data

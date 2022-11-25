@@ -45,7 +45,7 @@
         style="height: 500px"
       ></el-empty>
     </div>
-    <Recommendsss v-if="details" :resume-list="resumeList" />
+    <Recommendsss v-if="details" :pid="pid" :resume-list="resumeList" />
 
     <el-empty
       v-if="empty"
@@ -65,14 +65,14 @@ export default {
       backgroundColor: 0,
       jobName: [],
       list: [
-
       ],
       position: 0,
       loading: true,
       details: false,
       resumeList: {},
       empty: false,
-      online: {}
+      online: {},
+      pid: ''
     }
   },
   mounted () {
@@ -131,6 +131,8 @@ export default {
     // 简历详情
     async newResume (id) {
       console.log(id)
+      this.pid = id
+      console.log('id', this.pid)
       const res = await getResume(id, this.position)
       console.log('简历', res)
       this.resumeList = res.data.data

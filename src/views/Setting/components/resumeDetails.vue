@@ -79,10 +79,15 @@
                   </el-row>
                 </div>
               </div>
+              <el-empty
+                v-if="jobList.length === 0"
+                description="暂无数据"
+              ></el-empty>
             </div>
             <div class="job">
               <div class="one">个人优势</div>
               <div class="like-text" v-html="text"></div>
+              <el-empty v-if="text === null" description="暂无数据"></el-empty>
             </div>
             <div class="job">
               <div class="one">工作经历</div>
@@ -118,6 +123,10 @@
                   v-html="item.position_info.job_desc"
                 ></div>
               </div>
+              <el-empty
+                v-if="workList.length === 0"
+                description="暂无数据"
+              ></el-empty>
             </div>
             <div class="job">
               <div class="one">教育经历</div>
@@ -143,6 +152,10 @@
                   }}</span>
                 </div>
               </div>
+              <el-empty
+                v-if="experiences.length === 0"
+                description="暂无数据"
+              ></el-empty>
             </div>
             <div class="job">
               <div class="one">项目经历</div>
@@ -167,6 +180,10 @@
                   v-html="item.project_info.project_desc"
                 ></div>
               </div>
+              <el-empty
+                v-if="project.length === 0"
+                description="暂无数据"
+              ></el-empty>
             </div>
             <div class="job" style="border: 0">
               <div class="one">资格证书</div>
@@ -199,6 +216,10 @@
                   }}</el-col>
                 </el-row>
               </div>
+              <el-empty
+                v-if="certification.length === 0"
+                description="暂无数据"
+              ></el-empty>
             </div>
           </div>
         </el-col>
@@ -228,6 +249,9 @@ export default {
   props: {
     resumeList: {
       type: Object
+    },
+    pid: {
+      type: Number
     }
   },
   components: { Item },
@@ -280,40 +304,40 @@ export default {
   methods: {
     // 求职意向
     async getJobList () {
-      const res = await getJob()
+      const res = await getJob(this.pid)
       console.log('求职意向', res)
 
       this.jobList = res.data.data
     },
     // 优势
     async getText () {
-      const res = await getLike()
+      const res = await getLike(this.pid)
       console.log('优势', res)
       this.text = res.data.data
     },
     // 工作
     async getWorkList () {
-      const res = await getwork()
+      const res = await getwork(this.pid)
       console.log('工作', res)
       this.workList = res.data.data
       // this.dec = res.data.data.position_info.job_desc
     },
     // 教育经历
     async getExperiencesList () {
-      const res = await getExperiences()
+      const res = await getExperiences(this.pid)
       console.log('教育经历', res)
       this.experiences = res.data.data
       console.log(this.experiences)
     },
     // 项目经历
     async getProjectList () {
-      const res = await getProject()
+      const res = await getProject(this.pid)
       console.log('项目经历', res)
       this.project = res.data.data
     },
     // 证书
     async getCertificationList () {
-      const res = await getCertification()
+      const res = await getCertification(this.pid)
       console.log('证书', res)
       this.certification = res.data.data
     },
