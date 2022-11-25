@@ -46,3 +46,9 @@ export function sendCapteLogin (data) {
 export function sendPasswordLogin (data) {
   return request.put('/user/enterprise-login/v1.0.0/', data)
 }
+/**
+ * 退出登录
+ */
+export function logout () {
+  return request.post('/logout/')
+}

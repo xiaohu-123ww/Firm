@@ -39,36 +39,50 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 1000 && res.code !== 200 && res.code !== 1001 && res.code !== 504 && res.code === 1201 && res.code !== 1203 && res.code !== 1200) {
-      //  (res.code);
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 0 || res.code === 2000 || res.code === 50011 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        //  ("500");
-        MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //  ("501");
-          // store.commit('user/removeUserInfo')
-          router.push('/')
-          removeToken()
-        })
-      } else {
-        Message({
-          message: res.data.msg || res.msg,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
-      return res
-      // return Promise.reject(new Error(res.msg || 'Error'))
+    if (res.code === 2000 || res.code === 0) {
+      MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        //  ("501");
+        // store.commit('user/removeUserInfo')
+        router.push('/')
+        removeToken()
+      })
     } else {
       return res
     }
+    // if the custom code is not 20000, it is judged as an error.
+    // if (res.code !== 1000 && res.code !== 200 && res.code !== 1001 && res.code !== 504 && res.code === 1201 && res.code !== 1203 && res.code !== 1200) {
+    //   //  (res.code);
+    //   // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
+    //   console.log(res)
+    //   if (res.code === 0 || res.code === 2000 || res.code === 50011 || res.code === 50012 || res.code === 50014) {
+    //     // to re-login
+    //     //  ("500");
+    //     MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
+    //       confirmButtonText: '确认',
+    //       cancelButtonText: '取消',
+    //       type: 'warning'
+    //     }).then(() => {
+    //       //  ("501");
+    //       // store.commit('user/removeUserInfo')
+    //       router.push('/')
+    //       removeToken()
+    //     })
+    //   } else {
+    //     Message({
+    //       message: res.data.msg || res.msg,
+    //       type: 'error',
+    //       duration: 5 * 1000
+    //     })
+    //   }
+    //   return res
+    //   // return Promise.reject(new Error(res.msg || 'Error'))
+    // } else {
+    //   return res
+    // }
   },
   error => {
     //  (error.message);

@@ -64,6 +64,7 @@
 import Item from '@/layout/components/Sidebar/Item.vue'
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
+import { logout } from '@/api/user'
 export default {
   components: {
     Hamburger,
@@ -107,26 +108,29 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
+      }).then(async () => {
         // 确定逻辑
         // 2. 清空数据 跳转登录页
         // vuex
         // 使用mutation
-        this.$store.commit('user/removeUserInfo')
-        // this.$router.push('/login')
-        // 从哪里发生的退出登录 重新登录之后再回到这个页面
-        // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
-        // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
-        // 还跳转到首页
-        this.$router.push({
-          path: '/'
-          // query: {
-          //   // 携带的路由参数
-          //   redirect: this.$route.fullPath
-          //   // to.path -> 只包含路径
-          //   // fullPatch 既有路径也有参数
-          // }
-        })
+        const res = await logout()
+        console.log('退出', res)
+        if (res.code === 1000) {
+          this.$store.commit('user/removeUserInfo')
+          this.$router.push('/')
+        } else {
+          this.$message.error(res.data.msg)
+        }
+        // this.$store.commit('user/removeUserInfo')
+        // // this.$router.push('/login')
+        // // 从哪里发生的退出登录 重新登录之后再回到这个页面
+        // // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
+        // // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
+        // // 还跳转到首页
+        // this.$router.push({
+        //   path: '/'
+
+        // })
       }).catch(() => {
 
       })
