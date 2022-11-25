@@ -514,11 +514,14 @@ export default {
     cityChange (i) {
       console.log(i)
       this.town = i.children
+      this.list.addressAll = ''
+      this.list.third = ''
     },
     // 区
     townChange (item) {
       console.log(item)
       this.prefecture = item.children
+      this.list.third = ''
     },
     // 县
     prefectureChange (adcode) {

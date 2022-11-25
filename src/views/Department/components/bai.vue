@@ -305,6 +305,8 @@ export default {
     async cityChange (i, name) {
       console.log(i)
       this.town = i.children
+      this.list.address = ''
+      this.list.third = ''
       await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
         address: name, // input框输入的地址
         output: 'json',
@@ -328,6 +330,8 @@ export default {
     async townChange (item, name) {
       console.log(item)
       this.prefecture = item.children
+
+      this.list.third = ''
       await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
         address: this.list.city + name, // input框输入的地址
         output: 'json',
