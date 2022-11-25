@@ -4,7 +4,7 @@
     <el-card class="post-card">
       <div>
         <el-form
-          ref="rr"
+          ref="rf"
           :model="ruleForm"
           :rules="rules"
           label-width="100px"
@@ -609,7 +609,7 @@ export default {
       // this.$message.success('添加职位数据成功')
       // console.log('添加职位', res)
       // this.$message.success('添加职位数据成功')
-      this.$refs.rr.validate(async (valid) => {
+      this.$refs.rf.validate(async (valid) => {
         console.log(1)
         if (valid) {
           console.log(123)
@@ -621,7 +621,7 @@ export default {
           this.clear()
         }
       })
-      this.$emit('reset', true)
+      // this.$emit('reset', true)
     },
     resetForm () {
       this.$confirm('确定取消职位添加吗？', '提示', {

@@ -19,16 +19,13 @@
             </div>
             <div class="search-checkbox">
               <span style="margin: 5px 10px">学历要求</span>
-              <el-checkbox-group
-                v-model="num"
-                size="mini"
-                @change="handleCheckAllChange"
-              >
+              <el-checkbox-group v-model="num" size="mini">
                 <el-checkbox-button
                   v-for="(vItem, vIndex) in cities"
                   :key="vIndex"
                   :label="vItem.id"
                   style="margin-right: 10px"
+                  @change="handleCheckAllChange(vItem.id)"
                   >{{ vItem.name }}</el-checkbox-button
                 >
               </el-checkbox-group>
@@ -577,12 +574,21 @@ export default {
   },
   methods: {
     handleCheckAllChange (value) {
-      console.log('value', value)
-      for (let i = 0; i < value.length; i++) {
-        if (this.num[i] === 0) {
-          this.num = [0]
+      // for (let i = 0; i < value.length; i++) {
+      //   if (this.num[i] === 0) {
+      //     this.num = []
+      //     this.num.push(0)
+      //   }
+      // }
+      if (value === 0) {
+        this.num = [0]
+        // this.num.push(0)
+      } else {
+        if (this.num[0] === 0) {
+          this.num = [value]
         }
       }
+      console.log(this.num)
     },
     buttonss (id) {
       this.ud = id
@@ -600,9 +606,10 @@ export default {
       const { data } = await getEnterprise()
       console.log('job', data)
       this.firm = data.data
+      console.log('123', data.data[0].id)
+      this.position = data.data[0].id
       if (this.firm.length > 5) {
         this.firm.splice(5, this.firm.length - 5)
-        this.position = this.firm[0].id
       }
     },
     // 城市

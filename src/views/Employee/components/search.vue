@@ -45,6 +45,7 @@
                   :key="vIndex.id"
                   :label="vItem.id"
                   style="margin-right: 10px"
+                  @change="handleCheckAllChange(vItem.id)"
                   >{{ vItem.name }}</el-checkbox-button
                 >
               </el-checkbox-group>
@@ -690,12 +691,15 @@ export default {
   },
   methods: {
     handleCheckAllChange (value) {
-      console.log('value', value)
-      for (let i = 0; i < value.length; i++) {
-        if (this.num[i] === 0) {
-          this.num = [0]
+      if (value === 0) {
+        this.num = [0]
+        // this.num.push(0)
+      } else {
+        if (this.num[0] === 0) {
+          this.num = [value]
         }
       }
+      console.log(this.num)
     },
     // 第几页
     handleSize (page) {

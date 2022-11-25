@@ -131,7 +131,7 @@
                 label-width="80px"
                 :rules="image"
               >
-                <el-form-item label="">
+                <el-form-item label="" prop="logo">
                   <div
                     style="
                       font-size: 18px;
@@ -472,7 +472,7 @@ export default {
         ]
       },
       image: {
-        image: [
+        logo: [
           { required: true, message: '请选择企业LOGO', trigger: 'change' }
         ]
       },
@@ -539,38 +539,46 @@ export default {
             if (valid) {
               this.$refs.list.validate(async (vaild) => {
                 if (vaild) {
-                  if (this.numstate === true) {
-                    if (this.list.field === this.num.field.children.name) {
-                      this.list.field = this.num.field.children.id
-                    }
-                  }
-                  if (this.numstate === true) {
-                    if (this.list.field_vice === this.num.field_vice.children.name) {
-                      this.list.field_vice = this.num.field_vice.children.id
-                    }
-                  }
-                  if (this.numstate === true) {
-                    if (this.list.registered_address === this.num.registered_address.name) {
-                      this.list.registered_address = this.num.registered_address.id
-                    }
-                  }
+                  this.$refs.image.validate(async (vaild) => {
+                    if (vaild) {
+                      if (this.numstate === true) {
+                        if (this.num.field !== '' && this.num.field !== null) {
+                          if (this.list.field === this.num.field.children.name) {
+                            this.list.field = this.num.field.children.id
+                          }
+                        }
+                      }
+                      if (this.numstate === true) {
+                        if (this.num.field_vice !== '' && this.num.field_vice !== null) {
+                          if (this.list.field_vice === this.num.field_vice.children.name) {
+                            this.list.field_vice = this.num.field_vice.children.id
+                          }
+                        }
+                      }
+                      if (this.numstate === true) {
+                        if (this.list.registered_address === this.num.registered_address.name) {
+                          this.list.registered_address = this.num.registered_address.id
+                        }
+                      }
 
-                  if (this.list.is_financing_status === false) {
-                    this.list.is_financing_status = 0
-                  } else {
-                    this.list.is_financing_status = 1
-                  }
-                  if (this.list.logo === this.images) {
-                    this.list.logo = this.list.logo.slice(22)
-                  } else {
-                    this.list.logo = this.lists.logo
-                  }
+                      if (this.list.is_financing_status === false) {
+                        this.list.is_financing_status = 0
+                      } else {
+                        this.list.is_financing_status = 1
+                      }
+                      if (this.list.logo === this.images) {
+                        this.list.logo = this.list.logo.slice(22)
+                      } else {
+                        this.list.logo = this.lists.logo
+                      }
 
-                  console.log('123', this.list)
-                  const res = await getWork(this.list)
-                  console.log('编辑', res)
-                  this.$message.success('修改信息成功,信息审核中！')
-                  this.$emit('reset', 0)
+                      console.log('123', this.list)
+                      const res = await getWork(this.list)
+                      console.log('编辑', res)
+                      this.$message.success('修改信息成功,信息审核中！')
+                      this.$emit('reset', 0)
+                    }
+                  })
                 }
               })
             }
@@ -604,20 +612,31 @@ export default {
         this.numstate = true
         this.list.firm = data.data.name
         this.state = true
-        this.list.field = data.data.field.children.name
+        if (data.data.field !== '' && data.data.field !== null) {
+          this.list.field = data.data.field.children.name
+        }
+
         this.list.nature = data.data.nature.id
         this.list.staff_size = data.data.staff_size.id
         this.list.financing_status = data.data.financing_status.id
         const res = data.data.financing_status.is_financing_status.name
-        this.list.field_vice = data.data.field_vice.children.name
+        if (data.data.field_vice !== '' && data.data.field_vice !== null) {
+          this.list.field_vice = data.data.field_vice.children.name
+        }
+
         if (res === '不展示') {
           this.list.is_financing_status = false
         } else {
           this.list.is_financing_status = true
         }
-        this.list.registered_address = data.data.registered_address.name
-        this.images = this.disposeImg(data.data.logo)
-        this.list.logo = this.disposeImg(data.data.logo)
+        if (data.data.registered_address !== '' && data.data.registered_address !== null) {
+          this.list.registered_address = data.data.registered_address.name
+        }
+        if (data.data.logo !== null && data.data.logo !== '') {
+          this.images = this.disposeImg(data.data.logo)
+          this.list.logo = this.disposeImg(data.data.logo)
+        }
+
         // this.logo = { 'url': this.images }
         // console.log('123', this.logo)
       }
