@@ -17,13 +17,18 @@
             <div
               style="font-size: 14px; margin-bottom: 50px; margin-left: 12px"
             >
-              <el-form ref="firm" :model="list" label-width="80px">
-                <el-form-item>
+              <el-form
+                ref="firm"
+                :model="list"
+                label-width="80px"
+                :rules="firmName"
+              >
+                <el-form-item prop="firm">
                   <el-input
                     v-model="list.firm"
-                    disabled
                     placeholder="请输入企业名称"
                     style="width: 300px"
+                    :disabled="state"
                   ></el-input>
                 </el-form-item>
               </el-form>
@@ -302,6 +307,7 @@ export default {
         field_vice: ''
 
       },
+      logo: '',
       scale: [
         {
           id: 2,
@@ -434,6 +440,9 @@ export default {
         }
 
       ],
+      firmName: {
+        firm: { required: true, message: '请填写企业名称', trigger: 'blur' }
+      },
 
       rules: {
 
@@ -474,7 +483,10 @@ export default {
       field: {},
       cityAll: [],
       town: [],
-      num: {}
+      num: {},
+      images: '',
+      state: false,
+      numstate: false
     }
   },
   mounted () {
@@ -510,7 +522,8 @@ export default {
         this.$message.success('图片选择成功')
         const image = res.data.data.image
         this.lists.logo = image
-        console.log(this.list)
+
+        console.log('123', this.lists, res.data.data.image)
       } else {
         this.message.error(res.data.msg)
       }
@@ -520,28 +533,48 @@ export default {
       this.list.logo = URL.createObjectURL(file.raw)
     },
     submit () {
-      this.$refs.list.validate(async (vaild) => {
-        if (vaild) {
-          if (this.list.field === this.num.field.children.name) {
-            this.list.field = this.num.field.children.id
-          }
-          if (this.list.field_vice === this.num.field_vice.children.name) {
-            this.list.field_vice = this.num.field_vice.children.id
-          }
-          if (this.list.registered_address === this.num.registered_address.name) {
-            this.list.registered_address = this.num.registered_address.id
-          }
-          if (this.list.is_financing_status === false) {
-            this.list.is_financing_status = 0
-          } else {
-            this.list.is_financing_status = 1
-          }
+      this.$refs.firm.validate((valid) => {
+        if (valid) {
+          this.$refs.required.validate((valid) => {
+            if (valid) {
+              this.$refs.list.validate(async (vaild) => {
+                if (vaild) {
+                  if (this.numstate === true) {
+                    if (this.list.field === this.num.field.children.name) {
+                      this.list.field = this.num.field.children.id
+                    }
+                  }
+                  if (this.numstate === true) {
+                    if (this.list.field_vice === this.num.field_vice.children.name) {
+                      this.list.field_vice = this.num.field_vice.children.id
+                    }
+                  }
+                  if (this.numstate === true) {
+                    if (this.list.registered_address === this.num.registered_address.name) {
+                      this.list.registered_address = this.num.registered_address.id
+                    }
+                  }
 
-          console.log(this.list)
-          const res = await getWork(this.list)
-          console.log('编辑', res)
-          this.$message.success('修改信息成功,信息审核中！')
-          this.$emit('reset', 0)
+                  if (this.list.is_financing_status === false) {
+                    this.list.is_financing_status = 0
+                  } else {
+                    this.list.is_financing_status = 1
+                  }
+                  if (this.list.logo === this.images) {
+                    this.list.logo = this.list.logo.slice(22)
+                  } else {
+                    this.list.logo = this.lists.logo
+                  }
+
+                  console.log('123', this.list)
+                  const res = await getWork(this.list)
+                  console.log('编辑', res)
+                  this.$message.success('修改信息成功,信息审核中！')
+                  this.$emit('reset', 0)
+                }
+              })
+            }
+          })
         }
       })
     },
@@ -566,21 +599,28 @@ export default {
     async getList () {
       const { data } = await getEnterpriseList()
       console.log('信息', data)
-      this.num = data.data
-      this.list.firm = data.data.name
-      this.list.field = data.data.field.children.name
-      this.list.nature = data.data.nature.id
-      this.list.staff_size = data.data.staff_size.id
-      this.list.financing_status = data.data.financing_status.id
-      const res = data.data.financing_status.is_financing_status.name
-      this.list.field_vice = data.data.field_vice.children.name
-      if (res === '不展示') {
-        this.list.is_financing_status = false
-      } else {
-        this.list.is_financing_status = true
+      if (data.data.length !== 0) {
+        this.num = data.data
+        this.numstate = true
+        this.list.firm = data.data.name
+        this.state = true
+        this.list.field = data.data.field.children.name
+        this.list.nature = data.data.nature.id
+        this.list.staff_size = data.data.staff_size.id
+        this.list.financing_status = data.data.financing_status.id
+        const res = data.data.financing_status.is_financing_status.name
+        this.list.field_vice = data.data.field_vice.children.name
+        if (res === '不展示') {
+          this.list.is_financing_status = false
+        } else {
+          this.list.is_financing_status = true
+        }
+        this.list.registered_address = data.data.registered_address.name
+        this.images = this.disposeImg(data.data.logo)
+        this.list.logo = this.disposeImg(data.data.logo)
+        // this.logo = { 'url': this.images }
+        // console.log('123', this.logo)
       }
-      this.list.registered_address = data.data.registered_address.name
-      this.list.logo = this.disposeImg(data.data.logo)
     },
     // 行业领域分类
     async getIndustry () {

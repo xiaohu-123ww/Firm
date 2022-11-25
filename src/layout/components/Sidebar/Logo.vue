@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
-      <router-link key="collapse" class="sidebar-logo-link" to="/">
+      <router-link key="collapse" class="sidebar-logo-link" to="/dashboard">
         <img
           src="../../../assets/image/logo2.png"
           class="sidebar-logo"

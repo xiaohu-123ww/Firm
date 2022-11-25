@@ -479,6 +479,8 @@ export default {
               // eslint-disable-next-line object-curly-spacing
               this.$router.push({ name: 'register', params: { id: res.data.qcc_information_store } })
             })
+          } else if (res.code === 1003 || res.code === 1005) {
+            this.$message.error(res.data.msg)
           }
         }
       })
