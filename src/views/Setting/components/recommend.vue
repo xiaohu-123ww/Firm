@@ -47,16 +47,16 @@
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
                   {{
-                    item.position_class_data.position_class.name
-                      ? item.position_class_data.position_class.name
-                      : '意向岗位'
+                    item.position_class_data.city.name
+                      ? item.position_class_data.city.name
+                      : '期望城市'
                   }}
                 </div>
                 <div class="age-four four">
-                  求职意向：{{
-                    item.position_class_data.city.name
-                      ? item.position_class_data.city.name
-                      : '城市'
+                  求职职位：{{
+                    item.position_class_data.position_class.name
+                      ? item.position_class_data.position_class.name
+                      : '职位'
                   }}
                 </div>
                 <div class="age-four four">

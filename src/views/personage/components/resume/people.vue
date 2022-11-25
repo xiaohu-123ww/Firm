@@ -4,7 +4,7 @@
       title="修改信息"
       :visible.sync="peopleShow"
       width="35%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
     >
       <div>
         <el-form ref="rf" :model="ruleForm" label-width="80px" :rules="rules">
@@ -125,6 +125,13 @@ export default {
 
   },
   methods: {
+    handleCloses () {
+      this.$emit('reset', false)
+      this.number = ''
+      this.number_code = ''
+      this.name = ''
+      this.card_id = ''
+    },
     handleClose () {
       this.$refs.rf.validate(async (vaild) => {
         if (vaild) {

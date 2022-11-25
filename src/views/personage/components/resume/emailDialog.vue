@@ -4,7 +4,7 @@
       title="修改信息"
       :visible.sync="emailShow"
       width="35%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
     >
       <div>
         <el-form ref="rf" :model="ruleForm" label-width="80px" :rules="rules">
@@ -150,6 +150,12 @@ export default {
         this.ruleForm.email = ''
         this.ruleForm.code = ''
       })
+    },
+    handleCloses () {
+      this.$emit('submit', false)
+      this.$emit('reset', false)
+      this.ruleForm.email = ''
+      this.ruleForm.code = ''
     },
     // 验证码
     async getCode () {

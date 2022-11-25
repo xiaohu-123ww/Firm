@@ -4,7 +4,7 @@
       title="修改信息"
       :visible.sync="isShow"
       width="35%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
     >
       <div>
         <el-form ref="rf" :model="ruleForm" label-width="80px" :rules="rules">
@@ -124,6 +124,9 @@ export default {
 
   },
   methods: {
+    handleCloses () {
+      this.$emit('reset', false)
+    },
     // 取消
     handleClose () {
       this.$confirm('确定取消手机号绑定吗', '提示', {

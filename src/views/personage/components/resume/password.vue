@@ -4,7 +4,7 @@
       title="修改信息"
       :visible.sync="show"
       width="35%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
     >
       <div>
         <el-form
@@ -138,6 +138,9 @@ export default {
     // this.getPhoto()
   },
   methods: {
+    handleCloses () {
+      this.$emit('reset', false)
+    },
     handleClose () {
       this.$confirm('确定取消吗', '提示', {
         confirmButtonText: '确定',
