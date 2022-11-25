@@ -347,7 +347,7 @@ export default {
         that.list.city = addressInfo.province
         that.list.addressAll = addressInfo.city
         that.list.third = addressInfo.district
-        that.list.address = address
+        // that.list.address = address
       })
     },
 
@@ -404,7 +404,7 @@ export default {
           searchValue.street +
           searchValue.business
         )
-        // sessionStorage.setItem('address', searchValue.business)
+        sessionStorage.setItem('address', searchValue.business)
         return local
       })
 

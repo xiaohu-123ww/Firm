@@ -190,10 +190,10 @@ export default {
       geoc.getLocation(point, function (geocInfo) {
         // 设置基本信息
         var addressInfo = geocInfo.addressComponents
-        // console.log(point.lat);
-        // console.log(addressInfo.province);
-        // console.log(addressInfo.city);
-        // console.log(addressInfo.district);
+        console.log('123', point.lat)
+        console.log(addressInfo.province)
+        console.log(addressInfo.city)
+        console.log(addressInfo.district)
         let address = addressInfo.street + addressInfo.streetNumber
         if (geocInfo.surroundingPois.length > 0) {
           address = address + geocInfo.surroundingPois[0].title
@@ -202,7 +202,7 @@ export default {
         that.list.city = addressInfo.province
         that.list.address = addressInfo.city
         that.list.third = addressInfo.district
-        that.list.addressAll = address
+        // that.list.addressAll = address
       })
     },
 
@@ -259,7 +259,7 @@ export default {
           searchValue.street +
           searchValue.business
         )
-        // sessionStorage.setItem('address', searchValue.business)
+        sessionStorage.setItem('address', searchValue.business)
         return local
       })
 
@@ -364,6 +364,7 @@ export default {
       this.$message.success('地址加载成功')
     },
     confirm () {
+      this.list.addressAll = sessionStorage.getItem('address')
       const address = this.list.city + this.list.address + this.list.third + this.list.addressAll
       this.$emit('dialogReset', false, address, this.adcode, this.list.addressAll, this.locations)
       this.list.city = ''
