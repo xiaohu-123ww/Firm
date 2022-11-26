@@ -6,7 +6,7 @@
           <div style="width: 100%">
             <el-input
               v-model="form.qw"
-              placeholder="请输入姓名搜索"
+              placeholder="请输入职位关键词"
               style="width: 500px"
             ></el-input>
             <el-button class="button" @click="searchList">搜索</el-button>
@@ -35,11 +35,7 @@
           >
             <div class="search-checkbox">
               <span style="margin: 5px 10px">学历要求</span>
-              <el-checkbox-group
-                v-model="num"
-                size="mini"
-                @change="handleCheckAllChange"
-              >
+              <el-checkbox-group v-model="num" size="mini">
                 <el-checkbox-button
                   v-for="(vItem, vIndex) in cities"
                   :key="vIndex.id"
@@ -782,7 +778,7 @@ export default {
       this.offset = val
       const offset = this.limit * (val - 1)
       this.loading = true
-      this.searchList()
+      // this.searchList()
       const res = await getRetrivelList(this.limit, offset, this.initial)
       console.log('列表123', res)
       this.list = res.data.results
@@ -870,6 +866,7 @@ export default {
     },
     searchList () {
       this.getList()
+      this.offset = 1
     },
     async fast (e, id) {
       if (e.target.tagName === 'INPUT') return

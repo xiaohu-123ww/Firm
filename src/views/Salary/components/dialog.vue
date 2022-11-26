@@ -42,20 +42,16 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="面试地点" prop="address">
-        <el-input v-model="ruleForm.address" style="width: 430px"></el-input>
+        <el-input v-model="ruleForm.address"></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="contactor">
-        <el-input v-model="ruleForm.contactor" style="width: 430px"></el-input>
+        <el-input v-model="ruleForm.contactor"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="contact">
-        <el-input v-model="ruleForm.contact" style="width: 430px"></el-input>
+        <el-input v-model="ruleForm.contact"></el-input>
       </el-form-item>
       <el-form-item label="注意事项" prop="notice">
-        <el-input
-          v-model="ruleForm.notice"
-          type="textarea"
-          style="width: 300px"
-        ></el-input>
+        <el-input v-model="ruleForm.notice" type="textarea"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -160,4 +156,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+::v-deep {
+  textarea.el-textarea__inner {
+    width: 100%;
+  }
+}
 </style>

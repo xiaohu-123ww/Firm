@@ -51,6 +51,7 @@
                   v-if="buttonNoOnLine || buttonNotPass"
                   class="elButton"
                   style="margin-left: 242px"
+                  @click="copyJob(item.id)"
                   ><Item icon="copy" class="Icon" /> 复制</el-button
                 >
 
@@ -90,7 +91,13 @@
             <el-col :span="5" class="list-button">
               <div class="list-button">
                 <el-button
-                  v-if="buttonOnLine || buttonNoOnLine || buttonNotPass"
+                  v-if="buttonOnLine"
+                  class="list-my-bt"
+                  round
+                  style="border: 0; margin-top: 0px"
+                ></el-button>
+                <el-button
+                  v-if="buttonNoOnLine || buttonNotPass"
                   class="list-my-bt"
                   round
                   @click="Amend(item.id)"
@@ -198,6 +205,9 @@ export default {
       type: Boolean
     },
     buttonNotPass: {
+      type: Boolean
+    },
+    lineState: {
       type: Boolean
     }
   },
@@ -516,5 +526,8 @@ export default {
   // background-color: pink;
   width: 600px;
   margin: 0 0 30px 700px;
+}
+.left {
+  margin-left: 100px;
 }
 </style>

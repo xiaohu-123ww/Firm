@@ -131,8 +131,8 @@
       </div>
       <Post v-else @reset="reset" />
     </div>
-    <Msg v-if="hiddenAsymc" :job-amend="jobAmend" @reset="reset2" />
-    <Copy v-if="nan" :copy-list="copyList" @ret="ret" />
+    <Msg v-if="hiddenAsymc" :job-amend="jobAmend" @reset4="reset4" />
+    <Copy v-if="nan" :copy-list="copyList" @reset3="reset3" />
   </div>
 </template>
 <script>
@@ -169,7 +169,8 @@ export default {
       hiddenAsymc: false,
       vanish: true,
       nan: false,
-      copyList: {}
+      copyList: {},
+      lineState: false
 
     }
   },
@@ -188,6 +189,7 @@ export default {
     onLine () {
       this.changeColor = 1
       this.getOnlineList()
+      this.lineState = true
     },
     // 未上线
     async noOnLine () {
@@ -268,7 +270,36 @@ export default {
         this.noOnLine()
       } else if (this.changeColor === 3) {
         this.underReview()
-      } else {
+      } else if (this.changeColor === 4) {
+        this.notPass()
+      }
+    },
+    reset3 () {
+      this.show = true
+      this.vanish = true
+      this.nan = false
+      if (this.changeColor === 1) {
+        this.getOnlineList()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else if (this.changeColor === 4) {
+        this.notPass()
+      }
+    },
+    reset4 () {
+      this.show = true
+      this.vanish = true
+      this.nan = false
+      this.hiddenAsymc = false
+      if (this.changeColor === 1) {
+        this.getOnlineList()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else if (this.changeColor === 4) {
         this.notPass()
       }
     },
@@ -283,6 +314,7 @@ export default {
     },
     async getOnlineList () {
       this.loading = true
+      this.lineState = true
       this.status = 2
       const res = await getOnline(this.status, this.limit)
       console.log('在线中', res)
@@ -476,6 +508,15 @@ export default {
     reset2 () {
       this.vanish = true
       this.hiddenAsymc = false
+      if (this.changeColor === 1) {
+        this.onLine()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else if (this.changeColor === 4) {
+        this.notPass()
+      }
     },
     copy (item) {
       this.vanish = false
@@ -485,6 +526,15 @@ export default {
     ret () {
       this.vanish = true
       this.nan = false
+      if (this.changeColor === 1) {
+        this.onLine()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else if (this.changeColor === 4) {
+        this.notPass()
+      }
     }
   }
 }

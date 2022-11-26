@@ -82,7 +82,7 @@
         </div>
       </div>
       <div>
-        <Talents @fast="fast" @search="search" />
+        <Talents @fast="fast" @search="search" @positionList="positionList" />
         <Loading :loading="loading" />
       </div>
       <div v-if="!loading">
@@ -162,6 +162,7 @@ export default {
       communications: 0,
       surface: 0,
       inappropriate: 0
+
     }
   },
   mounted () {
@@ -176,6 +177,15 @@ export default {
     this.getStateList()
   },
   methods: {
+    positionList (id) {
+      this.pid = id
+    },
+    async fast (id) {
+      // this.loading = true
+      console.log('id', id)
+      this.pid = id
+      console.log('id', this.pid)
+    },
     async getStateList () {
       const res = await getState()
       console.log('res123', res)
@@ -210,8 +220,8 @@ export default {
         })
       } else {
         console.log(2)
-        this.pid = list[0].id
-        console.log(this.pid)
+        // this.pid = list[0].id
+        // console.log('122', this.pid)
       }
     },
     change () {
@@ -219,7 +229,7 @@ export default {
       this.getNew()
     },
     async search (list) {
-      console.log('12344', list)
+      console.log('12344', list, this.pid)
       this.num = list
       if (this.qw !== '') {
         this.num.qw = this.qw
@@ -488,6 +498,7 @@ export default {
         this.list = []
         this.loading = false
       } else {
+        console.log('this.pid', this.pid)
         this.lists.pid = this.pid
         const res = await getNewList(this.limit, this.lists)
         console.log('新招呼', res)
@@ -531,21 +542,12 @@ export default {
     async newResume (id) {
       console.log(id)
       this.pids = id
-      const res = await getResume(id)
+      const res = await getResume(id, this.pid)
       console.log('简历', res)
       this.resumeList = res.data.data
       this.details = true
     },
-    async fast (id) {
-      // this.loading = true
-      console.log('id', id)
-      this.pid = id
-      // const res = await getCandidate(id, this.limit)
-      // console.log('快捷搜索12', res)
-      // this.list = res.data.results
-      // this.total = res.data.count
-      // this.loading = false
-    },
+
     chating () {
       this.robot()
       this.getStateList()

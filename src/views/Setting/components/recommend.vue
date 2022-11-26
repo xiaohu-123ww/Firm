@@ -46,7 +46,7 @@
               </div>
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
-                  {{
+                  期望城市：{{
                     item.position_class_data.city.name
                       ? item.position_class_data.city.name
                       : '期望城市'
@@ -60,11 +60,8 @@
                   }}
                 </div>
                 <div class="age-four four">
-                  {{
-                    item.position_class_data.salary.length !== 0
-                      ? item.position_class_data.salary
-                      : '薪资'
-                  }}
+                  {{ item.position_class_data.salary[0] }}-
+                  {{ item.position_class_data.salary[1] }}
                 </div>
               </div>
             </div></el-col

@@ -814,15 +814,7 @@ export default {
       // this.$emit('reset', true)
     },
     resetForm () {
-      this.$confirm('确定取消职位修改吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-
-      }).then(() => {
-        this.$emit('reset')
-        this.clear()
-      })
+      this.$emit('reset3', true)
     },
     // 准备富文本编辑器
     onEditorReady (editor) { },

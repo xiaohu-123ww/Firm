@@ -567,6 +567,9 @@ export default {
   computed: {
 
   },
+  watch: {
+
+  },
   created () {
     this.getJob()
     this.getCityList()
@@ -608,6 +611,7 @@ export default {
       this.firm = data.data
       console.log('123', data.data[0].id)
       this.position = data.data[0].id
+      this.$emit('positionList', this.position)
       if (this.firm.length > 5) {
         this.firm.splice(5, this.firm.length - 5)
       }

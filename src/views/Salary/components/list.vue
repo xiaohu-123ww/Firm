@@ -183,7 +183,7 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
-                @click="chating(item.comm_info.comm_id)"
+                @click="chating(item.comm_info.comm_position_id)"
                 >要简历</el-button
               >
               <!-- v-if="communication" -->

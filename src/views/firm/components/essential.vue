@@ -229,7 +229,7 @@
                 font-weight: 700;
                 margin: 0 20px 60px 12px;
               "
-              >是否想求职者展示</span
+              >是否向求职者展示</span
             >
             <el-switch v-model="list.is_financing_status"></el-switch>
           </el-form-item>
@@ -619,16 +619,19 @@ export default {
         this.list.nature = data.data.nature.id
         this.list.staff_size = data.data.staff_size.id
         this.list.financing_status = data.data.financing_status.id
-        const res = data.data.financing_status.is_financing_status.name
+        if (data.data.financing_status !== '' && data.data.financing_status !== null) {
+          const res = data.data.financing_status.is_financing_status.name
+          if (res === '不展示') {
+            this.list.is_financing_status = false
+          } else {
+            this.list.is_financing_status = true
+          }
+        }
+
         if (data.data.field_vice !== '' && data.data.field_vice !== null) {
           this.list.field_vice = data.data.field_vice.children.name
         }
 
-        if (res === '不展示') {
-          this.list.is_financing_status = false
-        } else {
-          this.list.is_financing_status = true
-        }
         if (data.data.registered_address !== '' && data.data.registered_address !== null) {
           this.list.registered_address = data.data.registered_address.name
         }

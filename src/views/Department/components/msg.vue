@@ -375,7 +375,7 @@
           </el-form-item>
           <el-form-item>
             <el-button class="elBackground" round @click="submitForm"
-              >保存并发布</el-button
+              >编辑</el-button
             >
             <el-button round @click="resetForm">取消</el-button>
           </el-form-item>
@@ -821,8 +821,7 @@ export default {
         type: 'warning'
 
       }).then(() => {
-        this.$emit('reset')
-        this.clear()
+        this.$emit('reset4')
       })
     },
     // 准备富文本编辑器
