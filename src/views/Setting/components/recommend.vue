@@ -83,15 +83,15 @@
                 <div>{{ itemss.position }}</div>
               </div>
               <div
-                v-for="itemss in item.education_experience"
-                :key="itemss.id"
+                v-for="itemsss in item.education_experience"
+                :key="itemsss.id"
                 class="recommend-experience"
               >
                 <div class="experience-time">
-                  {{ itemss.start_date }}-{{ itemss.end_date }}
+                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
                 </div>
-                <div class="experience-firm">{{ itemss.school }}</div>
-                <div>{{ itemss.major }}</div>
+                <div class="experience-firm">{{ itemsss.school }}</div>
+                <div>{{ itemsss.major }}</div>
               </div>
             </div>
           </el-col>
