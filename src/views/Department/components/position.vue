@@ -463,6 +463,15 @@ export default {
       console.log(this.jobAmend)
       this.vanish = false
       this.hiddenAsymc = true
+      if (this.changeColor === 1) {
+        this.onLine()
+      } else if (this.changeColor === 2) {
+        this.noOnLine()
+      } else if (this.changeColor === 3) {
+        this.underReview()
+      } else if (this.changeColor === 4) {
+        this.notPass()
+      }
     },
     reset2 () {
       this.vanish = true

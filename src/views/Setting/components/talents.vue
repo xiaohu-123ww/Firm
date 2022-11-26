@@ -5,7 +5,7 @@
         <div class="talents-recommend">人才推荐</div>
         <div class="recommend" style="overflow: auto">
           <el-row>
-            <el-col v-for="item in jobName" :key="item.id" :span="3"
+            <el-col v-for="item in jobName" :key="item.id" :span="4.5"
               ><a href="javascript:;">
                 <div
                   style="padding: 5px 20px 0px"

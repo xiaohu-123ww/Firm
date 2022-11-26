@@ -271,7 +271,7 @@ export default {
         const res = await getWaitingList(this.limit, this.lists)
         console.log('未回复', res)
         this.list = res.data.results
-        this.Noreply = res.data.results.length
+        // this.Noreply = res.data.results.length
         this.loading = false
         this.show = false
         this.call = true
@@ -294,7 +294,7 @@ export default {
         const res = await getCommuniCatingList(this.limit, this.lists)
         console.log('沟通中', res)
         this.list = res.data.results
-        this.communications = res.data.results.length
+        // this.communications = res.data.results.length
         this.loading = false
         this.show = false
         this.call = false
@@ -318,7 +318,7 @@ export default {
         const res = await getInterviewList(this.limit, this.lists)
         console.log('已约面', res)
         this.list = res.data.results
-        this.surface = res.data.results.length
+        // this.surface = res.data.results.length
         this.loading = false
         this.show = false
         this.call = false
@@ -341,7 +341,7 @@ export default {
         const res = await getRejectedList(this.limit, this.lists)
         console.log('不合适', res)
         this.list = res.data.results
-        this.inappropriate = res.data.results.length
+        // this.inappropriate = res.data.results.length
         this.loading = false
         this.show = false
         this.call = false
@@ -492,7 +492,7 @@ export default {
         const res = await getNewList(this.limit, this.lists)
         console.log('新招呼', res)
         this.list = res.data.results
-        this.callss = res.data.results.length
+        // this.callss = res.data.results.length
         this.loading = false
         this.show = true
         this.call = false
@@ -504,22 +504,29 @@ export default {
     },
     chat () {
       this.getNew()
+      this.getStateList()
     },
     reject () {
       if (this.backgroundColor === 1) {
         this.getNew()
+        this.getStateList()
       } else if (this.backgroundColor === 2) {
         this.changeJAVA()
+        this.getStateList()
       } else if (this.backgroundColor === 3) {
         this.robot()
+        this.getStateList()
       } else if (this.backgroundColor === 4) {
         this.vision()
+        this.getStateList()
       } else if (this.backgroundColor === 5) {
         this.visionss()
+        this.getStateList()
       }
     },
     interests () {
       this.changeJAVA()
+      this.getStateList()
     },
     async newResume (id) {
       console.log(id)
@@ -531,6 +538,7 @@ export default {
     },
     async fast (id) {
       // this.loading = true
+      console.log('id', id)
       this.pid = id
       // const res = await getCandidate(id, this.limit)
       // console.log('快捷搜索12', res)
@@ -540,6 +548,7 @@ export default {
     },
     chating () {
       this.robot()
+      this.getStateList()
     }
 
   }

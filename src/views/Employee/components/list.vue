@@ -11,7 +11,7 @@
                 @click="resume(item.left_data.user_id)"
               /></div
           ></el-col>
-          <el-col :span="8"
+          <el-col :span="10"
             ><div class="recommend-message">
               <div class="message-name">
                 <a href="javascript:;">
@@ -31,7 +31,7 @@
               <div class="message-age">
                 <div class="age-four">{{ item.left_data.age }}岁</div>
                 <div class="age-four four">
-                  {{ item.left_data.work_date }}
+                  {{ item.left_data.work_date }}年
                 </div>
                 <div class="age-four four">{{ item.left_data.education }}</div>
                 <div style="margin-left: 10px">{{ item.left_data.status }}</div>
@@ -67,7 +67,7 @@
               </div>
             </div></el-col
           >
-          <el-col :span="12"
+          <el-col :span="11"
             ><div class="recommend-time">
               <div
                 v-for="(itemss, index) in item.right_data.jobexperience_data"
@@ -80,9 +80,20 @@
                 <div class="experience-firm">{{ itemss.enterprise }}</div>
                 <div>{{ itemss.position }}</div>
               </div>
+              <div
+                v-for="itemsss in item.right_data.education_data"
+                :key="itemsss.id + 1"
+                class="recommend-experience"
+              >
+                <div class="experience-time">
+                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
+                </div>
+                <div class="experience-firm">{{ itemsss.school }}</div>
+                <div>{{ itemsss.major }}</div>
+              </div>
             </div></el-col
           >
-          <el-col :span="3"
+          <el-col :span="2"
             ><div v-if="!item.job" class="recommend-bt">
               <el-button
                 round

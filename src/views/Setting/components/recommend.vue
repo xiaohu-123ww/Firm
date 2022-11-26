@@ -11,7 +11,7 @@
                 @click="resume(item.user_id)"
               /></div
           ></el-col>
-          <el-col :span="8"
+          <el-col :span="10"
             ><div class="recommend-message">
               <div class="message-name">
                 <a href="javascript:;">
@@ -69,8 +69,8 @@
               </div>
             </div></el-col
           >
-          <el-col :span="12"
-            ><div class="recommend-time">
+          <el-col :span="11">
+            <div class="recommend-time">
               <div
                 v-for="(itemss, index) in item.job_experience"
                 :key="index"
@@ -82,9 +82,20 @@
                 <div class="experience-firm">{{ itemss.enterprise }}</div>
                 <div>{{ itemss.position }}</div>
               </div>
-            </div></el-col
-          >
-          <el-col :span="3"
+              <div
+                v-for="itemss in item.education_experience"
+                :key="itemss.id"
+                class="recommend-experience"
+              >
+                <div class="experience-time">
+                  {{ itemss.start_date }}-{{ itemss.end_date }}
+                </div>
+                <div class="experience-firm">{{ itemss.school }}</div>
+                <div>{{ itemss.major }}</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="2"
             ><div v-if="!item.job" class="recommend-bt">
               <el-button
                 round
@@ -352,7 +363,7 @@ export default {
         .age-four {
           // width: 50px;
           height: 16px;
-          padding: 0px 10px;
+          padding: 0px 5px;
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }

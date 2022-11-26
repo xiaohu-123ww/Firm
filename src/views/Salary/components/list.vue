@@ -12,7 +12,7 @@
                 @click="resume(item.left_data.user_id)"
               /></div
           ></el-col>
-          <el-col :span="8"
+          <el-col :span="10"
             ><div class="recommend-message">
               <div class="message-name">
                 <a href="javascript:;">
@@ -39,17 +39,17 @@
               </div>
               <div class="message-age" style="margin-top: 3px">
                 <div class="age-four">
-                  {{
-                    item.comm_info.comm_position === null
-                      ? '求职意向'
-                      : item.comm_info.comm_position
+                  期望城市:{{
+                    item.left_data.position_class_data.city === null
+                      ? '城市'
+                      : item.left_data.position_class_data.city
                   }}
                 </div>
                 <div class="age-four four">
                   求职意向：{{
                     item.left_data.position_class_data.position_class !== null
                       ? item.left_data.position_class_data.position_class
-                      : '城市'
+                      : '职位'
                   }}
                 </div>
                 <div class="age-four four">
@@ -78,7 +78,7 @@
               </div>
             </div></el-col
           >
-          <el-col :span="12"
+          <el-col :span="11"
             ><div class="recommend-time">
               <div
                 v-for="(itemss, index) in item.right_data.jobexperience_data"
@@ -91,16 +91,27 @@
                 <div class="experience-firm">{{ itemss.enterprise }}</div>
                 <div>{{ itemss.position }}</div>
               </div>
+              <div
+                v-for="itemsss in item.right_data.education_data"
+                :key="itemsss.id + 1"
+                class="recommend-experience"
+              >
+                <div class="experience-time">
+                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
+                </div>
+                <div class="experience-firm">{{ itemsss.school }}</div>
+                <div>{{ itemsss.major }}</div>
+              </div>
             </div></el-col
           >
-          <el-col :span="3">
+          <el-col :span="2">
             <div
               style="
                 font-size: 13px;
                 color: #a2a2a2;
                 line-height: 20px;
-                margin-left: 8px;
                 margin-top: 70px;
+                margin-left: 0px;
               "
             >
               {{ item.comm_info.comm_time }}
@@ -198,7 +209,7 @@
                   color: #0d975e;
                   background-color: #f1fffd;
                   border: 1px solid #cef4e2;
-                  padding-left: 13px;
+                  margin-left: 20px;
                 "
                 @click="
                   particulars(
@@ -464,7 +475,8 @@ export default {
         .age-four {
           // width: 50px;
           height: 16px;
-          padding: 0px 10px;
+
+          padding: 0px 5px;
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }
@@ -565,6 +577,6 @@ export default {
   margin-left: 80px;
 }
 .left {
-  margin-left: 90px;
+  margin-left: 30px;
 }
 </style>

@@ -10,8 +10,17 @@ export function getToken () {
 
 export function setToken (token) {
   sessionStorage.setItem(TokenKey, token)
+  sessionStorage.setItem('TokenInvalidFlag', 0)
 }
 
 export function removeToken () {
   sessionStorage.removeItem(TokenKey)
+}
+
+export function getTokenInvalidFlag () {
+  return sessionStorage.getItem('TokenInvalidFlag')
+}
+
+export function setTokenInvalidFlag (tokenInvalidFlag) {
+  sessionStorage.setItem('TokenInvalidFlag', tokenInvalidFlag)
 }
