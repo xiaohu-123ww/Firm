@@ -151,6 +151,8 @@ export default {
           }
           if (code === 1001) {
             this.$message.erro('该账号已被绑定')
+          } else {
+            this.$message.erro(res.data.msg)
           }
         }
       })

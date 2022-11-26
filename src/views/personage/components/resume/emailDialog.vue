@@ -134,6 +134,8 @@ export default {
         this.$message.success('邮箱绑定成功')
         this.$emit('submit', false, this.ruleForm.email)
         this.$emit('reset', false)
+      } else {
+        this.$message.error(res.data.msg)
       }
       this.ruleForm.email = ''
       this.ruleForm.code = ''
