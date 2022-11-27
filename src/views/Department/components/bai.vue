@@ -45,7 +45,7 @@
                 :key="item.id"
                 :label="item.name"
                 :value="item.name"
-                @click.native="prefectureChange(item.id, item.name)"
+                @click.native="prefectureChange(item.adcode, item.name)"
                 >{{ item.name }}</el-option
               >
             </el-select>
@@ -356,7 +356,7 @@ export default {
       console.log(adcode)
       this.adcode = adcode
       await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.list.city + this.list.address + this.list.third + name, // input框输入的地址
+        address: this.list.city + this.list.address + name, // input框输入的地址
         output: 'json',
         ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
       })

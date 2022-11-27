@@ -19,6 +19,7 @@
               v-model="ruleForm.start_time"
               type="datetime"
               placeholder="选择日期时间"
+              :picker-options="forbiddenTime"
             >
             </el-date-picker>
           </el-form-item>
@@ -31,6 +32,7 @@
               type="datetime"
               placeholder="选择日期"
               style="width: 100%"
+              :picker-options="forbiddenTime"
             ></el-date-picker>
           </el-form-item> </el-col
       ></el-form-item>
@@ -85,6 +87,12 @@ export default {
       }
     }
     return {
+      forbiddenTime: { // 禁用当前日期之前的日期
+        disabledDate (time) {
+          // Date.now()是javascript中的内置函数，它返回自1970年1月1日00:00:00 UTC以来经过的毫秒数。
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      },
       ruleForm: {
         start_time: '',
         end_time: '',
@@ -124,9 +132,11 @@ export default {
   },
   methods: {
     async getAddress () {
-      const res = await getDetail(this.positionList)
-      console.log('地址', res)
-      this.ruleForm.address = res.data.data.adcode.second + res.data.data.adcode.third + res.data.data.work_adcode.adcode_detail
+      if (this.positionList !== 0) {
+        const res = await getDetail(this.positionList)
+        console.log('地址', res)
+        this.ruleForm.address = res.data.data.adcode.second + res.data.data.adcode.third + res.data.data.work_adcode.adcode_detail
+      }
     },
     close () {
       this.$emit('reset', false)

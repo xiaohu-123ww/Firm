@@ -334,11 +334,7 @@
               placeholder="请输入简历邮箱"
             ></el-input>
           </el-form-item>
-          <el-form-item
-            label="资格证书"
-            style="width: 600px"
-            prop="certificationInfo_id"
-          >
+          <el-form-item label="资格证书" style="width: 600px">
             <el-select
               v-model="ruleForm.certificationInfo_id"
               placeholder="请选择资格证书"
@@ -786,7 +782,7 @@ export default {
           }
           const adrsss = this.copyList.adcode.second + this.copyList.adcode.third + this.copyList.adcode_detail
           if (adrsss === this.ruleForm.address) {
-            this.list.adcode = this.copyList.adcode.id
+            this.list.adcode = this.copyList.adcode.adcode
             this.list.adcode_detail = this.copyList.adcode_detail
           } else {
             this.list.adcode = this.ruleForm.adcode

@@ -27,7 +27,7 @@
                       :key="item.id"
                       :label="item.name"
                       :value="item.name"
-                      @click.native="cityChange(item)"
+                      @click.native="cityChange(item, item.name)"
                       >{{ item.name }}</el-option
                     >
                   </el-select>
@@ -45,7 +45,7 @@
                       :key="item.id"
                       :label="item.name"
                       :value="item.name"
-                      @click.native="townChange(item)"
+                      @click.native="townChange(item, item.name)"
                       >{{ item.name }}</el-option
                     >
                   </el-select>
@@ -63,7 +63,7 @@
                       :key="item.id"
                       :label="item.name"
                       :value="item.name"
-                      @click.native="prefectureChange(item.adcode)"
+                      @click.native="prefectureChange(item.adcode, item.name)"
                       >{{ item.name }}</el-option
                     >
                   </el-select>
@@ -511,22 +511,77 @@ export default {
       console.log(this.cityAll)
     },
     // 市
-    cityChange (i) {
+    async cityChange (i, name) {
       console.log(i)
       this.town = i.children
-      this.list.addressAll = ''
+      this.list.address = ''
       this.list.third = ''
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     // 区
-    townChange (item) {
+    async townChange (item, name) {
       console.log(item)
       this.prefecture = item.children
+
       this.list.third = ''
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.list.city + name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     // 县
-    prefectureChange (adcode) {
+    async prefectureChange (adcode, name) {
       console.log(adcode)
-      this.list.ascode = adcode
+      this.adcode = adcode
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.list.city + this.list.addressAll + name, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
     },
     // 信息
     async getList () {
@@ -546,7 +601,7 @@ export default {
       this.list.lng = data.data.address.lng
       this.list.lat = data.data.address.lat
       if (data.data.work_time.name === '固定工作时间') {
-        this.list.work_time_start = data.data.work_time.work_time_end
+        this.list.work_time_start = data.data.work_time.work_time_start
 
         this.list.work_time_end = data.data.work_time.work_time_end
       }

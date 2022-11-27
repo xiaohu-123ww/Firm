@@ -326,11 +326,7 @@
               placeholder="请输入简历邮箱"
             ></el-input>
           </el-form-item>
-          <el-form-item
-            label="资格证书"
-            style="width: 600px"
-            prop="certificationInfo_id"
-          >
+          <el-form-item label="资格证书" style="width: 600px">
             <el-select
               v-model="ruleForm.certificationInfo_id"
               placeholder="请选择资格证书"

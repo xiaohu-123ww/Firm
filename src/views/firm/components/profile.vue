@@ -25,9 +25,14 @@
               请确保发布的信息真实、准确且不侵犯任何第三方权益，否则本平台有权依据《用户服务协议》约定作出相应处理
             </div>
           </el-form-item>
-          <el-form-item label="" style="margin-bottom: 50px">
+          <el-form-item
+            label=""
+            style="margin-bottom: 50px"
+            prop="establish_year"
+          >
             <div style="font-size: 18px; font-weight: 700; margin-bottom: 18px">
-              <span style="color: black">企业成立时间</span>
+              <span style="color: red">* </span
+              ><span style="color: black">企业成立时间</span>
             </div>
             <el-date-picker
               v-model="form.establish_year"
@@ -78,6 +83,9 @@ export default {
         introduction: [
           { required: true, message: '请输入公司介绍', trigger: 'blur' },
           { min: 1, max: 2000, message: '长度在 1 到 2000 个字符', trigger: 'blur' }
+        ],
+        establish_year: [
+          { required: true, message: '请选择公司注册日期', trigger: 'change' }
         ]
       }
     }
@@ -98,7 +106,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => { this.$emit('reset', 0) })
-    }, submit () {
+    },
+    submit () {
       this.$refs.form.validate(async (vaild) => {
         if (vaild) {
           console.log(this.form)
@@ -107,6 +116,10 @@ export default {
 
           // this.form.establish_year = establish_year.substr(0, 4)
           // console.log(this.form)
+          if (this.form.site_url === '' || this.form.site_url === null) {
+            delete this.form.site_url
+          }
+          console.log(this.form)
           const res = await getIntroduction(this.form)
           console.log('编辑', res)
           this.$message.success('编辑成功，内容在审核中')
