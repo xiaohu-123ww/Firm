@@ -345,7 +345,7 @@ export default {
       startAge: [
         {
           name: '不限',
-          id: ''
+          id: '不限'
         },
         {
           name: '16岁',
@@ -541,7 +541,7 @@ export default {
       yearsWorking: [
         {
           name: '不限',
-          id: ''
+          id: '不限'
         },
         {
           name: '无经验',
@@ -813,10 +813,10 @@ export default {
       } else {
         list.edu = this.num
       }
-      if (list.age_min === '' || list.age_min === null) {
+      if (list.age_min === '' || list.age_min === '不限') {
         delete list.age_min
       }
-      if (list.age_max === '' || list.age_max === null) {
+      if (list.age_max === '' || list.age_max === '不限') {
         delete list.age_max
       }
       if (this.classPlt.length === 0) {
@@ -839,10 +839,10 @@ export default {
       if (list.qw === '') {
         delete list.qw
       }
-      if (list.year_min === null || list.year_min === '') {
+      if (list.year_min === null || list.year_min === '不限') {
         delete list.year_min
       }
-      if (list.year_max === null || list.year_max === '') {
+      if (list.year_max === null || list.year_max === '不限') {
         delete list.year_max
       }
       if (list.candidate_status === null || list.candidate_status === 4) {
