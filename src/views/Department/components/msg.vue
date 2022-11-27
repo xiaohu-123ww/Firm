@@ -371,7 +371,7 @@
           </el-form-item>
           <el-form-item>
             <el-button class="elBackground" round @click="submitForm"
-              >编辑</el-button
+              >保存</el-button
             >
             <el-button round @click="resetForm">取消</el-button>
           </el-form-item>

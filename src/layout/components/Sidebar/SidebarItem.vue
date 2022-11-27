@@ -29,7 +29,6 @@
       ref="subMenu"
       :index="resolvePath(item.path)"
       popper-append-to-body
-      :default-active="routePath"
     >
       <template slot="title">
         <!--左侧菜单中 用来显示图标的是路由对象中meta字段里的icon
@@ -95,9 +94,9 @@ export default {
     this.changeColor()
   },
   computed: {
-    routePath () {
-      return this.$route.meta.guidePath ? this.$route.meta.jumpPath : this.$route.path
-    }
+    // routePath () {
+    //   return this.$route.meta.guidePath ? this.$route.meta.jumpPath : this.$route.path
+    // }
   },
   methods: {
     hasOneShowingChild (children = [], parent) {

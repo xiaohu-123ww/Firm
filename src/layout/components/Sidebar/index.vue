@@ -74,3 +74,10 @@ export default {
 
 }
 </script>
+<style scoped lang="scss">
+::v-deep .el-menu-item.is-active {
+  color: #fff;
+  background-color: #256efd !important;
+}
+</style>
+
