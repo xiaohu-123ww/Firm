@@ -3,7 +3,7 @@
     <div v-if="!detailss">
       <div class="search">
         <div class="search-input">
-          <div style="width: 100%">
+          <div style="width: 100%; text-align: center">
             <el-input
               v-model="form.qw"
               placeholder="请输入职位关键词"
@@ -12,7 +12,7 @@
             <el-button class="button" @click="searchList">搜索</el-button>
           </div>
           <div class="seek">
-            <div v-if="firm.length !== 0" class="search-checkbox">
+            <div v-if="firm.length !== 0">
               <span class="seek-span">快捷搜索</span>
               <el-radio-group v-model="key" size="mini">
                 <el-radio-button
@@ -60,6 +60,7 @@
                   v-model="form.age_min"
                   placeholder="不限"
                   style="width: 200px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in startAge"
@@ -75,6 +76,7 @@
                   v-model="form.age_max"
                   placeholder="不限"
                   style="width: 200px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in startAge"
@@ -91,6 +93,7 @@
                   placeholder="请选择职业"
                   class="box"
                   style="width: 370px"
+                  clearable
                   @change="bindChange"
                 >
                   <div style="display: flex">
@@ -136,6 +139,7 @@
                   v-model="form.year_min"
                   placeholder="不限"
                   style="width: 200px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in yearsWorking"
@@ -151,6 +155,7 @@
                   v-model="form.year_max"
                   placeholder="不限"
                   style="width: 200px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in yearsWorking"
@@ -165,6 +170,7 @@
                   v-model="form.candidate_status"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in status"
@@ -196,6 +202,7 @@
                   v-model="form.active"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in data"
@@ -212,6 +219,7 @@
                   v-model="form.sex"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <el-option label="不限" value="2"></el-option>
                   <el-option label="男" value="1"></el-option>
@@ -223,6 +231,7 @@
                   v-model="form.city"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <div style="display: flex">
                     <div style="width: 150px">
@@ -883,10 +892,17 @@ export default {
     async newResume (id) {
       console.log(id)
       this.pid = id
-      const res = await getResume(id)
-      console.log('简历', res)
-      this.resumeList = res.data.data
-      this.detailss = true
+      if (this.position === 0) {
+        const res = await getResume(id)
+        console.log('简历', res)
+        this.resumeList = res.data.data
+        this.detailss = true
+      } else {
+        const res = await getResume(id, this.position)
+        console.log('简历', res)
+        this.resumeList = res.data.data
+        this.detailss = true
+      }
     }
 
   }
@@ -901,7 +917,7 @@ export default {
   .search-input {
     height: 80px;
     // background-color: pink;
-    text-align: center;
+    // text-align: center;
     margin-bottom: 20px;
     .seek {
       // background-color: aqua;
@@ -909,6 +925,7 @@ export default {
       .seek-span {
         font-size: 14px;
         margin-right: 13px;
+        margin-left: 300px;
       }
     }
   }

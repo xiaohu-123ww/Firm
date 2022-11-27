@@ -48,6 +48,7 @@
                   v-model="form.active"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <el-option
                     v-for="(item, index) in data"
@@ -59,7 +60,11 @@
               </el-form-item>
               <el-form-item label="年龄要求">
                 <div style="display: flex">
-                  <el-select v-model="form.age_min" placeholder="不限">
+                  <el-select
+                    v-model="form.age_min"
+                    placeholder="不限"
+                    clearable
+                  >
                     <el-option
                       v-for="(item, index) in startAge"
                       :key="index"
@@ -70,7 +75,11 @@
                   <span style="margin: 0px 5px; color: rgb(220, 223, 230)"
                     >——</span
                   >
-                  <el-select v-model="form.age_max" placeholder="不限">
+                  <el-select
+                    v-model="form.age_max"
+                    placeholder="不限"
+                    clearable
+                  >
                     <el-option
                       v-for="(item, index) in startAge"
                       :key="index"
@@ -88,6 +97,7 @@
                     v-model="form.year_min"
                     placeholder="不限"
                     style="width: 200px"
+                    clearable
                   >
                     <el-option
                       v-for="(item, index) in yearsWorking"
@@ -103,6 +113,7 @@
                     v-model="form.year_max"
                     placeholder="不限"
                     style="width: 200px"
+                    clearable
                   >
                     <el-option
                       v-for="(item, index) in yearsWorking"
@@ -113,7 +124,11 @@
                   </el-select></div
               ></el-form-item>
               <el-form-item label="工作状态">
-                <el-select v-model="form.candidate_status" placeholder="不限">
+                <el-select
+                  v-model="form.candidate_status"
+                  placeholder="不限"
+                  clearable
+                >
                   <el-option
                     v-for="(item, index) in status"
                     :key="index"
@@ -130,6 +145,7 @@
                   v-model="form.city"
                   placeholder="不限"
                   style="width: 270px"
+                  clearable
                 >
                   <div style="display: flex">
                     <div style="width: 150px">

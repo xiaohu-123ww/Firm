@@ -807,7 +807,7 @@ export default {
           const res = await getPositionMake(this.list)
           console.log('添加职位', res)
           this.$message.success('添加职位数据成功')
-          this.$emit('ret')
+          this.$emit('reset3')
           this.clear()
         }
       })

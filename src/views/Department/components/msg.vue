@@ -808,7 +808,7 @@ export default {
           const res = await getMake(this.list)
           console.log('修改职位', res)
           this.$message.success('职位修改成功')
-          this.$emit('reset', true)
+          this.$emit('reset4', true)
           this.clear()
         }
       })

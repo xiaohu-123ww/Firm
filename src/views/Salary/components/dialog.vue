@@ -62,6 +62,7 @@
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
 import { getInterview } from '@/api/salarys/index'
+import { getDetail } from '@/api/department/online'
 export default {
   props: {
     flagShow: {
@@ -118,8 +119,15 @@ export default {
       }
     }
   },
-
+  created () {
+    this.getAddress()
+  },
   methods: {
+    async getAddress () {
+      const res = await getDetail(this.positionList)
+      console.log('地址', res)
+      this.ruleForm.address = res.data.data.adcode.second + res.data.data.adcode.third + res.data.data.work_adcode.adcode_detail
+    },
     close () {
       this.$emit('reset', false)
       this.clear()

@@ -183,7 +183,7 @@
                   border: 1px solid #cef4e2;
                   padding-left: 13px;
                 "
-                @click="chating(item.comm_info.comm_position_id)"
+                @click="chating(item.comm_info.comm_id)"
                 >要简历</el-button
               >
               <!-- v-if="communication" -->
@@ -197,7 +197,10 @@
                   border: 1px solid #f6e79d;
                 "
                 @click="
-                  interview(item.left_data.user_id, item.comm_info.comm_id)
+                  interview(
+                    item.left_data.user_id,
+                    item.comm_info.comm_position_id
+                  )
                 "
                 >约面试</el-button
               >
