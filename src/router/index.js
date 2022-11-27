@@ -18,17 +18,19 @@ export const constantRoutes = [
     name: 'register',
     component: () => import('@/views/register/index'),
     hidden: true
+
   },
 
   {
     path: '/dashboard',
     component: Layout,
     redirect: '',
+
     children: [{
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('@/views/Dashboard/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home' }
+      meta: { title: '首页', icon: 'el-icon-s-home', guidePath: true, jumpPath: '@/views/Dashboard/index' }
     }
 
     ]
@@ -37,6 +39,7 @@ export const constantRoutes = [
   {
     path: '/firm',
     component: Layout,
+    linkActiveClass: 'active',
     children: [{
       path: '',
       name: 'firm',
@@ -47,6 +50,7 @@ export const constantRoutes = [
   {
     path: '/personage',
     component: Layout,
+    linkActiveClass: 'active',
     children: [{
       path: '',
       name: 'personage',
@@ -57,6 +61,7 @@ export const constantRoutes = [
   {
     path: '/department',
     component: Layout,
+    linkActiveClass: 'active',
     children: [{
       path: '',
       name: 'departments',
@@ -68,6 +73,7 @@ export const constantRoutes = [
   {
     path: '/setting',
     component: Layout,
+    linkActiveClass: 'active',
     children: [{
       path: '',
       name: 'settings',
@@ -79,6 +85,7 @@ export const constantRoutes = [
   {
     path: '/employee',
     component: Layout,
+    linkActiveClass: 'active',
     children: [{
       path: '',
       name: 'employees',

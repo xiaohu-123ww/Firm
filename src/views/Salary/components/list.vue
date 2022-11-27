@@ -205,6 +205,23 @@
                 >约面试</el-button
               >
               <el-button
+                v-if="item.comm_info.continue_interview === true && face"
+                round
+                class="chnical"
+                style="
+                  color: #f2e52f;
+                  background-color: #fff;
+                  border: 1px solid #f6e79d;
+                "
+                @click="
+                  interview(
+                    item.left_data.user_id,
+                    item.comm_info.comm_position_id
+                  )
+                "
+                >约面试</el-button
+              >
+              <el-button
                 v-if="face"
                 round
                 class="chnical"
@@ -580,6 +597,6 @@ export default {
   margin-left: 80px;
 }
 .left {
-  margin-left: 30px;
+  // margin-left: 30px;
 }
 </style>
