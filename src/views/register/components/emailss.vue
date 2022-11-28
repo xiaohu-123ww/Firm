@@ -72,12 +72,22 @@ export default {
 
   },
   computed: {
+    phoneNumberStyle () {
+      const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (!reg.test(this.list.validation_email)) {
+        return false
+      }
+      return true
+    },
     getCode: {
       get () {
         if (this.waitTime === 61) {
-          if (this.list.validation_email) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.list.validation_email) {
+              return false
+            }
           }
+
           return true
         }
         return true
@@ -95,7 +105,7 @@ export default {
         }
         const res = await getEmail(this.list)
         console.log('res', res)
-        if (res !== 200) {
+        if (res.code !== 200) {
           this.$message({
             message: '该账号已被绑定',
             type: 'error',

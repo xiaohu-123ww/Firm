@@ -166,25 +166,27 @@ export default {
     }
   },
   mounted () {
-
+    // this.getNew()
   },
   computed: {
 
   },
   created () {
-    this.getNew()
     this.getJob()
     this.getStateList()
   },
   methods: {
     positionList (id) {
       this.pid = id
+      console.log('this.pid', this.pid)
+      this.getNew()
     },
     async fast (id) {
       // this.loading = true
       console.log('id', id)
       this.pid = id
       console.log('id', this.pid)
+      // this.getNew()
     },
     async getStateList () {
       const res = await getState()
@@ -493,6 +495,7 @@ export default {
     },
     // 新招呼
     async getNew () {
+      console.log('`12`131312')
       this.loading = true
       // await this.getJob()
       console.log('113', this.pid)
@@ -500,7 +503,7 @@ export default {
         this.list = []
         this.loading = false
       } else {
-        console.log('this.pid', this.pid)
+        console.log('this.pid13123', this.pid)
         this.lists.pid = this.pid
         const res = await getNewList(this.limit, this.lists)
         console.log('新招呼', res)

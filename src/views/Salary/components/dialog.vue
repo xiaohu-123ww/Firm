@@ -102,7 +102,8 @@ export default {
         contact: '',
         address: '',
         contactor: '',
-        notice: ''
+        notice: '',
+        model: '线下'
       },
       rules: {
         start_time: [

@@ -40,6 +40,7 @@
               v-model="ruleForm.job_content"
               :options="editorOption"
               class="quill"
+              style="height: 160px"
               @focus="onEditorFocus($event)"
               @blur="onEditorBlur($event)"
               @change="onEditorChange($event)"
@@ -933,5 +934,8 @@ export default {
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);
+}
+::v-deep .ql-editor {
+  height: 100px;
 }
 </style>

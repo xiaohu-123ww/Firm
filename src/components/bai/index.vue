@@ -160,21 +160,17 @@ export default {
     adcodeList: {
       handler (newVal, oldVal) {
         console.log('1234', newVal)
-        if (newVal.adcode.first !== '') {
-          this.list.address = newVal.adcode.first
-        }
-
+        this.list.city = newVal.adcode.first
         this.list.address = newVal.adcode.second
         this.list.third = newVal.adcode.third
         this.adcode = newVal.adcode.adcode
         this.list.add = newVal.adcode_detail
         console.log('addressAll', this.list)
         this.locations.lng = newVal.longitude
-
         this.locations.lat = newVal.latitude
         this.geoTest()
       },
-      deep: false,
+
       immediate: true
     }
   },

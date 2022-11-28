@@ -15,11 +15,12 @@
       <el-form-item label="身份证号" prop="card_id">
         <el-input v-model="formList.card_id"></el-input>
       </el-form-item>
-      <el-form-item label="手机号码" prop="number">
+      <el-form-item label="手机号码" prop="numbers">
         <el-input
-          v-model="formList.number"
+          v-model="numbers"
           placeholder="请输入手机号码"
           style="width: 260px"
+          disabled
         ></el-input>
       </el-form-item>
       <el-form-item label="验证码" prop="number_code">
@@ -50,6 +51,9 @@ export default {
   props: {
     formList: {
       type: Object
+    },
+    numbers: {
+      type: String
     }
   },
   data () {
@@ -60,16 +64,16 @@ export default {
         ],
         card_id: [{ required: true, message: '请输入身份证ID', trigger: 'blur' },
         { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '你的身份证格式不正确' }],
-        number: [{ required: true, message: '请输入手机号码', trigger: 'blur' },
-        {
-          validator: function (rule, value, callback) {
-            if (/^1[34578]\d{9}$/.test(value) === false) {
-              callback(new Error('请输入正确的手机号'))
-            } else {
-              callback()
-            }
-          }, trigger: 'blur'
-        }],
+        // numbers: [{ required: true, message: '请输入手机号码', trigger: 'blur' },
+        // {
+        //   validator: function (rule, value, callback) {
+        //     if (/^1[34578]\d{9}$/.test(value) === false) {
+        //       callback(new Error('请输入正确的手机号'))
+        //     } else {
+        //       callback()
+        //     }
+        //   }, trigger: 'blur'
+        // }],
         number_code: [
           { required: true, message: '请输入验证码', trigger: 'blur' }
         ]
@@ -83,7 +87,7 @@ export default {
     getCodeBtnDisable: {
       get () {
         if (this.waitTime === 61) {
-          if (this.formList.number) {
+          if (this.numbers) {
             return false
           }
           return true
@@ -95,10 +99,16 @@ export default {
 
     }
   },
+  watch: {
+    numbers (newVal, oldVal) {
+      this.formList.number = newVal
+      console.log('newVal', newVal, this.formList.number)
+    }
+  },
   methods: {
     async getCodes () {
-      if (this.formList.number) {
-        this.mobile = this.formList.number
+      if (this.numbers) {
+        this.mobile = this.numbers
 
         const res = await getverification(this.mobile)
 
@@ -130,8 +140,10 @@ export default {
     },
     handleEmail () {
       console.log(1)
+
       this.$refs.email.validate(async (vaild) => {
         if (vaild) {
+          this.formList.number = this.numbers
           const res = await getAuthenList(this.formList)
           console.log('实名认证', res)
           if (res.code === 1003) {
@@ -144,6 +156,8 @@ export default {
           if (res.code === 200) {
             this.$message.success('实名认证成功')
             this.$emit('handleEmail', this.formList)
+          } else {
+            this.$message.error(res.data.msg)
           }
         }
       })

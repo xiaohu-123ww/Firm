@@ -148,7 +148,7 @@ export default {
         list.email = this.firms.validation_email
         const res = await getEmail(list)
         console.log('res', res)
-        if (res === 1002) {
+        if (res.code === 1002) {
           this.$message({
             message: '该账号已被绑定',
             type: 'error',

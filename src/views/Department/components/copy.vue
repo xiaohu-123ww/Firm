@@ -795,10 +795,13 @@ export default {
           this.list.salary_unit = this.ruleForm.salary_unit
           console.log('222', this.list)
           const id = this.ruleForm.certificationInfo_id
+          console.log('id', id)
           //  const name = this.ruleForm.certificationInfo_id
           if (this.hidden === false) {
             const jobJob = this.copyList.certificationInfo_id.map(item => item.id)
             this.list.certificationInfo_id = jobJob
+          } else {
+            this.list.certificationInfo_id = id
           }
           const res = await getPositionMake(this.list)
           console.log('添加职位', res)
@@ -857,7 +860,8 @@ export default {
     jobAddres () {
       this.dialog = true
       console.log(1)
-      this.adcodeList = this.jobAmend
+      this.adcodeList = this.copyList
+      console.log('122', this.adcodeList)
       console.log(1)
     },
     dialogReset (i, address, adcode, addressAll, locations) {
@@ -986,7 +990,7 @@ export default {
     },
     getList () {
       this.hidden = true
-      this.$message.error('避免信息错误，请重新选择资格证书')
+      this.$message.success('避免信息错误，请重新选择资格证书')
       this.ruleForm.certificationInfo_id = []
       this.list.certificationInfo_id = this.ruleForm.certificationInfo_id
     }
@@ -1120,5 +1124,8 @@ export default {
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);
+}
+::v-deep .ql-editor {
+  height: 100px;
 }
 </style>

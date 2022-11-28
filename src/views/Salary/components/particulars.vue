@@ -62,13 +62,13 @@
           >
             <el-button
               v-if="firm.result === '待定' ? true : false"
-              style="background-color: #256efd; color: #fff"
+              style="background-color: #256efd; color: #fff; margin: 20px 200px"
               @click="submit"
               >再次邀约</el-button
             >
             <el-button
               v-if="firm.result === '未开始' ? true : false"
-              style="background-color: #256efd; color: #fff"
+              style="background-color: #256efd; color: #fff; margin: 20px 200px"
               @click="deleteList"
               >取消面试</el-button
             >
@@ -206,6 +206,7 @@ export default {
       // this.$emit('reset', false)
       // console.log(this.arr)
       this.$emit('reset1')
+      this.show = false
     },
     submit () {
       this.$emit('submit')
@@ -229,6 +230,7 @@ export default {
       const res = await getFirmDelete(this.firm.id)
       console.log('取消', res)
       this.$emit('reset1')
+      this.show = false
     },
     async interviewList () {
       // this.show = true

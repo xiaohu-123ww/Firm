@@ -172,7 +172,11 @@
         </el-form>
       </div>
       <div v-if="showFlag" style="padding: 90px 150px">
-        <Identity :form-list="formList" @handleEmail="handleEmail" />
+        <Identity
+          :form-list="formList"
+          :numbers="numbers"
+          @handleEmail="handleEmail"
+        />
       </div>
       <div v-if="number">
         <div
@@ -205,11 +209,24 @@
           >
         </div>
         <div v-else style="display: flex; margin: 20px 100px">
-          <el-input
-            v-model="name"
-            placeholder="请输入公司名称"
-            style="margin-right: 10px"
-          ></el-input>
+          <el-select
+            v-model="form.enterprise_name"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="请输入关键词"
+            :remote-method="remoteMethod"
+            :loading="loading"
+            style="width: 500px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
           <el-button type="primary" @click="numberChange">确定</el-button>
         </div>
         <div class="email">
@@ -527,7 +544,8 @@ export default {
       condition: {},
       state: '',
       name: '',
-      inputChange: true
+      inputChange: true,
+      numbers: ''
 
     }
   },
@@ -545,6 +563,8 @@ export default {
   methods: {
     async getQuery () {
       console.log('this.$route.params.id', this.$route.params.id)
+      console.log('this.$route.params.id.number', this.$route.params.number)
+      this.numbers = this.$route.params.numbers
       if (this.$route.params.id.enterprise_id !== '') {
         this.enterprisess = true
         this.company = false
@@ -660,6 +680,9 @@ export default {
           this.check.enterprise_name = this.form.enterprise_name
           const res = await getCheckMethods(this.check)
           console.log('验证方式', res)
+          console.log('this.$route.params.id.number', this.$route.params.number)
+          this.numbers = this.$route.params.number
+          console.log(this.numbers)
           this.job = true
           this.condition = res.data
         }
@@ -749,8 +772,8 @@ export default {
     },
     async numberChange () {
       // console.log(1)
-      this.form.enterprise_name = this.name
-      this.inputChange = true
+      // this.form.enterprise_name = this.name
+      // this.inputChange = true
       this.check.enterprise_name = this.form.enterprise_name
       const res = await getCheckMethods(this.check)
       console.log('验证方式', res)
