@@ -252,6 +252,7 @@ export default {
         new_tags: []
 
       },
+      add: '',
 
       rest: [
         {
@@ -468,6 +469,7 @@ export default {
       this.list.address = res.result.addressComponent.street + res.result.addressComponent.street_number
       // res.result.addressComponent.street + res.result.addressComponent.street_number
       this.list.addressAll = res.result.addressComponent.city
+      this.adcode = res.result.addressComponent.adcode
     },
     onClick () {
       this.$confirm('确定退出编辑吗', '提示', {
@@ -495,7 +497,9 @@ export default {
           this.list.lng = this.locations.lng
           this.list.lat = this.locations.lat
           if (this.list.tags) { console.log(this.list) }
+          this.list.ascode = this.adcode
           const res = await getWorkSystemAmend(this.list)
+
           console.log('res', res)
           this.$message.success('修改信息成功，内容在审核中')
           this.$emit('reset', 0)
@@ -596,7 +600,7 @@ export default {
       this.list.rest_time_status = data.data.rest_time.id
       this.list.work_overtime_status = data.data.work_overtime.id
       this.list.tags = data.data.tags.map(item => item.id)
-
+      this.add = data.data.address.location.adcode
       this.list.ascode = data.data.address.location.adcode
       this.list.lng = data.data.address.lng
       this.list.lat = data.data.address.lat

@@ -64,7 +64,9 @@
           </el-table-column>
           <el-table-column prop="position_name" label="备注"> </el-table-column>
           <el-table-column label="操作">
-            <el-button type="text" size="medium">详情</el-button>
+            <el-button type="text" size="medium"
+              ><span @click="rightChange">详情</span></el-button
+            >
           </el-table-column>
         </el-table>
       </template>
@@ -160,6 +162,9 @@ export default {
     },
     rightChange () {
       this.$router.push('/salarys')
+    },
+    textarea () {
+      console.log(1)
     }
 
   }

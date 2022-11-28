@@ -253,7 +253,6 @@
                   >
                     <el-input
                       v-model="newPassword.code"
-                      :type="passw"
                       autocomplete="off"
                       placeholder="请输入验证码"
                       style="width: 200px; height: 50px"
@@ -276,6 +275,7 @@
                     autocomplete="off"
                     placeholder="请输入密码"
                     style="margin: 0px 0px 0px 80px"
+                    maxlength="6"
                   >
                     <i slot="suffix" :class="icon" @click="showPass"></i>
                   </el-input>
@@ -428,6 +428,9 @@ export default {
 
   },
   methods: {
+    handlerInput (value) {
+      console.log('value', value)
+    },
     cepateLogin () {
       this.isuser = false
       this.show = false
@@ -660,6 +663,8 @@ export default {
     async passwordLogin () {
       if (this.newPassword.mobile === '' || this.newPassword.code === '' || this.newPassword.password === '') {
         this.$message.error('手机号、验证码、密码不能为空')
+      } else if (this.newPassword.password !== 6) {
+        this.$message.error('密码必须是六位数字或字符')
       } else {
         const res = await sendPasswordLogin(this.newPassword)
         console.log('修改密码', res)
@@ -684,7 +689,7 @@ export default {
 <style scoped lang="scss">
 .login-content {
   width: 100%;
-  height: 600px;
+  height: 100%;
   background-color: #f5f5f5;
   padding: 40px;
   .login-image {

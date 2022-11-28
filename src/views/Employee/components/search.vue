@@ -12,7 +12,7 @@
             <el-button class="button" @click="searchList">搜索</el-button>
           </div>
           <div class="seek">
-            <div v-if="firm.length !== 0">
+            <div v-if="firm.length !== 0" class="search-checkbox">
               <span class="seek-span">快捷搜索</span>
               <el-radio-group v-model="key" size="mini">
                 <el-radio-button
@@ -917,7 +917,7 @@ export default {
   .search-input {
     height: 80px;
     // background-color: pink;
-    // text-align: center;
+    text-align: center;
     margin-bottom: 20px;
     .seek {
       // background-color: aqua;
@@ -925,7 +925,6 @@ export default {
       .seek-span {
         font-size: 14px;
         margin-right: 13px;
-        margin-left: 300px;
       }
     }
   }

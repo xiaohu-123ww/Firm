@@ -109,7 +109,7 @@ export function getRejectedLists (limit, offset, data) {
  */
 export function getInterviewList (limit, data) {
   return request({
-    url: '/enterprise/interview-list/',
+    url: '/enterprise/comm_list/interviewed/',
     method: 'post',
     params: { limit: limit },
     data: data // data就是body参数
@@ -121,7 +121,7 @@ export function getInterviewList (limit, data) {
  */
 export function getInterviewLists (limit, offset, data) {
   return request({
-    url: '/enterprise/interview-list/',
+    url: '/enterprise/comm_list/interviewed/',
     method: 'post',
     params: { limit: limit, offset: offset },
     data: data // data就是body参数
