@@ -3,7 +3,7 @@
     title="面试邀约"
     :visible.sync="flagShow"
     width="40%"
-    :before-close="close"
+    :before-close="closes"
   >
     <el-form
       ref="rf"
@@ -75,6 +75,9 @@ export default {
     },
     positionList: {
       type: Number
+    },
+    addresss: {
+      type: String
     }
   },
   components: { Item },
@@ -128,15 +131,28 @@ export default {
     }
   },
   created () {
-    this.getAddress()
+    // this.getAddress()
+  },
+  mounted () {
+    // this.getAddress()
+  },
+  watch: {
+    addresss: {
+      handler (newVal, oldVal) {
+        this.ruleForm.address = newVal
+        console.log(newVal, this.ruleForm.address)
+        // this.ruleForm.address = newVal
+        // console.log('this.ruleForm.address', this.ruleForm.address)
+      },
+      deep: false,
+      immediate: true
+    }
+
   },
   methods: {
-    async getAddress () {
-      if (this.positionList !== 0) {
-        const res = await getDetail(this.positionList)
-        console.log('地址', res)
-        this.ruleForm.address = res.data.data.adcode.second + res.data.data.adcode.third + res.data.data.work_adcode.adcode_detail
-      }
+    closes () {
+      this.$emit('ret', false)
+      this.clear()
     },
     close () {
       this.$emit('reset', false)

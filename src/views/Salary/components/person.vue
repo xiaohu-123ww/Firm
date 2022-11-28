@@ -210,10 +210,12 @@ export default {
       if (list.length === 0) {
         console.log(1)
         this.$confirm('暂无上线职位，去上线招聘岗位吧', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-
+          confirmButtonText: '确定', // 确认按钮的文字显示
+          type: 'warning',
+          center: true, // 文字居中显示
+          showCancelButton: false, // 不显示取消按钮
+          showClose: false, // 是否显示右上角的x
+          closeOnClickModal: false
         }).then(() => {
           this.pid = 0
           this.$router.push('/department')
@@ -271,7 +273,7 @@ export default {
     async changeJAVA () {
       this.backgroundColor = 2
       this.loading = true
-      await this.getJob()
+      // await this.getJob()
       console.log('113', this.pid)
       if (this.pid === 0) {
         this.list = []
@@ -294,7 +296,7 @@ export default {
     async robot () {
       this.backgroundColor = 3
       this.loading = true
-      await this.getJob()
+      // await this.getJob()
       console.log('113', this.pid)
       if (this.pid === 0) {
         this.list = []
@@ -317,7 +319,7 @@ export default {
     async vision () {
       this.backgroundColor = 4
       this.loading = true
-      await this.getJob()
+      // await this.getJob()
       console.log('113', this.pid)
       if (this.pid === 0) {
         this.list = []
@@ -341,7 +343,7 @@ export default {
     async visionss () {
       this.backgroundColor = 5
       this.loading = true
-      await this.getJob()
+      // await this.getJob()
       console.log('113', this.pid)
       if (this.pid === 0) {
         this.list = []
@@ -385,7 +387,7 @@ export default {
       const off = this.limit * (val - 1)
       if (this.backgroundColor === 1) {
         this.loading = true
-        await this.getJob()
+        // await this.getJob()
         console.log('113', this.pid)
         if (this.pid === 0) {
           this.list = []
@@ -406,7 +408,7 @@ export default {
       } else if (this.backgroundColor === 2) {
         this.backgroundColor = 2
         this.loading = true
-        await this.getJob()
+        // await this.getJob()
         console.log('113', this.pid)
         if (this.pid === 0) {
           this.list = []
@@ -427,7 +429,7 @@ export default {
       } else if (this.backgroundColor === 3) {
         this.backgroundColor = 3
         this.loading = true
-        await this.getJob()
+        // await this.getJob()
         console.log('113', this.pid)
         if (this.pid === 0) {
           this.list = []
@@ -448,7 +450,7 @@ export default {
       } else if (this.backgroundColor === 4) {
         this.backgroundColor = 4
         this.loading = true
-        await this.getJob()
+        // await this.getJob()
         console.log('113', this.pid)
         if (this.pid === 0) {
           this.list = []
@@ -469,7 +471,7 @@ export default {
       } else if (this.backgroundColor === 5) {
         this.backgroundColor = 5
         this.loading = true
-        await this.getJob()
+        // await this.getJob()
         console.log('113', this.pid)
         if (this.pid === 0) {
           this.list = []
@@ -492,7 +494,7 @@ export default {
     // 新招呼
     async getNew () {
       this.loading = true
-      await this.getJob()
+      // await this.getJob()
       console.log('113', this.pid)
       if (this.pid === 0) {
         this.list = []

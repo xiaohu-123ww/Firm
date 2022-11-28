@@ -291,7 +291,9 @@
       :flag-show="flagShow"
       :interviewer="interviewer"
       :position-list="positionList"
+      :addresss="addresss"
       @reset="reset"
+      @ret="ret"
     />
     <!-- <Interview :flag-show="flagShow" @reset="reset" />-->
     <Particulars
@@ -306,6 +308,7 @@
 </template>
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
+import { getDetail } from '@/api/department/online'
 import { getChat, getReject, getInterests, getChating, getFirm } from '@/api/salarys/index'
 import Dialog from './dialog.vue'
 // import Interview from './interview.vue'
@@ -347,7 +350,8 @@ export default {
       firm: {},
       interviews: [],
       flags: false,
-      num: {}
+      num: {},
+      addresss: ''
     }
   },
   mounted () {
@@ -385,10 +389,21 @@ export default {
       console.log(id)
       this.$emit('newResume', id)
     },
-    interview (user, id) {
+    async interview (user, id) {
       this.flagShow = true
       this.interviewer = user
+      console.log('id', id)
+
       this.positionList = id
+      const res = await getDetail(id)
+      console.log('地址', res)
+      if (res.code === 1002) {
+        console.log(12)
+      } else {
+        console.log(23)
+        this.addresss = res.data.data.adcode.second + res.data.data.adcode.third + res.data.data.work_adcode.adcode_detail
+        console.log(23, this.addresss)
+      }
     },
     async chating (id) {
       const res = await getChating(id)
@@ -399,6 +414,9 @@ export default {
     reset (i) {
       this.flagShow = i
       this.$emit('reject')
+    },
+    ret (i) {
+      this.flagShow = i
     },
     async particulars (id, last, user_id, i) {
       console.log(id, last)

@@ -35,7 +35,7 @@
         <el-row>
           <el-col :span="23"><div>我的面试</div></el-col>
           <el-col :span="1">
-            <el-button type="text"
+            <el-button type="text" @click="rightChange"
               >更多<i class="el-icon-arrow-right"></i></el-button
           ></el-col>
         </el-row>
@@ -157,6 +157,9 @@ export default {
       this.chunk[1].number = data.waiting
       this.chunk[2].number = data.comming
       this.chunk[3].number = data.collection
+    },
+    rightChange () {
+      this.$router.push('/salarys')
     }
 
   }
