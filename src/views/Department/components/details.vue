@@ -120,7 +120,7 @@
           v-html="particulars.enterprise_data.introduction"
         ></div>
       </div>
-      <div>
+      <div style="margin-top: 60px">
         <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler" />
       </div>
     </el-card>
@@ -222,7 +222,7 @@ export default {
         display: flex;
 
         .bg-purple-trade {
-          width: 300px;
+          width: 450px;
           height: 100%;
           // background-color: green;
           font-size: 25px;
@@ -287,7 +287,8 @@ export default {
           margin-right: 10px;
         }
         .bg-text {
-          width: 300px;
+          // width: 300px;
+          margin-left: 10px;
           height: 50px;
           // background-color: pink;
           line-height: 50px;
