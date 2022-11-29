@@ -471,7 +471,10 @@ export default {
             }).then(() => {
               setToken(res.data.data)
               // eslint-disable-next-line object-curly-spacing
-              this.$router.push({ name: 'register', params: { number: res.data.number } })
+              // this.$router.push({ name: '', params: { number: res.data.number } })
+
+              // eslint-disable-next-line object-curly-spacing
+              this.$router.push({ path: '/register', query: { number: res.data.number } })
             })
           } else if (res.code === 1203) {
             this.$confirm(res.data.msg, '提示', {
@@ -512,7 +515,9 @@ export default {
               }).then(() => {
                 setToken(res.data.data)
                 // eslint-disable-next-line object-curly-spacing
-                this.$router.push({ name: 'register', params: { number: res.data.number } })
+                // this.$router.push({ name: 'register', params: { number: res.data.number } })
+                // eslint-disable-next-line object-curly-spacing
+                this.$router.push({ path: '/register', query: { number: res.data.number } })
               })
             } else if (res.code === 1203) {
               this.$confirm(res.data.msg, '提示', {

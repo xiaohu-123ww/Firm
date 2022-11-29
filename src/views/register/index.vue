@@ -166,7 +166,7 @@
             </el-select>
           </el-form-item>
           <el-form-item style="margin: 40px 0px 0px 336px">
-            <el-button type="primary">取消</el-button>
+            <el-button type="primary" @click="nextLast">取消</el-button>
             <el-button @click="nextStep">下一步</el-button>
           </el-form-item>
         </el-form>
@@ -176,6 +176,7 @@
           :form-list="formList"
           :numbers="numbers"
           @handleEmail="handleEmail"
+          @lastStep="lastStep"
         />
       </div>
       <div v-if="number">
@@ -564,7 +565,7 @@ export default {
     async getQuery () {
       console.log('this.$route.params.id', this.$route.params.id)
       console.log('this.$route.params.id.number', this.$route.params.number)
-      this.numbers = this.$route.params.numbers
+      this.numbers = this.$route.query.numbers
       if (this.$route.params.id.enterprise_id !== '') {
         this.enterprisess = true
         this.company = false
@@ -681,12 +682,17 @@ export default {
           const res = await getCheckMethods(this.check)
           console.log('验证方式', res)
           console.log('this.$route.params.id.number', this.$route.params.number)
-          this.numbers = this.$route.params.number
+          this.numbers = this.$route.query.number
           console.log(this.numbers)
           this.job = true
           this.condition = res.data
         }
       })
+    },
+    lastStep () {
+      this.details = false
+      this.company = true
+      this.showFlag = false
     },
     async remoteMethod (query) {
       // 如果用户输入内容了，就发请求拿数据，远程搜索模糊查询
@@ -786,6 +792,9 @@ export default {
     },
     inChange () {
 
+    },
+    nextLast () {
+      this.$router.push('/')
     }
   }
 
