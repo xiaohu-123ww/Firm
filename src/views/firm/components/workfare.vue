@@ -469,7 +469,7 @@ export default {
       this.list.address = res.result.addressComponent.street + res.result.addressComponent.street_number
       // res.result.addressComponent.street + res.result.addressComponent.street_number
       this.list.addressAll = res.result.addressComponent.city
-      this.adcode = res.result.addressComponent.adcode
+      this.list.ascode = res.result.addressComponent.adcode
     },
     onClick () {
       this.$confirm('确定退出编辑吗', '提示', {
@@ -481,8 +481,8 @@ export default {
     submit () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
-          console.log(1)
-          console.log(this.list)
+          // console.log(1)
+          // console.log(this.list)
 
           if (this.list.work_time === '弹性工作时间') {
             this.list.work_time_status = '2'
@@ -496,8 +496,13 @@ export default {
           }
           this.list.lng = this.locations.lng
           this.list.lat = this.locations.lat
-          if (this.list.tags) { console.log(this.list) }
-          this.list.ascode = this.adcode
+          // if (this.list.tags) { console.log(this.list) }
+          // // this.list.ascode = this.adcode
+
+          // if (this.adcode === 0) {
+          //   console.log(123)
+          // }
+          console.log(this.list.ascode)
           const res = await getWorkSystemAmend(this.list)
 
           console.log('res', res)
