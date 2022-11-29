@@ -625,8 +625,13 @@ export default {
             this.$message.success(res.data.msg)
             if (res.code === 200) {
               setToken(res.data.data)
+              this.registerShow = false
+              this.show = true
+              // this.retrievePassword = false
+              this.flagShow = false
+              // this.show = true
               // eslint-disable-next-line object-curly-spacing
-              this.$router.push({ name: 'register', params: { number: res.data.number } })
+              // this.$router.push({ name: 'register', params: { number: res.data.number } })
             }
             // this.$router.push('/register')
           }
