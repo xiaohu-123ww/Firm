@@ -233,7 +233,8 @@
         <div class="email">
           <div
             v-if="
-              condition.email_identity_valid && condition.license_identity_valid
+              condition.email_identity_valid === true &&
+              condition.license_identity_valid === true
             "
           >
             <el-row>
@@ -322,7 +323,12 @@
               </div>
             </div>
           </div>
-          <div v-if="condition.email_identity_valid">
+          <div
+            v-if="
+              condition.email_identity_valid === true &&
+              condition.license_identity_valid === false
+            "
+          >
             <el-row>
               <el-col :span="24">
                 <div class="email-one" style="margin: 10px auto">
@@ -371,7 +377,12 @@
             </div>
           </div>
 
-          <div v-if="condition.license_identity_valid">
+          <div
+            v-if="
+              condition.license_identity_valid === true &&
+              condition.email_identity_valid === false
+            "
+          >
             <el-row>
               <el-col :span="24">
                 <div
