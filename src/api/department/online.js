@@ -172,3 +172,9 @@ export function getPositionMakeAmend (id) {
 export function getMake (data) {
   return request.put('/enterprise/position-make/v1.0.1/', data)
 }
+/**
+ * 职位名称重复/enterprise/position-select/v1.0.1/
+ */
+export function getFullnameList (data) {
+  return request.post(`/enterprise/position-select/v1.0.1/`, data)
+}

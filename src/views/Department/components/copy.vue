@@ -388,7 +388,7 @@
 <script>
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Bai from '@/components/bai/index.vue'
-import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake } from '@/api/department/online'
+import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake, getFullnameList } from '@/api/department/online'
 export default {
   props: {
     copyList: {
@@ -629,7 +629,8 @@ export default {
       certList: {},
       nature: {},
       hidden: false,
-      adcodeList: {}
+      adcodeList: {},
+      fullnames: { fullname: '' }
 
     }
   },
@@ -701,113 +702,121 @@ export default {
     submitForm () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
-          this.list.fullname = this.ruleForm.fullname
-          this.list.job_nature = this.ruleForm.job_nature
-          this.list.job_content = this.ruleForm.job_content
-          // 行业
-          const firm = this.copyList.field.map(item => item.children)
-          const aa = firm.map(item => item.name)
-          const bb = this.ruleForm.field
-          if (bb.toString() === aa.toString()) {
-            const cc = firm.map(item => item.id)
+          this.fullnames.fullname = this.ruleForm.fullname
+          console.log(this.fullnames)
+          const res1 = await getFullnameList(this.fullnames)
+          console.log('res1', res1)
+          if (res1.code === 200) {
+            this.list.fullname = this.ruleForm.fullname
+            this.list.job_nature = this.ruleForm.job_nature
+            this.list.job_content = this.ruleForm.job_content
+            // 行业
+            const firm = this.copyList.field.map(item => item.children)
+            const aa = firm.map(item => item.name)
+            const bb = this.ruleForm.field
+            if (bb.toString() === aa.toString()) {
+              const cc = firm.map(item => item.id)
 
-            this.list.field = cc
-            console.log('cc', this.list.field)
+              this.list.field = cc
+              console.log('cc', this.list.field)
+            } else {
+              if (aa[0] === bb[0]) {
+                bb[0] = firm[0].id
+              }
+              if (aa[1] === bb[1]) {
+                bb[1] = firm[1].id
+              }
+              if (aa[1] === bb[0]) {
+                bb[0] = firm[1].id
+              }
+              this.list.field = Array.from(new Set(bb))
+              console.log('aa', this.list.field)
+            }
+            // 岗位
+            const num = this.copyList.pst_class.name
+            if (this.ruleForm.pst_class === num) {
+              this.list.pst_class = this.copyList.pst_class.id
+            } else {
+              this.list.pst_class = this.ruleForm.pst_class
+            }
+            const jobNum = this.copyList.job_experience.name
+            if (this.ruleForm.job_experience === jobNum) {
+              this.list.job_experience = this.copyList.job_experience.id
+            } else {
+              this.list.job_experience = this.ruleForm.job_experience
+            }
+            this.list.education = this.ruleForm.education
+            this.list.email = this.ruleForm.email
+            this.list.number_of_employers = this.ruleForm.number_of_employers
+            // 福利
+            this.list.tag = this.ruleForm.tag
+            const jobs = this.copyList.jobkeywords.map(item => item.children)
+            console.log('job', jobs)
+            const ss = jobs.map(item => item.name)
+            const nn = this.ruleForm.jobkeywords
+            if (ss.toString() === nn.toString()) {
+              const cc = jobs.map(item => item.id)
+              this.list.jobkeywords = cc
+              console.log('ss', this.list.jobkeywords)
+            } else {
+              if (ss[0] === nn[0]) {
+                nn[0] = jobs[0].id
+              }
+              if (ss[1] === nn[1]) {
+                nn[1] = jobs[1].id
+              }
+              if (nn[1] === ss[0]) {
+                nn[0] = jobs[0].id
+              }
+              if (nn[2] === ss[0]) {
+                nn[2] = jobs[0].id
+              }
+              if (nn[3] === ss[0]) {
+                nn[3] = jobs[0].id
+              }
+              // if (nn[2] === ss[3]) {
+              //   nn[0] = jobs[3].id
+              // }
+              // if (nn[2] === ss[4]) {
+              //   nn[0] = jobs[4].id
+              // }
+              // if (nn[3] === ss[4]) {
+              //   nn[0] = jobs[4].id
+              // }
+              this.list.jobkeywords = nn
+              console.log('nn', this.list.jobkeywords)
+            }
+            const adrsss = this.copyList.adcode.second + this.copyList.adcode.third + this.copyList.adcode_detail
+            if (adrsss === this.ruleForm.address) {
+              this.list.adcode = this.copyList.adcode.adcode
+              this.list.adcode_detail = this.copyList.adcode_detail
+            } else {
+              this.list.adcode = this.ruleForm.adcode
+              this.list.adcode_detail = this.ruleForm.adcode_detail
+            }
+            this.list.longitude = this.ruleForm.longitude
+            this.list.latitude = this.ruleForm.latitude
+            this.list.salary_min = this.ruleForm.salary_min
+            this.list.salary_max = this.ruleForm.salary_max
+            this.list.salary_unit = this.ruleForm.salary_unit
+            console.log('222', this.list)
+            const id = this.ruleForm.certificationInfo_id
+            console.log('id', id)
+            //  const name = this.ruleForm.certificationInfo_id
+            if (this.hidden === false) {
+              const jobJob = this.copyList.certificationInfo_id.map(item => item.id)
+              this.list.certificationInfo_id = jobJob
+            } else {
+              this.list.certificationInfo_id = id
+            }
+            const res = await getPositionMake(this.list)
+            console.log('添加职位', res)
+            this.$message.success('添加职位数据成功')
+            this.$emit('reset3')
+            this.clear()
           } else {
-            if (aa[0] === bb[0]) {
-              bb[0] = firm[0].id
-            }
-            if (aa[1] === bb[1]) {
-              bb[1] = firm[1].id
-            }
-            if (aa[1] === bb[0]) {
-              bb[0] = firm[1].id
-            }
-            this.list.field = Array.from(new Set(bb))
-            console.log('aa', this.list.field)
+            this.$message.error(res1.data.msg)
           }
-          // 岗位
-          const num = this.copyList.pst_class.name
-          if (this.ruleForm.pst_class === num) {
-            this.list.pst_class = this.copyList.pst_class.id
-          } else {
-            this.list.pst_class = this.ruleForm.pst_class
-          }
-          const jobNum = this.copyList.job_experience.name
-          if (this.ruleForm.job_experience === jobNum) {
-            this.list.job_experience = this.copyList.job_experience.id
-          } else {
-            this.list.job_experience = this.ruleForm.job_experience
-          }
-          this.list.education = this.ruleForm.education
-          this.list.email = this.ruleForm.email
-          this.list.number_of_employers = this.ruleForm.number_of_employers
-          // 福利
-          this.list.tag = this.ruleForm.tag
-          const jobs = this.copyList.jobkeywords.map(item => item.children)
-          console.log('job', jobs)
-          const ss = jobs.map(item => item.name)
-          const nn = this.ruleForm.jobkeywords
-          if (ss.toString() === nn.toString()) {
-            const cc = jobs.map(item => item.id)
-            this.list.jobkeywords = cc
-            console.log('ss', this.list.jobkeywords)
-          } else {
-            if (ss[0] === nn[0]) {
-              nn[0] = jobs[0].id
-            }
-            if (ss[1] === nn[1]) {
-              nn[1] = jobs[1].id
-            }
-            if (nn[1] === ss[0]) {
-              nn[0] = jobs[0].id
-            }
-            if (nn[2] === ss[0]) {
-              nn[2] = jobs[0].id
-            }
-            if (nn[3] === ss[0]) {
-              nn[3] = jobs[0].id
-            }
-            // if (nn[2] === ss[3]) {
-            //   nn[0] = jobs[3].id
-            // }
-            // if (nn[2] === ss[4]) {
-            //   nn[0] = jobs[4].id
-            // }
-            // if (nn[3] === ss[4]) {
-            //   nn[0] = jobs[4].id
-            // }
-            this.list.jobkeywords = nn
-            console.log('nn', this.list.jobkeywords)
-          }
-          const adrsss = this.copyList.adcode.second + this.copyList.adcode.third + this.copyList.adcode_detail
-          if (adrsss === this.ruleForm.address) {
-            this.list.adcode = this.copyList.adcode.adcode
-            this.list.adcode_detail = this.copyList.adcode_detail
-          } else {
-            this.list.adcode = this.ruleForm.adcode
-            this.list.adcode_detail = this.ruleForm.adcode_detail
-          }
-          this.list.longitude = this.ruleForm.longitude
-          this.list.latitude = this.ruleForm.latitude
-          this.list.salary_min = this.ruleForm.salary_min
-          this.list.salary_max = this.ruleForm.salary_max
-          this.list.salary_unit = this.ruleForm.salary_unit
-          console.log('222', this.list)
-          const id = this.ruleForm.certificationInfo_id
-          console.log('id', id)
-          //  const name = this.ruleForm.certificationInfo_id
-          if (this.hidden === false) {
-            const jobJob = this.copyList.certificationInfo_id.map(item => item.id)
-            this.list.certificationInfo_id = jobJob
-          } else {
-            this.list.certificationInfo_id = id
-          }
-          const res = await getPositionMake(this.list)
-          console.log('添加职位', res)
-          this.$message.success('添加职位数据成功')
-          this.$emit('reset3')
-          this.clear()
         }
       })
       // this.$emit('reset', true)
@@ -865,6 +874,7 @@ export default {
       console.log(1)
     },
     dialogReset (i, address, adcode, addressAll, locations) {
+      console.log(i, address, adcode, addressAll, locations)
       this.dialog = i
       this.ruleForm.address = address
       this.ruleForm.adcode = adcode

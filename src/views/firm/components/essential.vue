@@ -630,6 +630,8 @@ export default {
 
         if (data.data.field_vice !== '' && data.data.field_vice !== null) {
           this.list.field_vice = data.data.field_vice.children.name
+        } else if (data.data.field_vice === '') {
+          this.list.is_financing_status = true
         }
 
         if (data.data.registered_address !== '' && data.data.registered_address !== null) {

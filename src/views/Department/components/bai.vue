@@ -86,6 +86,15 @@
           >
           </bm-marker>
         </baidu-map>
+
+        <div style="margin-top: 60px">
+          <baidu-map
+            class="map"
+            :center="locations"
+            :zoom="zoom"
+            @ready="handler"
+          />
+        </div>
       </div>
       <div slot="footer">
         <el-button @click="dialogBeforeClose">取 消</el-button>
@@ -129,7 +138,8 @@ export default {
       town: [],
       prefecture: [],
       adcode: 0,
-      address: ''
+      address: '',
+      historyList: ''
     }
   },
   mounted () {
@@ -150,7 +160,7 @@ export default {
     geocAddress (point) {
       const that = this
       var geoc = new BMap.Geocoder()
-      geoc.getLocation(point, function (geocInfo) {
+      geoc.getLocation(point, function async (geocInfo) {
         // 设置基本信息
         var addressInfo = geocInfo.addressComponents
         // console.log(point.lat);
@@ -165,10 +175,53 @@ export default {
         that.list.city = addressInfo.province
         that.list.address = addressInfo.city
         that.list.third = addressInfo.district
+        that.historyList = addressInfo.province + addressInfo.city + addressInfo.district + address
+        console.log('this.historyList', that.historyList)
+        that.getHistoryList()
+        // that.getAddressAll()
+
         // that.list.addressAll = address
       })
     },
+    async getHistoryList () {
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.historyList, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json1212`, json)
+          this.locations = json.result.location
+          console.log(' this.locations', this.locations)
+          this.getAddress()
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
+      // this.geoTest()
+      // that.list.addressAll = address
+    },
+    async getAddressAll () {
+      var aa = []
 
+      aa.push(this.locations.lat)
+      aa.push(this.locations.lng)
+      console.log(aa)
+      const res = await this.$jsonp('http://api.map.baidu.com/reverse_geocoding/v3/', {
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK',
+        location: aa.toString(),
+        output: 'json',
+        pois: 1,
+        callback: 'renderReverse'
+      })
+      console.log('122', res)
+    },
     // 地图
     handler ({ BMap, map }) {
       console.log(55, BMap, map)
@@ -284,7 +337,7 @@ export default {
       this.list.third = res.result.addressComponent.district
       this.list.address = res.result.addressComponent.city
       this.adcode = res.result.addressComponent.adcode
-      this.list.addressAll = res.result.addressComponent.street + res.result.addressComponent.street_number
+      // this.list.addressAll = res.result.addressComponent.street + res.result.addressComponent.street_number
     },
     dialogBeforeClose () {
       this.$confirm('确定取消城市选择吗? 不填写，职位数据会无法保存哦！', '提示', {

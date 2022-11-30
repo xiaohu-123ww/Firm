@@ -317,7 +317,8 @@ export default {
       cityAll: [],
       town: [],
       prefecture: [],
-      adcode: 0
+      adcode: 0,
+      historyList: ''
 
     }
   },
@@ -348,8 +349,35 @@ export default {
         that.list.city = addressInfo.province
         that.list.addressAll = addressInfo.city
         that.list.third = addressInfo.district
+        that.historyList = addressInfo.province + addressInfo.city + addressInfo.district + address
+        console.log('this.historyList', that.historyList)
+        that.getHistoryList()
         // that.list.address = address
       })
+    },
+    async getHistoryList () {
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.historyList, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json1212`, json)
+          this.locations = json.result.location
+          console.log(' this.locations', this.locations)
+          this.getAddress()
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
+      // this.geoTest()
+      // that.list.addressAll = address
     },
 
     // 地图
@@ -364,8 +392,8 @@ export default {
       geolocation.getCurrentPosition((res) => {
         // IP地址赋值给locations对象
         console.log('res', res)
-        this.locations.lng = res.point.lng
-        this.locations.lat = res.point.lat
+        // this.locations.lng = res.point.lng
+        // this.locations.lat = res.point.lat
       })
       /** 点击地图创建坐标事件End */
 
@@ -466,7 +494,7 @@ export default {
       console.log('122', res)
       this.list.city = res.result.addressComponent.province
       this.list.third = res.result.addressComponent.district
-      this.list.address = res.result.addressComponent.street + res.result.addressComponent.street_number
+      // this.list.address = res.result.addressComponent.street + res.result.addressComponent.street_number
       // res.result.addressComponent.street + res.result.addressComponent.street_number
       this.list.addressAll = res.result.addressComponent.city
       this.list.ascode = res.result.addressComponent.adcode

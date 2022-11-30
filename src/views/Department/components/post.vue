@@ -377,7 +377,7 @@
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Bai from './bai.vue'
 import Baidusss from '@/components/bai/components/baidu/index.vue'
-import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake } from '@/api/department/online'
+import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake, getFullnameList } from '@/api/department/online'
 
 export default {
 
@@ -570,7 +570,10 @@ export default {
       certList: {},
       nature: {},
       hidden: true,
-      mapVisible: true
+      mapVisible: true,
+      fullnames: {
+        fullname: ''
+      }
 
     }
   },
@@ -611,11 +614,24 @@ export default {
         if (valid) {
           console.log(123)
           console.log(this.ruleForm)
-          const res = await getPositionMake(this.ruleForm)
-          console.log('添加职位', res)
-          this.$message.success('添加职位数据成功')
-          this.$emit('reset', true)
-          this.clear()
+          this.fullnames.fullname = this.ruleForm.fullname
+          console.log(this.fullnames)
+          const res1 = await getFullnameList(this.fullnames)
+          console.log('res1', res1)
+          if (res1.code === 200) {
+            const res = await getPositionMake(this.ruleForm)
+            console.log('添加职位', res)
+            this.$message.success('添加职位数据成功')
+            this.$emit('reset', true)
+            this.clear()
+          } else {
+            this.$message.error(res1.data.msg)
+          }
+          // const res = await getPositionMake(this.ruleForm)
+          // console.log('添加职位', res)
+          // this.$message.success('添加职位数据成功')
+          // this.$emit('reset', true)
+          // this.clear()
         }
       })
       // this.$emit('reset', true)

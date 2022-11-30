@@ -146,7 +146,8 @@ export default {
       town: [],
       prefecture: [],
       adcode: 0,
-      add: ''
+      add: '',
+      historyList: ''
 
     }
   },
@@ -168,7 +169,7 @@ export default {
         console.log('addressAll', this.list)
         this.locations.lng = newVal.longitude
         this.locations.lat = newVal.latitude
-        this.geoTest()
+        // this.geoTest()
       },
 
       immediate: true
@@ -198,24 +199,50 @@ export default {
         that.list.city = addressInfo.province
         that.list.address = addressInfo.city
         that.list.third = addressInfo.district
+        that.historyList = addressInfo.province + addressInfo.city + addressInfo.district + address
+        console.log('this.historyList', that.historyList)
+        that.getHistoryList()
         // that.list.addressAll = address
       })
     },
-
+    async getHistoryList () {
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.historyList, // input框输入的地址
+        output: 'json',
+        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json1212`, json)
+          this.locations = json.result.location
+          console.log(' this.locations', this.locations)
+          this.getAddress()
+        })
+        .catch((err) => {
+          // clearTimeout(timeId);
+          // if (err) {
+          //   timeId = setTimeout(() => {
+          //     this.geoTest();
+          //   }, 2000);
+          // }
+          console.log(`json err:`, err)
+        })
+      // this.geoTest()
+      // that.list.addressAll = address
+    },
     // 地图
     handler ({ BMap, map }) {
       console.log(55, BMap, map)
       const that = this
       this.center = ''
-      this.zoom = 15
+      this.zoom = 16
       // 获取IP地址的经纬度，详情查看官方文档：
       // https://mapopen-pub-jsapi.bj.bcebos.com/jsapi/reference/jsapi_webgl_1_0.html#a8b42
       const geolocation = new BMap.Geolocation()
       geolocation.getCurrentPosition((res) => {
         // IP地址赋值给locations对象
         console.log('res', res)
-        this.locations.lng = res.point.lng
-        this.locations.lat = res.point.lat
+        // this.locations.lng = res.point.lng
+        // this.locations.lat = res.point.lat
       })
       /** 点击地图创建坐标事件End */
 
