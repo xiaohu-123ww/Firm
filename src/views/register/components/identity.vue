@@ -39,8 +39,8 @@
         >
       </el-form-item>
       <el-form-item style="margin: 40px 0px 0px 336px">
-        <el-button type="primary" @click="lastStep">上一步</el-button>
-        <el-button @click="handleEmail">下一步</el-button>
+        <el-button @click="lastStep">上一步</el-button>
+        <el-button type="primary" @click="handleEmail">下一步</el-button>
       </el-form-item>
     </el-form>
   </div>

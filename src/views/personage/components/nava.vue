@@ -1,62 +1,44 @@
 <template>
-  <div class="navbar">
-    <el-row>
-      <el-col :span="0.5"
-        ><div class="grid-content bg-purple-light">
-          <Hamburger
-            :is-active="sidebar.opened"
-            class="hamburger-container"
-            @toggleClick="toggleSideBar"
-          /></div
-      ></el-col>
-      <el-col :span="18"
-        ><div class="grid-content bg-purple">
-          <div class="navbar-bt">
-            <!-- <Item :icon="icon" />
-            {{ title }} -->
-          </div>
-        </div></el-col
-      >
-      <el-col :span="2"
-        ><div class="grid-content bg-purple-light">
-          <a href="javascript:;" class="navbar-firm" @click="onClick">
-            <div>企业主页</div>
-          </a>
-        </div></el-col
-      >
-      <el-col :span="1"
-        ><div class="grid-content bg-purple">
-          <div class="navar-news">
-            <!-- <a href=""><i class="el-icon-message"></i></a>
+  <div class="navbar" style="display: flex">
+    <div class="grid-content bg-purple-light">
+      <Hamburger
+        :is-active="sidebar.opened"
+        class="hamburger-container"
+        @toggleClick="toggleSideBar"
+      />
+    </div>
+    <div class="grid-content bg-purple" style="width: 75%">
+      <div class="navbar-bt"></div>
+    </div>
+    <div class="grid-content bg-purple-light" style="width: 9%">
+      <a href="javascript:;" class="navbar-firm" @click="onClick">
+        <div :class="{ bg: state === 1 }">企业主页</div>
+      </a>
+    </div>
+    <div class="grid-content bg-purple">
+      <div class="navar-news">
+        <!-- <a href="javascript:;"><i class="el-icon-message"></i></a>
             <div class="navbar-div">1</div> -->
-          </div>
-        </div></el-col
-      >
-
-      <el-col :span="1"
-        ><div
-          class="grid-content bg-purple-light"
-          :class="{ bd: arr === 2 }"
-          @click="change"
-        >
-          <a href=""> <i class="el-icon-user"></i></a></div
-      ></el-col>
-      <el-col :span="1"
-        ><div class="grid-content bg-purple">
-          <el-dropdown class="navbar-dropdown">
-            <span class="el-dropdown-link">
-              <i class="el-icon-more"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="logout"
-                >退出登录</el-dropdown-item
-              >
-              <el-dropdown-item>首页</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div></el-col
-      >
-    </el-row>
+      </div>
+    </div>
+    <div
+      class="grid-content bg-purple-light"
+      style="width: 8%"
+      :class="{ bd: arr === 2 }"
+      @click="change"
+    >
+      <a href=""> <i class="el-icon-user"></i></a>
+    </div>
+    <div class="grid-content bg-purple" style="width: 8%">
+      <el-dropdown class="navbar-dropdown">
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
@@ -89,8 +71,8 @@ export default {
   },
   data () {
     return {
-
-      arr: 2
+      state: 1,
+      arr: 1
     }
   },
   methods: {

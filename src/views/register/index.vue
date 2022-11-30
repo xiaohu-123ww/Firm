@@ -166,8 +166,8 @@
             </el-select>
           </el-form-item>
           <el-form-item style="margin: 40px 0px 0px 336px">
-            <el-button type="primary" @click="nextLast">取消</el-button>
-            <el-button @click="nextStep">下一步</el-button>
+            <el-button @click="nextLast">取消</el-button>
+            <el-button type="primary" @click="nextStep">下一步</el-button>
           </el-form-item>
         </el-form>
       </div>
