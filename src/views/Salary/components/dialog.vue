@@ -12,8 +12,8 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="面试时间" required>
-        <el-col :span="10">
+      <el-form-item label="面试时间" prop="value1">
+        <!-- <el-col :span="10">
           <el-form-item prop="start_time">
             <el-date-picker
               v-model="ruleForm.start_time"
@@ -35,7 +35,16 @@
               :picker-options="forbiddenTime"
             ></el-date-picker>
           </el-form-item> </el-col
-      ></el-form-item>
+      > -->
+        <el-date-picker
+          v-model="ruleForm.value1"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
+      </el-form-item>
       <el-form-item label="面试方式" prop="model">
         <el-radio-group v-model="ruleForm.model">
           <el-radio-button label="线下"
@@ -103,7 +112,8 @@ export default {
         address: '',
         contactor: '',
         notice: '',
-        model: '线下'
+        model: '线下',
+        value1: []
       },
       rules: {
         start_time: [
@@ -126,7 +136,10 @@ export default {
         notice: [
           { required: true, message: '请填注意事项', trigger: 'blur' }
         ],
-        contact: [{ required: true, trigger: 'blur', validator: validateUsername }]
+        contact: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        value1: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ]
 
       }
     }
@@ -172,14 +185,14 @@ export default {
         if (valid) {
           this.ruleForm.interviewer = this.interviewer
           this.ruleForm.position = this.positionList
-          console.log(this.changeDateTo(this.ruleForm.start_time))
-          const time = this.changeDateTo(this.ruleForm.start_time)
+          console.log(this.changeDateTo(this.ruleForm.value1[0]))
+          const time = this.changeDateTo(this.ruleForm.value1[0])
           console.log(time)
           this.ruleForm.start_time = time
-          const end = this.changeDateTo(this.ruleForm.end_time)
+          const end = this.changeDateTo(this.ruleForm.value1[1])
           this.ruleForm.end_time = end
           console.log(this.ruleForm)
-
+          // delete this.ruleForm.value1
           const res = await getInterview(this.ruleForm)
           console.log('约面试', res)
           this.$message.success('已发送给求职者')

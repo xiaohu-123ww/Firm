@@ -4,7 +4,7 @@
     <el-dialog
       title="面试详情"
       :visible.sync="flag"
-      width="35%"
+      width="40%"
       :before-close="close"
     >
       <div v-if="flag">

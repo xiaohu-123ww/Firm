@@ -2,121 +2,114 @@
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="recommend">
-      <div class="recommend-my">
-        <el-row>
-          <el-col :span="1"
-            ><div class="recommend-img">
-              <img
-                :src="disposeImg(item.left_data.image)"
-                class="image"
+      <div class="recommend-my" style="display: flex">
+        <div style="width: 5%">
+          <div class="recommend-img">
+            <img
+              :src="disposeImg(item.left_data.image)"
+              class="image"
+              @click="resume(item.left_data.user_id)"
+            />
+          </div>
+        </div>
+        <div class="recommend-message" style="width: 40%">
+          <div class="message-name">
+            <a href="javascript:;">
+              <div
+                class="text"
+                style="margin-left: 10px"
                 @click="resume(item.left_data.user_id)"
-              /></div
-          ></el-col>
-          <el-col :span="10"
-            ><div class="recommend-message">
-              <div class="message-name">
-                <a href="javascript:;">
-                  <div
-                    class="text"
-                    style="margin-left: 10px"
-                    @click="resume(item.left_data.user_id)"
-                  >
-                    {{ item.left_data.user_name }}
-                  </div>
-                </a>
-                <div style="margin-right: 15px; font-size: 19px">
-                  <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
-                </div>
-                <div class="onLine">{{ item.left_data.online_status }}</div>
-              </div>
-              <div class="message-age">
-                <div class="age-four">{{ item.left_data.age }}岁</div>
-                <div class="age-four four">
-                  {{ item.left_data.work_date }}
-                </div>
-                <div class="age-four four">{{ item.left_data.education }}</div>
-                <div style="margin-left: 10px">{{ item.left_data.status }}</div>
-              </div>
-              <div class="message-age" style="margin-top: 3px">
-                <div class="age-four">
-                  期望城市:{{
-                    item.left_data.position_class_data.city === null
-                      ? '城市'
-                      : item.left_data.position_class_data.city
-                  }}
-                </div>
-                <div class="age-four four">
-                  求职意向：{{
-                    item.left_data.position_class_data.position_class !== null
-                      ? item.left_data.position_class_data.position_class
-                      : '职位'
-                  }}
-                </div>
-                <div class="age-four four">
-                  {{
-                    item.left_data.position_class_data.salary.salary_min !==
-                    null
-                      ? item.left_data.position_class_data.salary.salary_min
-                      : '1千'
-                  }}-{{
-                    item.left_data.position_class_data.salary.salary_max !==
-                    null
-                      ? item.left_data.position_class_data.salary.salary_max
-                      : '1千'
-                  }}
-                </div>
-              </div>
-              <div
-                style="
-                  font-size: 13px;
-                  color: #a2a2a2;
-                  line-height: 20px;
-                  margin-left: 8px;
-                "
               >
-                沟通职位：{{ item.comm_info.comm_position }}
+                {{ item.left_data.user_name }}
               </div>
-            </div></el-col
-          >
-          <el-col :span="11"
-            ><div class="recommend-time">
-              <div
-                v-for="(itemss, index) in item.right_data.jobexperience_data"
-                :key="index"
-                class="recommend-experience"
-              >
-                <div class="experience-time">
-                  {{ itemss.start_date }}-{{ itemss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemss.enterprise }}</div>
-                <div>{{ itemss.position }}</div>
-              </div>
-              <div
-                v-for="itemsss in item.right_data.education_data"
-                :key="itemsss.id + 1"
-                class="recommend-experience"
-              >
-                <div class="experience-time">
-                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemsss.school }}</div>
-                <div>{{ itemsss.major }}</div>
-              </div>
-            </div></el-col
-          >
-          <el-col :span="2">
-            <div
-              style="
-                font-size: 13px;
-                color: #a2a2a2;
-                line-height: 20px;
-                margin-top: 70px;
-                margin-left: 0px;
-              "
-            >
-              {{ item.comm_info.comm_time }}
+            </a>
+            <div style="margin-right: 15px; font-size: 19px">
+              <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
             </div>
-            <!-- <div v-if="!item.job" class="recommend-bt">
+            <div class="onLine">{{ item.left_data.online_status }}</div>
+          </div>
+          <div class="message-age">
+            <div class="age-four">{{ item.left_data.age }}岁</div>
+            <div class="age-four four">
+              {{ item.left_data.work_date }}
+            </div>
+            <div class="age-four four">{{ item.left_data.education }}</div>
+            <div style="margin-left: 10px">{{ item.left_data.status }}</div>
+          </div>
+          <div class="message-age" style="margin-top: 3px">
+            <div class="age-four">
+              期望城市:{{
+                item.left_data.position_class_data.city === null
+                  ? '城市'
+                  : item.left_data.position_class_data.city
+              }}
+            </div>
+            <div class="age-four four">
+              求职意向：{{
+                item.left_data.position_class_data.position_class !== null
+                  ? item.left_data.position_class_data.position_class
+                  : '职位'
+              }}
+            </div>
+            <div class="age-four four">
+              {{
+                item.left_data.position_class_data.salary.salary_min !== null
+                  ? item.left_data.position_class_data.salary.salary_min
+                  : '1千'
+              }}-{{
+                item.left_data.position_class_data.salary.salary_max !== null
+                  ? item.left_data.position_class_data.salary.salary_max
+                  : '1千'
+              }}
+            </div>
+          </div>
+          <div
+            style="
+              font-size: 13px;
+              color: #a2a2a2;
+              line-height: 20px;
+              margin-left: 8px;
+            "
+          >
+            沟通职位：{{ item.comm_info.comm_position }}
+          </div>
+        </div>
+        <div class="recommend-time" style="width: 48%">
+          <div
+            v-for="(itemss, index) in item.right_data.jobexperience_data"
+            :key="index"
+            class="recommend-experience"
+          >
+            <div class="experience-time">
+              {{ itemss.start_date }}-{{ itemss.end_date }}
+            </div>
+            <div class="experience-firm">{{ itemss.enterprise }}</div>
+            <div>{{ itemss.position }}</div>
+          </div>
+          <div
+            v-for="itemsss in item.right_data.education_data"
+            :key="itemsss.id + 1"
+            class="recommend-experience"
+          >
+            <div class="experience-time">
+              {{ itemsss.start_date }}-{{ itemsss.end_date }}
+            </div>
+            <div class="experience-firm">{{ itemsss.school }}</div>
+            <div>{{ itemsss.major }}</div>
+          </div>
+        </div>
+        <div
+          style="
+            font-size: 13px;
+            color: #a2a2a2;
+            line-height: 20px;
+            margin-top: 70px;
+            margin-left: 0px;
+          "
+        >
+          {{ item.comm_info.comm_time }}
+        </div>
+        <!-- <div v-if="!item.job" class="recommend-bt">
               <el-button
                 round
                 class="recommend-button"
@@ -124,166 +117,155 @@
                 ><Item icon="zhaohu" /> 打招呼
               </el-button>
             </div> -->
-          </el-col>
-        </el-row>
       </div>
-      <div class="technical-ability">
-        <el-row>
-          <el-col :span="19"
-            ><div class="technical">
-              <div
-                v-for="(skills, index) in item.right_data.job_keywords"
-                :key="index"
-                class="ability"
-              >
-                {{ skills }}
-              </div>
-            </div></el-col
+      <div class="technical-ability" style="display: flex">
+        <div class="technical" style="width: 88%">
+          <div
+            v-for="(skills, index) in item.right_data.job_keywords"
+            :key="index"
+            class="ability"
           >
-          <el-col :span="5">
-            <!-- <div v-if="item.state1" class="bg-purple-light">
+            {{ skills }}
+          </div>
+        </div>
+        <!-- <div v-if="item.state1" class="bg-purple-light">
               <Item icon="点" />
               {{ item.state1 }}
             </div> -->
-            <div class="" :class="{ left: communication === false }">
-              <el-button
-                v-if="show"
-                round
-                class="chnical"
-                style="
-                  color: #0d975e;
-                  background-color: #f1fffd;
-                  border: 1px solid #cef4e2;
-                  padding-left: 13px;
-                "
-                @click="chat(item.comm_info.comm_id)"
-                >可以聊</el-button
-              >
-              <el-button
-                v-if="call"
-                round
-                class="chnical"
-                style="
-                  color: #0d975e;
-                  background-color: #f1fffd;
-                  border: 1px solid #cef4e2;
-                  padding-left: 13px;
-                "
-                @click="interests(item.comm_info.comm_id)"
-                >提醒对方</el-button
-              >
-              <!-- v-if="communication" -->
-              <el-button
-                v-if="communication"
-                round
-                class="chnical"
-                style="
-                  color: #0d975e;
-                  background-color: #f1fffd;
-                  border: 1px solid #cef4e2;
-                  padding-left: 13px;
-                "
-                @click="chating(item.comm_info.comm_id)"
-                >要简历</el-button
-              >
-              <!-- v-if="communication" -->
-              <el-button
-                v-if="communication"
-                round
-                class="chnical"
-                style="
-                  color: #f2e52f;
-                  background-color: #fff;
-                  border: 1px solid #f6e79d;
-                "
-                @click="
-                  interview(
-                    item.left_data.user_id,
-                    item.comm_info.comm_position_id
-                  )
-                "
-                >约面试</el-button
-              >
-              <el-button
-                v-if="item.comm_info.continue_interview === true && face"
-                round
-                class="chnical"
-                style="
-                  color: #f2e52f;
-                  background-color: #fff;
-                  border: 1px solid #f6e79d;
-                "
-                @click="
-                  interview(
-                    item.left_data.user_id,
-                    item.comm_info.comm_position_id
-                  )
-                "
-                >约面试</el-button
-              >
-              <el-button
-                v-if="face"
-                round
-                class="chnical"
-                style="
-                  color: #0d975e;
-                  background-color: #f1fffd;
-                  border: 1px solid #cef4e2;
-                  margin-left: 20px;
-                "
-                @click="
-                  particulars(
-                    item.comm_info.last_interview_id,
-                    item.comm_info.interview_id,
-                    item.left_data.user_id,
-                    item.comm_info.comm_id
-                  )
-                "
-                >面试详情</el-button
-              >
-              <!-- v-if="show || call || communication || face" -->
-              <el-button
-                v-if="show || call || communication || face"
-                round
-                class="chnical"
-                style="
-                  color: #d55948;
-                  background-color: #fce6e6;
-                  border: 1px solid #fcc9c4;
-                "
-                @click="reject(item.comm_info.comm_id)"
-                >不合适</el-button
-              >
-              <el-button
-                v-if="position"
-                round
-                class="chnical"
-                style="
-                  color: #0d975e;
-                  background-color: #f1fffd;
-                  border: 1px solid #cef4e2;
-                  padding-left: 13px;
-                "
-                @click="particular(item.comm_info.last_interview_id)"
-                >面试详情</el-button
-              >
-              <el-button
-                v-if="position"
-                round
-                class="chnical"
-                style="
-                  color: #d55948;
-                  background-color: #fce6e6;
-                  border: 1px solid #fcc9c4;
-                  width: 90px;
-                "
-                @click="reject(item.comm_info.comm_id)"
-                >撤销不合适</el-button
-              >
-            </div>
-          </el-col>
-        </el-row>
-        <el-row> </el-row>
+        <div
+          class=""
+          :class="{ left: communication === false }"
+          style="display: flex"
+        >
+          <el-button
+            v-if="show"
+            round
+            class="chnical"
+            style="
+              color: #0d975e;
+              background-color: #f1fffd;
+              border: 1px solid #cef4e2;
+              padding-left: 13px;
+            "
+            @click="chat(item.comm_info.comm_id)"
+            >可以聊</el-button
+          >
+          <el-button
+            v-if="call"
+            round
+            class="chnical"
+            style="
+              color: #0d975e;
+              background-color: #f1fffd;
+              border: 1px solid #cef4e2;
+              padding-left: 13px;
+            "
+            @click="interests(item.comm_info.comm_id)"
+            >提醒对方</el-button
+          >
+          <!-- v-if="communication" -->
+          <el-button
+            v-if="communication"
+            round
+            class="chnical"
+            style="
+              color: #0d975e;
+              background-color: #f1fffd;
+              border: 1px solid #cef4e2;
+              padding-left: 13px;
+            "
+            @click="chating(item.comm_info.comm_id)"
+            >要简历</el-button
+          >
+          <!-- v-if="communication" -->
+          <el-button
+            v-if="communication"
+            round
+            class="chnical"
+            style="
+              color: #f2e52f;
+              background-color: #fff;
+              border: 1px solid #f6e79d;
+            "
+            @click="
+              interview(item.left_data.user_id, item.comm_info.comm_position_id)
+            "
+            >约面试</el-button
+          >
+          <el-button
+            v-if="item.comm_info.continue_interview === true && face"
+            round
+            class="chnical"
+            style="
+              color: #f2e52f;
+              background-color: #fff;
+              border: 1px solid #f6e79d;
+            "
+            @click="
+              interview(item.left_data.user_id, item.comm_info.comm_position_id)
+            "
+            >约面试</el-button
+          >
+          <el-button
+            v-if="face"
+            round
+            class="chnical"
+            style="
+              color: #0d975e;
+              background-color: #f1fffd;
+              border: 1px solid #cef4e2;
+              margin-left: 20px;
+            "
+            @click="
+              particulars(
+                item.comm_info.last_interview_id,
+                item.comm_info.interview_id,
+                item.left_data.user_id,
+                item.comm_info.comm_id
+              )
+            "
+            >面试详情</el-button
+          >
+          <!-- v-if="show || call || communication || face" -->
+          <el-button
+            v-if="show || call || communication || face"
+            round
+            class="chnical"
+            style="
+              color: #d55948;
+              background-color: #fce6e6;
+              border: 1px solid #fcc9c4;
+            "
+            @click="reject(item.comm_info.comm_id)"
+            >不合适</el-button
+          >
+          <el-button
+            v-if="position"
+            round
+            class="chnical"
+            style="
+              color: #0d975e;
+              background-color: #f1fffd;
+              border: 1px solid #cef4e2;
+              padding-left: 13px;
+            "
+            @click="particular(item.comm_info.last_interview_id)"
+            >面试详情</el-button
+          >
+          <el-button
+            v-if="position"
+            round
+            class="chnical"
+            style="
+              color: #d55948;
+              background-color: #fce6e6;
+              border: 1px solid #fcc9c4;
+              width: 90px;
+            "
+            @click="reject(item.comm_info.comm_id)"
+            >撤销不合适</el-button
+          >
+        </div>
       </div>
     </div>
     <Dialog
@@ -542,7 +524,7 @@ export default {
         }
         .experience-firm {
           height: 100%;
-          width: 200px;
+          width: 180px;
           // background-color: rgb(0, 251, 255);
           margin-right: 10px;
           color: black;

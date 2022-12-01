@@ -3,82 +3,69 @@
     <div v-if="!details">
       <div class="talents">
         <div class="talents-recommend">人才管理</div>
-        <div class="recommend">
-          <el-row>
-            <el-col :span="2">
-              <a href="javascript:;"
-                ><div
-                  class="grid-content"
-                  :class="{ bg: backgroundColor === 1 }"
-                  @click="change"
-                >
-                  新招呼（{{ callss }}）
-                </div></a
-              ></el-col
-            >
-            <el-col :span="2"
-              ><a href="javascript:;">
-                <div
-                  class="grid-content"
-                  :class="{ bg: backgroundColor === 2 }"
-                  @click="changeJAVA"
-                >
-                  未回复（{{ Noreply }}）
-                </div></a
-              ></el-col
-            >
-            <el-col :span="2"
-              ><a href="javascript:;">
-                <div
-                  class="grid-content"
-                  :class="{ bg: backgroundColor === 3 }"
-                  @click="robot"
-                >
-                  沟通中（{{ communications }}）
-                </div></a
-              ></el-col
-            >
-            <el-col :span="2"
-              ><a href="javascript:;"
-                ><div
-                  class="grid-content"
-                  :class="{ bg: backgroundColor === 4 }"
-                  @click="vision"
-                >
-                  已约面（{{ surface }}）
-                </div></a
-              ></el-col
-            >
-            <el-col :span="2"
-              ><a href="javascript:;"
-                ><div
-                  class="grid-content"
-                  :class="{ bg: backgroundColor === 5 }"
-                  @click="visionss"
-                >
-                  不合适（{{ inappropriate }}）
-                </div></a
-              ></el-col
-            >
-
-            <el-col :span="12" style="padding-left: 420px; display: flex">
-              <el-input
-                v-model="qw"
-                placeholder="输入姓名搜索"
-                prefix-icon="el-icon-search"
-                style=""
+        <div class="recommend" style="display: flex">
+          <div style="display: flex; width: 72%">
+            <a href="javascript:;"
+              ><div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 1 }"
+                @click="change"
               >
-              </el-input>
-              <el-button
-                type="primary"
-                style="height: 30px; line-height: 2px"
-                @click="searchList"
-                >搜索</el-button
+                新招呼（{{ callss }}）
+              </div>
+            </a>
+            <a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 2 }"
+                @click="changeJAVA"
               >
-            </el-col>
-          </el-row>
-
-          <div></div>
+                未回复（{{ Noreply }}）
+              </div>
+            </a>
+            <a href="javascript:;">
+              <div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 3 }"
+                @click="robot"
+              >
+                沟通中（{{ communications }}）
+              </div>
+            </a>
+            <a href="javascript:;"
+              ><div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 4 }"
+                @click="vision"
+              >
+                已约面（{{ surface }}）
+              </div>
+            </a>
+            <a href="javascript:;"
+              ><div
+                class="grid-content"
+                :class="{ bg: backgroundColor === 5 }"
+                @click="visionss"
+              >
+                不合适（{{ inappropriate }}）
+              </div>
+            </a>
+          </div>
+          <div style="display: flex">
+            <el-input
+              v-model="qw"
+              placeholder="输入姓名搜索"
+              prefix-icon="el-icon-search"
+              style=""
+            >
+            </el-input>
+            <el-button
+              type="primary"
+              style="height: 30px; line-height: 2px"
+              @click="searchList"
+              >搜索</el-button
+            >
+          </div>
         </div>
       </div>
       <div>
@@ -581,6 +568,7 @@ export default {
     text-align: center;
     height: 35px;
     font-size: 15px;
+    margin-right: 15px;
   }
 }
 .bg {

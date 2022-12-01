@@ -1,129 +1,115 @@
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="recommend">
-      <div class="recommend-my">
-        <el-row>
-          <el-col :span="1"
-            ><div class="recommend-img">
-              <img
-                :src="disposeImg(item.image)"
-                class="image"
+      <div class="recommend-my" style="display: flex">
+        <div style="width: 5%">
+          <div class="recommend-img">
+            <img
+              :src="disposeImg(item.image)"
+              class="image"
+              @click="resume(item.user_id)"
+            />
+          </div>
+        </div>
+        <div class="recommend-message" style="width: 40%">
+          <div class="message-name">
+            <a href="javascript:;">
+              <div
+                class="text"
+                style="margin-left: 10px"
                 @click="resume(item.user_id)"
-              /></div
-          ></el-col>
-          <el-col :span="10"
-            ><div class="recommend-message">
-              <div class="message-name">
-                <a href="javascript:;">
-                  <div
-                    class="text"
-                    style="margin-left: 10px"
-                    @click="resume(item.user_id)"
-                  >
-                    {{ item.user_name }}
-                  </div>
-                </a>
-                <div style="margin-right: 15px; font-size: 19px">
-                  <Item :icon="item.sex === 1 ? 'nan' : 'nv'"></Item>
-                </div>
-                <div v-if="online[item.id] === 0" class="onLine">当前在线</div>
-                <div v-if="online[item.id] === 1" class="onLine">今日在线</div>
-                <div v-if="online[item.id] === 2" class="onLine">近一周</div>
-                <div v-if="online[item.id] === 3" class="onLine">近两周</div>
-                <div v-if="online[item.id] === 4" class="onLine">近一个月</div>
-                <div v-if="online[item.id] === 5" class="onLine">近两个月</div>
-                <div v-if="online[item.id] === 6" class="onLine">近三个月</div>
-                <div v-if="online[item.id] === 7" class="onLine">近六个月</div>
-                <div v-if="online[item.id] === 8" class="onLine">
-                  六个月以前
-                </div>
+              >
+                {{ item.user_name }}
               </div>
-              <div class="message-age">
-                <div class="age-four">{{ item.age }}岁</div>
-                <div class="age-four four">{{ item.work_date }}年</div>
-                <div class="age-four four">{{ item.education.name }}</div>
-                <div style="margin-left: 10px">{{ item.status.name }}</div>
-              </div>
-              <div class="message-age" style="margin-top: 3px">
-                <div class="age-four">
-                  期望城市：{{
-                    item.position_class_data.city.name
-                      ? item.position_class_data.city.name
-                      : '期望城市'
-                  }}
-                </div>
-                <div class="age-four four">
-                  求职职位：{{
-                    item.position_class_data.position_class.name
-                      ? item.position_class_data.position_class.name
-                      : '职位'
-                  }}
-                </div>
-                <div class="age-four four">
-                  {{ item.position_class_data.salary[0] }}-
-                  {{ item.position_class_data.salary[1] }}
-                </div>
-              </div>
-            </div></el-col
+            </a>
+            <div style="margin-right: 15px; font-size: 19px">
+              <Item :icon="item.sex === 1 ? 'nan' : 'nv'"></Item>
+            </div>
+            <div v-if="online[item.id] === 0" class="onLine">当前在线</div>
+            <div v-if="online[item.id] === 1" class="onLine">今日在线</div>
+            <div v-if="online[item.id] === 2" class="onLine">近一周</div>
+            <div v-if="online[item.id] === 3" class="onLine">近两周</div>
+            <div v-if="online[item.id] === 4" class="onLine">近一个月</div>
+            <div v-if="online[item.id] === 5" class="onLine">近两个月</div>
+            <div v-if="online[item.id] === 6" class="onLine">近三个月</div>
+            <div v-if="online[item.id] === 7" class="onLine">近六个月</div>
+            <div v-if="online[item.id] === 8" class="onLine">六个月以前</div>
+          </div>
+          <div class="message-age">
+            <div class="age-four">{{ item.age }}岁</div>
+            <div class="age-four four">{{ item.work_date }}年</div>
+            <div class="age-four four">{{ item.education.name }}</div>
+            <div style="margin-left: 10px">{{ item.status.name }}</div>
+          </div>
+          <div class="message-age" style="margin-top: 3px">
+            <div class="age-four">
+              期望城市：{{
+                item.position_class_data.city.name
+                  ? item.position_class_data.city.name
+                  : '期望城市'
+              }}
+            </div>
+            <div class="age-four four">
+              求职职位：{{
+                item.position_class_data.position_class.name
+                  ? item.position_class_data.position_class.name
+                  : '职位'
+              }}
+            </div>
+            <div class="age-four four">
+              {{ item.position_class_data.salary[0] }}-
+              {{ item.position_class_data.salary[1] }}
+            </div>
+          </div>
+        </div>
+        <div class="recommend-time" style="width: 50%">
+          <div
+            v-for="(itemss, index) in item.job_experience"
+            :key="index"
+            class="recommend-experience"
           >
-          <el-col :span="11">
-            <div class="recommend-time">
-              <div
-                v-for="(itemss, index) in item.job_experience"
-                :key="index"
-                class="recommend-experience"
-              >
-                <div class="experience-time">
-                  {{ itemss.start_date }}-{{ itemss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemss.enterprise }}</div>
-                <div>{{ itemss.position }}</div>
-              </div>
-              <div
-                v-for="itemsss in item.education_experience"
-                :key="itemsss.id"
-                class="recommend-experience"
-              >
-                <div class="experience-time">
-                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemsss.school }}</div>
-                <div>{{ itemsss.major }}</div>
-              </div>
+            <div class="experience-time">
+              {{ itemss.start_date }}-{{ itemss.end_date }}
             </div>
-          </el-col>
-          <el-col :span="2"
-            ><div v-if="!item.job" class="recommend-bt">
-              <el-button
-                round
-                class="recommend-button"
-                @click="talk(item.user_id)"
-                ><Item icon="zhaohu" /> 打招呼
-              </el-button>
+            <div class="experience-firm">{{ itemss.enterprise }}</div>
+            <div>{{ itemss.position }}</div>
+          </div>
+          <div
+            v-for="itemsss in item.education_experience"
+            :key="itemsss.id"
+            class="recommend-experience"
+          >
+            <div class="experience-time">
+              {{ itemsss.start_date }}-{{ itemsss.end_date }}
             </div>
-          </el-col>
-        </el-row>
+            <div class="experience-firm">{{ itemsss.school }}</div>
+            <div>{{ itemsss.major }}</div>
+          </div>
+        </div>
+
+        <div v-if="!item.job" class="recommend-bt">
+          <el-button round class="recommend-button" @click="talk(item.user_id)"
+            ><Item icon="zhaohu" /> 打招呼
+          </el-button>
+        </div>
       </div>
       <div class="technical-ability">
-        <el-row>
-          <el-col :span="18"
-            ><div class="technical">
-              <div
-                v-for="(skills, index) in item.job_keywords"
-                :key="index"
-                class="ability"
-              >
-                {{ skills.name }}
-              </div>
-              <!-- <div
+        <div class="technical">
+          <div
+            v-for="(skills, index) in item.job_keywords"
+            :key="index"
+            class="ability"
+          >
+            {{ skills.name }}
+          </div>
+          <!-- <div
                 v-if="item.job"
                 style="font-size: 13px; color: #a2a2a2; line-height: 30px"
               >
                 沟通职位：机械工程师
               </div> -->
-            </div></el-col
-          >
-          <!-- <el-col :span="6"
+        </div>
+        <!-- <el-col :span="6"
             ><div v-if="item.state1" class="bg-purple-light">
               <Item icon="点" />
               {{ item.state1 }}
@@ -214,8 +200,6 @@
               >
             </div>
           </el-col> -->
-        </el-row>
-        <el-row> </el-row>
       </div>
     </div>
     <Dialog :dialog-visible="dialogVisible" @reset="reset" />
@@ -360,7 +344,7 @@ export default {
         .age-four {
           // width: 50px;
           height: 16px;
-          padding: 0px 5px;
+          padding: 0px 3px;
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }
@@ -384,13 +368,13 @@ export default {
           height: 100%;
           width: 150px;
           // background-color: blue;
-          margin-right: 10px;
+          // margin-right: 10px;
         }
         .experience-firm {
           height: 100%;
-          width: 200px;
+          width: 180px;
           // background-color: rgb(0, 251, 255);
-          margin-right: 10px;
+          // margin-right: 10px;
           color: black;
         }
       }

@@ -3,89 +3,81 @@
     <div v-if="vanish">
       <div v-if="show">
         <div v-if="flagShow" class="position">
-          <div class="position-manage">
-            <el-row>
-              <el-col :span="21"> 职位管理 </el-col>
-              <el-col :span="3">
-                <el-button
-                  round
-                  class="bt"
-                  style="
-                    background-color: #f09667;
-                    color: #fff;
-                    font-size: 1px;
-                    margin-top: 10px;
-                  "
-                  @click="postJob"
-                  >发布职位<i class="el-icon-plus"></i
-                ></el-button>
-              </el-col>
-            </el-row>
+          <div class="position-manage" style="display: flex">
+            <div style="width: 88%">职位管理</div>
+            <div>
+              <el-button
+                round
+                class="bt"
+                style="
+                  background-color: #f09667;
+                  color: #fff;
+                  font-size: 1px;
+                  margin-top: 10px;
+                "
+                @click="postJob"
+                >发布职位<i class="el-icon-plus"></i
+              ></el-button>
+            </div>
           </div>
-          <div class="position-state">
-            <el-row>
-              <el-col :span="3"
-                ><a href="javascript:;"
-                  ><div
-                    :class="{ bd: changeColor === 1 }"
-                    class="line"
-                    @click="onLine"
-                  >
-                    在线中
-                  </div></a
-                ></el-col
+          <div class="position-state" style="display: flex">
+            <div style="display: flex; width: 72%">
+              <a href="javascript:;"
+                ><div
+                  :class="{ bd: changeColor === 1 }"
+                  class="line"
+                  @click="onLine"
+                >
+                  在线中
+                </div></a
               >
-              <el-col :span="3">
-                <a href="javascript:;">
-                  <div
-                    :class="{ bd: changeColor === 2 }"
-                    class="line"
-                    @click="noOnLine"
-                  >
-                    未上线
-                  </div></a
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 2 }"
+                  class="line"
+                  @click="noOnLine"
                 >
-              </el-col>
-              <el-col :span="3">
-                <a href="javascript:;">
-                  <div
-                    :class="{ bd: changeColor === 3 }"
-                    class="line"
-                    @click="underReview"
-                  >
-                    审核中
-                  </div></a
+                  未上线
+                </div></a
+              >
+
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 3 }"
+                  class="line"
+                  @click="underReview"
                 >
-              </el-col>
-              <el-col :span="8">
-                <a href="javascript:;">
-                  <div
-                    :class="{ bd: changeColor === 4 }"
-                    class="line"
-                    @click="notPass"
-                  >
-                    未通过
-                  </div></a
+                  审核中
+                </div></a
+              >
+
+              <a href="javascript:;">
+                <div
+                  :class="{ bd: changeColor === 4 }"
+                  class="line"
+                  @click="notPass"
                 >
-              </el-col>
-              <el-col :span="5" class="bt">
-                <el-input
-                  v-model="text"
-                  placeholder="输入职位名称/城市"
-                  prefix-icon="el-icon-search"
-                ></el-input>
-                <el-button
-                  style="
-                    background-color: #256efd;
-                    height: 33px;
-                    line-height: 5px;
-                    color: #fff;
-                  "
-                  @click="fullnameChange"
-                  >搜索</el-button
-                >
-              </el-col>
-            </el-row>
+                  未通过
+                </div></a
+              >
+            </div>
+            <div style="display: flex">
+              <el-input
+                v-model="text"
+                placeholder="输入职位名称/城市"
+                prefix-icon="el-icon-search"
+              ></el-input>
+              <el-button
+                style="
+                  background-color: #256efd;
+                  height: 31px;
+                  line-height: 5px;
+                  color: #fff;
+                "
+                @click="fullnameChange"
+                >搜索</el-button
+              >
+            </div>
           </div>
         </div>
         <el-empty

@@ -14,72 +14,68 @@
       </el-row>
     </div>
     <el-card class="details-card">
-      <div class="details-my">
-        <el-row>
-          <el-col :span="18"
-            ><div class="bg-purple">
-              <div class="bg-purple-my">
-                <div class="bg-purple-trade">{{ particulars.fullname }}</div>
-                <div class="bg-purple-weal">
-                  <div
-                    v-for="(item, index) in particulars.tag"
-                    :key="index"
-                    class="bg-weal"
-                  >
-                    {{ item.name }}
-                  </div>
-                </div>
+      <div class="details-my" style="display: flex">
+        <div class="bg-purple" style="width: 80%">
+          <div class="bg-purple-my">
+            <div class="bg-purple-trade">{{ particulars.fullname }}</div>
+            <div class="bg-purple-weal">
+              <div
+                v-for="(item, index) in particulars.tag"
+                :key="index"
+                class="bg-weal"
+              >
+                {{ item.name }}
               </div>
-              <div class="bg-purple-money">
-                {{ particulars.salary_min }} - {{ particulars.salary_max }} .{{
-                  particulars.salary_unit
-                }}薪
+            </div>
+          </div>
+          <div class="bg-purple-money">
+            {{ particulars.salary_min }} - {{ particulars.salary_max }} .{{
+              particulars.salary_unit
+            }}薪
+          </div>
+          <div class="bg-purple-firm">
+            <div class="bg-firm">
+              {{ particulars.adcode.second }}{{ particulars.adcode.third }}
+            </div>
+            <div class="bg-firm">{{ particulars.job_experience.name }}</div>
+            <div class="bg-firm">{{ particulars.education.name }}</div>
+          </div>
+          <div class="bg-purple-image">
+            <div style="width: 8%">
+              <div class="bg-image">
+                <img
+                  :src="disposeImg(particulars.users.image)"
+                  alt=""
+                  style="width: 50xp; height: 50px; background-color: pink"
+                />
               </div>
-              <div class="bg-purple-firm">
-                <div class="bg-firm">
-                  {{ particulars.adcode.second }}{{ particulars.adcode.third }}
-                </div>
-                <div class="bg-firm">{{ particulars.job_experience.name }}</div>
-                <div class="bg-firm">{{ particulars.education.name }}</div>
-              </div>
-              <div class="bg-purple-image">
-                <div class="bg-image">
-                  <img
-                    :src="disposeImg(particulars.users.image)"
-                    alt=""
-                    style="width: 50xp; height: 50px; background-color: pink"
-                  />
-                </div>
-                <div style="line-height: 50px; margin-right: 30px">
-                  {{ particulars.users.name }}
-                </div>
-                <div class="bg-text">
-                  发布时间：{{
-                    parseTime(
-                      new Date(particulars.users.create_time).toLocaleString()
-                    )
-                  }}({{ particulars.users.post_last_days }}日后下线)
-                </div>
-                <div class="bg-text">
-                  工作地点： {{ particulars.adcode.second
-                  }}{{ particulars.adcode.third
-                  }}{{ particulars.work_adcode.adcode_detail }}
-                </div>
-              </div>
-            </div></el-col
-          >
-          <el-col :span="4"
-            ><div
-              v-if="typeof particulars.post_days === 'number'"
-              class="bg-purple-light"
-            >
-              <div class="bg-purple-time">{{ particulars.post_last_days }}</div>
-              <div style="color: #999999; font-size: 13px; margin-top: 5px">
-                上线时间
-              </div>
-            </div></el-col
-          >
-        </el-row>
+            </div>
+            <div style="line-height: 50px; width: 8%">
+              {{ particulars.users.name }}
+            </div>
+            <div class="bg-text" style="width: 40%">
+              发布时间：{{
+                parseTime(
+                  new Date(particulars.users.create_time).toLocaleString()
+                )
+              }}({{ particulars.users.post_last_days }}日后下线)
+            </div>
+            <div class="bg-text">
+              工作地点： {{ particulars.adcode.second
+              }}{{ particulars.adcode.third
+              }}{{ particulars.work_adcode.adcode_detail }}
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="typeof particulars.post_days === 'number'"
+          class="bg-purple-light"
+        >
+          <div class="bg-purple-time">{{ particulars.post_last_days }}</div>
+          <div style="color: #999999; font-size: 13px; margin-top: 5px">
+            上线时间
+          </div>
+        </div>
       </div>
       <div class="jobDescription">
         <div class="job">职位描述</div>
@@ -222,7 +218,7 @@ export default {
         display: flex;
 
         .bg-purple-trade {
-          width: 450px;
+          width: 500px;
           height: 100%;
           // background-color: green;
           font-size: 25px;
@@ -284,16 +280,16 @@ export default {
           background-color: pink;
           border-radius: 100px;
           overflow: hidden;
-          margin-right: 10px;
+          // margin-right: 10px;
         }
         .bg-text {
           // width: 300px;
-          margin-left: 10px;
+          // margin-left: 10px;
           height: 50px;
           // background-color: pink;
           line-height: 50px;
           color: #999999;
-          font-size: 14px;
+          font-size: 13px;
         }
       }
     }
@@ -356,7 +352,7 @@ export default {
   font-weight: 700;
 }
 .map {
-  width: 1000px;
+  width: 100%;
   height: 300px;
 }
 </style>

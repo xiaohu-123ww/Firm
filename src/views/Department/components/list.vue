@@ -2,147 +2,110 @@
   <div>
     <div v-if="show" id="detailClass">
       <div v-for="item in num" :key="item.id" class="list">
-        <div class="list-context">
-          <el-row>
-            <el-col :span="10"
-              ><div class="bg-purple">
-                <div class="bg-purple-nn">
-                  <span
-                    style="font-size: 18px; margin-right: 10px"
-                    @click="details(item.id)"
-                    ><a href="javascript:;">{{ item.fullname }}</a></span
-                  >
-                  <span style="font-size: 12px; color: #676767"
-                    >{{ item.adcode.second }}{{ item.adcode.third }}</span
-                  >
-                </div>
-                <div class="bg-purple-sss">
-                  <span
-                    style="font-size: 14px; color: #fe6b49; margin-right: 10px"
-                    >{{ item.salary_min }} - {{ item.salary_max }}
-                    {{ item.salary_unit }}薪</span
-                  >
-                  <span style="font-size: 12px; color: #676767">{{
-                    item.job_experience.name
-                  }}</span>
-                </div>
-              </div></el-col
+        <div class="list-context" style="display: flex">
+          <div class="bg-purple" style="width: 50%">
+            <div class="bg-purple-nn">
+              <span
+                style="font-size: 18px; margin-right: 10px"
+                @click="details(item.id)"
+                ><a href="javascript:;">{{ item.fullname }}</a></span
+              >
+              <span style="font-size: 12px; color: #676767"
+                >{{ item.adcode.second }}{{ item.adcode.third }}</span
+              >
+            </div>
+            <div class="bg-purple-sss">
+              <span style="font-size: 14px; color: #fe6b49; margin-right: 10px"
+                >{{ item.salary_min }} - {{ item.salary_max }}
+                {{ item.salary_unit }}薪</span
+              >
+              <span style="font-size: 12px; color: #676767">{{
+                item.job_experience.name
+              }}</span>
+            </div>
+          </div>
+          <div class="bg-purple-light" style="width: 70%">
+            <div v-if="buttonOnLine" class="bg-purple-bty">
+              <div class="text">新消息</div>
+              <div style="font-size: 38px">{{ item.message }}</div>
+            </div>
+          </div>
+          <div class="bg-purpl-el" style="padding-left: 2px">
+            <el-button
+              v-if="buttonOnLine"
+              class="elButton"
+              @click="refresh(item)"
+              ><Item icon="el-icon-refresh" class="Icon" /> 职位刷新</el-button
             >
-            <el-col :span="7"
-              ><div class="bg-purple-light">
-                <div v-if="buttonOnLine" class="bg-purple-bty">
-                  <div class="text">新消息</div>
-                  <div style="font-size: 38px">{{ item.message }}</div>
-                </div>
-              </div></el-col
+
+            <el-button
+              v-if="buttonNoOnLine || buttonNotPass"
+              class="elButton"
+              @click="copyJob(item.id)"
+              ><Item icon="copy" class="Icon" /> 复制</el-button
             >
-            <el-col :span="5"
-              ><div class="bg-purpl-el">
-                <el-button
-                  v-if="buttonOnLine"
-                  class="elButton"
-                  style="margin-left: 215px"
-                  @click="refresh(item)"
-                  ><Item icon="el-icon-refresh" class="Icon" />
-                  职位刷新</el-button
-                >
 
-                <el-button
-                  v-if="buttonNoOnLine || buttonNotPass"
-                  class="elButton"
-                  style="margin-left: 242px"
-                  @click="copyJob(item.id)"
-                  ><Item icon="copy" class="Icon" /> 复制</el-button
-                >
-
-                <el-button
-                  v-if="buttonUnderReview"
-                  class="elButton"
-                  style="margin-left: 215px"
-                  @click="deleteJob(item.id)"
-                  ><Item icon="aixin" class="Icon" /> 职位取消</el-button
-                >
-              </div>
-            </el-col>
-          </el-row>
+            <el-button
+              v-if="buttonUnderReview"
+              class="elButton"
+              @click="deleteJob(item.id)"
+              ><Item icon="aixin" class="Icon" /> 职位取消</el-button
+            >
+          </div>
         </div>
-        <div class="list-my">
-          <el-row>
-            <el-col :span="1">
-              <div class="list-image">
-                <img
-                  alt=""
-                  style="height: 30px; width: 30px"
-                  :src="disposeImg(item.users.image)"
-                />
-              </div>
-            </el-col>
-            <el-col :span="1"
-              ><div style="font-size: 13px">{{ item.users.name }}</div></el-col
+        <div class="list-my" style="display: flex">
+          <div style="width: 4%">
+            <div class="list-image">
+              <img
+                alt=""
+                style="height: 30px; width: 30px"
+                :src="disposeImg(item.users.image)"
+              />
+            </div>
+          </div>
+          <div style="font-size: 13px; width: 5%">{{ item.users.name }}</div>
+          <div style="font-size: 13px; color: #676767; width: 79%">
+            发布时间：{{
+              parseTime(new Date(item.create_time).toLocaleString())
+            }}
+          </div>
+          <div class="list-button" style="display: flex; margin-right: 30px">
+            <el-button
+              v-if="buttonNoOnLine || buttonNotPass"
+              class="list-my-bt"
+              round
+              @click="Amend(item.id)"
+              ><Item icon="xiugai" />修改</el-button
             >
-            <el-col :span="17"
-              ><div style="font-size: 13px; color: #676767">
-                发布时间：{{
-                  parseTime(new Date(item.create_time).toLocaleString())
-                }}
-              </div></el-col
+            <el-button
+              v-if="buttonOnLine"
+              class="list-my-bt"
+              round
+              @click="jobOut(item.id, item.fullname)"
+              ><Item icon="exit" />下线</el-button
             >
-
-            <el-col :span="5" class="list-button">
-              <div class="list-button">
-                <el-button
-                  v-if="buttonOnLine"
-                  class="list-my-bt"
-                  round
-                  style="border: 0; margin-top: 0px"
-                ></el-button>
-                <el-button
-                  v-if="buttonNoOnLine || buttonNotPass"
-                  class="list-my-bt"
-                  round
-                  @click="Amend(item.id)"
-                  ><Item icon="xiugai" />修改</el-button
-                >
-                <el-button
-                  v-if="buttonOnLine"
-                  class="list-my-bt"
-                  round
-                  @click="jobOut(item.id, item.fullname)"
-                  ><Item icon="exit" />下线</el-button
-                >
-                <el-button
-                  v-if="buttonNoOnLine || buttonNotPass"
-                  class="list-my-bt"
-                  round
-                  @click="JobTopThread(item.id)"
-                  ><Item icon="exit" />上线</el-button
-                >
-                <el-button
-                  v-if="buttonOnLine"
-                  class="list-my-bt"
-                  round
-                  @click="copyJob(item.id)"
-                  ><Item icon="fuzhi" />复制</el-button
-                >
-                <el-button
-                  v-if="buttonNoOnLine || buttonNotPass"
-                  class="list-my-bt"
-                  round
-                  @click="deleteJob(item.id)"
-                  ><Item icon="shanchu" />删除</el-button
-                >
-              </div>
-              <div v-if="buttonUnderReview || buttonNotPass">
-                <el-button
-                  class="list-my-bt"
-                  round
-                  style="margin-left: 146px"
-                  @click="details"
-                  ><Item icon="xiugai" />复制</el-button
-                >
-              </div>
-            </el-col></el-row
-          >
+            <el-button
+              v-if="buttonNoOnLine || buttonNotPass"
+              class="list-my-bt"
+              round
+              @click="JobTopThread(item.id)"
+              ><Item icon="exit" />上线</el-button
+            >
+            <el-button
+              v-if="buttonOnLine"
+              class="list-my-bt"
+              round
+              @click="copyJob(item.id)"
+              ><Item icon="fuzhi" />复制</el-button
+            >
+            <el-button
+              v-if="buttonNoOnLine || buttonNotPass"
+              class="list-my-bt"
+              round
+              @click="deleteJob(item.id)"
+              ><Item icon="shanchu" />删除</el-button
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -450,7 +413,7 @@ export default {
     .bg-purple {
       height: 70px;
       // background-color: blueviolet;
-      padding: 10px 0 0 40px;
+      padding: 10px 0 0 20px;
       line-height: 30px;
       .bg-purple-nn {
         height: 29px;
@@ -498,7 +461,7 @@ export default {
   .list-my {
     height: 45px;
     // background-color: #256efd;
-    padding-left: 40px;
+    padding-left: 20px;
     line-height: 33px;
     .list-image {
       height: 30px;
@@ -517,7 +480,7 @@ export default {
         padding: 5px 10px;
 
         // background-color: #256efd;
-        margin: 5px;
+        // margin: 5px;
       }
     }
   }

@@ -92,7 +92,7 @@
                   multiple
                   placeholder="请选择职业"
                   class="box"
-                  style="width: 370px"
+                  style="width: 270px"
                   clearable
                   @change="bindChange"
                 >

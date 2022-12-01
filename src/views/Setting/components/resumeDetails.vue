@@ -86,7 +86,11 @@
             </div>
             <div class="job">
               <div class="one">个人优势</div>
-              <div class="like-text" v-html="text"></div>
+              <div
+                class="like-text"
+                style="white-space: pre-line; margin-right: 15px"
+                v-html="text"
+              ></div>
               <el-empty v-if="text === null" description="暂无数据"></el-empty>
             </div>
             <div class="job">
@@ -118,7 +122,11 @@
                 </div>
                 <div style="margin-bottom: 18px">工作描述：</div>
                 <div
-                  style="margin-bottom: 18px"
+                  style="
+                    margin-bottom: 18px;
+                    white-space: pre-line;
+                    margin-right: 15px;
+                  "
                   class="like-text"
                   v-html="item.position_info.job_desc"
                 ></div>
@@ -175,7 +183,11 @@
 
                 <div style="margin-bottom: 18px">工作描述：</div>
                 <div
-                  style="margin-bottom: 18px"
+                  style="
+                    margin-bottom: 18px;
+                    white-space: pre-line;
+                    margin-right: 15px;
+                  "
                   class="like-text"
                   v-html="item.project_info.project_desc"
                 ></div>
@@ -228,7 +240,7 @@
             style="
               background-color: rgb(37, 110, 253);
               color: #fff;
-              margin: 80px;
+              margin: 60px;
               width: 200px;
             "
             @click="downItem"

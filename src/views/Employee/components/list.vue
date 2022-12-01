@@ -1,109 +1,98 @@
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="recommend">
-      <div class="recommend-my">
-        <el-row>
-          <el-col :span="1"
-            ><div class="recommend-img">
-              <img
-                :src="disposeImg(item.left_data.image)"
-                class="image"
+      <div class="recommend-my" style="display: flex">
+        <div style="width: 5%">
+          <div class="recommend-img">
+            <img
+              :src="disposeImg(item.left_data.image)"
+              class="image"
+              @click="resume(item.left_data.user_id)"
+            />
+          </div>
+        </div>
+        <div class="recommend-message" style="width: 40%">
+          <div class="message-name">
+            <a href="javascript:;">
+              <div
+                class="text"
+                style="margin-left: 10px"
                 @click="resume(item.left_data.user_id)"
-              /></div
-          ></el-col>
-          <el-col :span="10"
-            ><div class="recommend-message">
-              <div class="message-name">
-                <a href="javascript:;">
-                  <div
-                    class="text"
-                    style="margin-left: 10px"
-                    @click="resume(item.left_data.user_id)"
-                  >
-                    {{ item.left_data.user_name }}
-                  </div>
-                </a>
-                <div style="margin-right: 15px; font-size: 19px">
-                  <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
-                </div>
-                <div class="onLine">{{ item.left_data.online_status }}</div>
-              </div>
-              <div class="message-age">
-                <div class="age-four">{{ item.left_data.age }}岁</div>
-                <div class="age-four four">
-                  {{ item.left_data.work_date }}年
-                </div>
-                <div class="age-four four">{{ item.left_data.education }}</div>
-                <div style="margin-left: 10px">{{ item.left_data.status }}</div>
-              </div>
-              <div class="message-age" style="margin-top: 3px">
-                <div class="age-four">
-                  期望城市：{{
-                    item.left_data.position_class_data.city === null
-                      ? '城市'
-                      : item.left_data.position_class_data.city
-                  }}
-                </div>
-                <div class="age-four four">
-                  求职职位：{{
-                    item.left_data.position_class_data.position_class !== null
-                      ? item.left_data.position_class_data.position_class
-                      : '职位'
-                  }}
-                </div>
-                <div class="age-four four">
-                  {{
-                    item.left_data.position_class_data.salary.salary_min !==
-                    null
-                      ? item.left_data.position_class_data.salary.salary_min
-                      : '1千'
-                  }}-{{
-                    item.left_data.position_class_data.salary.salary_max !==
-                    null
-                      ? item.left_data.position_class_data.salary.salary_max
-                      : '1千'
-                  }}
-                </div>
-              </div>
-            </div></el-col
-          >
-          <el-col :span="11"
-            ><div class="recommend-time">
-              <div
-                v-for="(itemss, index) in item.right_data.jobexperience_data"
-                :key="index"
-                class="recommend-experience"
               >
-                <div class="experience-time">
-                  {{ itemss.start_date }}-{{ itemss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemss.enterprise }}</div>
-                <div>{{ itemss.position }}</div>
+                {{ item.left_data.user_name }}
               </div>
-              <div
-                v-for="itemsss in item.right_data.education_data"
-                :key="itemsss.id + 1"
-                class="recommend-experience"
-              >
-                <div class="experience-time">
-                  {{ itemsss.start_date }}-{{ itemsss.end_date }}
-                </div>
-                <div class="experience-firm">{{ itemsss.school }}</div>
-                <div>{{ itemsss.major }}</div>
-              </div>
-            </div></el-col
-          >
-          <el-col :span="2"
-            ><div v-if="!item.job" class="recommend-bt">
-              <el-button
-                round
-                class="recommend-button"
-                @click="talk(item.left_data.user_id)"
-                ><Item icon="zhaohu" /> 打招呼
-              </el-button>
+            </a>
+            <div style="margin-right: 15px; font-size: 19px">
+              <Item :icon="item.left_data.sex === 1 ? 'nan' : 'nv'"></Item>
             </div>
-          </el-col>
-        </el-row>
+            <div class="onLine">{{ item.left_data.online_status }}</div>
+          </div>
+          <div class="message-age">
+            <div class="age-four">{{ item.left_data.age }}岁</div>
+            <div class="age-four four">{{ item.left_data.work_date }}年</div>
+            <div class="age-four four">{{ item.left_data.education }}</div>
+            <div style="margin-left: 10px">{{ item.left_data.status }}</div>
+          </div>
+          <div class="message-age" style="margin-top: 3px">
+            <div class="age-four">
+              期望城市：{{
+                item.left_data.position_class_data.city === null
+                  ? '城市'
+                  : item.left_data.position_class_data.city
+              }}
+            </div>
+            <div class="age-four four">
+              求职职位：{{
+                item.left_data.position_class_data.position_class !== null
+                  ? item.left_data.position_class_data.position_class
+                  : '职位'
+              }}
+            </div>
+            <div class="age-four four">
+              {{
+                item.left_data.position_class_data.salary.salary_min !== null
+                  ? item.left_data.position_class_data.salary.salary_min
+                  : '1千'
+              }}-{{
+                item.left_data.position_class_data.salary.salary_max !== null
+                  ? item.left_data.position_class_data.salary.salary_max
+                  : '1千'
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="recommend-time" style="width: 50%">
+          <div
+            v-for="(itemss, index) in item.right_data.jobexperience_data"
+            :key="index"
+            class="recommend-experience"
+          >
+            <div class="experience-time">
+              {{ itemss.start_date }}-{{ itemss.end_date }}
+            </div>
+            <div class="experience-firm">{{ itemss.enterprise }}</div>
+            <div>{{ itemss.position }}</div>
+          </div>
+          <div
+            v-for="itemsss in item.right_data.education_data"
+            :key="itemsss.id + 1"
+            class="recommend-experience"
+          >
+            <div class="experience-time">
+              {{ itemsss.start_date }}-{{ itemsss.end_date }}
+            </div>
+            <div class="experience-firm">{{ itemsss.school }}</div>
+            <div>{{ itemsss.major }}</div>
+          </div>
+        </div>
+        <div v-if="!item.job" class="recommend-bt">
+          <el-button
+            round
+            class="recommend-button"
+            @click="talk(item.left_data.user_id)"
+            ><Item icon="zhaohu" /> 打招呼
+          </el-button>
+        </div>
       </div>
       <div class="technical-ability">
         <el-row>
@@ -216,7 +205,6 @@
             </div>
           </el-col> -->
         </el-row>
-        <el-row> </el-row>
       </div>
     </div>
     <Dialog :id="id" :dialog-visible="dialogVisible" @reset="reset" />
@@ -390,7 +378,7 @@ export default {
         }
         .experience-firm {
           height: 100%;
-          width: 200px;
+          width: 180px;
           // background-color: rgb(0, 251, 255);
           margin-right: 10px;
           color: black;

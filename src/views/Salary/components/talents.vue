@@ -43,22 +43,7 @@
               </el-radio-group>
             </div>
             <div style="display: flex; margin-left: 100px">
-              <el-form-item label="活跃日期" style="margin-right: 268px">
-                <el-select
-                  v-model="form.active"
-                  placeholder="不限"
-                  style="width: 270px"
-                  clearable
-                >
-                  <el-option
-                    v-for="(item, index) in data"
-                    :key="index"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="年龄要求">
+              <el-form-item label="年龄要求" style="margin-right: 100px">
                 <div style="display: flex">
                   <el-select
                     v-model="form.age_min"
@@ -88,6 +73,16 @@
                     ></el-option>
                   </el-select>
                 </div>
+              </el-form-item>
+              <el-form-item label="活跃日期">
+                <el-select v-model="form.active" placeholder="不限" clearable>
+                  <el-option
+                    v-for="(item, index) in data"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
               </el-form-item>
             </div>
             <div style="display: flex; margin-left: 100px">
@@ -141,12 +136,7 @@
 
             <div style="display: flex; margin-left: 100px">
               <el-form-item label="期望城市">
-                <el-select
-                  v-model="form.city"
-                  placeholder="不限"
-                  style="width: 270px"
-                  clearable
-                >
+                <el-select v-model="form.city" placeholder="不限" clearable>
                   <div style="display: flex">
                     <div style="width: 150px">
                       <el-option
@@ -743,5 +733,8 @@ export default {
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);
+}
+::v-deep input.el-input__inner {
+  width: 200px;
 }
 </style>

@@ -3,7 +3,7 @@
     <el-dialog
       title="修改信息"
       :visible.sync="emailShow"
-      width="35%"
+      width="40%"
       :before-close="handleCloses"
     >
       <div>
