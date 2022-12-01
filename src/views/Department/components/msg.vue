@@ -703,6 +703,7 @@ export default {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
           this.fullnames.fullname = this.ruleForm.fullname
+          this.fullnames.pid = this.jobAmend.id
           console.log(this.fullnames)
           const res1 = await getFullnameList(this.fullnames)
           console.log('res1', res1)
@@ -805,6 +806,8 @@ export default {
             if (this.hidden === false) {
               const jobJob = this.jobAmend.certificationInfo_id.map(item => item.id)
               this.list.certificationInfo_id = jobJob
+            } else {
+              this.list.certificationInfo_id = id
             }
             //  const name = this.ruleForm.certificationInfo_id
             const res = await getMake(this.list)
