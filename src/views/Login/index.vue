@@ -107,13 +107,13 @@ export default {
     }
   }
   .footer {
-    height: 30px;
+    height: 20px;
     background-color: #fff;
     text-align: center;
     color: #a4a6a8;
     font-size: 15px;
     width: 100%;
-    position: absolute;
+    // position: absolute;
     left: 0;
     bottom: 0;
   }

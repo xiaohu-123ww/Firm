@@ -507,6 +507,7 @@ export default {
               this.$router.push('/dashboard')
             } else if (res.code === 1001) {
               store.commit('user/removeUserInfo')
+              this.$message.error(res.data.msg)
             } else if (res.code === 1201 || res.code === 1200) {
               this.$confirm(res.data.msg, '提示', {
                 confirmButtonText: '确定',
