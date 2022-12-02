@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      <div class="firm">
+      <div class="firm" style="margin-bottom: 80px">
         <div class="job">工作地点</div>
         <p style="font-weight: 700">
           {{ particulars.adcode.second }}{{ particulars.adcode.third
@@ -116,7 +116,7 @@
           v-html="particulars.enterprise_data.introduction"
         ></div>
       </div>
-      <div style="margin-top: 60px">
+      <div>
         <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler" />
       </div>
     </el-card>

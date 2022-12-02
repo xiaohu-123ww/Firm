@@ -12,7 +12,7 @@
             />
           </div>
         </div>
-        <div class="recommend-message" style="width: 40%">
+        <div class="recommend-message" style="width: 39%">
           <div class="message-name">
             <a href="javascript:;">
               <div
@@ -30,9 +30,7 @@
           </div>
           <div class="message-age">
             <div class="age-four">{{ item.left_data.age }}岁</div>
-            <div class="age-four four">
-              {{ item.left_data.work_date }}
-            </div>
+            <div class="age-four four">{{ item.left_data.work_date }}年</div>
             <div class="age-four four">{{ item.left_data.education }}</div>
             <div style="margin-left: 10px">{{ item.left_data.status }}</div>
           </div>
@@ -100,7 +98,7 @@
         </div>
         <div
           style="
-            font-size: 13px;
+            font-size: 12px;
             color: #a2a2a2;
             line-height: 20px;
             margin-top: 70px;
