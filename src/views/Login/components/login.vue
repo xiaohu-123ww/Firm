@@ -336,7 +336,7 @@ export default {
       rules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' },
-        { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }]
+        { min: 6, max: 6, message: '长度在 6 到 16 个字符', trigger: 'blur' }]
       },
       loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
