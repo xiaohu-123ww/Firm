@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-import { getEmail, getLicenseEmail } from '@/api/personage/index'
+import { getEmail, getLicenseEmail } from '@/api/register/index'
 export default {
   props: {
     enterprise: {
