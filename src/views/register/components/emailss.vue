@@ -53,6 +53,9 @@ export default {
         validation_email: '',
         code: ''
       },
+      num: {
+        email: ''
+      },
       newVal: {
         validation_email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
@@ -104,7 +107,8 @@ export default {
         if (this.list.code === '') {
           delete this.list.code
         }
-        const res = await getEmail(this.list)
+        this.num.email = this.list.validation_email
+        const res = await getEmail(this.num)
         console.log('res', res)
         if (res.code !== 200) {
           this.$message({
