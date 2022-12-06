@@ -44,13 +44,15 @@
                           :rows="10"
                         ></el-input>
                       </el-form-item>
-                      <el-form-item label="密码" prop="password">
+                      <el-form-item label="密码">
                         <el-input
                           v-model="loginForm.password"
                           :type="passw"
                           class="elInput"
                           autocomplete="off"
                           placeholder="请输入密码"
+                          maxlength="16"
+                          minlength="8"
                         >
                           <i slot="suffix" :class="icon" @click="showPass"></i>
                         </el-input>
@@ -177,7 +179,25 @@
                       <div></div>
                     </div>
 
-                    <el-input
+                    <el-form
+                      ref="rff"
+                      :model="rule"
+                      label-width="80px"
+                      :rules="passwordList"
+                    >
+                      <el-form-item prop="password">
+                        <el-input
+                          v-model="rule.password"
+                          :type="passw"
+                          class="elInput"
+                          autocomplete="off"
+                          placeholder="请输入密码"
+                        >
+                          <i slot="suffix" :class="icon" @click="showPass"></i>
+                        </el-input>
+                      </el-form-item>
+                    </el-form>
+                    <!-- <el-input
                       v-model="rule.password"
                       :type="passw"
                       class="elInput"
@@ -186,7 +206,7 @@
                       style="margin: 0px 0px 20px 80px"
                     >
                       <i slot="suffix" :class="icon" @click="showPass"></i>
-                    </el-input>
+                    </el-input> -->
 
                     <el-form
                       ref="ruleForm"
@@ -268,17 +288,34 @@
                     <div></div>
                   </div>
 
-                  <el-input
+                  <el-form
+                    ref="newPassword"
+                    :model="newPassword"
+                    label-width="80px"
+                    :rules="newPasswords"
+                  >
+                    <el-form-item prop="password">
+                      <el-input
+                        v-model="newPassword.password"
+                        :type="passw"
+                        class="elInput"
+                        autocomplete="off"
+                        placeholder="请输入密码"
+                      >
+                        <i slot="suffix" :class="icon" @click="showPass"></i>
+                      </el-input>
+                    </el-form-item>
+                  </el-form>
+                  <!-- <el-input
                     v-model="newPassword.password"
                     :type="passw"
                     class="elInput"
                     autocomplete="off"
                     placeholder="请输入密码"
-                    style="margin: 0px 0px 0px 80px"
-                    maxlength="6"
+
                   >
                     <i slot="suffix" :class="icon" @click="showPass"></i>
-                  </el-input>
+                  </el-input> -->
 
                   <el-button
                     type="primary"
@@ -323,6 +360,15 @@ export default {
         callback()
       }
     }
+    const validPassword = (rule, value, callback) => {
+      const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/
+      if (!reg.test(value)) {
+        callback(new Error('密码必须是由8-16位字母+数字组合'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       isuser: true,
       loginForm: {
@@ -336,7 +382,7 @@ export default {
       rules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' },
-        { min: 6, max: 6, message: '长度在 6 到 16 个字符', trigger: 'blur' }]
+        { min: 6, max: 6, message: '长度在 6 个字符', trigger: 'blur' }]
       },
       loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -344,6 +390,17 @@ export default {
           { required: true, trigger: 'blur', message: '密码不能为空' },
           { max: 4, message: '长度4字符', trigger: 'blur' }
         ]
+      },
+      passwordList: {
+        password: [{ message: '请输入密码', trigger: 'blur' },
+        { validator: validPassword, trigger: 'blur' }]
+      },
+      newPasswords: {
+        password: [
+          { message: '请输入密码', trigger: 'blur' },
+          { validator: validPassword, trigger: 'blur' }
+        ]
+
       },
       passw: 'password',
       icon: 'el-input__icon el-icon-view',
@@ -616,25 +673,32 @@ export default {
       if (this.rule.mobile === '' || this.rule.code === '' || this.rule.password === '') {
         this.$message.error('手机号、验证码、密码不可为空')
       } else {
-        this.$refs.ruleForm.validate(async (vaild) => {
-          if (vaild) {
-            console.log(123)
-            this.rule.mobile = Number(this.rule.mobile)
-            this.rule.code = Number(this.rule.code)
-            const res = await sendCapteLogin(this.rule)
-            console.log('注册', res)
-            this.$message.success(res.data.msg)
-            if (res.code === 200) {
-              setToken(res.data.data)
-              this.registerShow = false
-              this.show = true
-              // this.retrievePassword = false
-              this.flagShow = false
-              // this.show = true
-              // eslint-disable-next-line object-curly-spacing
-              // this.$router.push({ name: 'register', params: { number: res.data.number } })
-            }
-            // this.$router.push('/register')
+        this.$refs.rff.validate((valid) => {
+          if (valid) {
+            this.$refs.ruleForm.validate(async (vaild) => {
+              if (vaild) {
+                console.log(123)
+                this.rule.mobile = Number(this.rule.mobile)
+                this.rule.code = Number(this.rule.code)
+                const res = await sendCapteLogin(this.rule)
+                console.log('注册', res)
+                this.$message.success(res.data.msg)
+                if (res.code === 200) {
+                  setToken(res.data.data)
+                  this.registerShow = false
+                  this.show = true
+                  // this.retrievePassword = false
+                  this.flagShow = false
+                  // this.$router.push('/register')
+                  // this.show = true
+                  // eslint-disable-next-line object-curly-spacing
+                  // this.$router.push({ name: 'register', params: { number: res.data.number } })
+                } else {
+                  this.$message.error(res.data.msg)
+                }
+                // this.$router.push('/register')
+              }
+            })
           }
         })
       }
@@ -677,19 +741,21 @@ export default {
     async passwordLogin () {
       if (this.newPassword.mobile === '' || this.newPassword.code === '' || this.newPassword.password === '') {
         this.$message.error('手机号、验证码、密码不能为空')
-      } else if (this.newPassword.password !== 6) {
-        this.$message.error('密码必须是六位数字或字符')
       } else {
-        const res = await sendPasswordLogin(this.newPassword)
-        console.log('修改密码', res)
-        if (res.code === 200) {
-          this.$message.success('修改密码成功,去登陆吧')
-          this.retrievePassword = false
-          this.flagShow = false
-          this.show = true
-        } else if (res.code === 1200) {
-          this.$message.success(res.data.msg)
-        }
+        this.$refs.newPassword.validate(async (valid) => {
+          if (valid) {
+            const res = await sendPasswordLogin(this.newPassword)
+            console.log('修改密码', res)
+            if (res.code === 200) {
+              this.$message.success('修改密码成功,去登陆吧')
+              this.retrievePassword = false
+              this.flagShow = false
+              this.show = true
+            } else if (res.code === 1200) {
+              this.$message.success(res.data.msg)
+            }
+          }
+        })
       }
     },
     passwordChange () {
