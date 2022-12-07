@@ -22,7 +22,7 @@
               >
             </el-row>
           </div>
-          <div class="safety">
+          <!-- <div class="safety">
             <el-row>
               <el-col :span="7"
                 ><div class="grid-content bg-purple">邮箱</div></el-col
@@ -40,7 +40,7 @@
                 </div></el-col
               >
             </el-row>
-          </div>
+          </div> -->
           <div class="safety">
             <el-row>
               <el-col :span="7"

@@ -7,7 +7,7 @@
       :rules="nicknames"
     >
       <el-form-item label="企业名称">
-        <el-input v-model="enterprise" style="width: 400px"></el-input>
+        <el-input v-model="enterprise" style="width: 400px" disabled></el-input>
       </el-form-item>
 
       <el-form-item label="营业执照" prop="imag_url">

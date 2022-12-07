@@ -9,9 +9,10 @@
     >
       <el-form-item label="邮箱" prop="validation_email">
         <el-input
-          v-model="list.validation_email"
+          v-model="hr"
           placeholder="请输入邮箱"
           style="width: 350px"
+          disabled
         ></el-input>
       </el-form-item>
       <el-form-item label="验证码" prop="code">
@@ -42,6 +43,9 @@ import { getEmail } from '@/api/personage/index'
 export default {
   props: {
     enterprise: {
+      type: String
+    },
+    hr: {
       type: String
     }
   },
@@ -78,7 +82,7 @@ export default {
   computed: {
     phoneNumberStyle () {
       const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      if (!reg.test(this.list.validation_email)) {
+      if (!reg.test(this.hr)) {
         return false
       }
       return true
@@ -87,7 +91,7 @@ export default {
       get () {
         if (this.waitTime === 61) {
           if (this.phoneNumberStyle) {
-            if (this.list.validation_email) {
+            if (this.hr) {
               return false
             }
           }
@@ -103,10 +107,11 @@ export default {
   },
   methods: {
     async getCodeList () {
-      if (this.list.validation_email) {
+      if (this.hr) {
         if (this.list.code === '') {
           delete this.list.code
         }
+        this.list.validation_email = this.hr
         this.num.email = this.list.validation_email
         const res = await getEmail(this.num)
         console.log('res', res)

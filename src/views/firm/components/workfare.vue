@@ -530,6 +530,7 @@ export default {
           // if (this.adcode === 0) {
           //   console.log(123)
           // }
+          this.list.address = sessionStorage.getItem('address')
           console.log(this.list.ascode)
           const res = await getWorkSystemAmend(this.list)
 

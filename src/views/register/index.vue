@@ -447,6 +447,7 @@
         <div v-if="emailss" class="emilss">
           <Emailss
             :enterprise="form.enterprise_name"
+            :hr="hr"
             @handleClose="handleClose"
           />
         </div>
@@ -477,6 +478,7 @@ export default {
   components: { Identity, Emailss, Firm, Business, Item },
   data () {
     return {
+      hr: '',
       details: false,
       job: false,
       enterprisess: false,
@@ -592,7 +594,8 @@ export default {
         this.state = this.$route.params.id.status.name
         this.check.enterprise_name = this.form.enterprise_name
         const res = await getCheckMethods(this.check)
-        console.log('验证方式', res)
+        this.hr = res.data.hr_email
+        console.log('验证方式', res, this.hr)
         this.job = true
         this.condition = res.data
       }
@@ -697,6 +700,8 @@ export default {
           console.log(this.numbers)
           this.job = true
           this.condition = res.data
+          this.hr = res.data.hr_email
+          console.log('123', this.hr)
         }
       })
     },
@@ -796,6 +801,8 @@ export default {
       console.log('验证方式', res)
       this.job = true
       this.condition = res.data
+      this.hr = res.data.hr_email
+      console.log('123', this.hr)
     },
     changeFirm () {
       this.inputChange = false
