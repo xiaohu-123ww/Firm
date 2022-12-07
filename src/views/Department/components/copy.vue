@@ -957,9 +957,13 @@ export default {
       console.log('系统证书列表', data)
       this.certList = data
     },
-    industryNum (item) {
-      console.log(item)
-      this.fieldNan = item
+    industryNum (items) {
+      console.log(items)
+      this.fieldNan = items.map(item => ({
+        cert_name: item.cert_name + '-' + item.cert_level,
+        cert_id: item.cert_id
+
+      }))
     },
     fieldNum (item) {
 
