@@ -343,6 +343,7 @@
               style="width: 900px"
               @change="certificate"
               @click.native="getList"
+              @remove-tag="removeLabels"
             >
               <div style="display: flex">
                 <div style="width: 150px">
@@ -803,13 +804,19 @@ export default {
             this.list.salary_unit = this.ruleForm.salary_unit
             console.log('222', this.list)
             const id = this.ruleForm.certificationInfo_id
+            console.log('123', this.ruleForm.certificationInfo_id)
+            const jobJob = this.jobAmend.certificationInfo_id.map(item => item)
+            console.log('jobjob', jobJob)
+            // for (var i = 0; i < id.length; i++) {
+            //   if (id[i] === jobJob[i])
+            // }
             if (this.hidden === false) {
               const jobJob = this.jobAmend.certificationInfo_id.map(item => item.id)
               this.list.certificationInfo_id = jobJob
             } else {
               this.list.certificationInfo_id = id
             }
-            //  const name = this.ruleForm.certificationInfo_id
+            const name = this.ruleForm.certificationInfo_id
             const res = await getMake(this.list)
             console.log('修改职位', res)
             this.$message.success('职位修改成功')
@@ -1011,6 +1018,18 @@ export default {
       this.$message.success('避免信息错误，请重新选择资格证书')
       this.ruleForm.certificationInfo_id = []
       this.list.certificationInfo_id = this.ruleForm.certificationInfo_id
+    },
+    removeLabels (val) {
+      // const jobJob = this.jobAmend.certificationInfo_id.map(item => item)
+
+      for (var i = 0; i < this.jobAmend.certificationInfo_id.length; i++) {
+        if (this.jobAmend.certificationInfo_id[i].name === val) {
+          console.log('123', this.jobAmend.certificationInfo_id[i])
+          const aa = this.jobAmend.certificationInfo_id[i].id
+          this.jobAmend.certificationInfo_id.splice(this.jobAmend.certificationInfo_id[i].id === aa, 1)
+          console.log('val', this.jobAmend.certificationInfo_id)
+        }
+      }
     }
 
   }

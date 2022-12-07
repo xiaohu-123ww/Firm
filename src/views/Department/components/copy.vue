@@ -343,6 +343,7 @@
               style="width: 900px"
               @change="certificate"
               @click.native="getList"
+              @remove-tag="removeLabels"
             >
               <div style="display: flex">
                 <div style="width: 150px">
@@ -1003,6 +1004,18 @@ export default {
       this.$message.success('避免信息错误，请重新选择资格证书')
       this.ruleForm.certificationInfo_id = []
       this.list.certificationInfo_id = this.ruleForm.certificationInfo_id
+    },
+    removeLabels (val) {
+      // const jobJob = this.jobAmend.certificationInfo_id.map(item => item)
+
+      for (var i = 0; i < this.copyList.certificationInfo_id.length; i++) {
+        if (this.copyList.certificationInfo_id[i].name === val) {
+          console.log('123', this.copyList.certificationInfo_id[i])
+          const aa = this.copyList.certificationInfo_id[i].id
+          this.copyList.certificationInfo_id.splice(this.copyList.certificationInfo_id[i].id === aa, 1)
+          console.log('val', this.copyList.certificationInfo_id)
+        }
+      }
     }
 
   }
