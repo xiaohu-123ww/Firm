@@ -249,6 +249,7 @@
         </el-col>
         <el-col :span="5">
           <el-button
+            v-if="numList"
             style="
               background-color: rgb(37, 110, 253);
               color: #fff;
@@ -288,7 +289,8 @@ export default {
       dec: '',
       experiences: [],
       project: [],
-      certification: []
+      certification: [],
+      numList: true
     }
   },
   mounted () {
@@ -325,8 +327,15 @@ export default {
     this.getExperiencesList()
     this.getProjectList()
     this.getCertificationList()
+    this.numss()
   },
   methods: {
+    async numss () {
+      console.log('this.resumeList.cvfile', this.resumeList)
+      if (this.resumeList.cvfile === '') {
+        this.numList = false
+      }
+    },
     // 求职意向
     async getJobList () {
       const res = await getJob(this.pid)
@@ -376,7 +385,8 @@ export default {
         downloadLink.click()
         document.body.removeChild(downloadLink)
       } else {
-        this.$message.success('暂无简历可下载')
+        // this.$message.success('暂无简历可下载')
+        this.numList = false
       }
     },
     // 跳转
