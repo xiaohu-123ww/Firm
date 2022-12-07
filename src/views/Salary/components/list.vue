@@ -362,6 +362,7 @@ export default {
         this.$message.success('已向求职者发送提醒')
         this.$emit('interests')
       } else if (res.code === 1003) {
+        this.$message.success(res.data.msg)
         // this.$message.success('同一个用户一天只可提醒一次')
       }
     },

@@ -175,8 +175,18 @@ export default {
 
   created () {
     this.getOnlineList()
+    this.numberList()
   },
   methods: {
+    numberList () {
+      console.log('this.$route.query.number', this.$route.query.number)
+      const title = this.$route.query.number
+      if (title === '在线职位' || title === '7天内到期') {
+        this.onLine()
+      } else if (title === '审核中') {
+        this.underReview()
+      }
+    },
     // 在线中
     onLine () {
       this.changeColor = 1

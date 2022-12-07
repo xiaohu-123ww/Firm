@@ -144,40 +144,51 @@
                 <div v-if="registerShow">
                   <div class="registers">立即注册</div>
                   <div>
-                    <div
-                      style="display: flex; margin: 20px 0px 20px 80px"
-                      class="elInput"
+                    <el-form
+                      ref="new"
+                      :model="rule"
+                      label-width="80px"
+                      :rules="newWords"
                     >
-                      <div class="elInput-photo">+86</div>
-                      <el-input
-                        v-model="rule.mobile"
-                        style="width: 250px; height: 50px"
-                        placeholder="请输入手机号"
-                        :rows="10"
-                      ></el-input>
-                    </div>
-
-                    <div
-                      class="elInput"
-                      style="display: flex; margin: 20px 0px 20px 80px"
+                      <el-form-item prop="mobile">
+                        <div style="display: flex" class="elInput">
+                          <div class="elInput-photo">+86</div>
+                          <el-input
+                            v-model="rule.mobile"
+                            style="width: 250px; height: 50px"
+                            placeholder="请输入手机号"
+                            :rows="10"
+                          ></el-input>
+                        </div>
+                      </el-form-item>
+                    </el-form>
+                    <el-form
+                      ref="news"
+                      :model="rule"
+                      label-width="80px"
+                      :rules="newWord"
                     >
-                      <el-input
-                        v-model="rule.code"
-                        :type="passw"
-                        autocomplete="off"
-                        placeholder="请输入验证码"
-                        style="width: 200px; height: 50px"
-                      >
-                      </el-input>
-                      <el-button
-                        :class="{ 'disabled-style': getCodeBtn }"
-                        :disabled="getCodeBtn"
-                        type="primary"
-                        @click="Code()"
-                        >{{ codeBtnWord }}</el-button
-                      >
-                      <div></div>
-                    </div>
+                      <el-form-item prop="code">
+                        <div class="elInput" style="display: flex">
+                          <el-input
+                            v-model="rule.code"
+                            :type="passw"
+                            autocomplete="off"
+                            placeholder="请输入验证码"
+                            style="width: 200px; height: 50px"
+                          >
+                          </el-input>
+                          <el-button
+                            :class="{ 'disabled-style': getCodeBtn }"
+                            :disabled="getCodeBtn"
+                            type="primary"
+                            @click="Code()"
+                            >{{ codeBtnWord }}</el-button
+                          >
+                          <div></div>
+                        </div>
+                      </el-form-item>
+                    </el-form>
 
                     <el-form
                       ref="rff"
@@ -254,40 +265,51 @@
               <div v-if="retrievePassword">
                 <div class="registers">找回密码</div>
                 <div>
-                  <div
-                    style="display: flex; margin: 20px 0px 20px 80px"
-                    class="elInput"
+                  <el-form
+                    ref="newPass"
+                    :model="newPassword"
+                    label-width="80px"
+                    :rules="newPasss"
                   >
-                    <div class="elInput-photo">+86</div>
-                    <el-input
-                      v-model="newPassword.mobile"
-                      style="width: 250px; height: 50px"
-                      placeholder="请输入手机号"
-                      :rows="10"
-                    ></el-input>
-                  </div>
+                    <el-form-item prop="mobile">
+                      <div style="display: flex" class="elInput">
+                        <div class="elInput-photo">+86</div>
+                        <el-input
+                          v-model="newPassword.mobile"
+                          style="width: 250px; height: 50px"
+                          placeholder="请输入手机号"
+                          :rows="10"
+                        ></el-input>
+                      </div>
+                    </el-form-item>
+                  </el-form>
 
-                  <div
-                    class="elInput"
-                    style="display: flex; margin: 20px 0px 20px 80px"
+                  <el-form
+                    ref="newPasss"
+                    :model="newPassword"
+                    label-width="80px"
+                    :rules="newPassss"
                   >
-                    <el-input
-                      v-model="newPassword.code"
-                      autocomplete="off"
-                      placeholder="请输入验证码"
-                      style="width: 200px; height: 50px"
-                    >
-                    </el-input>
-                    <el-button
-                      :class="{ 'disabled-style': getBtn }"
-                      :disabled="getBtn"
-                      type="primary"
-                      @click="passwordCode"
-                      >{{ codeBtnWord }}</el-button
-                    >
-                    <div></div>
-                  </div>
-
+                    <el-form-item prop="code">
+                      <div class="elInput" style="display: flex">
+                        <el-input
+                          v-model="newPassword.code"
+                          autocomplete="off"
+                          placeholder="请输入验证码"
+                          style="width: 200px; height: 50px"
+                        >
+                        </el-input>
+                        <el-button
+                          :class="{ 'disabled-style': getBtn }"
+                          :disabled="getBtn"
+                          type="primary"
+                          @click="passwordCode"
+                          >{{ codeBtnWord }}</el-button
+                        >
+                        <div></div>
+                      </div>
+                    </el-form-item>
+                  </el-form>
                   <el-form
                     ref="newPassword"
                     :model="newPassword"
@@ -387,7 +409,7 @@ export default {
       loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
         code: [
-          { required: true, trigger: 'blur', message: '密码不能为空' },
+          { required: true, trigger: 'blur', message: '验证码不能为空' },
           { max: 4, message: '长度4字符', trigger: 'blur' }
         ]
       },
@@ -401,6 +423,24 @@ export default {
           { validator: validPassword, trigger: 'blur' }
         ]
 
+      },
+      newWords: {
+        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }]
+      },
+      newWord: {
+        code: [
+          { required: true, trigger: 'blur', message: '验证码不能为空' },
+          { max: 4, message: '长度4字符', trigger: 'blur' }
+        ]
+      },
+      newPasss: {
+        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }]
+      },
+      newPassss: {
+        code: [
+          { required: true, trigger: 'blur', message: '验证码不能为空' },
+          { max: 4, message: '长度4字符', trigger: 'blur' }
+        ]
       },
       passw: 'password',
       icon: 'el-input__icon el-icon-view',
@@ -670,38 +710,66 @@ export default {
     },
     // 企业注册账号
     firmLogin () {
-      if (this.rule.mobile === '' || this.rule.code === '' || this.rule.password === '') {
-        this.$message.error('手机号、验证码、密码不可为空')
-      } else {
-        this.$refs.rff.validate((valid) => {
-          if (valid) {
-            this.$refs.ruleForm.validate(async (vaild) => {
-              if (vaild) {
-                console.log(123)
-                this.rule.mobile = Number(this.rule.mobile)
-                this.rule.code = Number(this.rule.code)
-                const res = await sendCapteLogin(this.rule)
-                console.log('注册', res)
-                this.$message.success(res.data.msg)
-                if (res.code === 200) {
-                  setToken(res.data.data)
-                  this.registerShow = false
-                  this.show = true
-                  // this.retrievePassword = false
-                  this.flagShow = false
-                  // this.$router.push('/register')
-                  // this.show = true
-                  // eslint-disable-next-line object-curly-spacing
-                  // this.$router.push({ name: 'register', params: { number: res.data.number } })
-                } else {
-                  this.$message.error(res.data.msg)
+      // if (this.rule.mobile === '' || this.rule.code === '' || this.rule.password === '') {
+      //   this.$message.error('手机号、验证码、密码不可为空')
+      // } else {
+      this.$refs.new.validate((valid) => {
+        if (valid) {
+          this.$refs.news.validate(async (vaild) => {
+            if (vaild) {
+              this.$refs.ruleForm.validate((vaild) => {
+                if (vaild) {
+                  console.log(123)
+                  this.$refs.rff.validate(async (vaild) => {
+                    if (vaild) {
+                      this.rule.mobile = Number(this.rule.mobile)
+                      this.rule.code = Number(this.rule.code)
+                      const res = await sendCapteLogin(this.rule)
+                      console.log('注册', res)
+                      this.$message.success(res.data.msg)
+                      if (res.code === 200) {
+                        setToken(res.data.data)
+                        this.registerShow = false
+                        this.show = true
+                        // this.retrievePassword = false
+                        this.flagShow = false
+                        // this.$router.push('/register')
+                        // this.show = true
+                        // eslint-disable-next-line object-curly-spacing
+                        // this.$router.push({ name: 'register', params: { number: res.data.number } })
+                      } else {
+                        this.$message.error(res.data.msg)
+                      }
+                      // this.$router.push('/register')
+                    }
+                  })
                 }
-                // this.$router.push('/register')
-              }
-            })
-          }
-        })
-      }
+              })
+
+              // this.rule.mobile = Number(this.rule.mobile)
+              // this.rule.code = Number(this.rule.code)
+              // const res = await sendCapteLogin(this.rule)
+              // console.log('注册', res)
+              // this.$message.success(res.data.msg)
+              // if (res.code === 200) {
+              //   setToken(res.data.data)
+              //   this.registerShow = false
+              //   this.show = true
+              //   // this.retrievePassword = false
+              //   this.flagShow = false
+              //   // this.$router.push('/register')
+              //   // this.show = true
+              //   // eslint-disable-next-line object-curly-spacing
+              //   // this.$router.push({ name: 'register', params: { number: res.data.number } })
+              // } else {
+              //   this.$message.error(res.data.msg)
+              // }
+              // this.$router.push('/register')
+            }
+          })
+        }
+      })
+      // }
     },
     // 找回密码
     password () {
@@ -739,24 +807,43 @@ export default {
       }
     },
     async passwordLogin () {
-      if (this.newPassword.mobile === '' || this.newPassword.code === '' || this.newPassword.password === '') {
-        this.$message.error('手机号、验证码、密码不能为空')
-      } else {
-        this.$refs.newPassword.validate(async (valid) => {
-          if (valid) {
-            const res = await sendPasswordLogin(this.newPassword)
-            console.log('修改密码', res)
-            if (res.code === 200) {
-              this.$message.success('修改密码成功,去登陆吧')
-              this.retrievePassword = false
-              this.flagShow = false
-              this.show = true
-            } else if (res.code === 1200) {
-              this.$message.success(res.data.msg)
+      // if (this.newPassword.mobile === '' || this.newPassword.code === '' || this.newPassword.password === '') {
+      //   this.$message.error('手机号、验证码、密码不能为空')
+      // } else {
+      this.$refs.newPass.validate(async (valid) => {
+        if (valid) {
+          this.$refs.newPasss.validate(async (valid) => {
+            if (valid) {
+              console.log(123)
+              this.$refs.newPassword.validate(async (valid) => {
+                if (valid) {
+                  const res = await sendPasswordLogin(this.newPassword)
+                  console.log('修改密码', res)
+                  if (res.code === 200) {
+                    this.$message.success('修改密码成功,去登陆吧')
+                    this.retrievePassword = false
+                    this.flagShow = false
+                    this.show = true
+                  } else if (res.code === 1200) {
+                    this.$message.success(res.data.msg)
+                  }
+                }
+              })
             }
-          }
-        })
-      }
+          })
+          // const res = await sendPasswordLogin(this.newPassword)
+          // console.log('修改密码', res)
+          // if (res.code === 200) {
+          //   this.$message.success('修改密码成功,去登陆吧')
+          //   this.retrievePassword = false
+          //   this.flagShow = false
+          //   this.show = true
+          // } else if (res.code === 1200) {
+          //   this.$message.success(res.data.msg)
+          // }
+        }
+      })
+      // }
     },
     passwordChange () {
       this.retrievePassword = false

@@ -107,7 +107,12 @@
         </div>
       </div>
     </div>
-    <Recommendsss v-if="details" :resume-list="resumeList" :pid="pids" />
+    <Recommendsss
+      v-if="details"
+      :resume-list="resumeList"
+      :pid="pids"
+      @titleList="titleList"
+    />
   </div>
 </template>
 <script>
@@ -161,8 +166,21 @@ export default {
   created () {
     this.getJob()
     this.getStateList()
+    this.numberTitle()
   },
   methods: {
+    numberTitle () {
+      console.log('this.$route.query.number', this.$route.query.number)
+      const title = this.$route.query.number
+      if (title === '最新消息') {
+        this.backgroundColor = 1
+        this.getNew()
+      } else if (title === '沟通未回复') {
+        this.changeJAVA()
+      } else if (title === '沟通中') {
+        this.robot()
+      }
+    },
     positionList (id) {
       this.pid = id
       console.log('this.pid', this.pid)
@@ -538,6 +556,9 @@ export default {
       console.log('简历', res)
       this.resumeList = res.data.data
       this.details = true
+    },
+    titleList () {
+      this.details = false
     },
 
     chating () {

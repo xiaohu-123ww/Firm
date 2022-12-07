@@ -301,7 +301,12 @@
         </div>
       </div>
     </div>
-    <Recommendsss v-if="detailss" :resume-list="resumeList" :pid="pid" />
+    <Recommendsss
+      v-if="detailss"
+      :resume-list="resumeList"
+      :pid="pid"
+      @titleList="titleList"
+    />
   </div>
 </template>
 <script>
@@ -903,6 +908,9 @@ export default {
         this.resumeList = res.data.data
         this.detailss = true
       }
+    },
+    titleList () {
+      this.detailss = false
     }
 
   }

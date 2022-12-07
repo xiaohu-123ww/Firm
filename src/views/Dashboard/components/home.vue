@@ -3,7 +3,12 @@
     <div class="header">
       <div class="my" style="background-color: #fff">我的沟通</div>
       <div class="Communication">
-        <div v-for="item in chunk" :key="item.id" class="chunk">
+        <div
+          v-for="item in chunk"
+          :key="item.id"
+          class="chunk"
+          @click="skip(item.path, item.title)"
+        >
           <div class="chunk-nn">{{ item.title }}</div>
           <div class="text">{{ item.number }}</div>
         </div>
@@ -24,7 +29,12 @@
         </el-row>
       </div>
       <div class="Communication">
-        <div v-for="item in position" :key="item.id" class="chunk">
+        <div
+          v-for="item in position"
+          :key="item.id"
+          class="chunk"
+          @click="skipTwo(item.path, item.title)"
+        >
           <div class="chunk-nn">{{ item.title }}</div>
           <div class="text">{{ item.number }}</div>
         </div>
@@ -83,39 +93,45 @@ export default {
         {
           id: 1,
           title: '最新消息',
-          number: 0
+          number: 0,
+          path: '/salarys'
         },
         {
           id: 2,
           title: '沟通未回复',
-          number: 0
+          number: 0,
+          path: '/salarys'
         },
         {
           id: 3,
           title: '沟通中',
-          number: 0
-        },
-        {
-          id: 4,
-          title: '我的收藏',
-          number: 0
+          number: 0,
+          path: '/salarys'
         }
+        // {
+        //   id: 4,
+        //   title: '我的收藏',
+        //   number: 0
+        // }
       ],
       position: [
         {
           id: 1,
           title: '在线职位',
-          number: 0
+          number: 0,
+          path: '/department'
         },
         {
           id: 2,
           title: '7天内到期',
-          number: 0
+          number: 0,
+          path: '/department'
         },
         {
           id: 3,
           title: '审核中',
-          number: 0
+          number: 0,
+          path: '/department'
         }
       ],
       tableData: []
@@ -158,13 +174,21 @@ export default {
       this.chunk[0].number = data.new
       this.chunk[1].number = data.waiting
       this.chunk[2].number = data.comming
-      this.chunk[3].number = data.collection
+      // this.chunk[3].number = data.collection
     },
     rightChange () {
       this.$router.push('/salarys')
     },
     textarea () {
       console.log(1)
+    },
+    skip (path, title) {
+      // eslint-disable-next-line object-curly-spacing
+      this.$router.push({ path: path, query: { number: title } })
+    },
+    skipTwo (path, title) {
+      // eslint-disable-next-line object-curly-spacing
+      this.$router.push({ path: path, query: { number: title } })
     }
 
   }

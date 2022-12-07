@@ -45,7 +45,12 @@
         style="height: 500px"
       ></el-empty>
     </div>
-    <Recommendsss v-if="details" :pid="pid" :resume-list="resumeList" />
+    <Recommendsss
+      v-if="details"
+      :pid="pid"
+      :resume-list="resumeList"
+      @titleList="titleList"
+    />
 
     <el-empty
       v-if="empty"
@@ -72,7 +77,8 @@ export default {
       resumeList: {},
       empty: false,
       online: {},
-      pid: ''
+      pid: '',
+      title: ''
     }
   },
   mounted () {
@@ -133,10 +139,15 @@ export default {
       console.log(id)
       this.pid = id
       console.log('id', this.pid)
+      // this.title = '人才推荐'
+      // console.log('title', this.title)
       const res = await getResume(id, this.position)
       console.log('简历', res)
       this.resumeList = res.data.data
       this.details = true
+    },
+    titleList () {
+      this.details = false
     }
 
   }

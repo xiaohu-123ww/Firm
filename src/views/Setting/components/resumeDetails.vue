@@ -1,6 +1,18 @@
 <template>
   <div>
-    <div class="resume">简历详情</div>
+    <div class="details-position">
+      <el-row>
+        <el-col :span="22"> 简历详情</el-col>
+        <el-col :span="2">
+          <el-button
+            class="list-my-bt"
+            type="text"
+            style="margin-left: 45px; font-size: 20px"
+            @click="resetForm"
+            ><Item icon="KHCFDC" /></el-button
+        ></el-col>
+      </el-row>
+    </div>
     <div class="card">
       <el-row>
         <el-col :span="18">
@@ -265,6 +277,7 @@ export default {
     pid: {
       type: Number
     }
+
   },
   components: { Item },
   data () {
@@ -365,6 +378,11 @@ export default {
       } else {
         this.$message.success('暂无简历可下载')
       }
+    },
+    // 跳转
+    resetForm () {
+      console.log(123)
+      this.$emit('titleList')
     }
   }
 
@@ -372,6 +390,13 @@ export default {
 
 </script>
 <style scoped lang="scss">
+.details-position {
+  height: 60px;
+  background-color: #fff;
+  line-height: 60px;
+  padding-left: 30px;
+  font-weight: 700;
+}
 .resume {
   height: 50px;
   background-color: #fff;

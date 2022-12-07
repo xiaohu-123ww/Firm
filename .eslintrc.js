@@ -204,6 +204,7 @@ module.exports = {
     'vue/valid-template-root': 'off',
     'no-undef': 'off',
     'no-unused-vars': 'off',
-    'indent': 'off'
+    'indent': 'off',
+    'object-curly-spacing': 'off'
   }
 }
