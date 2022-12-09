@@ -2,8 +2,9 @@ import router from '@/router'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import { getToken, removeToken, getTokenInvalidFlag, setTokenInvalidFlag } from './auth'
+// http://1.13.8.165/
 const service = axios.create({
-  baseURL: 'http://1.13.8.165/',
+  baseURL: 'https://znzz.tech',
   timeout: 100000 // request timeout
 })
 

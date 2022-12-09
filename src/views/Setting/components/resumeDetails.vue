@@ -377,7 +377,7 @@ export default {
     },
     downItem () {
       if (this.resumeList.cvfile !== '') {
-        var downloadPath = `http://1.13.8.165/loc/${this.resumeList.cvfile}`
+        var downloadPath = `https://znzz.tech/loc/${this.resumeList.cvfile}`
         var downloadLink = document.createElement('a')
         downloadLink.style.display = 'none' // 使其隐藏
         downloadLink.href = downloadPath
