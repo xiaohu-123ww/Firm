@@ -123,7 +123,7 @@
           <el-form-item label="企业地址" prop="address">
             <el-select
               v-model="form.address"
-              placeholder="请选择活企业注册地"
+              placeholder="请选择企业注册地"
               style="width: 500px"
             >
               <div style="display: flex">
