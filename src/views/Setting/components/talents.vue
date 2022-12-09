@@ -52,11 +52,11 @@
       @titleList="titleList"
     />
 
-    <el-empty
+    <!-- <el-empty
       v-if="empty"
       description="暂无数据"
       style="height: 500px"
-    ></el-empty>
+    ></el-empty> -->
   </div>
 </template>
 <script>
@@ -117,13 +117,13 @@ export default {
       const list = Object.values(data.data)
       if (list.length === 0) {
         this.loading = false
-        this.empty = true
+        // this.empty = true
       } else {
         console.log('list', list)
 
         this.backgroundColor = list[0].id
 
-        this.empty = false
+        // this.empty = false
         this.jobName = data.data
         this.loading = false
         this.position = list[0].id
