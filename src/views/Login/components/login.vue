@@ -44,7 +44,7 @@
                           :rows="10"
                         ></el-input>
                       </el-form-item>
-                      <el-form-item label="密码">
+                      <el-form-item label="密码" prop="password">
                         <el-input
                           v-model="loginForm.password"
                           :type="passw"
@@ -402,8 +402,8 @@ export default {
       },
       rules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', message: '密码不能为空' },
-        { min: 6, max: 6, message: '长度在 6 个字符', trigger: 'blur' }]
+        password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
+
       },
       loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -428,7 +428,7 @@ export default {
       },
       newWord: {
         code: [
-          { trigger: 'blur', message: '验证码不能为空' },
+          { required: true, trigger: 'blur', message: '验证码不能为空' },
           { max: 4, message: '长度4字符', trigger: 'blur' }
         ]
       },
@@ -719,39 +719,38 @@ export default {
         if (valid) {
           this.$refs.news.validate(async (vaild) => {
             if (vaild) {
-              // this.$refs.ruleForm.validate((vaild) => {
-              // if (vaild) {
-              console.log(123)
-              this.$refs.rff.validate(async (vaild) => {
+              this.$refs.ruleForm.validate((vaild) => {
                 if (vaild) {
-                  this.rule.mobile = Number(this.rule.mobile)
-                  // this.rule.code = Number(this.rule.code)
-                  // console.log('this.rule', this.rule)
-                  const res = await sendCapteLogin(this.rule)
-                  console.log('注册', res)
-                  // this.$message.success(res.data.msg)
-                  if (res.code === 200) {
-                    this.$message.success(res.data.msg)
-                    setToken(res.data.data)
-                    this.registerShow = false
-                    this.show = true
-                    // this.retrievePassword = false
-                    this.flagShow = false
-                    this.rule.mobile = ''
-                    this.rule.code = ''
-                    this.rule.password = ''
-                    // this.$router.push('/register')
-                    // this.show = true
-                    // eslint-disable-next-line object-curly-spacing
-                    // this.$router.push({ name: 'register', params: { number: res.data.number } })
-                  } else {
-                    this.$message.error(res.data.msg)
-                  }
-                  // this.$router.push('/register')
+                  this.$refs.rff.validate(async (vaild) => {
+                    if (vaild) {
+                      this.rule.mobile = Number(this.rule.mobile)
+                      // this.rule.code = Number(this.rule.code)
+                      // console.log('this.rule', this.rule)
+                      const res = await sendCapteLogin(this.rule)
+                      console.log('注册', res)
+                      // this.$message.success(res.data.msg)
+                      if (res.code === 200) {
+                        this.$message.success(res.data.msg)
+                        setToken(res.data.data)
+                        this.registerShow = false
+                        this.show = true
+                        // this.retrievePassword = false
+                        this.flagShow = false
+                        this.rule.mobile = ''
+                        this.rule.code = ''
+                        this.rule.password = ''
+                        // this.$router.push('/register')
+                        // this.show = true
+                        // eslint-disable-next-line object-curly-spacing
+                        // this.$router.push({ name: 'register', params: { number: res.data.number } })
+                      } else {
+                        this.$message.error(res.data.msg)
+                      }
+                      // this.$router.push('/register')
+                    }
+                  })
                 }
               })
-              // }
-              // })
 
               // this.rule.mobile = Number(this.rule.mobile)
               // this.rule.code = Number(this.rule.code)
@@ -838,7 +837,7 @@ export default {
                   } else if (res.code === 1200) {
                     this.$message.success(res.data.msg)
                   } else {
-                    this.$message.warning(res.data.msg)
+                    this.$message.error(res.data.msg)
                   }
                 }
               })
