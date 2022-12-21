@@ -143,6 +143,9 @@ export default {
   methods: {
     handleCloses () {
       this.$emit('reset', false)
+      this.ruleForm.new_psw = ''
+      this.ruleForm.confirm_new_psw = ''
+      this.ruleForm.code = ''
     },
     handleClose () {
       this.$confirm('确定取消吗', '提示', {
@@ -151,6 +154,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$emit('reset', false)
+        this.ruleForm.new_psw = ''
+        this.ruleForm.confirm_new_psw = ''
+        this.ruleForm.code = ''
       })
     },
     async handle () {
@@ -167,7 +173,7 @@ export default {
       // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
       // 还跳转到首页
       this.$router.push({
-        path: '/RtcScreen/'
+        path: '/'
         // query: {
         //   // 携带的路由参数
         //   redirect: this.$route.fullPath
@@ -175,39 +181,44 @@ export default {
         //   // fullPatch 既有路径也有参数
         // }
       })
-    },
-    async getCode () {
-      if (this.ruleForm.new_psw !== '' && this.ruleForm.old_psw !== '') {
-        const res = await getverification(this.mobile)
 
-        if (res.code === 200) {
-          this.$message({
-            message: '验证码已发送，请稍候...',
-            type: 'success',
-            center: true
-          })
-        }
+      this.ruleForm.new_psw = ''
+      this.ruleForm.confirm_new_psw = ''
+      this.ruleForm.code = ''
+    }
+  },
+  async getCode () {
+    if (this.ruleForm.new_psw !== '' && this.ruleForm.old_psw !== '') {
+      const res = await getverification(this.mobile)
 
-        // 因为下面用到了定时器，需要保存this指向
-        const that = this
-        that.waitTime--
-        that.getCodeBtnDisable = true
-        this.codeBtnWord = `${this.waitTime}s 后重新获取`
-        const timer = setInterval(function () {
-          if (that.waitTime > 1) {
-            that.waitTime--
-            that.codeBtnWord = `${that.waitTime}s 后重新获取`
-          } else {
-            clearInterval(timer)
-            that.codeBtnWord = '获取验证码'
-            that.getCodeBtnDisable = false
-            that.waitTime = 61
-          }
-        }, 1000)
+      if (res.code === 200) {
+        this.$message({
+          message: '验证码已发送，请稍候...',
+          type: 'success',
+          center: true
+        })
       }
+
+      // 因为下面用到了定时器，需要保存this指向
+      const that = this
+      that.waitTime--
+      that.getCodeBtnDisable = true
+      this.codeBtnWord = `${this.waitTime}s 后重新获取`
+      const timer = setInterval(function () {
+        if (that.waitTime > 1) {
+          that.waitTime--
+          that.codeBtnWord = `${that.waitTime}s 后重新获取`
+        } else {
+          clearInterval(timer)
+          that.codeBtnWord = '获取验证码'
+          that.getCodeBtnDisable = false
+          that.waitTime = 61
+        }
+      }, 1000)
     }
   }
 }
+
 </script>
 <style scoped lang="scss">
 .el-input {

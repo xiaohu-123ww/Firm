@@ -172,7 +172,6 @@
                         <div class="elInput" style="display: flex">
                           <el-input
                             v-model="rule.code"
-                            :type="passw"
                             autocomplete="off"
                             placeholder="请输入验证码"
                             style="width: 200px; height: 50px"
@@ -429,7 +428,7 @@ export default {
       },
       newWord: {
         code: [
-          { required: true, trigger: 'blur', message: '验证码不能为空' },
+          { trigger: 'blur', message: '验证码不能为空' },
           { max: 4, message: '长度4字符', trigger: 'blur' }
         ]
       },
@@ -454,8 +453,8 @@ export default {
         radio: []
       },
       rule: {
-        mobile: null,
-        code: null,
+        mobile: '',
+        code: '',
         password: ''
       },
       amend: {
@@ -707,6 +706,9 @@ export default {
     loginChange () {
       this.registerShow = false
       this.user()
+      this.rule.mobile = ''
+      this.rule.code = ''
+      this.rule.password = ''
     },
     // 企业注册账号
     firmLogin () {
@@ -717,34 +719,39 @@ export default {
         if (valid) {
           this.$refs.news.validate(async (vaild) => {
             if (vaild) {
-              this.$refs.ruleForm.validate((vaild) => {
+              // this.$refs.ruleForm.validate((vaild) => {
+              // if (vaild) {
+              console.log(123)
+              this.$refs.rff.validate(async (vaild) => {
                 if (vaild) {
-                  console.log(123)
-                  this.$refs.rff.validate(async (vaild) => {
-                    if (vaild) {
-                      this.rule.mobile = Number(this.rule.mobile)
-                      this.rule.code = Number(this.rule.code)
-                      const res = await sendCapteLogin(this.rule)
-                      console.log('注册', res)
-                      this.$message.success(res.data.msg)
-                      if (res.code === 200) {
-                        setToken(res.data.data)
-                        this.registerShow = false
-                        this.show = true
-                        // this.retrievePassword = false
-                        this.flagShow = false
-                        // this.$router.push('/register')
-                        // this.show = true
-                        // eslint-disable-next-line object-curly-spacing
-                        // this.$router.push({ name: 'register', params: { number: res.data.number } })
-                      } else {
-                        this.$message.error(res.data.msg)
-                      }
-                      // this.$router.push('/register')
-                    }
-                  })
+                  this.rule.mobile = Number(this.rule.mobile)
+                  // this.rule.code = Number(this.rule.code)
+                  // console.log('this.rule', this.rule)
+                  const res = await sendCapteLogin(this.rule)
+                  console.log('注册', res)
+                  // this.$message.success(res.data.msg)
+                  if (res.code === 200) {
+                    this.$message.success(res.data.msg)
+                    setToken(res.data.data)
+                    this.registerShow = false
+                    this.show = true
+                    // this.retrievePassword = false
+                    this.flagShow = false
+                    this.rule.mobile = ''
+                    this.rule.code = ''
+                    this.rule.password = ''
+                    // this.$router.push('/register')
+                    // this.show = true
+                    // eslint-disable-next-line object-curly-spacing
+                    // this.$router.push({ name: 'register', params: { number: res.data.number } })
+                  } else {
+                    this.$message.error(res.data.msg)
+                  }
+                  // this.$router.push('/register')
                 }
               })
+              // }
+              // })
 
               // this.rule.mobile = Number(this.rule.mobile)
               // this.rule.code = Number(this.rule.code)
@@ -824,8 +831,14 @@ export default {
                     this.retrievePassword = false
                     this.flagShow = false
                     this.show = true
+
+                    this.newPassword.mobile = ''
+                    this.newPassword.code = ''
+                    this.newPassword.password = ''
                   } else if (res.code === 1200) {
                     this.$message.success(res.data.msg)
+                  } else {
+                    this.$message.warning(res.data.msg)
                   }
                 }
               })

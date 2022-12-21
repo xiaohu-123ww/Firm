@@ -141,7 +141,7 @@ export default {
             this.$message.error(res.data.data.msg)
           }
           if (res.code === 200) {
-            this.$message.error(res.data.data.msg)
+            this.$message.success(res.data.data.msg)
             this.$emit('reset', false)
             this.number = ''
             this.number_code = ''
