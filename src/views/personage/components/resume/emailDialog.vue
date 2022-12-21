@@ -128,17 +128,21 @@ export default {
     // 确定
     async emailClose () {
       console.log(this.ruleForm)
-      const res = await getEmailBound(this.ruleForm.email, this.ruleForm.code)
-      console.log('邮箱', res)
-      if (res.code === 200) {
-        this.$message.success('邮箱绑定成功')
-        this.$emit('submit', false, this.ruleForm.email)
-        this.$emit('reset', false)
-      } else {
-        this.$message.error(res.data.msg)
-      }
-      this.ruleForm.email = ''
-      this.ruleForm.code = ''
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          const res = await getEmailBound(this.ruleForm.email, this.ruleForm.code)
+          console.log('邮箱', res)
+          if (res.code === 200) {
+            this.$message.success('邮箱绑定成功')
+            this.$emit('submit', false, this.ruleForm.email)
+            this.$emit('reset', false)
+            this.ruleForm.email = ''
+            this.ruleForm.code = ''
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        }
+      })
     }, // 取消
     handleClose () {
       this.$confirm('确定取消邮箱绑定吗', '提示', {

@@ -160,67 +160,71 @@ export default {
       })
     },
     async handle () {
-      this.$refs.rf.validate()
-      console.log(this.ruleForm)
-      const res = await getpassword(this.ruleForm)
-      console.log('修改', res)
-      // this.handleClose()
-      if (res.code === 200) {
-        this.$message.success('修改成功')
-        this.$store.commit('user/removeUserInfo')
-        // this.$router.push('/login')
-        // 从哪里发生的退出登录 重新登录之后再回到这个页面
-        // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
-        // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
-        // 还跳转到首页
-        this.$router.push({
-          path: '/'
-          // query: {
-          //   // 携带的路由参数
-          //   redirect: this.$route.fullPath
-          //   // to.path -> 只包含路径
-          //   // fullPatch 既有路径也有参数
-          // }
-        })
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          console.log(this.ruleForm)
+          const res = await getpassword(this.ruleForm)
+          console.log('修改', res)
+          // this.handleClose()
+          if (res.code === 200) {
+            this.$message.success('修改成功')
+            this.$store.commit('user/removeUserInfo')
+            // this.$router.push('/login')
+            // 从哪里发生的退出登录 重新登录之后再回到这个页面
+            // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
+            // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
+            // 还跳转到首页
+            this.$router.push({
+              path: '/'
+              // query: {
+              //   // 携带的路由参数
+              //   redirect: this.$route.fullPath
+              //   // to.path -> 只包含路径
+              //   // fullPatch 既有路径也有参数
+              // }
+            })
 
-        this.ruleForm.new_psw = ''
-        this.ruleForm.confirm_new_psw = ''
-        this.ruleForm.code = ''
-      } else {
-        this.$message.error(res.data.msg)
-      }
-    }
-  },
-  async getCode () {
-    if (this.ruleForm.new_psw !== '' && this.ruleForm.old_psw !== '') {
-      const res = await getverification(this.mobile)
-
-      if (res.code === 200) {
-        this.$message({
-          message: '验证码已发送，请稍候...',
-          type: 'success',
-          center: true
-        })
-      }
-
-      // 因为下面用到了定时器，需要保存this指向
-      const that = this
-      that.waitTime--
-      that.getCodeBtnDisable = true
-      this.codeBtnWord = `${this.waitTime}s 后重新获取`
-      const timer = setInterval(function () {
-        if (that.waitTime > 1) {
-          that.waitTime--
-          that.codeBtnWord = `${that.waitTime}s 后重新获取`
-        } else {
-          clearInterval(timer)
-          that.codeBtnWord = '获取验证码'
-          that.getCodeBtnDisable = false
-          that.waitTime = 61
+            this.ruleForm.new_psw = ''
+            this.ruleForm.confirm_new_psw = ''
+            this.ruleForm.code = ''
+          } else {
+            this.$message.error(res.data.msg)
+          }
         }
-      }, 1000)
+      })
+    },
+    async getCode () {
+      if (this.ruleForm.new_psw !== '' && this.ruleForm.old_psw !== '') {
+        const res = await getverification(this.mobile)
+
+        if (res.code === 200) {
+          this.$message({
+            message: '验证码已发送，请稍候...',
+            type: 'success',
+            center: true
+          })
+        }
+
+        // 因为下面用到了定时器，需要保存this指向
+        const that = this
+        that.waitTime--
+        that.getCodeBtnDisable = true
+        this.codeBtnWord = `${this.waitTime}s 后重新获取`
+        const timer = setInterval(function () {
+          if (that.waitTime > 1) {
+            that.waitTime--
+            that.codeBtnWord = `${that.waitTime}s 后重新获取`
+          } else {
+            clearInterval(timer)
+            that.codeBtnWord = '获取验证码'
+            that.getCodeBtnDisable = false
+            that.waitTime = 61
+          }
+        }, 1000)
+      }
     }
   }
+
 }
 
 </script>
