@@ -1,5 +1,5 @@
 module.exports = {
-  title: '匠才智聘-企业端',
+  title: '匠才智聘',
   /**
    * @type {boolean} true | false
    * @description Whether fix the header
