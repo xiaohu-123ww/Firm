@@ -346,7 +346,7 @@ export default {
 
   data () {
     // 自定义字体类型
-    const fonts = [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif',
+    const fonts = [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'sans-serif',
       '宋体', '黑体'
     ]
     // const Font = Quill.import('formats/font') 不可用
@@ -430,10 +430,11 @@ export default {
             [{ size: ['12', '14', '16', '18', '20', '22', '24', '28', '32', '36'] }], // 字体大小
             // [{ header: [1, 2, 3, 4, 5, 6] }], // 标题
             [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
-            [{ font: [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'sans-serif'] }], // 字体种类
+            [{ font: [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'sans-serif'] }]
+            // 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'sans-serif'// 字体种类
             // [{ align: [] }], // 对齐方式
             // ['clean'], // 清除文本格式
-            ['image', 'video'] // 链接、图片、视频
+            // ['image', 'video'] // 链接、图片、视频
           ]
 
         },
@@ -1042,7 +1043,7 @@ export default {
   .ql-snow
   .ql-picker.ql-font
   .ql-picker-item[data-value='SimSun']::before {
-  content: 'SimSun' !important;
+  content: '宋体' !important;
 }
 ::v-deep
   .ql-snow
@@ -1052,7 +1053,7 @@ export default {
   .ql-snow
   .ql-picker.ql-font
   .ql-picker-item[data-value='SimHei']::before {
-  content: 'SimHei' !important;
+  content: '黑体' !important;
 }
 ::v-deep
   .ql-snow
