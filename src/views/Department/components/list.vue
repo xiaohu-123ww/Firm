@@ -63,7 +63,7 @@
               />
             </div>
           </div>
-          <div style="font-size: 13px; width: 5%">{{ item.users.name }}</div>
+          <div style="font-size: 13px; width: 8%">{{ item.users.name }}</div>
           <div style="font-size: 13px; color: #676767; width: 79%">
             发布时间：{{
               parseTime(new Date(item.create_time).toLocaleString())

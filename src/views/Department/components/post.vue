@@ -33,65 +33,18 @@
           <el-form-item
             label="职位描述"
             prop="job_content"
-            style="width: 900px; height: 160px; margin-bottom: 30px"
+            style="width: 900px; height: auto; margin-bottom: 30px"
           >
             <quill-editor
               ref="myQuillEditor"
               v-model="ruleForm.job_content"
               :options="editorOption"
               class="quill"
-              style="height: 160px"
+              style="height: auto"
               @focus="onEditorFocus($event)"
               @blur="onEditorBlur($event)"
               @change="onEditorChange($event)"
-            >
-              <div id="toolbar" slot="toolbar">
-                <button><Item icon="fanone" /></button>
-                <button><Item icon="fantwo" /></button>
-                <select class="ql-font" title="字体">
-                  <option value="SimSun">宋体</option>
-                  <option value="SimHei">黑体</option>
-                  <option value="Microsoft-YaHei">微软雅黑</option>
-                  <option value="KaiTi">楷体</option>
-                  <option value="FangSong">仿宋</option>
-                  <option value="Arial">Arial</option>
-                </select>
-                <!-- Add a bold button -->
-                <select class="ql-font" title="字体大小">
-                  <option value="10px">10px</option>
-                  <option value="12px">12px</option>
-                  <option value="14px">14px</option>
-                  <option value="16px" selected>16px</option>
-                  <option value="18px">18px</option>
-                  <option value="20px">20px</option>
-                </select>
-                <button><Item icon="jiu" /></button>
-                <button class="ql-bold" title="加粗">Bold</button>
-                <button class="ql-italic" title="斜体">Italic</button>
-                <button class="ql-underline" title="下划线">underline</button>
-
-                <!--Add list -->
-                <button
-                  class="ql-list"
-                  value="ordered"
-                  title="有序列表"
-                ></button>
-                <button
-                  class="ql-list"
-                  value="bullet"
-                  title="无序列表"
-                ></button>
-                <!-- Add font size dropdown -->
-
-                <!-- Add subscript and superscript buttons -->
-
-                <select class="ql-align" value="align" title="对齐"></select>
-                <button class="ql-image" title="图片"></button>
-                <button class="ql-video" title="视频"></button>
-                <button class="ql-link" title="链接"></button>
-                <!-- You can also add your own -->
-              </div>
-            </quill-editor>
+            ></quill-editor>
           </el-form-item>
           <el-form-item label="岗位类型" prop="pst_class" style="height: 35px">
             <el-select
@@ -374,19 +327,33 @@
   </div>
 </template>
 <script>
+import { quillEditor, Quill } from 'vue-quill-editor'
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Bai from './bai.vue'
 import Baidusss from '@/components/bai/components/baidu/index.vue'
 import { getShowClass, getIndustryField, getRequirement, getJobkeywords, getwelfare, getCertList, getPositionMake, getFullnameList } from '@/api/department/online'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
 
   components: {
-    Item,
+
     Bai
     // Baidussss
   },
+
   data () {
+    // 自定义字体类型
+    const fonts = [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'Times-New-Roman', 'sans-serif',
+      '宋体', '黑体'
+    ]
+    // const Font = Quill.import('formats/font') 不可用
+    const Font = Quill.import('attributors/style/font')
+    Font.whitelist = fonts
+    Quill.register(Font, true)
+
     return {
       optionProps: {
         value: 'id',
@@ -452,10 +419,25 @@ export default {
       editorOption: {
         // 富文本编辑器配置，顶部的工具栏
         modules: {
-          toolbar: '#toolbar'
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // 加粗 斜体 下划线 删除线
+            // ['blockquote', 'code-block'], // 引用  代码块
+            [{ header: 1 }, { header: 2 }], // 1、2 级标题
+            [{ list: 'ordered' }, { list: 'bullet' }], // 有序、无序列表
+            // [{ script: 'sub' }, { script: 'super' }], // 上标/下标
+            [{ indent: '-1' }, { indent: '+1' }], // 缩进
+            // [{ direction: 'rtl' }], // 文本方向
+            [{ size: ['12', '14', '16', '18', '20', '22', '24', '28', '32', '36'] }], // 字体大小
+            // [{ header: [1, 2, 3, 4, 5, 6] }], // 标题
+            [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
+            [{ font: [false, 'SimSun', 'SimHei', 'Microsoft-YaHei', 'KaiTi', 'FangSong', 'Arial', 'sans-serif'] }], // 字体种类
+            // [{ align: [] }], // 对齐方式
+            // ['clean'], // 清除文本格式
+            ['image', 'video'] // 链接、图片、视频
+          ]
 
         },
-        theme: 'snow', // 主题
+        // theme: 'snow', // 主题
         placeholder: '请输入正文'
       },
       rules: {
@@ -590,6 +572,7 @@ export default {
   },
   mounted () {
     this.editor = this.$refs.myQuillEditor.quill
+    console.log('this.editor', this.editor)
   },
   beforeDestroy () {
     this.editor = null
@@ -621,9 +604,13 @@ export default {
           if (res1.code === 200) {
             const res = await getPositionMake(this.ruleForm)
             console.log('添加职位', res)
-            this.$message.success('添加职位数据成功')
-            this.$emit('reset', true)
-            this.clear()
+            if (res.code === 200) {
+              this.$message.success('添加职位数据成功')
+              this.$emit('reset', true)
+              this.clear()
+            } else {
+              this.$message.error(res.data.msg)
+            }
           } else {
             this.$message.error(res1.data.msg)
           }
@@ -655,7 +642,7 @@ export default {
     onEditorFocus (editor) { },
     // 富文本编辑器 内容改变事件
     onEditorChange (editor) {
-      console.log(editor)
+      console.log('123', editor, this.editorOption)
     },
     // 行业类型最多可选择三个数据
     bindChange (e) {
@@ -824,6 +811,9 @@ export default {
       this.ruleForm.longitude = ''
       this.ruleForm.latitude = ''
       this.ruleForm.jobNature = ''
+    },
+    nnn (event) {
+      console.log('234', event)
     }
 
   }
@@ -932,6 +922,7 @@ export default {
 }
 ::v-deep .ql-toolbar.ql-snow + .ql-container.ql-snow {
   border: 0;
+  // border-bottom: 1px solid #ece9e9;l
 }
 
 ::v-deep .quill {
@@ -941,7 +932,7 @@ export default {
   height: 160px;
   // overflow: hidden;
 }
-.liBackground {
+::v-deep .liBackground {
   background-color: #fff;
 }
 .elBackground {
@@ -958,5 +949,192 @@ export default {
 }
 ::v-deep .ql-editor {
   height: 100px;
+}
+::v-deep .ql-toolbar.ql-snow {
+  border-bottom: 1px solid #ece9e9;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+
+  // -webkit-box-sizing: border-box;
+  // box-sizing: border-box;
+  // font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  // padding: 8px;
+}
+
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item::before {
+//   content: '字号';
+// }
+
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='12px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='12px']::before {
+//   content: '12px';
+// }
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='14px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='14px']::before {
+//   content: '14px';
+// }
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='16px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='16px']::before {
+//   content: '16px';
+// }
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='18px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='18px']::before {
+//   content: '18px';
+// }
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='20px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='20px']::before {
+//   content: '20px';
+// }
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-label[data-value='32px']::before,
+// ::v-deep .ql-snow .ql-picker.ql-size .ql-picker-item[data-value='32px']::before {
+//   content: '32px';
+// }
+
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item::before {
+//   content: '正文' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='1']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='1']::before {
+//   content: '标题1' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='2']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='2']::before {
+//   content: '标题2' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='3']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='3']::before {
+//   content: '标题3' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='4']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='4']::before {
+//   content: '标题4' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='5']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='5']::before {
+//   content: '标题5' !important;
+// }
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-label[data-value='6']::before,
+// ::v-deep .ql-snow .ql-picker.ql-header .ql-picker-item[data-value='6']::before {
+//   content: '标题6' !important;
+// }
+::v-deep .ql-snow .ql-picker.ql-font .ql-picker-label::before,
+::v-deep .ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: '字体' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='Arial']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='Arial']::before {
+  content: 'Arial' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='SimSun']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='SimSun']::before {
+  content: 'SimSun' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='SimHei']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='SimHei']::before {
+  content: 'SimHei' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='Microsoft-YaHei']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='Microsoft-YaHei']::before {
+  content: '微软雅黑' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='Arial']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='Arial']::before {
+  content: 'Arial' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='Times-New-Roman']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='Times-New-Roman']::before {
+  content: '罗马' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='KaiTi']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='KaiTi']::before {
+  content: '楷体' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='sans-serif']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='sans-serif']::before {
+  content: 'sans-serif' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='宋体']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='宋体']::before {
+  content: '宋体' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='黑体']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='黑体']::before {
+  content: '黑体' !important;
+}
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='FangSong']::before,
+::v-deep
+  .ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='FangSong']::before {
+  content: '仿宋' !important;
+}
+::v-deep .quill {
+  height: 0px;
 }
 </style>
