@@ -504,7 +504,7 @@ export default {
         ],
         fullname: [
           { required: true, message: '请输入职位名称', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
         ],
         jobNature: [
           { required: true, message: '请选择工作性质', trigger: 'change' }

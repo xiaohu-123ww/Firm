@@ -6,7 +6,7 @@
           <div class="bg-purple" style="width: 50%">
             <div class="bg-purple-nn">
               <span
-                style="font-size: 18px; margin-right: 10px"
+                style="font-size: 17px; margin-right: 10px"
                 @click="details(item.id)"
                 ><a href="javascript:;">{{ item.fullname }}</a></span
               >
@@ -63,8 +63,8 @@
               />
             </div>
           </div>
-          <div style="font-size: 13px; width: 8%">{{ item.users.name }}</div>
-          <div style="font-size: 13px; color: #676767; width: 79%">
+          <div style="font-size: 13px; width: 10%">{{ item.users.name }}</div>
+          <div style="font-size: 13px; color: #676767; width: 74%">
             发布时间：{{
               parseTime(new Date(item.create_time).toLocaleString())
             }}

@@ -28,27 +28,33 @@
             <div class="onLine">{{ item.left_data.online_status }}</div>
           </div>
           <div class="message-age">
-            <div class="age-four">{{ item.left_data.age }}岁</div>
-            <div class="age-four four">{{ item.left_data.work_date }}年</div>
-            <div class="age-four four">{{ item.left_data.education }}</div>
+            <div class="age-four" style="padding: 0px 10px">
+              {{ item.left_data.age }}岁
+            </div>
+            <div class="age-four four" style="padding: 0px 10px">
+              {{ item.left_data.work_date }}年
+            </div>
+            <div class="age-four four" style="padding: 0px 10px">
+              {{ item.left_data.education }}
+            </div>
             <div style="margin-left: 10px">{{ item.left_data.status }}</div>
           </div>
-          <div class="message-age" style="margin-top: 3px">
-            <div class="age-four">
+          <div class="message-age" style="margin: 3px 0px 0px 5px">
+            <div class="age-four" style="padding: 0px 3px">
               期望城市：{{
                 item.left_data.position_class_data.city === null
                   ? '城市'
                   : item.left_data.position_class_data.city
               }}
             </div>
-            <div class="age-four four">
+            <div class="age-four four" style="padding: 0px 3px">
               求职职位：{{
                 item.left_data.position_class_data.position_class !== null
                   ? item.left_data.position_class_data.position_class
                   : '职位'
               }}
             </div>
-            <div class="age-four four">
+            <div class="age-four four" style="padding: 0px 3px">
               {{
                 item.left_data.position_class_data.salary.salary_min !== null
                   ? item.left_data.position_class_data.salary.salary_min
@@ -346,11 +352,11 @@ export default {
         // margin-top: 5px;
         display: flex;
         color: #808080;
-        font-size: 13px;
+        font-size: 12px;
         .age-four {
           // width: 50px;
           height: 16px;
-          padding: 0px 10px;
+          // padding: 0px 10px;
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }
@@ -372,15 +378,15 @@ export default {
         // line-height: 20px;
         .experience-time {
           height: 100%;
-          width: 150px;
+          // width: 150px;
           // background-color: blue;
           margin-right: 10px;
         }
         .experience-firm {
           height: 100%;
-          width: 180px;
+          // width: 100%;
           // background-color: rgb(0, 251, 255);
-          margin-right: 10px;
+          margin-right: 15px;
           color: black;
         }
       }

@@ -46,14 +46,14 @@
                 <img
                   :src="disposeImg(particulars.users.image)"
                   alt=""
-                  style="width: 50xp; height: 50px; background-color: pink"
+                  style="width: 50xp; height: 50px; border-radius: 100px"
                 />
               </div>
             </div>
-            <div style="line-height: 50px; width: 8%">
+            <div style="line-height: 50px; margin-right: 15px">
               {{ particulars.users.name }}
             </div>
-            <div class="bg-text" style="width: 40%">
+            <div class="bg-text" style="margin-right: 15px">
               发布时间：{{
                 parseTime(
                   new Date(particulars.users.create_time).toLocaleString()
@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      <div class="firm" style="margin-bottom: 80px">
+      <div class="firm">
         <div class="job">工作地点</div>
         <p style="font-weight: 700">
           {{ particulars.adcode.second }}{{ particulars.adcode.third
@@ -117,7 +117,18 @@
         ></div>
       </div>
       <div>
-        <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler" />
+        <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler">
+          <bm-view class="map"></bm-view>
+          <!-- animation="BMAP_ANIMATION_BOUNCE" -->
+          <bm-marker
+            :position="{
+              lng: center.lng,
+              lat: center.lat
+            }"
+            :dragging="true"
+          >
+          </bm-marker>
+        </baidu-map>
       </div>
     </el-card>
   </div>
@@ -218,15 +229,16 @@ export default {
         display: flex;
 
         .bg-purple-trade {
-          width: 500px;
+          // width: 100%;
           height: 100%;
+          margin-right: 15px;
           // background-color: green;
-          font-size: 25px;
+          font-size: 20px;
           padding-top: 9px;
           font-weight: 700;
         }
         .bg-purple-weal {
-          width: 100%;
+          // width: 100%;
           height: 100%;
           // background-color: coral;
           display: flex;
@@ -277,7 +289,7 @@ export default {
         .bg-image {
           width: 50px;
           height: 50px;
-          background-color: pink;
+          // background-color: pink;
           border-radius: 100px;
           overflow: hidden;
           // margin-right: 10px;
@@ -338,7 +350,7 @@ export default {
       }
     }
     .firm {
-      height: 180px;
+      // height: 180px;
       // background-color: pink;
     }
   }

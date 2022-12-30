@@ -36,27 +36,33 @@
             <div v-if="online[item.id] === 8" class="onLine">六个月以前</div>
           </div>
           <div class="message-age">
-            <div class="age-four">{{ item.age }}岁</div>
-            <div class="age-four four">{{ item.work_date }}年</div>
-            <div class="age-four four">{{ item.education.name }}</div>
+            <div class="age-four" style="padding: 0px 10px">
+              {{ item.age }}岁
+            </div>
+            <div class="age-four four" style="padding: 0px 10px">
+              {{ item.work_date }}年
+            </div>
+            <div class="age-four four" style="padding: 0px 10px">
+              {{ item.education.name }}
+            </div>
             <div style="margin-left: 10px">{{ item.status.name }}</div>
           </div>
-          <div class="message-age" style="margin-top: 3px">
-            <div class="age-four">
+          <div class="message-age" style="margin: 3px 0px 0px 5px">
+            <div class="age-four" style="padding: 0px 3px">
               期望城市：{{
                 item.position_class_data.city.name
                   ? item.position_class_data.city.name
                   : '期望城市'
               }}
             </div>
-            <div class="age-four four">
+            <div class="age-four four" style="padding: 0px 3px">
               求职职位：{{
                 item.position_class_data.position_class.name
                   ? item.position_class_data.position_class.name
                   : '职位'
               }}
             </div>
-            <div class="age-four four">
+            <div class="age-four four" style="padding: 0px 3px">
               {{ item.position_class_data.salary[0] }}-
               {{ item.position_class_data.salary[1] }}
             </div>
@@ -344,7 +350,7 @@ export default {
         .age-four {
           // width: 50px;
           height: 16px;
-          padding: 0px 3px;
+
           // background-color: darkgreen;
           border-right: 1px solid #808080;
         }
@@ -366,15 +372,15 @@ export default {
         // line-height: 20px;
         .experience-time {
           height: 100%;
-          width: 150px;
+          // width: 150px;
           // background-color: blue;
-          // margin-right: 10px;
+          margin-right: 10px;
         }
         .experience-firm {
           height: 100%;
-          width: 180px;
+          // width: 180px;
           // background-color: rgb(0, 251, 255);
-          // margin-right: 10px;
+          margin-right: 15px;
           color: black;
         }
       }
