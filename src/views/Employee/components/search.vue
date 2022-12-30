@@ -818,10 +818,10 @@ export default {
       } else {
         list.edu = this.num
       }
-      if (list.age_min === '' || list.age_min === '不限') {
+      if (list.age_min === '' || list.age_min === '不限' || list.age_min === null) {
         delete list.age_min
       }
-      if (list.age_max === '' || list.age_max === '不限') {
+      if (list.age_max === '' || list.age_max === '不限' || list.age_max === null) {
         delete list.age_max
       }
       if (this.classPlt.length === 0) {
@@ -844,13 +844,13 @@ export default {
       if (list.qw === '') {
         delete list.qw
       }
-      if (list.year_min === null || list.year_min === '不限') {
+      if (list.year_min === null || list.year_min === '不限' || list.year_min === '') {
         delete list.year_min
       }
-      if (list.year_max === null || list.year_max === '不限') {
+      if (list.year_max === null || list.year_max === '不限' || list.year_max === '') {
         delete list.year_max
       }
-      if (list.candidate_status === null || list.candidate_status === 4) {
+      if (list.candidate_status === null || list.candidate_status === 4 || list.candidate_status === '') {
         delete list.candidate_status
       }
 
@@ -865,10 +865,10 @@ export default {
       if (list.active === null || list.active === 0) {
         delete list.active
       }
-      if (list.sex === '2' || list.sex === null) {
+      if (list.sex === '2' || list.sex === null || list.sex === '') {
         delete list.sex
       }
-      if (list.city === null) {
+      if (list.city === null || list.city === '') {
         delete list.city
       }
       if (list.active === '' || list.active === null) {
