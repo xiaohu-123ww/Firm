@@ -319,6 +319,7 @@ export default {
       this.state = true
     },
     async getOnlineList () {
+      this.changeColor = 1
       this.lodingState = false
       this.loading = true
       this.lineState = true
@@ -436,6 +437,7 @@ export default {
     },
     // 搜索
     async getfullname () {
+      this.lodingState = false
       this.loading = true
       const { data } = await getfullnameCity(this.status, this.limit, this.text)
       console.log('搜素', data)
@@ -452,6 +454,7 @@ export default {
       }
     },
     async getfull () {
+      this.lodingState = false
       this.loading = true
       const { data } = await getfullname(this.status, this.offset, this.limit, this.text)
       console.log('搜素', data)
