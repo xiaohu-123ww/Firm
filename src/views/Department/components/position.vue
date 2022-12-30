@@ -204,6 +204,8 @@ export default {
       if (res.data.data.results.length === 0) {
         this.lodingState = true
         this.state = false
+        this.loading = false
+        this.num = []
       } else {
         this.lodingState = false
         this.state = true
@@ -211,10 +213,10 @@ export default {
         this.buttonOnLine = false
         this.buttonUnderReview = false
         this.buttonNotPass = false
+        this.total = res.data.data.count
+        this.num = res.data.data.results
+        this.loading = false
       }
-      this.total = res.data.data.count
-      this.num = res.data.data.results
-      this.loading = false
     },
     // 审核
     async underReview () {
@@ -228,6 +230,8 @@ export default {
       if (res.data.data.results.length === 0) {
         this.lodingState = true
         this.state = false
+        this.loading = false
+        this.num = []
       } else {
         this.lodingState = false
         this.state = true
@@ -235,10 +239,10 @@ export default {
         this.buttonOnLine = false
         this.buttonUnderReview = true
         this.buttonNotPass = false
+        this.total = res.data.data.count
+        this.num = res.data.data.results
+        this.loading = false
       }
-      this.total = res.data.data.count
-      this.num = res.data.data.results
-      this.loading = false
     },
     // 未通过
     async notPass () {
@@ -252,6 +256,8 @@ export default {
       if (res.data.data.results.length === 0) {
         this.lodingState = true
         this.state = false
+        this.loading = false
+        this.num = []
       } else {
         this.lodingState = false
         this.state = true
@@ -259,10 +265,10 @@ export default {
         this.buttonOnLine = false
         this.buttonUnderReview = false
         this.buttonNotPass = true
+        this.total = res.data.data.count
+        this.num = res.data.data.results
+        this.loading = false
       }
-      this.total = res.data.data.count
-      this.num = res.data.data.results
-      this.loading = false
     },
 
     postJob () {
@@ -330,6 +336,8 @@ export default {
       if (res.data.data.results.length === 0) {
         this.lodingState = true
         this.state = false
+        this.loading = false
+        this.num = []
       } else {
         this.lodingState = false
         this.state = true
@@ -337,10 +345,10 @@ export default {
         this.buttonNoOnLine = false
         this.buttonUnderReview = false
         this.buttonNotPass = false
+        this.total = res.data.data.count
+        this.num = res.data.data.results
+        this.loading = false
       }
-      this.total = res.data.data.count
-      this.num = res.data.data.results
-      this.loading = false
     },
     // 每页条数
     handleSize (page) {
@@ -448,6 +456,7 @@ export default {
         this.num = data.data.results
         this.loading = false
       } else {
+        this.loading = false
         this.lodingState = true
         this.state = false
         this.num = []
@@ -465,6 +474,7 @@ export default {
         this.num = data.data.results
         this.loading = false
       } else {
+        this.loading = false
         this.lodingState = true
         this.state = false
         this.num = []
@@ -475,6 +485,7 @@ export default {
       console.log(this.text)
       if (this.text !== '') {
         if (this.changeColor === 1) {
+          // this.lodingState = false
           this.status = 2
           this.getfullname()
         } else if (this.changeColor === 2) {
