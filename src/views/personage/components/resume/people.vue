@@ -89,8 +89,8 @@ export default {
           }, trigger: 'blur'
         }],
         number_code: [
-          { required: true, message: '验证码不能为空' },
-          { max: 4, message: '验证码必须是4个字符', trigger: 'blur' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { max: 4, message: '验证码必须是4个字符' }
         ]
 
       }
