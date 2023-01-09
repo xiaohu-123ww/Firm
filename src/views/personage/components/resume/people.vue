@@ -48,11 +48,7 @@
       </div>
       <div slot="footer">
         <el-button @click="handle">取 消</el-button>
-        <el-button
-          style="background-color: #256efd; color: #fff"
-          @click="handleClose"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="handleClose">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -126,11 +122,12 @@ export default {
   },
   methods: {
     handleCloses () {
+      this.$refs.rf.clearValidate()
       this.$emit('reset', false)
-      this.number = ''
-      this.number_code = ''
-      this.name = ''
-      this.card_id = ''
+      this.ruleForm.number = ''
+      this.ruleForm.number_code = ''
+      this.ruleForm.name = ''
+      this.ruleForm.card_id = ''
     },
     handleClose () {
       this.$refs.rf.validate(async (vaild) => {
@@ -185,20 +182,12 @@ export default {
       }
     },
     handle () {
-      this.$confirm('确定绑定实名认证吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-
-      })
-        .then(() => {
-          this.$emit('reset', false)
-          this.number = ''
-          this.number_code = ''
-          this.name = ''
-          this.card_id = ''
-        }
-        )
+      this.$refs.rf.clearValidate()
+      this.$emit('reset', false)
+      this.ruleForm.number = ''
+      this.ruleForm.number_code = ''
+      this.ruleForm.name = ''
+      this.ruleForm.card_id = ''
     }
   }
 }

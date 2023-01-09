@@ -104,6 +104,7 @@ export default {
     async testUpload (file) {
       var formData = new FormData()
       formData.append('image', file.file)
+      console.log(' formData', formData)
       const res = await getFirm(formData)
       console.log('res', res)
       if (res.code === 200) {
@@ -130,7 +131,7 @@ export default {
     },
     // 0.3.4 图片移除操作
     async handleRemove (file) {
-      console.log(file)
+      console.log('q1', file)
       this.img.image = file.url.slice(22)
       console.log('123', this.img)
       const res = await getImageDelete(this.img)
@@ -210,5 +211,9 @@ export default {
   padding: 10px;
   width: 80px;
   margin-top: 30px;
+}
+::v-deep .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+  width: 148px;
+  height: 148px;
 }
 </style>

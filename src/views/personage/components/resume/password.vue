@@ -142,22 +142,18 @@ export default {
   },
   methods: {
     handleCloses () {
+      this.$refs.rf.clearValidate()
       this.$emit('reset', false)
       this.ruleForm.new_psw = ''
       this.ruleForm.confirm_new_psw = ''
       this.ruleForm.code = ''
     },
     handleClose () {
-      this.$confirm('确定取消吗', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$emit('reset', false)
-        this.ruleForm.new_psw = ''
-        this.ruleForm.confirm_new_psw = ''
-        this.ruleForm.code = ''
-      })
+      this.$refs.rf.clearValidate()
+      this.$emit('reset', false)
+      this.ruleForm.new_psw = ''
+      this.ruleForm.confirm_new_psw = ''
+      this.ruleForm.code = ''
     },
     async handle () {
       this.$refs.rf.validate(async (valid) => {
