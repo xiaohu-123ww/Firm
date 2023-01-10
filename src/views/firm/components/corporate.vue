@@ -13,6 +13,7 @@
         :file-list="showPicList"
         :on-exceed="handleExceed"
         :limit="5"
+        accept=".png,.jpeg,.jpg"
       >
         <i slot="default" class="el-icon-plus" />
         <div slot="file" slot-scope="{ file }">

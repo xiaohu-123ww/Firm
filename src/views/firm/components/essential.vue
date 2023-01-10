@@ -149,6 +149,7 @@
                     :before-upload="handleInfoPic"
                     :http-request="testUpload"
                     :on-success="uploadSuccess"
+                    accept=".png,.jpeg,.jpg"
                   >
                     <img
                       v-if="list.logo"
@@ -506,10 +507,10 @@ export default {
       const isJPG = file.type === 'image/jpeg'
 
       const isPNG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 5
+      const isLt2M = file.size / 1024 / 1024 < 4
       if (!isJPG && !isPNG) this.$message.error('请上传格式为 png, jpeg 的图片！')
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!')
+        this.$message.error('上传头像图片大小不能超过 4MB!')
       }
       return isJPG || isPNG || isLt2M
     },
