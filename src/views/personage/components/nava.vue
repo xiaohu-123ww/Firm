@@ -15,19 +15,17 @@
         <div :class="{ bg: state === 1 }">企业主页</div>
       </a>
     </div>
-    <div class="grid-content bg-purple">
+    <div class="grid-content bg-purple" style="width: 8%">
       <div class="navar-news">
-        <!-- <a href="javascript:;"><i class="el-icon-message"></i></a>
-            <div class="navbar-div">1</div> -->
+        <div class="navbar-firm" @click="feedback">
+          <a href="javascript:;">反馈</a>
+        </div>
       </div>
     </div>
-    <div
-      class="grid-content bg-purple-light"
-      style="width: 8%"
-      :class="{ bd: arr === 2 }"
-      @click="change"
-    >
-      <a href=""> <i class="el-icon-user"></i></a>
+    <div class="grid-content bg-purple-light" style="width: 8%" @click="change">
+      <div :class="{ bd: arr === 2 }">
+        <a href=""> <i class="el-icon-user"></i></a>
+      </div>
     </div>
     <div class="grid-content bg-purple" style="width: 8%">
       <el-dropdown class="navbar-dropdown">
@@ -39,6 +37,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <Dia :add="add" @handler="handler" />
   </div>
 </template>
 
@@ -47,9 +46,11 @@
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import { logout } from '@/api/user'
+import Dia from '@/layout/components/dia.vue'
 export default {
   components: {
-    Hamburger
+    Hamburger,
+    Dia
 
   },
   computed: {
@@ -71,11 +72,19 @@ export default {
   },
   data () {
     return {
-      state: 1,
-      arr: 1
+      state: 2,
+      arr: 2,
+      add: false
     }
   },
   methods: {
+    handler (i) {
+      this.add = i
+    },
+    feedback () {
+      console.log(113)
+      this.add = true
+    },
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -197,11 +206,12 @@ export default {
 }
 .bg {
   background-color: #e6f1ff;
-  width: 60px;
+  // width: 60px;
   height: 100%;
 }
 .bd {
   background-color: #e6f1ff;
+  // width: 25px;
   width: 25px;
   height: 100%;
 }
