@@ -92,6 +92,10 @@ export default {
     },
     // 0.3.1 上传图片 => 点击上传触发
     handleInfoPic (file) {
+      const isLtSize = file.size / 1024 / 1024 < 4
+      if (!isLtSize) {
+        this.$message.error('上传图片大小不能超过 4MB!')
+      }
       const isJPG = file.type === 'image/jpeg'
       const isJPG2 = file.type === 'image/jpg'
       const isPNG = file.type === 'image/png'
@@ -104,7 +108,6 @@ export default {
     async testUpload (file) {
       var formData = new FormData()
       formData.append('image', file.file)
-      console.log(' formData', formData)
       const res = await getFirm(formData)
       console.log('res', res)
       if (res.code === 200) {
@@ -131,7 +134,7 @@ export default {
     },
     // 0.3.4 图片移除操作
     async handleRemove (file) {
-      console.log('q1', file)
+      console.log(file)
       this.img.image = file.url.slice(22)
       console.log('123', this.img)
       const res = await getImageDelete(this.img)
@@ -215,5 +218,11 @@ export default {
 ::v-deep .el-upload-list--picture-card .el-upload-list__item-thumbnail {
   width: 148px;
   height: 148px;
+}
+::v-deep .el-upload.el-upload--picture-card {
+  border-radius: 40px !important;
+}
+::v-deep img.el-upload-list__item-thumbnail {
+  border-radius: 40px;
 }
 </style>
