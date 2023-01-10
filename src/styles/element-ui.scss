@@ -85,7 +85,7 @@ input.el-input__inner {
 }
 .el-dialog__header {
   background: #fff !important;
-  border-bottom: 1px solid #f0f0f0;
+  // border-bottom: 1px solid #f0f0f0;
 }
 .el-dialog__header .el-icon-close:before {
   color: black !important;
@@ -127,12 +127,10 @@ textarea.el-textarea__inner {
 .el-textarea .el-input__count {
   right: 510px;
 }
-.el-upload.el-upload--picture-card {
-  border-radius: 40px !important;
-}
-img.el-upload-list__item-thumbnail {
-  border-radius: 40px;
-}
+
+// img.el-upload-list__item-thumbnail {
+//   border-radius: 40px;
+// }
 .el-upload-list--picture-card .el-upload-list__item {
   border: 0;
 }
