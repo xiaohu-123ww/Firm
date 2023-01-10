@@ -145,4 +145,11 @@ export default {
   border-radius: 18px;
   padding: 50px;
 }
+::v-deep textarea.el-textarea__inner {
+  height: 184px !important;
+  width: 500px;
+}
+::v-deep .el-textarea .el-input__count {
+  right: 510px;
+}
 </style>
