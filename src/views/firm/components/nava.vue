@@ -15,10 +15,11 @@
         <div :class="{ bg: state === 1 }">企业主页</div>
       </a>
     </div>
-    <div class="grid-content bg-purple">
+    <div class="grid-content bg-purple" style="width: 8%">
       <div class="navar-news">
-        <!-- <a href="javascript:;"><i class="el-icon-message"></i></a>
-            <div class="navbar-div">1</div> -->
+        <div class="navbar-firm" @click="feedback">
+          <a href="javascript:;">反馈</a>
+        </div>
       </div>
     </div>
     <div
@@ -39,6 +40,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <Dia :add="add" @handler="handler" />
   </div>
 </template>
 
@@ -47,9 +49,11 @@
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import { logout } from '@/api/user'
+import Dia from '@/layout/components/dia.vue'
 export default {
   components: {
-    Hamburger
+    Hamburger,
+    Dia
 
   },
   computed: {
@@ -72,10 +76,18 @@ export default {
   data () {
     return {
       state: 1,
-      arr: 1
+      arr: 1,
+      add: false
     }
   },
   methods: {
+    handler (i) {
+      this.add = i
+    },
+    feedback () {
+      console.log(113)
+      this.add = true
+    },
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     },
