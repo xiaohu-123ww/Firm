@@ -23,10 +23,9 @@
         <div>企业主页</div>
       </a>
     </div>
-    <div class="grid-content bg-purple">
-      <div class="navar-news">
-        <!-- <a href="javascript:;"><i class="el-icon-message"></i></a>
-            <div class="navbar-div">1</div> -->
+    <div class="grid-content bg-purple" style="width: 8%">
+      <div class="navbar-firm" @click="feedback">
+        <a href="javascript:;">反馈</a>
       </div>
     </div>
     <div class="grid-content bg-purple-light" style="width: 8%" @click="change">
@@ -42,6 +41,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <Dia :add="add" @handler="handler" />
   </div>
 </template>
 
@@ -50,10 +50,12 @@ import Item from '@/layout/components/Sidebar/Item.vue'
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import { logout } from '@/api/user'
+import Dia from './dia.vue'
 export default {
   components: {
     Hamburger,
-    Item
+    Item,
+    Dia
   },
   computed: {
     ...mapGetters([
@@ -73,10 +75,18 @@ export default {
   },
   data () {
     return {
-      bg: 0
+      bg: 0,
+      add: false
     }
   },
   methods: {
+    handler (i) {
+      this.add = i
+    },
+    feedback () {
+      console.log(113)
+      this.add = true
+    },
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -163,7 +173,7 @@ export default {
   .navbar-firm {
     color: rgba(112, 112, 112);
     font-size: 14px;
-    background-color: pink;
+    // background-color: pink;
   }
   .navar-news {
     // background-color: pink;
