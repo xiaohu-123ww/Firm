@@ -129,7 +129,7 @@ export default {
         texts: '',
         // number  联系方式
         number: '',
-        platform: 1,
+        platform: 2,
         imgs: []
         // platform    反馈端
       },
