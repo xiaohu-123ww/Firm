@@ -52,7 +52,7 @@ Vue.prototype.changeDateToStr1 = changeDateToStr1
 Vue.prototype.changeDate = changeDate
 Vue.prototype.changeDateTo = changeDateTo
 
-console.log = console.warn = () => { }
+// console.log = console.warn = () => { }
 // vue实例化
 new Vue({
   el: '#app',

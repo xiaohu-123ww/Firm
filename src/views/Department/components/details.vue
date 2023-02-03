@@ -98,6 +98,28 @@
           </div>
         </div>
       </div>
+      <div class="certificate">
+        <div class="require">公司介绍</div>
+        <p style="font-weight: 700">
+          {{ particulars.enterprise_data.name }}
+        </p>
+        <div
+          style="line-height: 20px"
+          v-html="particulars.enterprise_data.introduction"
+        ></div>
+        <!-- <div
+          claa="certificate-img"
+          style="height: 140px; padding-top: 10px; display: flex"
+        >
+          <div
+            v-for="(item, index) in particulars.certificationInfo_id"
+            :key="index"
+            class="require-img"
+          >
+            <img :src="disposeImg(item.image)" alt="" class="image" />
+          </div>
+        </div> -->
+      </div>
       <div class="firm">
         <div class="job">工作地点</div>
         <p style="font-weight: 700">
@@ -111,10 +133,10 @@
           通过数字化营销，洞察消费者，实现精准接触，CRM管理，从而优化营销决策。
           兆信数字技术使企业提高能力，赢得消费者，赢得市场增长。
         </p> -->
-        <div
+        <!-- <div
           style="line-height: 20px"
           v-html="particulars.enterprise_data.introduction"
-        ></div>
+        ></div> -->
       </div>
       <div>
         <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler">
