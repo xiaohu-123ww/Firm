@@ -29,7 +29,7 @@
             </div>
           </div>
           <div class="bg-purple-money">
-            {{ particulars.salary_min }} - {{ particulars.salary_max }} .{{
+            {{ particulars.salary_min }}k - {{ particulars.salary_max }} k·{{
               particulars.salary_unit
             }}薪
           </div>

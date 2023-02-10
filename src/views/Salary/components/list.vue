@@ -38,7 +38,9 @@
             <div class="age-four four" style="padding: 0px 10px">
               {{ item.left_data.education }}
             </div>
-            <div style="margin-left: 10px">{{ item.left_data.status }}</div>
+            <div style="margin-left: 10px; border: 0">
+              {{ item.left_data.status }}
+            </div>
           </div>
           <div class="message-age" style="margin: 3px 0px 0px 5px">
             <div class="age-four" style="padding: 0px 3px">
@@ -55,16 +57,16 @@
                   : '职位'
               }}
             </div>
-            <div class="age-four four" style="padding: 0px 3px">
+            <div class="age-four four" style="padding: 0px 3px; border: 0">
               {{
                 item.left_data.position_class_data.salary.salary_min !== null
                   ? item.left_data.position_class_data.salary.salary_min
                   : '1千'
-              }}-{{
+              }}k-{{
                 item.left_data.position_class_data.salary.salary_max !== null
                   ? item.left_data.position_class_data.salary.salary_max
                   : '1千'
-              }}
+              }}k
             </div>
           </div>
           <div

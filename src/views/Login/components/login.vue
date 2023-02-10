@@ -68,10 +68,22 @@
                           style="
                             width: 300px;
                             background-color: #256efd;
-                            margin-top: 35px;
+                            margin-top: 15px;
                           "
                           @click="handleLogin"
-                          >登录</el-button
+                          >账号登录</el-button
+                        >
+                      </el-form-item>
+                      <el-form-item>
+                        <el-button
+                          type="primary"
+                          round
+                          style="
+                            width: 300px;
+                            background-color: #256efd;
+                            margin-top: 15px;
+                          "
+                          >微信扫码登录</el-button
                         >
                       </el-form-item>
                     </el-form>
@@ -477,13 +489,22 @@ export default {
   computed: {
 
     // 用于校验手机号码格式是否正确
+    phoneNumberStyle () {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.ruleForm.mobile)) {
+        return false
+      }
+      return true
+    },
 
     // 控制获取验证码按钮是否可点击
     getCodeBtnDisable: {
       get () {
         if (this.waitTime === 61) {
-          if (this.ruleForm.mobile) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.ruleForm.mobile) {
+              return false
+            }
           }
           return true
         }

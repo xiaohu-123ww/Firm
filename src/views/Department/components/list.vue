@@ -16,7 +16,7 @@
             </div>
             <div class="bg-purple-sss">
               <span style="font-size: 14px; color: #fe6b49; margin-right: 10px"
-                >{{ item.salary_min }} - {{ item.salary_max }}
+                >{{ item.salary_min }}k - {{ item.salary_max }}k·
                 {{ item.salary_unit }}薪</span
               >
               <span style="font-size: 12px; color: #676767">{{

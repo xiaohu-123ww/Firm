@@ -62,9 +62,9 @@
                   : '职位'
               }}
             </div>
-            <div class="age-four four" style="padding: 0px 3px">
-              {{ item.position_class_data.salary[0] }}-
-              {{ item.position_class_data.salary[1] }}
+            <div class="age-four four" style="padding: 0px 3px; border: 0">
+              {{ item.position_class_data.salary[0] }}k-
+              {{ item.position_class_data.salary[1] }}k
             </div>
           </div>
         </div>
