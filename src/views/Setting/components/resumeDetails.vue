@@ -343,7 +343,7 @@ export default {
     async num () {
       const res = await getResume(this.pid)
       console.log('状态', res)
-      if (res.data.is_collected) {
+      if (res.data.data.is_collected) {
         this.state = true
       } else {
         this.state = false

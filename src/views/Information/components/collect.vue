@@ -41,13 +41,18 @@
           </el-table-column>
           <el-table-column prop="join_date" label="收藏时间" min-width="8%">
           </el-table-column>
-          <el-table-column label="操作" min-width="5%">
+          <el-table-column label="操作" min-width="6%">
             <template scope="scope">
-              <el-button
+              <!-- <el-button
                 type="text"
                 style="color: #1989fa"
                 @click.native="changeDelte(scope.row.user_id)"
                 >取消收藏</el-button
+              > -->
+              <span
+                style="color: #1989fa"
+                @click.native="changeDelte(scope.row.user_id)"
+                >取消收藏</span
               >
             </template>
           </el-table-column>
