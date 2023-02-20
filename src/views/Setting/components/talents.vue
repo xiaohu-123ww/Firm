@@ -50,6 +50,7 @@
       :pid="pid"
       :resume-list="resumeList"
       @titleList="titleList"
+      @restart="restart"
     />
 
     <!-- <el-empty
@@ -63,6 +64,7 @@
 import Recommend from '../components/recommend.vue'
 import { getEnterprise, getCvRecommend, getResume } from '@/api/setting/index'
 import Recommendsss from './resumeDetails.vue'
+
 export default {
   components: { Recommend, Recommendsss },
   data () {
@@ -94,6 +96,7 @@ export default {
     async change (i) {
       this.backgroundColor = i
       this.position = i
+      this.loading = true
       const { data } = await getCvRecommend(i)
       console.log('列表', data)
       this.list = data.data
@@ -148,6 +151,9 @@ export default {
     },
     titleList () {
       this.details = false
+    },
+    restart () {
+      this.newResume()
     }
 
   }

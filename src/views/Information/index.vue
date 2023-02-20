@@ -7,13 +7,14 @@
 <script>
 import Navbar from '@/layout/components/Navbar.vue'
 import Message from './components/message.vue'
+// import Dog from './components/dog.vue'
 export default {
   name: 'Information',
   components: { Navbar, Message },
   data () {
     return {
       title: '人才信息',
-      icon: 'el-icon-collection-tag'
+      icon: '人'
     }
   }
 }

@@ -42,6 +42,7 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          :picker-options="options"
         >
         </el-date-picker>
       </el-form-item>
@@ -99,6 +100,13 @@ export default {
       }
     }
     return {
+      options: {
+        // 时间不能大于当前时间
+        disabledDate: time => {
+          return time.getTime() > Date.now()
+        },
+        selectableRange: '00:00:00 - 23:59:59'
+      },
       forbiddenTime: { // 禁用当前日期之前的日期
         disabledDate (time) {
           // Date.now()是javascript中的内置函数，它返回自1970年1月1日00:00:00 UTC以来经过的毫秒数。

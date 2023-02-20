@@ -59,9 +59,19 @@ export function getListSex (limit, status) {
     }
   })
 }
+export function getListNum (limit, start_time, end_time) {
+  return request.get('/enterprise/position-collection/v1.0.1/', {
+    params: {
+      limit, start_time, end_time
+    }
+  })
+}
 
 export function getDelete (data) {
-  return request.delete('/enterprise/position-collection/v1.0.1/', { data: data })
+  return request.delete(`/enterprise/collections/${data}/`)
+}
+export function getLikes (data) {
+  return request.post(`/enterprise/collections/${data}/`)
 }
 
 export function getListss (limit, offset, status, start_time, end_time, keywords) {
@@ -113,6 +123,13 @@ export function getListSexs (limit, offset, status) {
   return request.get('/enterprise/position-collection/v1.0.1/', {
     params: {
       limit, offset, status
+    }
+  })
+}
+export function getTime (limit, offset, start_time, end_time) {
+  return request.get('/enterprise/position-collection/v1.0.1/', {
+    params: {
+      limit, offset, start_time, end_time
     }
   })
 }

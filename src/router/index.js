@@ -29,7 +29,7 @@ export const constantRoutes = [
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('@/views/Dashboard/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home' }
+      meta: { title: '首页', icon: '首页' }
     }
 
     ]
@@ -115,17 +115,17 @@ export const constantRoutes = [
       meta: { title: '人才管理', icon: '人才信息' }
     }]
   },
-  // {
-  //   path: '/information',
-  //   component: Layout,
-  //   hidden: false,
-  //   children: [{
-  //     path: '',
-  //     name: 'information',
-  //     component: () => import('@/views/Information'),
-  //     meta: { title: '人才信息', icon: 'el-icon-user' }
-  //   }]
-  // },
+  {
+    path: '/information',
+    component: Layout,
+    hidden: false,
+    children: [{
+      path: '',
+      name: 'information',
+      component: () => import('@/views/Information'),
+      meta: { title: '人才信息', icon: '人' }
+    }]
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),

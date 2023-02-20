@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       title: '首页',
-      icon: 'el-icon-s-home'
+      icon: '首页'
     }
   },
   computed: {

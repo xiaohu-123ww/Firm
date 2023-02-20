@@ -82,7 +82,7 @@
           </div>
           <div
             v-for="itemsss in item.education_experience"
-            :key="itemsss.id"
+            :key="itemsss.id + 1"
             class="recommend-experience"
           >
             <div class="experience-time">
