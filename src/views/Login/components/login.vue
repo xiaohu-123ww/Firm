@@ -83,6 +83,7 @@
                             background-color: #256efd;
                             margin-top: 15px;
                           "
+                          @click="weChat"
                           >微信扫码登录</el-button
                         >
                       </el-form-item>
@@ -377,13 +378,18 @@
         >
       </el-row>
     </div>
+    <Wx :wx-state="wxState" :openid="openid" @wxReset="wxReset" />
+    <Dialog :sends="sends" @weChatClone="weChatClone" @getPhoto="getPhoto" />
   </div>
 </template>
 <script>
+import Dialog from './dialog.vue'
+import Wx from './wx.vue'
 import { sendCapte, getCodeLogin, sendCapteLogin, sendPasswordLogin, login } from '@/api/user'
 import { setToken } from '@/utils/auth'
 import passwordVue from '@/views/personage/components/resume/password.vue'
 export default {
+  components: { Wx, Dialog },
   data () {
     // 校验手机号
     const validateUsername = (rule, value, callback) => {
@@ -403,6 +409,9 @@ export default {
     }
 
     return {
+      wxState: false,
+      openid: '',
+      sends: false,
       isuser: true,
       loginForm: {
         username: '',
@@ -545,6 +554,23 @@ export default {
 
   },
   methods: {
+    // 微信你扫码按钮
+    weChat () {
+      // this.sends = true
+    },
+    getPhoto (i) {
+      console.log('i', i)
+      this.sends = false
+      this.wxState = true
+      this.openid = i
+    },
+    wxReset () {
+      this.wxState = false
+      this.numState = true
+    },
+    weChatClone () {
+      this.sends = false
+    },
     handlerInput (value) {
       console.log('value', value)
     },
@@ -968,7 +994,7 @@ export default {
 .register {
   // background-color: pink;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 25px;
   font-size: 14.5px;
   color: #999;
 }

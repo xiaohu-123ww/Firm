@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div class="recommend-time" style="width: 50%">
+        <div class="recommend-time" style="width: 57%">
           <div
             v-for="(itemss, index) in item.job_experience"
             :key="index"

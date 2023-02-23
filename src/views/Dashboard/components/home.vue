@@ -22,10 +22,11 @@
             <el-button
               round
               class="bt"
-              style="background-color: #f09667; color: #fff; margin-top: 10px"
+              style="background-color: #f09667; color: #fff; margin-top: 10px；font-size:15px;"
               @click="$router.push('/department')"
-              >发布职位<i class="el-icon-plus"></i></el-button
-          ></el-col>
+              ><Item :icon="icon" />发布职位
+            </el-button></el-col
+          >
         </el-row>
       </div>
       <div class="Communication">
@@ -85,10 +86,16 @@
 </template>
 <script>
 import { getPersonal, getInterviewsShort, getMyComm } from '@/api/dashboard/index'
-
+import Item from '@/layout/components/Sidebar/Item.vue'
 export default {
+  components: {
+
+    Item
+
+  },
   data () {
     return {
+      icon: '增加',
       chunk: [
         {
           id: 1,
@@ -258,5 +265,14 @@ export default {
       color: #64affa;
     }
   }
+}
+.el-button:focus,
+.el-button:hover {
+  // color: #409eff;
+  border-color: #f09667;
+  // background-color: #ecf5ff;
+}
+svg.svg-icon {
+  margin-right: 3px;
 }
 </style>

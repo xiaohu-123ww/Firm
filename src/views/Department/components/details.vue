@@ -349,7 +349,7 @@ export default {
     }
     .certificate {
       width: 100%;
-      height: 180px;
+      // height: 180px;
       // background-color: aqua;
       margin-bottom: 40px;
       .require {

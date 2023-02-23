@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       title: '人才管理',
-      icon: 'el-icon-user'
+      icon: '人才信息'
 
     }
   },

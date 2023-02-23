@@ -9,6 +9,13 @@
               <el-button
                 round
                 class="bt"
+                style="background-color: #f09667; color: #fff; margin-top: 10px；font-size:15px;"
+                @click="postJob"
+                ><Item :icon="icon" />发布职位
+              </el-button>
+              <!-- <el-button
+                round
+                class="bt"
                 style="
                   background-color: #f09667;
                   color: #fff;
@@ -16,8 +23,9 @@
                   margin-top: 10px;
                 "
                 @click="postJob"
-                >发布职位<i class="el-icon-plus"></i
-              ></el-button>
+              >
+                <Item :icon="icon" />发布职位</el-button
+              > -->
             </div>
           </div>
           <div class="position-state" style="display: flex">
@@ -70,8 +78,8 @@
               <el-button
                 style="
                   background-color: #256efd;
-                  height: 31px;
-                  line-height: 5px;
+                  height: 30px;
+                  line-height: 4px;
                   color: #fff;
                 "
                 @click="fullnameChange"
@@ -134,11 +142,12 @@ import Post from './post.vue'
 import Msg from './msg.vue'
 import Copy from './copy.vue'
 import { getOnline, getfullnameCity, getfullname } from '@/api/department/online'
-
+import Item from '@/layout/components/Sidebar/Item.vue'
 export default {
-  components: { List, Post, Page, Msg, Copy },
+  components: { List, Post, Page, Msg, Copy, Item },
   data () {
     return {
+      icon: '增加',
       changeColor: 1,
       text: '',
       show: true,
@@ -596,5 +605,14 @@ export default {
   // background-color: pink;
   width: 600px;
   margin: 0 0 30px 600px;
+}
+svg.svg-icon {
+  margin-right: 3px;
+}
+.el-button:focus,
+.el-button:hover {
+  // color: #409eff;
+  border-color: #f09667;
+  // background-color: #ecf5ff;
 }
 </style>

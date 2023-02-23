@@ -40,7 +40,7 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  style="width: 400px"
+                  style="width: 400px; height: 35px"
                   :picker-options="options"
                 >
                 </el-date-picker>
@@ -791,5 +791,8 @@ export default {
 ::v-deep .el-pagination span:not([class*='suffix']) {
   line-height: 32px;
   margin-left: 10px;
+}
+::v-deep .el-range-editor.el-input__inner {
+  padding: 2px 10px;
 }
 </style>

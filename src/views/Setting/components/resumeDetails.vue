@@ -343,6 +343,11 @@ export default {
     async num () {
       const res = await getResume(this.pid)
       console.log('状态', res)
+      if (this.resumeList.is_collected) {
+        this.state = true
+      } else {
+        this.state = false
+      }
       if (res.data.data.is_collected) {
         this.state = true
       } else {
