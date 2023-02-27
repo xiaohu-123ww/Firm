@@ -102,17 +102,18 @@ export default {
     return {
       options: {
         // 时间不能大于当前时间
-        disabledDate: time => {
-          return time.getTime() > Date.now()
-        },
-        selectableRange: '00:00:00 - 23:59:59'
-      },
-      forbiddenTime: { // 禁用当前日期之前的日期
-        disabledDate (time) {
-          // Date.now()是javascript中的内置函数，它返回自1970年1月1日00:00:00 UTC以来经过的毫秒数。
-          return time.getTime() < Date.now() - 8.64e7
+
+        disabledDate: (time) => {
+          return Date.now() - 3600 * 1000 * 24 > time.getTime()
         }
+
       },
+      // forbiddenTime: { // 禁用当前日期之前的日期
+      //   disabledDate (time) {
+      //     // Date.now()是javascript中的内置函数，它返回自1970年1月1日00:00:00 UTC以来经过的毫秒数。
+      //     return time.getTime() < Date.now() - 8.64e7
+      //   }
+      // },
       ruleForm: {
         start_time: '',
         end_time: '',
@@ -186,7 +187,8 @@ export default {
       this.ruleForm.contact = ''
       this.ruleForm.contactor = ''
       this.ruleForm.notice = ''
-      this.ruleForm.address = ''
+      this.ruleForm.value1 = []
+      // this.ruleForm.address = ''
     },
     submit () {
       this.$refs.rf.validate(async (valid) => {

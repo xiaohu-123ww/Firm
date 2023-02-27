@@ -238,16 +238,21 @@
                       :rules="amend"
                     >
                       <el-form-item prop="radio">
-                        <el-checkbox-group v-model="num.radio">
-                          <el-checkbox label="1" name="type"
-                            >我已同意<span style="color: rgb(37, 110, 253)"
-                              >《###使用协议》</span
-                            >和
-                            <span style="color: rgb(37, 110, 253)"
-                              >《用户隐私协议》</span
-                            ></el-checkbox
-                          >
-                        </el-checkbox-group>
+                        <div style="display: flex">
+                          <el-checkbox-group v-model="num.radio">
+                            <el-checkbox></el-checkbox>
+                          </el-checkbox-group>
+                          <div style="padding-top: 10px">
+                            我已阅读并同意<a
+                              href="javascript:;"
+                              style="
+                                color: rgb(37, 110, 253);
+                                text-decoration: underline;
+                              "
+                              >匠才智聘隐私设置</a
+                            >
+                          </div>
+                        </div>
                       </el-form-item>
 
                       <el-button
@@ -379,7 +384,12 @@
       </el-row>
     </div>
     <Wx :wx-state="wxState" :openid="openid" @wxReset="wxReset" />
-    <Dialog :sends="sends" @weChatClone="weChatClone" @getPhoto="getPhoto" />
+    <Dialog
+      ref="num"
+      :sends="sends"
+      @weChatClone="weChatClone"
+      @getPhoto="getPhoto"
+    />
   </div>
 </template>
 <script>
@@ -556,6 +566,7 @@ export default {
   methods: {
     // 微信你扫码按钮
     weChat () {
+      // this.$refs.num.createQrcode()
       // this.sends = true
     },
     getPhoto (i) {
@@ -913,6 +924,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.el-checkbox-group {
+  width: 20px;
+  height: 20px;
+}
 .login-content {
   width: 100%;
   height: 100%;
@@ -1041,5 +1056,8 @@ export default {
 }
 ::v-deep element.style {
   margin-left: 80px !important;
+}
+::v-deep label.el-checkbox {
+  margin-top: none;
 }
 </style>
