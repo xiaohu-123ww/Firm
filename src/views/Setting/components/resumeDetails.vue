@@ -106,7 +106,10 @@
               style="white-space: pre-line; margin-right: 15px"
               v-html="text"
             ></div>
-            <el-empty v-if="text === null" description="暂无数据"></el-empty>
+            <el-empty
+              v-if="text === null || text === ''"
+              description="暂无数据"
+            ></el-empty>
           </div>
           <div class="job">
             <div class="one">工作经历</div>

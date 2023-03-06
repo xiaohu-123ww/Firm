@@ -566,8 +566,8 @@ export default {
   methods: {
     // 微信你扫码按钮
     weChat () {
-      // this.$refs.num.createQrcode()
-      // this.sends = true
+      this.$refs.num.createQrcode()
+      this.sends = true
     },
     getPhoto (i) {
       console.log('i', i)
