@@ -256,4 +256,9 @@ export default {
   background-color: #e6f1fc;
   border: 1px solid #a3d0fd;
 }
+::v-deep .el-dialog__header {
+  background: #fff !important;
+  // height: 60px;
+  // padding: 30px;
+}
 </style>

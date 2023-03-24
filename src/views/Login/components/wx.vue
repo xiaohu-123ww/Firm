@@ -427,4 +427,9 @@ export default {
 ::v-deep .el-dialog__title {
   color: #1657d8;
 }
+::v-deep .el-dialog__header {
+  background: #fff !important;
+  // height: 60px;
+  // padding: 30px;
+}
 </style>

@@ -160,4 +160,9 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+::v-deep .el-dialog__header {
+  background: #fff !important;
+  // height: 60px;
+  // padding: 30px;
+}
 </style>

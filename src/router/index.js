@@ -127,6 +127,17 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/interaction',
+    component: Layout,
+    hidden: false,
+    children: [{
+      path: '',
+      name: 'interaction',
+      component: () => import('@/views/interaction'),
+      meta: { title: '互动消息', icon: '互动' }
+    }]
+  },
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true

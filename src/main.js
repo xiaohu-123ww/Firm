@@ -27,7 +27,8 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { VueJsonp } from 'vue-jsonp'
 import { disposeImg, parseTime, changeDateToStr1, changeDate, changeDateTo } from './utils/disposeImg'
-
+import * as RongIMLib from '@rongcloud/imlib-v4'
+Vue.use(RongIMLib)
 Vue.use(VueJsonp)
 
 Vue.use(ElementUI)
@@ -52,7 +53,7 @@ Vue.prototype.changeDateToStr1 = changeDateToStr1
 Vue.prototype.changeDate = changeDate
 Vue.prototype.changeDateTo = changeDateTo
 
-console.log = console.warn = () => { }
+// console.log = console.warn = () => { }
 // vue实例化
 new Vue({
   el: '#app',

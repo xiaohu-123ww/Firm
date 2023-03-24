@@ -226,4 +226,9 @@ export default {
 ::v-deep img.el-upload-list__item-thumbnail {
   border-radius: 40px;
 }
+::v-deep .el-dialog__header {
+  background: #fff !important;
+  // height: 60px;
+  // padding: 30px;
+}
 </style>

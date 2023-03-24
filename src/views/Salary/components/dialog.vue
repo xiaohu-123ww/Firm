@@ -219,4 +219,9 @@ export default {
     width: 100%;
   }
 }
+::v-deep .el-dialog__header {
+  background: #fff !important;
+  // height: 60px;
+  // padding: 30px;
+}
 </style>
