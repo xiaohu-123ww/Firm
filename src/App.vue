@@ -26,11 +26,11 @@ export default {
       // setTimeout(this.start(), 0)
       // 每三分钟执行 6000*10 * 3
     }, 300000)
-    this.timers = window.setInterval(() => {
-      this.Rong()
-      // setTimeout(this.start(), 0)
-      // 每三分钟执行 6000*10 * 3
-    }, 300)
+    // this.timers = window.setInterval(() => {
+    //   this.Rong()
+    //   // setTimeout(this.start(), 0)
+    //   // 每三分钟执行 6000*10 * 3
+    // }, 300)
   },
   mounted () {
     // 关闭浏览器窗口的时候清空浏览器缓存在localStorage的数据

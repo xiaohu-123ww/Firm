@@ -85,7 +85,7 @@ export const init = (params, addPromptInfo) => {
       // 判断消息类型
       switch (message.messageType) {
         case RongIMClient.MessageType.TextMessage:
-          // console.log('message', message.content.content)
+          console.log('message', message.content.content)
           message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
           console.log('message', message)
           message.content.time = message.sentTime
@@ -98,10 +98,15 @@ export const init = (params, addPromptInfo) => {
           // message.content.content => 格式为 AMR 的音频 base64
           break
         case RongIMClient.MessageType.ImageMessage:
+          message.content.time = message.sentTime
+          store.commit('SET_ANSWER', message.content)
+          console.log('messageimg', message)
+
           // message.content.content => 图片缩略图 base64
           // message.content.imageUri => 原图 URL
           break
         case RongIMClient.MessageType.LocationMessage:
+          console.log('message354345', message)
           // message.content.latiude => 纬度
           // message.content.longitude => 经度
           // message.content.content => 位置图片 base64

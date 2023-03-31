@@ -1,10 +1,10 @@
 <template>
-  <div style="font-size: 15px; margin-top: 10px">
+  <div style="font-size: 15px; margin-top: 20px">
     <div>
-      <div v-if="data.css === 'left'">
-        <div v-if="phoneSums">
+      <div v-if="data.css === 'left' && data.messageName === 'TextMessage'">
+        <!-- <div v-if="phoneSums">
           <div class="time">{{ month }} {{ data.time }}</div>
-          <div v-if="information" class="message">
+           <div v-if="information" class="message">
             <el-avatar size="small" :src="data.headImg"></el-avatar>
             <div
               style="
@@ -68,48 +68,11 @@
                   @click="cancel"
                   >取消</el-button
                 >
-                <!-- <div
-                  style="
-                    width: 50%;
-                    border-right: 1px solid #e6e3e3;
-                    height: 30px;
-                    text-align: center;
-                  "
-                > -->
 
-                <!-- </div> -->
-                <!-- <el-button type="text">取消</el-button> -->
-                <!-- <a href="javascript:;"
-                  ><span
-                    style="
-                      width: 50%;
-                      display: inline-block;
-                      text-align: center;
-                      border-right: 1px solid #e6e3e3;
-                      height: 30px;
-                      line-height: 30px;
-                    "
-                    disabled
-                    @click="ascertain(data.headImg)"
-                    >确定</span
-                  ></a
-                >
-                <a href="javascript:;"
-                  ><span
-                    style="
-                      display: inline-block;
-                      text-align: center;
-                      height: 30px;
-                      line-height: 30px;
-                      width: 38%;
-                    "
-                    >取消</span
-                  ></a
-                > -->
               </div>
             </div>
           </div>
-          <div v-else class="message">
+         <div v-else class="message">
             <el-avatar size="small" :src="data.headImg"></el-avatar>
             <div
               style="
@@ -168,49 +131,12 @@
                   @click="uploading"
                   >取消</el-button
                 >
-                <!-- <div
-                  style="
-                    width: 50%;
-                    border-right: 1px solid #e6e3e3;
-                    height: 30px;
-                    text-align: center;
-                  "
-                > -->
 
-                <!-- </div> -->
-                <!-- <el-button type="text">取消</el-button> -->
-                <!-- <a href="javascript:;"
-                  ><span
-                    style="
-                      width: 50%;
-                      display: inline-block;
-                      text-align: center;
-                      border-right: 1px solid #e6e3e3;
-                      height: 30px;
-                      line-height: 30px;
-                    "
-                    disabled
-                    @click="ascertain(data.headImg)"
-                    >确定</span
-                  ></a
-                >
-                <a href="javascript:;"
-                  ><span
-                    style="
-                      display: inline-block;
-                      text-align: center;
-                      height: 30px;
-                      line-height: 30px;
-                      width: 38%;
-                    "
-                    >取消</span
-                  ></a
-                > -->
               </div>
             </div>
           </div>
-        </div>
-        <div v-else>
+        </div> -->
+        <div>
           <div class="time">{{ month }} {{ data.time }}</div>
           <div class="message">
             <el-avatar size="small" :src="data.headImg"></el-avatar>
@@ -222,31 +148,52 @@
           :src="data.headImg"
         /> -->
             <!-- <span class="text" v-html="data.txt"></span> -->
-            <span v-if="images"
+            <!-- <span v-if="images"
               ><img
                 :src="picture"
                 alt=""
                 style="width: 80px; height: 80px"
                 @click="imageSmall(picture)"
-            /></span>
+            /></span> -->
             <span v-if="texts" class="textarea" v-html="text"></span>
           </div>
           <!-- <span v-if="!images"><img :src="data.txt" alt="" /></span> -->
         </div>
       </div>
+      <div v-if="data.css === 'left' && data.messageName === 'ImageMessage'">
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <div>
+              <el-avatar size="small" :src="data.headImg"></el-avatar>
+              <span
+                ><img
+                  :src="data.imageUri"
+                  alt=""
+                  style="width: 80px; height: 80px"
+                  @click="imageSmall(data.imageUri)"
+              /></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+      </div>
     </div>
-    <div v-if="data.css === 'right'">
+    <div v-if="data.css === 'right' && data.messageName === 'TextMessage'">
       <div v-if="phoneSum">
         <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
         <div class="message right">
           <div>
-            <span v-if="images"
+            <!-- <span v-if="images"
               ><img
                 :src="picture"
                 alt=""
                 style="width: 80px; height: 80px"
                 @click="imageSmall(picture)"
-            /></span>
+            /></span> -->
             <span v-if="texts" class="textarea" v-html="text"></span>
           </div>
           <!-- <div v-if="phoneState" class="message">
@@ -276,13 +223,133 @@
           <el-avatar size="small" :src="data.headImg"></el-avatar>
         </div>
       </div>
-      <div v-else>
-        <div class="time">{{ discourse }}</div>
-        <!-- <el-avatar size="small" :src="data.headImg"></el-avatar> -->
-      </div>
+
       <!-- <div v-if="fileChange">
         <div class="time">请求发送简历已发送</div>
       </div> -->
+    </div>
+    <div v-if="data.css === 'right' && data.messageName === 'ImageMessage'">
+      <div v-if="phoneSum">
+        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+        <div class="message right">
+          <div>
+            <span
+              ><img
+                :src="data.imageUri"
+                alt=""
+                style="width: 80px; height: 80px"
+                @click="imageSmall(data.imageUri)"
+            /></span>
+          </div>
+
+          <el-avatar size="small" :src="data.headImg"></el-avatar>
+        </div>
+      </div>
+
+      <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+    </div>
+    <div v-if="data.css === 'right' && data.messageName === 'LocationMessage'">
+      <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+      <a :href="link">
+        <div class="message right" style="margin-bottom: 80px">
+          <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler">
+            <bm-view class="map"></bm-view>
+
+            <bm-marker
+              :position="{
+                lng: center.lng,
+                lat: center.lat
+              }"
+              :dragging="true"
+            >
+            </bm-marker>
+            <div
+              style="
+                width: 300px;
+                hieght: 50px;
+                border: 1px solid #e6e3e3;
+                padding-left: 20px;
+                font-size: 13px;
+              "
+            >
+              <div style="margin: 5px 0px; color: rgb(125 127 131)">
+                {{ data.poi }}
+              </div>
+              <div style="margin: 5px 0px 10px">您是否接受此工作地点?</div>
+            </div>
+          </baidu-map>
+
+          <el-avatar size="small" :src="data.headImg"></el-avatar>
+        </div>
+      </a>
+    </div>
+    <div
+      v-if="data.css === 'right' && data.messageName === 'RichContentMessage'"
+    >
+      <div v-if="phoneSum">
+        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+        <div class="message right">
+          <div
+            style="
+              height: 45px;
+              background-color: #fff;
+              width: 250px;
+              border: 1px solid #e6e3e3;
+              border-radius: 10px;
+              font-size: 13px;
+              text-align: center;
+              line-height: 45px;
+              font-weight: 800;
+              font-size: 15px;
+              color: rgb(37, 110, 253);
+            "
+          >
+            <div>{{ data.title }}已发送</div>
+
+            <!-- <div style="display: flex">
+              <el-button
+                type="text"
+                style="
+                  width: 50%;
+                  height: 28px;
+                  line-height: 5px;
+                  border-radius: 0;
+                  border-right: 1px solid #e6e3e3;
+                "
+                :disabled="commite"
+                @click="fileUploading"
+                >确定</el-button
+              >
+              <el-button
+                type="text"
+                style="
+                  width: 50%;
+                  height: 28px;
+                  line-height: 5px;
+                  border-radius: 0;
+                "
+                class="bg"
+                :class="{ active: isActive }"
+                :disabled="commite"
+                @click="uploading"
+                >取消</el-button
+              >
+            </div> -->
+          </div>
+          <el-avatar
+            size="small"
+            :src="
+              data.headImg ? data.headImg : this.$store.state.num.list.avatar
+            "
+          ></el-avatar>
+
+          <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+        </div>
+      </div>
     </div>
     <el-dialog
       title=""
@@ -303,10 +370,14 @@
 // import { filterAsyncRoutes } from '@/store/modules/permission'
 // import { number } from 'echarts/lib/export'
 // import { getList } from '@/api/my/safety'
+import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
 import { getAuthentication } from '@/api/personage/index'
 export default {
   emojiToHtml: function (message) {
     return RongIMLib.RongIMEmoji.emojiToHTML(message)
+  },
+  components: {
+    BaiduMap
   },
   props: {
     data: {
@@ -328,6 +399,10 @@ export default {
   },
   data () {
     return {
+      ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK',
+      center: { lng: 0, lat: 0 },
+      zoom: 0,
+      baiMap: false,
       dialogVisible: false,
       img: '',
       images: false,
@@ -350,7 +425,9 @@ export default {
       fileChange: false,
       discourse: '',
       commite: false,
-      fileTest: ''
+      fileTest: '',
+      map: null,
+      link: ''
 
     }
   },
@@ -379,23 +456,49 @@ export default {
     // console.log('this.data', this.data)
   },
   methods: {
+    mapBaiTest () {
+      console.log('点击了')
+    },
+    // 地图
+    handler () {
+      // console.log(BMap, map)
+      this.center.lng = this.data.longitude
+      this.center.lat = this.data.latitude
+      this.zoom = 15
+    },
     list () {
-      //
-      if (this.data.headImg === undefined) {
-        this.data.headImg = this.$store.state.num.memberInfo.avatar
+      // 判断地图
+      this.map = typeof (this.data.txt)
+      // console.log(map)
+      if (this.data.TextMessage === 'LocationMessage') {
+        this.handler()
+        this.link = `http://api.map.baidu.com/marker?location=${this.data.latitude},${this.data.longitude}&title=${this.data.poi}&content=${this.data.poi}&output=html`
+        // this.texts = false
+        // this.baiMap = true
+        console.log('地图你看你看', this.link)
+
+        // this.texts = false
+        // this.baiMap = true
+        this.center.lng = this.data.longitude
+        this.center.lat = this.data.latitude
+      }
+
+      if (this.data.headImg === undefined || this.data.headImg === null) {
+        this.data.headImg = this.$store.state.num.list.avatar
       }
       // 判断是否是图片
       var msg = 'https://znzz.tech/loc/static/img/'
 
-      if (this.data.txt !== undefined) {
+      if (this.map !== 'object' && this.data.txt !== undefined) {
         var num = this.data.txt.slice(0, 33)
       }
       console.log('num', num)
 
-      if (msg === num) {
+      if (this.map !== 'object' && msg === num) {
         console.log(123124)
         this.texts = false
         this.images = true
+        this.baiMap = false
 
         this.picture = this.data.txt
 
@@ -405,11 +508,12 @@ export default {
         this.images = false
         this.texts = true
         this.text = this.data.txt
-        console.log(777)
+        this.baiMap = false
+        console.log(777, this.text)
         // this.images = false
       }
       var file = 'https://znzz.tech/loc/static/files/'
-      if (this.data.txt !== undefined) {
+      if (this.map !== 'object' && this.data.txt !== undefined) {
         var files = this.data.txt.slice(0, 35)
       }
       console.log('file', file)
@@ -551,8 +655,10 @@ export default {
         console.log('oTime', oTime)
         this.data.time = addZero(oHour) + ':' +
           addZero(oMin)
-        var nums = this.data.txt.slice(0, 22)
-        console.log('123', nums, this.data.txt)
+
+        // var nums = this.data.txt.slice(0, 22)
+
+        // console.log('123', nums, this.data.txt)
         // const time = this.data.time + ''
         // const all = 0
         const str = this.data.time.split(':').join('')
@@ -737,10 +843,10 @@ export default {
         _this.answer = this.$store.state.num.answer // 消息列表
         _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
         _this.targetId = this.$store.state.num.targetId// 目标ID
-        var msg = new RongIMLib.TextMessage({ content: data.data.phone_number, extra: _this.memberInfo.avatar })
+        var msg = new RongIMLib.TextMessage({ content: data.data.phone_number, extra: _this.memberInfo.img })
         console.log('msg', msg)
         var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-        var targetId = this.targetId // 目标 Id
+        var targetId = _this.targetId // 目标 Id
         RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
           onSuccess: function (message) {
             console.log('message', message)
@@ -748,7 +854,7 @@ export default {
             const say = {
               css: 'right',
               txt: message.content.content,
-              headImg: _this.memberInfo.avatar,
+              headImg: _this.memberInfo.img,
               time: _this.nowTime
 
               // condition: 'false'
@@ -881,6 +987,11 @@ export default {
 }
 .active {
   color: rgb(194, 198, 206);
+}
+.map {
+  width: 300px;
+  height: 200px;
+  // margin-bottom: 30px;
 }
 </style>
 

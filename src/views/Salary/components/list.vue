@@ -45,9 +45,9 @@
           <div class="message-age" style="margin: 3px 0px 0px 5px">
             <div class="age-four" style="padding: 0px 3px">
               期望城市:{{
-                item.left_data.position_class_data.city === null
-                  ? '城市'
-                  : item.left_data.position_class_data.city
+                item.left_data.position_class_data.city !== null
+                  ? item.left_data.position_class_data.city
+                  : '再无'
               }}
             </div>
             <div class="age-four four" style="padding: 0px 3px">
@@ -87,7 +87,7 @@
             class="recommend-experience"
           >
             <div class="experience-time">
-              {{ itemss.start_date }}-{{ itemss.end_date }}
+              {{ itemss.start_date }} {{ itemss.end_date }}
             </div>
             <div class="experience-firm">{{ itemss.enterprise }}</div>
             <div>{{ itemss.position }}</div>
@@ -98,7 +98,7 @@
             class="recommend-experience"
           >
             <div class="experience-time">
-              {{ itemsss.start_date }}-{{ itemsss.end_date }}
+              {{ itemsss.start_date }} {{ itemsss.end_date }}
             </div>
             <div class="experience-firm">{{ itemsss.school }}</div>
             <div>{{ itemsss.major }}</div>

@@ -52,7 +52,7 @@
               期望城市：{{
                 item.position_class_data.city.name
                   ? item.position_class_data.city.name
-                  : '期望城市'
+                  : '再无'
               }}
             </div>
             <div class="age-four four" style="padding: 0px 3px">
@@ -75,7 +75,7 @@
             class="recommend-experience"
           >
             <div class="experience-time">
-              {{ itemss.start_date }}-{{ itemss.end_date }}
+              {{ itemss.start_date }} {{ itemss.end_date }}
             </div>
             <div class="experience-firm">{{ itemss.enterprise }}</div>
             <div>{{ itemss.position }}</div>
@@ -86,7 +86,7 @@
             class="recommend-experience"
           >
             <div class="experience-time">
-              {{ itemsss.start_date }}-{{ itemsss.end_date }}
+              {{ itemsss.start_date }} {{ itemsss.end_date }}
             </div>
             <div class="experience-firm">{{ itemsss.school }}</div>
             <div>{{ itemsss.major }}</div>
