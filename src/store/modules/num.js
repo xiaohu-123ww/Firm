@@ -26,7 +26,8 @@ const mutations = {
       headImg: playload.extra,
       time: playload.time,
       messageName: playload.messageName,
-      imageUri: playload.imageUri
+      imageUri: playload.imageUri,
+      title: playload.title
 
       // phone: playload.phone
 

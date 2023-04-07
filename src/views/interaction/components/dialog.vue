@@ -9,7 +9,7 @@
         </p>
       </div>
       <div slot="footer">
-        <el-button style="margin-right: 50px" @click="dialog">取 消</el-button>
+        <el-button @click="dialog">取 消</el-button>
         <el-button type="primary" @click="confirm">确 定</el-button>
       </div>
     </el-dialog>

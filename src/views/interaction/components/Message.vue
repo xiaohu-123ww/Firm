@@ -181,22 +181,83 @@
         <div class="time">请求发送简历已发送</div>
       </div> -->
       </div>
-    </div>
-    <div v-if="data.css === 'right' && data.messageName === 'TextMessage'">
-      <div v-if="phoneSum">
-        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
-        <div class="message right">
-          <div>
-            <!-- <span v-if="images"
+      <div
+        v-if="data.css === 'left' && data.messageName === 'RichContentMessage'"
+      >
+        <div>
+          <div class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+            <div
+              style="
+                height: 85px;
+                background-color: #fff;
+                width: 250px;
+                border: 1px solid #e6e3e3;
+                border-radius: 10px;
+                font-size: 13px;
+              "
+            >
+              <div
+                style="
+                  height: 25px;
+                  width: 250px;
+                  text-align: center;
+                  border-bottom: 1px solid rgb(230, 227, 227);
+                  font-weight: 800;
+                  color: rgb(24, 144, 255);
+                  line-height: 25px;
+                "
+              >
+                {{ data.title }}
+              </div>
+              <div
+                style="
+                  height: 60px;
+
+                  color: black;
+                  display: flex;
+                "
+              >
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
+                  <i
+                    :class="
+                      data.imageUri
+                        ? 'el-icon-phone-outline'
+                        : 'el-icon-tickets'
+                    "
+                    style="font-size: 25px; color: #898181"
+                  ></i>
+                </div>
+
+                <div style="margin-top: 20px">
+                  {{ name }}:{{ data.imageUri }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="data.css === 'right' && data.messageName === 'TextMessage'">
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message right">
+            <div>
+              <!-- <span v-if="images"
               ><img
                 :src="picture"
                 alt=""
                 style="width: 80px; height: 80px"
                 @click="imageSmall(picture)"
             /></span> -->
-            <span v-if="texts" class="textarea" v-html="text"></span>
-          </div>
-          <!-- <div v-if="phoneState" class="message">
+              <span v-if="texts" class="textarea" v-html="text"></span>
+            </div>
+            <!-- <div v-if="phoneState" class="message">
             <div
               style="
                 height: 50px;
@@ -220,95 +281,102 @@
             </div>
           </div> -->
 
-          <el-avatar size="small" :src="data.headImg"></el-avatar>
-        </div>
-      </div>
-
-      <!-- <div v-if="fileChange">
-        <div class="time">请求发送简历已发送</div>
-      </div> -->
-    </div>
-    <div v-if="data.css === 'right' && data.messageName === 'ImageMessage'">
-      <div v-if="phoneSum">
-        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
-        <div class="message right">
-          <div>
-            <span
-              ><img
-                :src="data.imageUri"
-                alt=""
-                style="width: 80px; height: 80px"
-                @click="imageSmall(data.imageUri)"
-            /></span>
+            <el-avatar size="small" :src="data.headImg"></el-avatar>
           </div>
-
-          <el-avatar size="small" :src="data.headImg"></el-avatar>
         </div>
-      </div>
 
-      <!-- <div v-if="fileChange">
+        <!-- <div v-if="fileChange">
         <div class="time">请求发送简历已发送</div>
       </div> -->
-    </div>
-    <div v-if="data.css === 'right' && data.messageName === 'LocationMessage'">
-      <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
-      <a :href="link">
-        <div class="message right" style="margin-bottom: 80px">
-          <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler">
-            <bm-view class="map"></bm-view>
+      </div>
+      <div v-if="data.css === 'right' && data.messageName === 'ImageMessage'">
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message right">
+            <div>
+              <span
+                ><img
+                  :src="data.imageUri"
+                  alt=""
+                  style="width: 80px; height: 80px"
+                  @click="imageSmall(data.imageUri)"
+              /></span>
+            </div>
 
-            <bm-marker
-              :position="{
-                lng: center.lng,
-                lat: center.lat
-              }"
-              :dragging="true"
+            <el-avatar size="small" :src="data.headImg"></el-avatar>
+          </div>
+        </div>
+
+        <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+      </div>
+      <div
+        v-if="data.css === 'right' && data.messageName === 'LocationMessage'"
+      >
+        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+        <a :href="link">
+          <div class="message right" style="margin-bottom: 80px">
+            <baidu-map
+              class="map"
+              :center="center"
+              :zoom="zoom"
+              @ready="handler"
             >
-            </bm-marker>
+              <bm-view class="map"></bm-view>
+
+              <bm-marker
+                :position="{
+                  lng: center.lng,
+                  lat: center.lat
+                }"
+                :dragging="true"
+              >
+              </bm-marker>
+              <div
+                style="
+                  width: 300px;
+                  hieght: 50px;
+                  border: 1px solid #e6e3e3;
+                  padding-left: 20px;
+                  font-size: 13px;
+                "
+              >
+                <div style="margin: 5px 0px; color: rgb(125 127 131)">
+                  {{ data.poi }}
+                </div>
+                <div style="margin: 5px 0px 10px">您是否接受此工作地点?</div>
+              </div>
+            </baidu-map>
+
+            <el-avatar size="small" :src="data.headImg"></el-avatar>
+          </div>
+        </a>
+      </div>
+      <div
+        v-if="data.css === 'right' && data.messageName === 'RichContentMessage'"
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message right">
             <div
               style="
-                width: 300px;
-                hieght: 50px;
+                height: 45px;
+                background-color: #fff;
+                width: 250px;
                 border: 1px solid #e6e3e3;
-                padding-left: 20px;
+                border-radius: 10px;
                 font-size: 13px;
+                text-align: center;
+                line-height: 45px;
+                font-weight: 800;
+                font-size: 15px;
+                color: rgb(37, 110, 253);
               "
             >
-              <div style="margin: 5px 0px; color: rgb(125 127 131)">
-                {{ data.poi }}
-              </div>
-              <div style="margin: 5px 0px 10px">您是否接受此工作地点?</div>
-            </div>
-          </baidu-map>
+              <div>{{ data.title }}已发送</div>
 
-          <el-avatar size="small" :src="data.headImg"></el-avatar>
-        </div>
-      </a>
-    </div>
-    <div
-      v-if="data.css === 'right' && data.messageName === 'RichContentMessage'"
-    >
-      <div v-if="phoneSum">
-        <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
-        <div class="message right">
-          <div
-            style="
-              height: 45px;
-              background-color: #fff;
-              width: 250px;
-              border: 1px solid #e6e3e3;
-              border-radius: 10px;
-              font-size: 13px;
-              text-align: center;
-              line-height: 45px;
-              font-weight: 800;
-              font-size: 15px;
-              color: rgb(37, 110, 253);
-            "
-          >
-            <div>{{ data.title }}已发送</div>
-
-            <!-- <div style="display: flex">
+              <!-- <div style="display: flex">
               <el-button
                 type="text"
                 style="
@@ -337,32 +405,33 @@
                 >取消</el-button
               >
             </div> -->
-          </div>
-          <el-avatar
-            size="small"
-            :src="
-              data.headImg ? data.headImg : this.$store.state.num.list.avatar
-            "
-          ></el-avatar>
+            </div>
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
 
-          <!-- <div v-if="fileChange">
+            <!-- <div v-if="fileChange">
         <div class="time">请求发送简历已发送</div>
       </div> -->
+          </div>
         </div>
       </div>
+      <el-dialog
+        title=""
+        :visible.sync="dialogVisible"
+        width="50%"
+        height="30%"
+        :before-close="dialogBeforeClose"
+      >
+        <div>
+          <img :src="img" alt="" style="width: 100%" />
+        </div>
+        <div slot="footer"></div>
+      </el-dialog>
     </div>
-    <el-dialog
-      title=""
-      :visible.sync="dialogVisible"
-      width="50%"
-      height="30%"
-      :before-close="dialogBeforeClose"
-    >
-      <div>
-        <img :src="img" alt="" style="width: 100%" />
-      </div>
-      <div slot="footer"></div>
-    </el-dialog>
   </div>
 </template>
 
@@ -394,6 +463,9 @@ export default {
     },
     status: {
       type: Boolean
+    },
+    name: {
+      type: String
     }
 
   },

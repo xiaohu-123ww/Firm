@@ -42,3 +42,15 @@ export function getReject (data) {
   return request.post('/enterprise/im-list/rejected/', data)
 }
 
+/**
+ * 是否交换手机号
+ */
+
+export function getPhoneChange (id) {
+  return request.get('/enterprise/view-phone/', {
+    params: {
+      comm_id: id
+    }
+  })
+}
+

@@ -265,6 +265,7 @@
                   style="background-color: rgb(115, 131, 255)"
                   icon="el-icon-paperclip"
                   :disabled="!hr.fileChange"
+                  @click="blogroll(hr.user_id)"
                   >附件简历</el-button
                 >
               </div>
@@ -418,6 +419,7 @@
                 :phones="phones"
                 :phone-state="phoneState"
                 :status="status"
+                :name="hr.name"
                 @again="again"
                 @resetChange="resetChange"
               />
@@ -519,6 +521,47 @@
                   <span style="margin-top: 3px" @click="mapState">
                     <Item icon="地图" style="width: 1.2em" />
                   </span>
+                  <el-popover
+                    ref="popovers"
+                    placement="top-start"
+                    width="200"
+                    trigger="click"
+                    class="emoBoxs"
+                    style="
+                      margin-left: 10px;
+                      border-radius: 0;
+                      color: black;
+                      background-color: #fff;
+                      height: 100%;
+                      margin-top: 3px;
+                    "
+                  >
+                    <div class="frequent-expressions">
+                      <!-- <div class="frequent"></div> -->
+                      <a href="javascript:;">
+                        <div
+                          v-for="item in jobChange"
+                          :key="item.id"
+                          class="frequent"
+                          style="font-size: 15px"
+                        >
+                          {{ item.name }}
+                        </div>
+                      </a>
+                      <!-- <a
+                    v-for="(item, index) in emojList"
+                    :key="index"
+                    href="javascript:void(0);"
+                    rel="external nofollow"
+                    class="emotionItem"
+                    @click="checkedEmoji(item.symbol, item.emoji)"
+                    v-html="item.node.outerHTML"
+                  ></a> -->
+                    </div>
+                    <div slot="reference">
+                      <Item icon="交换" style="width: 1.2em" @click="num" />
+                    </div>
+                  </el-popover>
                   <span style="font-size: 19px; color: #8a8a8a; margin: 5px 8px"
                     >|</span
                   >
@@ -539,35 +582,37 @@
                   </el-upload>
                 </span>
               </a> -->
-                  <a href="javascript:;">
-                    <span
-                      class="block"
-                      :class="{ small: isBackground }"
-                      @click="phoneChange"
-                      >换电话</span
-                    >
-                  </a>
-                  <a href="javascript:;">
-                    <span class="block">换微信</span>
-                  </a>
-                  <a href="javascript:;">
-                    <span class="block"
-                      ><i class="el-icon-time"></i>约面试</span
-                    ></a
+                  <!-- <a href="javascript:;"> -->
+                  <el-button
+                    class="block"
+                    :class="{ small: isBackground }"
+                    :disabled="hr.phoneChange"
+                    @click="phoneChange"
                   >
+                    换电话
+                  </el-button>
+                  <el-button
+                    class="block"
+                    :disabled="hr.wechatChange"
+                    @click="phoneChange"
+                  >
+                    换微信
+                  </el-button>
+                  <el-button
+                    class="block"
+                    icon="el-icon-time"
+                    @click="phoneChange"
+                  >
+                    约面试
+                  </el-button>
+                  <el-button class="block" @click="ResumeSeeking">
+                    求简历
+                  </el-button>
+                  <el-button class="block" @click="ResumeSeeking">
+                    不合适
+                  </el-button>
 
-                  <a
-                    v-if="changeColor === 4"
-                    href="javascript:;"
-                    @click="ResumeSeeking"
-                  >
-                    <span class="block">求简历</span></a
-                  >
-                  <a href="javascript:;">
-                    <span v-if="changeColor !== 1" class="block"
-                      >不合适</span
-                    ></a
-                  >
+                  <!-- </a> -->
                 </div>
               </div>
               <!--  @keyup.enter.native="sendMessage" -->
@@ -656,10 +701,11 @@ import Safety from './dialog.vue'
 import { getAuthentication } from '@/api/personage/index'
 // 账号id
 import { getBase } from '@/api/personage/index'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange } from '@/api/Rongyun.js'
 import { getEnterprise, getResume } from '@/api/setting/index'
 import Recommendsss from '@/views/Setting/components/resumeDetails.vue'
 import { getDetail } from '@/api/department/online'
+// import { getAuthentication } from '@/api/personage/index'
 // import { getList } from '@/api/my/safety'
 var appData = RongIMLib.RongIMEmoji.list
 export default {
@@ -794,7 +840,14 @@ export default {
       },
       lang: {
 
-      }
+      },
+      // 链接
+      interlinkage: '',
+      pidResume: '',
+      // 是否交换手机
+      comm_id: null,
+      // 切换岗位
+      jobChange: []
 
     }
   },
@@ -1012,17 +1065,23 @@ export default {
       // })
     },
     // 交换电话
-    phoneChange () {
-      this.visible = true
-      // const salary = localStorage.getItem('phone')
-      // console.log('salary', salary)
-      // if (salary) {
-      //   this.isBackground = true
-      //   this.visible = false
-      //   this.$message.success('已发送过此请求')
-      // } else {
-      //   this.visible = true
-      // }
+    async phoneChange () {
+      const res = await getPhoneChange(this.comm_id)
+      console.log('是否交换简历', res.data)
+      if (res.data.is_valid) {
+        // this.hr.phoneChange = true
+        this.visible = false
+        this.$notify({
+          title: this.hr.name,
+          message: res.data.phone,
+          offset: 100,
+          type: 'success'
+        })
+
+        // this.visible = true
+      } else {
+        this.visible = true
+      }
     },
     // 取消发送
     padlock () {
@@ -1033,7 +1092,7 @@ export default {
     },
     // 确定发送
     async phoneNumber () {
-      // this.$router.go(0)
+      this.padlock()
       const { data } = await getAuthentication()
 
       console.log('安全中心', data)
@@ -1041,74 +1100,57 @@ export default {
         this.$message.success('未绑定手机号，去绑定吧')
       } else {
         // this.resume()
-        this.phoneState = false
+        // this.phoneState = false
         this.phones = data.data.phone_number
-        localStorage.setItem('phone1', data.data.phone_number)
+        // localStorage.setItem('phone1', data.data.phone_number)
+        // this.resume()
 
         this.resume()
         const _this = this
-        // _this.answer = JSON.parse(localStorage.getItem('answer')) // 消息列表
-        _this.answer = this.$store.state.num.answer // 消息列表
-        _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
-        _this.targetId = this.$store.state.num.targetId// 目标ID
-        var msg = new RongIMLib.TextMessage({ content: _this.phones, extra: _this.memberInfo.img })
-        console.log('msg', msg)
-        var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-        var targetId = _this.targetId // 目标 Id
-        RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
+        // 创建 RichContentMessage 对象
+        var title = '电话申请'
+        var description = 'hr请求你交换联系方式是否同意？'
+        // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
+        var url = this.phones
+
+        var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description, url)
+        const targetId = _this.$store.state.num.targetId
+        // var conversationType = RongIMLib.ConversationType.PRIVATE
+        // 创建消息对象
+        var message = {
+          content: richContentMessage,
+          conversationType: RongIMLib.ConversationType.PRIVATE,
+          targetId: targetId
+        }
+
+        // 发送消息
+        RongIMClient.getInstance().sendMessage(RongIMLib.ConversationType.PRIVATE, targetId, message.content, {
           onSuccess: function (message) {
-            console.log('message', message)
-            // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
+            console.log('Send RichContentMessage successfully.', message)
             const say = {
               css: 'right',
-              txt: message.content.content,
-              headImg: _this.memberInfo.img,
+              title: message.content.title,
+              content: message.content.content,
+              headImg: _this.$store.state.num.memberInfo.img,
+
+              messageName: message.content.messageName,
               time: _this.nowTime
 
               // condition: 'false'
 
             }
-            console.log('_this.memberInfo', say, message.content.content)
             _this.answer.push(say)
-            // _this.$store.commit('SET_ANSWER', _this.answer)
-            // localStorage.setItem('answer', JSON.stringify(_this.answer))
-            // _this.$store.commit('SET_ANSWER', _this.answer)
-            console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
-            _this.image = ''
-            _this.say = ''
+            console.log(say, _this.answer)
           },
           onError: function (errorCode, message) {
-            var info = ''
-            switch (errorCode) {
-              case RongIMLib.ErrorCode.TIMEOUT:
-                info = '超时'
-                break
-              case RongIMLib.ErrorCode.UNKNOWN:
-                info = '未知错误'
-                break
-              case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-                info = '在黑名单中，无法向对方发送消息'
-                break
-              case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-                info = '不在讨论组中'
-                break
-              case RongIMLib.ErrorCode.NOT_IN_GROUP:
-                info = '不在群组中'
-                break
-              case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-                info = '不在聊天室中'
-                break
-            }
-            console.log('发送失败: ' + info + errorCode)
-            this.$message.warning('发送失败，刷新下页面吧')
+            console.log('Send RichContentMessage error: ' + errorCode)
           }
         })
-        this.padlock()
         // this.isBackground = true
       }
-      this.reset()
-      // this.padlock()
-      this.status = true
+      // this.reset()
+      // // this.padlock()
+      // this.status = true
     },
     // 时间
     resume () {
@@ -1436,13 +1478,13 @@ export default {
     //   this.count = i
     // },
     async tinct (id, i, receiver, item) {
-      console.log('i', i, receiver)
+      console.log('i', i, receiver, item)
       this.count = id
       this.rongYun.sender_uid = i
       this.rongYun.receiver_uid = receiver
       console.log(this.rongYun)
       const res = await getRongyun(this.rongYun)
-      console.log(res)
+      console.log('信息', res)
       if (res.code === 200) {
         console.log(res.data.receiver, res.data.sender)
         this.$store.commit('SET_MEMBER', res.data.sender)
@@ -1461,6 +1503,9 @@ export default {
         this.hr.wechatChange = item.comm_info.is_wechat_exchanged
         this.hr.phoneChange = item.comm_info.is_wechat_exchanged
         this.work = item.right_data
+        this.pidResume = item.comm_info.comm_position_id
+        this.comm_id = item.comm_info.comm_id
+
         console.log(this.work)
         // this.hr.company = item.position.enterprise.enterprise_name
         this.messageTxt = false
@@ -1482,7 +1527,7 @@ export default {
     async helloChange () {
       this.changeColor = 1
       if (this.pidList.pid === 0) {
-        console.log('123')
+        this.pidList = {}
       }
       // this.getJob()
       // // this.emojList = appData
@@ -1494,7 +1539,7 @@ export default {
         this.show = true
         this.messageTxt = true
       } else {
-        this.answer = []
+        // this.answer = []
         console.log('有人找')
         this.list = res.data.results
 
@@ -1505,6 +1550,9 @@ export default {
     // 未回复
     async haveIntentionTo () {
       this.changeColor = 2
+      if (this.pidList.pid === 0) {
+        this.pidList = {}
+      }
       const res = await getInterest(this.pidList)
       console.log('未回复', res)
       if (res.data.results.length === 0) {
@@ -1512,7 +1560,7 @@ export default {
         this.show = true
         this.messageTxt = true
       } else {
-        this.answer = []
+        // this.answer = []
         console.log('有人找')
         this.list = res.data.results
         console.log(this.list)
@@ -1522,6 +1570,9 @@ export default {
     // 沟通中
     async inCommunicationC () {
       this.changeColor = 3
+      if (this.pidList.pid === 0) {
+        this.pidList = {}
+      }
       const res = await getComming(this.pidList)
       console.log('沟通中', res)
       if (res.data.results.length === 0) {
@@ -1530,7 +1581,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1539,6 +1590,9 @@ export default {
     // 已约面
     async posted () {
       this.changeColor = 4
+      if (this.pidList.pid === 0) {
+        this.pidList = {}
+      }
       const res = await getPosted(this.pidList)
       console.log('已约面', res)
       if (res.data.results.length === 0) {
@@ -1547,7 +1601,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1556,6 +1610,9 @@ export default {
     // 不合适
     async inappropriate () {
       this.changeColor = 5
+      if (this.pidList.pid === 0) {
+        this.pidList = {}
+      }
       const res = await getReject(this.pidList)
       console.log('不合适', res)
       if (res.data.results.length === 0) {
@@ -1564,7 +1621,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1657,6 +1714,7 @@ export default {
       console.log('job', data)
       const list = Object.values(data.data)
       console.log('123', list)
+      this.jobChange = data.data
       // if (JSON.stringify(data) === '{}') {
       //   console.log(2)
       //   // this.$message.success('暂无上线职位，去上线招聘岗位吧')
@@ -1679,9 +1737,15 @@ export default {
         })
       } else {
         console.log(2)
+        const num = {
+          name: '不限',
+          id: 0
+        }
         this.firm = list
-        this.pidList.pid = list[0].id
-        this.position = list[0].id
+
+        this.firm.unshift(num)
+        this.pidList.pid = this.firm[0].id
+        this.position = this.firm[0].id
         console.log('12', this.pidList)
         this.helloChange()
         // this.pid = list[0].id
@@ -1711,18 +1775,38 @@ export default {
         this.inappropriate()
       }
     },
+    // 在线简历
     async resumeOnline (id) {
       console.log(id)
       this.pid = id
       console.log('id', this.pid)
       // this.title = '人才推荐'
       // console.log('title', this.title)
-      const res = await getResume(id, this.position)
+      const res = await getResume(id, this.pidResume)
       console.log('简历', res)
       this.resumeList = res.data.data
       this.detailss = true
+      // this.interlinkage = res.data.data.cvfile
+    },
+    // 附件简历
+    async blogroll (id) {
+      console.log('13123235135')
+      const res = await getResume(id, this.pidResume)
+      console.log('简历', res)
+      this.interlinkage = res.data.data.cvfile
+      if (res.data.data.cvfile !== '') {
+        var downloadPath = `https://znzz.tech/loc/${res.data.data.cvfile}`
+        var downloadLink = document.createElement('a')
+        downloadLink.style.display = 'none' // 使其隐藏
+        downloadLink.href = downloadPath
+        downloadLink.download = ''
+        downloadLink.click()
+        // document.body.removeChild(downloadLink)
+      } else {
+        this.$message.success('暂无简历可查看')
+        // this.numList = false
+      }
     }
-
   }
 
 }
@@ -2075,18 +2159,24 @@ div#el-popover-700 {
   background-color: white; /*滚动条背景色显示的颜色*/
 }
 .block {
-  display: inline-block;
   width: 60px;
   height: 20px;
-  // background-color: pink;
-  font-size: 11px;
-  // margin-top: 1px;
-  text-align: center;
-  line-height: 20px;
+  font-size: 12px;
+  padding: 1px 0px 0px 2px;
+  margin-top: 8px;
   border: 1px solid #d3cccc;
+  // display: inline-block;
+  // width: 60px;
+  // height: 20px;
+  // // background-color: pink;
+  // font-size: 11px;
+  // // margin-top: 1px;
+  // text-align: center;
+  // line-height: 20px;
+  // border: 1px solid #d3cccc;
   color: #8a8a8a;
-  margin-right: 8px;
-  border-radius: 5px;
+  // margin-right: 8px;
+  // border-radius: 5px;
 }
 ::v-deep .el-upload:focus {
   color: #8a8a8a;
@@ -2122,6 +2212,19 @@ div#el-popover-700 {
   .radio {
     margin-right: 10px;
   }
+}
+::v-deep.el-button [class*='el-icon-'] + span {
+  margin-left: 0px;
+}
+::v-deep button:hover {
+  color: #8a8a8a;
+  border-color: #d3cccc;
+  background-color: #fff;
+}
+::v-deep button:focus {
+  color: #8a8a8a;
+  border-color: #d3cccc;
+  background-color: #fff;
 }
 </style>
 

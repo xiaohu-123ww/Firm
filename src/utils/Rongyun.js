@@ -112,6 +112,9 @@ export const init = (params, addPromptInfo) => {
           // message.content.content => 位置图片 base64
           break
         case RongIMClient.MessageType.RichContentMessage:
+          console.log('message1`231`', message)
+          message.content.time = message.sentTime
+          store.commit('SET_ANSWER', message.content)
           // message.content.content => 文本消息内容
           // message.content.imageUri => 图片 base64
           // message.content.url => 原图 URL
