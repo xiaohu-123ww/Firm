@@ -206,7 +206,8 @@ export default {
           const res = await getInterview(this.ruleForm)
           console.log('约面试', res)
           this.$message.success('已发送给求职者')
-          this.$emit('reset', false)
+          this.$emit('reset', false, this.ruleForm)
+          // this.clear()
         }
       })
     }
@@ -223,5 +224,8 @@ export default {
   background: #fff !important;
   // height: 60px;
   // padding: 30px;
+}
+::v-deep .el-textarea {
+  border: 1px solid rgb(220, 223, 230);
 }
 </style>

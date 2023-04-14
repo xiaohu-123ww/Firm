@@ -226,6 +226,7 @@
               >
                 <div style="width: 23%; line-height: 65px; padding-left: 20px">
                   <i
+                    v-if="data.title !== '微信申请'"
                     :class="
                       data.imageUri
                         ? 'el-icon-phone-outline'
@@ -233,6 +234,12 @@
                     "
                     style="font-size: 25px; color: #898181"
                   ></i>
+                  <img
+                    v-if="data.title === '微信申请'"
+                    src="../../../assets/image/weixin.png"
+                    alt=""
+                    style="width: 28px"
+                  />
                 </div>
 
                 <div style="margin-top: 20px">
@@ -354,7 +361,11 @@
         </a>
       </div>
       <div
-        v-if="data.css === 'right' && data.messageName === 'RichContentMessage'"
+        v-if="
+          data.css === 'right' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title !== '面试邀约'
+        "
       >
         <div v-if="phoneSum">
           <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
@@ -406,6 +417,63 @@
               >
             </div> -->
             </div>
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+
+            <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="
+          data.css === 'right' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '面试邀约'
+        "
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message right">
+            <a href="javascript:;" @click="particulars">
+              <div
+                style="
+                  height: 90px;
+                  background-color: #fff;
+                  width: 300px;
+                  border: 1px solid #e6e3e3;
+                  border-radius: 10px;
+                  font-size: 13px;
+                  text-align: center;
+                "
+              >
+                <div
+                  style="
+                    line-height: 30px;
+                    font-weight: 800;
+                    font-size: 15px;
+                    color: rgb(37, 110, 253);
+                    border-bottom: 1px solid #e6e3e3;
+                  "
+                >
+                  {{ data.title }}
+                </div>
+                <div style="line-height: 30px">
+                  <span>{{ data.content }}</span>
+                </div>
+                <div style="line-height: 20px">
+                  <span
+                    >{{ data.imageUri.start_time }} -
+                    {{ data.imageUri.end_time }}</span
+                  >
+                </div>
+              </div>
+            </a>
             <el-avatar
               size="small"
               :src="
@@ -528,6 +596,10 @@ export default {
     // console.log('this.data', this.data)
   },
   methods: {
+    // 邀约详情
+    particulars () {
+
+    },
     mapBaiTest () {
       console.log('点击了')
     },

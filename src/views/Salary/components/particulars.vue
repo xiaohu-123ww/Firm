@@ -29,6 +29,7 @@
                 type="text"
                 style="margin-left: 170px"
                 icon="el-icon-view"
+                class="num"
                 @click="interviewList"
                 >面试记录</el-button
               >
@@ -287,5 +288,11 @@ export default {
   background: #fff !important;
   // height: 60px;
   // padding: 30px;
+}
+::v-deep .el-button--text:hover {
+  color: #409eff;
+  // border: ;
+  border-color: transparent;
+  // background-color: transparent;
 }
 </style>

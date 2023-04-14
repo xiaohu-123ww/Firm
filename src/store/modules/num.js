@@ -8,7 +8,7 @@ const state = {
 const mutations = {
   SET_MEMBER (state, memberInfo) {
     state.memberInfo = memberInfo
-    localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
+    // localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
   },
   SET_UserId (state, memberInfo) {
     state.list = memberInfo
@@ -27,7 +27,8 @@ const mutations = {
       time: playload.time,
       messageName: playload.messageName,
       imageUri: playload.imageUri,
-      title: playload.title
+      title: playload.title,
+      targetId: playload.targetId
 
       // phone: playload.phone
 
@@ -35,6 +36,15 @@ const mutations = {
     }
     state.answer.push(say)
     // localStorage.setItem('answer', JSON.stringify(state.answer))
+  },
+  SET_ANSWERS (state, playload) {
+    state.answer = playload
+  },
+  MEMBER (state, playload) {
+    state.memberInfo = playload
+  },
+  UserId (state, playload) {
+    state.list = playload
   }
 }
 export default {

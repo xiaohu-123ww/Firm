@@ -614,6 +614,7 @@ export default {
           if (res.code === 200) {
             setToken(res.data.data)
             this.$message.success('登录成功')
+            // this.$store.commit('SET_ANSWERS', [])
             this.$router.push('/dashboard')
           } else if (res.code === 1001) {
             store.commit('user/removeUserInfo')

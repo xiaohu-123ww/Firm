@@ -413,7 +413,7 @@ export default {
       this.interviews = last
       // console.log(this.last, this.interviews)
       const res = await getFirm(id)
-      console.log('面试详情', res)
+      console.log('面试详情', res, this.last)
       this.firm = res.data
       this.flag = true
       this.interviewer = user_id

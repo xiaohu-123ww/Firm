@@ -173,7 +173,7 @@ export function getInterview (data) {
  */
 
 export function getFirm (id) {
-  return request.get(`enterprise/interviews/${id}/`)
+  return request.get(`/enterprise/interviews/${id}/`)
 }
 /**
  * 面试评价

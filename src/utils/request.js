@@ -1,5 +1,6 @@
 import router from '@/router'
 import axios from 'axios'
+import store from '@/store'
 import { MessageBox, Message } from 'element-ui'
 import { getToken, removeToken, getTokenInvalidFlag, setTokenInvalidFlag } from './auth'
 // http://1.13.8.165/
@@ -54,6 +55,10 @@ service.interceptors.response.use(
         }).then(() => {
           //  ("501");
           // store.commit('user/removeUserInfo')
+          RongIMClient.getInstance().logout()
+          store.commit('SET_ANSWERS', [])
+          store.commit('MEMBER', {})
+          store.commit('UserId', {})
           router.push('/')
           removeToken()
         })

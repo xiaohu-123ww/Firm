@@ -87,6 +87,7 @@ export const init = (params, addPromptInfo) => {
         case RongIMClient.MessageType.TextMessage:
           console.log('message', message.content.content)
           message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
+          message.content.targetId = message.senderUserId
           console.log('message', message)
           message.content.time = message.sentTime
           // message.content.phone = message.content.content
@@ -99,6 +100,7 @@ export const init = (params, addPromptInfo) => {
           break
         case RongIMClient.MessageType.ImageMessage:
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           store.commit('SET_ANSWER', message.content)
           console.log('messageimg', message)
 
@@ -114,6 +116,7 @@ export const init = (params, addPromptInfo) => {
         case RongIMClient.MessageType.RichContentMessage:
           console.log('message1`231`', message)
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           store.commit('SET_ANSWER', message.content)
           // message.content.content => 文本消息内容
           // message.content.imageUri => 图片 base64

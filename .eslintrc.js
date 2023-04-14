@@ -205,6 +205,7 @@ module.exports = {
     'no-undef': 'off',
     'no-unused-vars': 'off',
     'indent': 'off',
-    'object-curly-spacing': 'off'
+    'object-curly-spacing': 'off',
+    'no-empty': 'off'
   }
 }

@@ -112,7 +112,12 @@ export default {
         console.log('退出', res)
         if (res.code === 1000) {
           this.$store.commit('user/removeUserInfo')
+
           this.$router.push('/')
+          RongIMClient.getInstance().logout()
+          this.$store.commit('SET_ANSWERS', [])
+          this.$store.commit('MEMBER', {})
+          this.$store.commit('UserId', {})
         } else {
           this.$message.error(res.data.msg)
         }
