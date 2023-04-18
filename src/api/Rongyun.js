@@ -54,7 +54,7 @@ export function getPhoneChange (id) {
   })
 }
 /**
- * 是否交换手机号
+ * 是否交换微信号
  */
 
 export function getWetNumber (id) {

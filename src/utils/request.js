@@ -59,6 +59,7 @@ service.interceptors.response.use(
           store.commit('SET_ANSWERS', [])
           store.commit('MEMBER', {})
           store.commit('UserId', {})
+          sessionStorage.removeItem('answerList')
           router.push('/')
           removeToken()
         })

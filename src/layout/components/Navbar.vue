@@ -118,6 +118,7 @@ export default {
           this.$store.commit('SET_ANSWERS', [])
           this.$store.commit('MEMBER', {})
           this.$store.commit('UserId', {})
+          sessionStorage.removeItem('answer')
         } else {
           this.$message.error(res.data.msg)
         }

@@ -8,15 +8,16 @@ const state = {
 const mutations = {
   SET_MEMBER (state, memberInfo) {
     state.memberInfo = memberInfo
+    // sessionStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
     // localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
   },
   SET_UserId (state, memberInfo) {
     state.list = memberInfo
-    // localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
+    // sessionStorage.setItem('list', JSON.stringify(state.list))
   },
   SET_TARGETID (state, targetId) {
     state.targetId = targetId
-    localStorage.setItem('targetId', state.targetId)
+    // sessionStorage.setItem('targetId', state.targetId)
   },
   SET_ANSWER (state, playload) {
     console.log('playload', playload)
@@ -35,7 +36,7 @@ const mutations = {
       // 头像
     }
     state.answer.push(say)
-    // localStorage.setItem('answer', JSON.stringify(state.answer))
+    window.sessionStorage.setItem('answer', JSON.stringify(state.answer))
   },
   SET_ANSWERS (state, playload) {
     state.answer = playload

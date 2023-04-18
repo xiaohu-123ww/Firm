@@ -401,11 +401,11 @@
               class="innerboxs"
             >
               <Message
-                v-for="(item, index) in answer"
+                v-for="(item, index) in sayList"
                 :key="index"
                 :data="item"
                 :index="index"
-                :firsttime="answer[0].time"
+                :firsttime="sayList[0].time"
                 :phones="phones"
                 :phone-state="phoneState"
                 :status="status"
@@ -450,7 +450,7 @@
                       </div>
                     </el-popover>
                     <el-popover
-                      ref="popovers"
+                      ref="popoveraite"
                       placement="top-start"
                       width="420"
                       trigger="click"
@@ -463,6 +463,7 @@
                         height: 100%;
                         margin-top: 3px;
                       "
+                      @select="handleSelectaite"
                     >
                       <div class="frequent-expressions">
                         <div class="frequent">常用语</div>
@@ -711,6 +712,7 @@
       @wetSubmit="wetSubmit"
       @wetExchange="wetExchange"
       @wetresumeSend="wetresumeSend"
+      @wetExchanges="wetExchanges"
     />
     <Dialog
       :flag-show="flagShow"
@@ -753,6 +755,7 @@ import { getEnterprise, getResume } from '@/api/setting/index'
 import Recommendsss from '@/views/Setting/components/resumeDetails.vue'
 import { getDetail } from '@/api/department/online'
 import Particulars from '@/views/Salary/components/particulars.vue'
+import { getChating } from '@/api/salarys/index'
 
 // import { getAuthentication } from '@/api/personage/index'
 // import { getList } from '@/api/my/safety'
@@ -919,12 +922,25 @@ export default {
         sender_uid: 0,
         receiver_class: 0, // 同上
         receiver_uid: 143
-      }
+      },
+      answers: [],
+      sayList: []
 
     }
   },
   computed: {
 
+  },
+  watch: {
+    '$store.state.num.answer': {
+      handler: function (newVal, oldVal) {
+        const target = this.$store.state.num.targetId
+        const answerList = newVal
+        this.sayList = answerList.filter(function (item, index) { return item.targetId === target })
+        sessionStorage.setItem('answer', JSON.stringify(newVal))
+        console.log('11231', newVal, oldVal, this.sayList)
+      }
+    }
   },
   mounted () {
     // this.$router.go(0)
@@ -954,7 +970,7 @@ export default {
       const res = await getRongyun(this.rongYuns)
       console.log('信息', res)
       this.$store.commit('SET_MEMBER', res.data.sender)
-      this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+      // this.$store.commit('SET_TARGETID', res.data.receiver.uid)
       this.initRongCloud()
     },
     // 不合适
@@ -1014,19 +1030,21 @@ export default {
           const say = {
             css: 'right',
             title: message.content.title,
-            content: message.content.content,
+            content: _this.hr.comm_position,
             headImg: _this.$store.state.num.memberInfo.img,
 
             messageName: message.content.messageName,
             time: _this.nowTime,
             imageUri: message.content.imageUri,
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           _this.answer.push(say)
-          console.log(say, _this.answer)
+          _this.sayList.push(say)
+          _this.posted()
+          console.log(say, _this.answer, _this.sayList)
         },
         onError: function (errorCode, message) {
           console.log('Send RichContentMessage error: ' + errorCode)
@@ -1056,7 +1074,7 @@ export default {
     },
     // 微信
     wetresumeSend (wechat) {
-      console.log(wechat)
+      console.log('修改', wechat)
 
       this.resume()
       const _this = this
@@ -1088,28 +1106,39 @@ export default {
 
             messageName: message.content.messageName,
             time: _this.nowTime,
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           _this.answer.push(say)
-          console.log(say, _this.answer)
+
+          _this.sayList.push(say)
+          console.log(say, _this.answer, _this.sayList)
         },
         onError: function (errorCode, message) {
           console.log('Send RichContentMessage error: ' + errorCode)
         }
       })
+      console.log('你好', this.answer)
     },
     wetSubmit () {
       this.wetnumber = false
     },
+    wetExchanges () {
+      // this.wetnumber = false
+      this.wetchatvisible = true
+    },
     // 微信绑定及更换
     async wetExchange (wechat) {
-      console.log('wetchat', wechat)
+      // this.wetnumber = false
+      // this.wetchatvisible = true
+      // console.log('wetchat', wechat)
+      // if (wechat !== '') {
       const { data } = await getWetChatChange(wechat)
       console.log('微信绑定', data)
-      this.wetresumeSend()
+      this.wetresumeSend(wechat)
+      // }
       // this.wetcancel()
     },
     // 取消微信绑定
@@ -1143,6 +1172,9 @@ export default {
     },
     // 求简历
     async ResumeSeeking () {
+      // const { data } = await getChating(this.comm_id)
+      // console.log('求简历', data)
+      console.log()
       const res = await getResume(this.hr.user_id, this.pidResume)
       console.log('简历', res)
       this.interlinkage = res.data.data.cvfile
@@ -1157,7 +1189,8 @@ export default {
       } else {
         // this.$message.success('暂无简历可查看')
         // this.numList = false
-
+        const { data } = await getChating(this.comm_id)
+        console.log('求简历', data)
         console.log('求简历')
         this.resume()
         const _this = this
@@ -1189,13 +1222,15 @@ export default {
 
               messageName: message.content.messageName,
               time: _this.nowTime,
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
             }
+
             _this.answer.push(say)
-            console.log(say, _this.answer)
+            _this.sayList.push(say)
+            console.log(say, _this.answer, _this.sayList)
           },
           onError: function (errorCode, message) {
             console.log('Send RichContentMessage error: ' + errorCode)
@@ -1245,13 +1280,14 @@ export default {
             poi: message.content.poi,
             messageName: 'LocationMessage',
             time: _this.nowTime,
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           _this.answer.push(say)
-          console.log(say, _this.answer)
+          _this.sayList.push(say)
+          console.log(say, _this.answer, _this.sayList)
           // console.log(answar)
           // // const answar = []
           // answar = say
@@ -1429,7 +1465,8 @@ export default {
 
             }
             _this.answer.push(say)
-            console.log(say, _this.answer)
+            _this.sayList.push(say)
+            console.log(say, _this.answer, _this.sayList)
           },
           onError: function (errorCode, message) {
             console.log('Send RichContentMessage error: ' + errorCode)
@@ -1504,13 +1541,15 @@ export default {
               headImg: _this.$store.state.num.memberInfo.img,
               messageName: message.content.messageName,
               time: _this.nowTime,
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
             }
             // _this.answer.push(say)
             _this.answer.push(say)
+            _this.sayList.push(say)
+            console.log(say, _this.answer, _this.sayList)
             _this.image = ''
             console.log(say, _this.answer)
           },
@@ -1557,11 +1596,14 @@ export default {
     // 常用语
     expressionsClick (text) {
       console.log('text', text)
+      this.handleSelectaite()
       // this.say = text
-
+      // this.$refs['popovers'].doClose()
       // this.sendMessage()
       this.sam(text)
-      this.$refs.popovers.doClose()
+    },
+    handleSelectaite () {
+      this.$refs[`popoveraite`].doClose()
     },
     // usernameInput (val) {
     //   console.log('val', val)
@@ -1667,6 +1709,7 @@ export default {
         var msg = new RongIMLib.TextMessage({ content: _this.say, extra: _this.memberInfo.img })
         var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
         var targetId = _this.targetId // 目标 Id
+
         console.log('targetId', targetId)
         RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
           onSuccess: function (message) {
@@ -1678,19 +1721,22 @@ export default {
               headImg: _this.memberInfo.img,
               time: _this.nowTime,
               messageName: 'TextMessage',
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
             }
-
+            var sayList = say
             _this.answer.push(say)
-            console.log('_this.memberInfo', _this.answer)
+            _this.sayList.push(say)
+            console.log(say, _this.answer, _this.sayList)
             // localStorage.setItem('answer', JSON.stringify(_this.answer))
             // _this.$store.commit('SET_ANSWER', _this.answer)
             // console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
             _this.image = ''
             _this.say = ''
+            sayList = say
+            // const this = this
           },
           onError: function (errorCode, message) {
             var info = ''
@@ -1718,6 +1764,8 @@ export default {
             this.$message.warning('发送失败，刷新下页面吧')
           }
         })
+
+        // console.log('你好', sayList)
         // this.say = ''
       }
     },
@@ -1812,6 +1860,7 @@ export default {
     //   this.count = i
     // },
     async tinct (id, i, receiver, item) {
+      this.sayList = []
       console.log('i', i, receiver, item)
       this.count = id
       this.uid = item.comm_info.last_interview_id
@@ -1825,29 +1874,60 @@ export default {
       const res = await getRongyun(this.rongYun)
       console.log('信息', res)
       if (res.code === 200) {
-        console.log(res.data.receiver, res.data.sender)
-        this.$store.commit('SET_MEMBER', res.data.sender)
-        this.$store.commit('SET_TARGETID', res.data.receiver.uid)
-        this.hr.name = item.left_data.user_name
-        this.hr.sex = item.left_data.sex
-        this.hr.state = item.left_data.online_status
-        this.hr.work_date = item.left_data.work_date
-        this.hr.education = item.left_data.education
-        this.hr.status = item.left_data.status
-        this.hr.age = item.left_data.age
-        this.hr.comm_position = item.comm_info.comm_position
-        this.hr.position_city = item.left_data.position_class_data.city
-        this.hr.user_id = receiver
-        this.hr.fileChange = item.comm_info.is_cv_exchanged
-        this.hr.wechatChange = item.comm_info.is_wechat_exchanged
-        this.hr.phoneChange = item.comm_info.is_wechat_exchanged
-        this.work = item.right_data
-        this.pidResume = item.comm_info.comm_position_id
-        this.comm_id = item.comm_info.comm_id
+        if (item.comm_info.comm_position_status === 2) {
+          console.log(res.data.receiver, res.data.sender)
+          this.$store.commit('SET_MEMBER', res.data.sender)
+          this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+          const target = res.data.receiver.uid
+          var answerList = []
+          if (this.$store.state.num.answer.length === 0) {
+            console.log(JSON.parse(sessionStorage.getItem('answer')))
+            answerList = JSON.parse(sessionStorage.getItem('answer'))
+          } else {
+            answerList = this.$store.state.num.answer
+          }
+          // if (answerList.length !== 0) {
+          //   const answers = answerList.filter(function (item, index) { return item.targetId === target })
+          //   this.sayList = answers
+          // }
+          if (answerList !== null) {
+            const answers = answerList.filter(function (item, index) { return item.targetId === target })
+            this.sayList = answers
+          }
 
-        console.log(this.work)
-        // this.hr.company = item.position.enterprise.enterprise_name
-        this.messageTxt = false
+          console.log('answers', answerList)
+          // if (answers.length !== 0) {
+          // this.sayList = answers
+          console.log('this.sayList', this.sayList)
+          // }
+          // } else {
+          //   this.sayList = []
+          // }
+          this.hr.name = item.left_data.user_name
+          this.hr.sex = item.left_data.sex
+          this.hr.state = item.left_data.online_status
+          this.hr.work_date = item.left_data.work_date
+          this.hr.education = item.left_data.education
+          this.hr.status = item.left_data.status
+          this.hr.age = item.left_data.age
+          this.hr.comm_position = item.comm_info.comm_position
+          this.hr.position_city = item.left_data.position_class_data.city
+          this.hr.user_id = receiver
+          this.hr.fileChange = item.comm_info.is_cv_exchanged
+          this.hr.wechatChange = item.comm_info.is_wechat_exchanged
+          this.hr.phoneChange = item.comm_info.is_phone_exchanged
+          this.work = item.right_data
+          this.pidResume = item.comm_info.comm_position_id
+          this.comm_id = item.comm_info.comm_id
+
+          console.log(this.work)
+          // this.hr.company = item.position.enterprise.enterprise_name
+          this.messageTxt = false
+        } else {
+          this.messageTxt = true
+          this.$message.success('该职位已下线！')
+        }
+
         // this.initRongCloud()
       } else {
         this.$message.success(res.data.msg)
@@ -2013,13 +2093,15 @@ export default {
             headImg: _this.memberInfo.img,
             time: _this.nowTime,
             messageName: 'TextMessage',
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           console.log('_this.memberInfo', say, message.content.content)
           _this.answer.push(say)
+          _this.sayList.push(say)
+          console.log(say, _this.answer, _this.sayList)
           // _this.$store.commit('SET_ANSWER', _this.answer)
           // localStorage.setItem('answer', JSON.stringify(_this.answer))
           // _this.$store.commit('SET_ANSWER', _this.answer)
