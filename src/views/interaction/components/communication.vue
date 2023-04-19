@@ -577,7 +577,7 @@
               </a> -->
                     <!-- <a href="javascript:;"> -->
                     <el-button
-                      v-if="changeColor !== 2"
+                      v-if="changeColor !== 2 && changeColor !== 5"
                       class="block"
                       :class="{ small: isBackground }"
                       style="background-color: #fff"
@@ -586,14 +586,14 @@
                       换电话
                     </el-button>
                     <el-button
-                      v-if="changeColor !== 2"
+                      v-if="changeColor !== 2 && changeColor !== 5"
                       class="block"
                       @click="wetChatChange"
                     >
                       换微信
                     </el-button>
                     <el-button
-                      v-if="changeColor !== 2"
+                      v-if="changeColor !== 2 && changeColor !== 5"
                       class="block"
                       icon="el-icon-time"
                       @click="
@@ -605,15 +605,28 @@
                     >
                       约面试
                     </el-button>
+                    <!-- <el-button
+                      v-if="changeColor === 4 && InterviewDetails === true"
+                      class="block"
+                      icon="el-icon-time"
+                      @click="
+                        interview(
+                          information.left_data.user_id,
+                          information.comm_info.comm_position_id
+                        )
+                      "
+                    >
+                      约面试
+                    </el-button> -->
                     <el-button
-                      v-if="changeColor !== 2"
+                      v-if="changeColor !== 2 && changeColor !== 5"
                       class="block"
                       @click="ResumeSeeking"
                     >
                       求简历
                     </el-button>
                     <el-button
-                      v-if="changeColor === 4"
+                      v-if="changeColor === 4 && changeColor !== 5"
                       class="block"
                       @click="particularsClick"
                     >
@@ -715,6 +728,7 @@
       @wetExchanges="wetExchanges"
     />
     <Dialog
+      ref="dialogResume"
       :flag-show="flagShow"
       :interviewer="interviewer"
       :position-list="positionList"
@@ -924,7 +938,8 @@ export default {
         receiver_uid: 143
       },
       answers: [],
-      sayList: []
+      sayList: [],
+      InterviewDetails: false
 
     }
   },
@@ -1002,15 +1017,20 @@ export default {
     reset1 () {
       this.flag = false
     },
-    // 约面试s
-    resets (i, item) {
+    // 约面试
+    resets (i, item, interview_id) {
+      this.messageTxt = false
       this.flagShow = i
       this.resume()
+      console.log('内容', item)
+
       const _this = this
       // 创建 RichContentMessage 对象
       var title = '面试邀约'
       var description = this.jobTitle
       // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
+      item.content = _this.hr.comm_position
+      item.interview_id = interview_id
       var url = item
 
       var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description, url)
@@ -1043,13 +1063,18 @@ export default {
           }
           _this.answer.push(say)
           _this.sayList.push(say)
-          _this.posted()
+          if (_this.changeColor === 3) {
+            _this.posted()
+          }
+
           console.log(say, _this.answer, _this.sayList)
         },
         onError: function (errorCode, message) {
           console.log('Send RichContentMessage error: ' + errorCode)
         }
       })
+      this.messageTxt = false
+      // this.$refs.dialogResume.clear()
 
       // this.$emit('reject')
     },
@@ -1919,6 +1944,7 @@ export default {
           this.work = item.right_data
           this.pidResume = item.comm_info.comm_position_id
           this.comm_id = item.comm_info.comm_id
+          this.InterviewDetails = item.comm_info.continue_interview
 
           console.log(this.work)
           // this.hr.company = item.position.enterprise.enterprise_name
@@ -2654,6 +2680,12 @@ div#el-popover-700 {
   color: #8a8a8a;
   border-color: #d3cccc;
   background-color: #fff;
+}
+::v-deep .el-input__icon {
+  line-height: 26px;
+}
+::v-deep .el-date-editor .el-range-separator {
+  line-height: 26px;
 }
 </style>
 

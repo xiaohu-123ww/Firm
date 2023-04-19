@@ -124,6 +124,7 @@ export default {
         model: '线下',
         value1: []
       },
+      address: '',
       rules: {
         start_time: [
           { required: true, message: '请选择日期', trigger: 'change' }
@@ -155,14 +156,17 @@ export default {
   },
   created () {
     // this.getAddress()
+    // this.clear()
   },
   mounted () {
     // this.getAddress()
+    // this.clear()
   },
   watch: {
     addresss: {
       handler (newVal, oldVal) {
         this.ruleForm.address = newVal
+        this.address = newVal
         console.log(newVal, this.ruleForm.address)
         // this.ruleForm.address = newVal
         // console.log('this.ruleForm.address', this.ruleForm.address)
@@ -205,8 +209,24 @@ export default {
           // delete this.ruleForm.value1
           const res = await getInterview(this.ruleForm)
           console.log('约面试', res)
-          this.$message.success('已发送给求职者')
-          this.$emit('reset', false, this.ruleForm)
+
+          if (res.code === 200) {
+            await this.$emit('reset', false, this.ruleForm, res.data.interview_id)
+
+            this.$message.success(res.data.msg)
+            this.ruleForm = {}
+            this.ruleForm.model = '线下'
+            this.ruleForm.address = this.address
+            // this.ruleForm.start_time = ''
+            // this.ruleForm.end_time = ''
+            // this.ruleForm.contact = ''
+            // this.ruleForm.contactor = ''
+            // this.ruleForm.notice = ''
+            // this.ruleForm.value1 = []
+            // this.clear()
+          } else {
+            this.$message.warning(res.data.msg)
+          }
           // this.clear()
         }
       })
@@ -228,4 +248,10 @@ export default {
 ::v-deep .el-textarea {
   border: 1px solid rgb(220, 223, 230);
 }
+// ::v-deep .el-input__icon {
+//   line-height: 26px;
+// }
+// ::v-deep .el-date-editor .el-range-separator {
+//   line-height: 26px;
+// }
 </style>
