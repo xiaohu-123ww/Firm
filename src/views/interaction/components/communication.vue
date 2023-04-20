@@ -257,12 +257,13 @@
                 <el-button
                   class="Btn"
                   icon="el-icon-document"
+                  style="width: 90px"
                   @click="resumeOnline(hr.user_id)"
                   >在线简历</el-button
                 >
                 <el-button
                   class="Btn"
-                  style="background-color: rgb(115, 131, 255)"
+                  style="background-color: rgb(115, 131, 255); width: 90px"
                   icon="el-icon-paperclip"
                   :disabled="!hr.fileChange"
                   @click="blogroll(hr.user_id)"
@@ -414,7 +415,7 @@
                 @resetChange="resetChange"
               />
             </div>
-            <div v-if="changeColor !== 1">
+            <div v-if="changeColor !== 1 && changeColor !== 5">
               <div class="chatIcon">
                 <div>
                   <div style="display: flex">
@@ -551,6 +552,9 @@
                   ></a> -->
                       </div>
                       <div v-if="changeColor === 3" slot="reference">
+                        <Item icon="交换" style="width: 1.2em" @click="nums" />
+                      </div>
+                      <div v-if="changeColor === 4" slot="reference">
                         <Item icon="交换" style="width: 1.2em" @click="nums" />
                       </div>
                     </el-popover>
@@ -699,6 +703,23 @@
                 >
               </div>
             </div>
+            <div v-if="changeColor === 5" style="">
+              <div style="margin: 35px 300px; width: 100%">
+                <div style="font-size: 15px; color: rgb(163, 149, 149)">
+                  点击“撤销不合适”将候选人移出不合适列表，即可开始沟通
+                </div>
+                <el-button
+                  type="danger"
+                  style="
+                    background-color: #f78989;
+                    color: #fff;
+                    margin: 20px 130px;
+                  "
+                  @click="revocation"
+                  >撤销不合适</el-button
+                >
+              </div>
+            </div>
           </div>
         </div>
         <Safety
@@ -764,7 +785,7 @@ import { getAuthentication } from '@/api/personage/index'
 import { getChat } from '@/api/salarys/index'
 // 账号id
 import { getBase } from '@/api/personage/index'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChatChange, getWetNumber, getParticulars, getRejectss, getCommunication } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChatChange, getWetNumber, getParticulars, getRejectss, getCommunication, getRejectNum } from '@/api/Rongyun.js'
 import { getEnterprise, getResume } from '@/api/setting/index'
 import Recommendsss from '@/views/Setting/components/resumeDetails.vue'
 import { getDetail } from '@/api/department/online'
@@ -977,6 +998,13 @@ export default {
     // this.helloChange()
   },
   methods: {
+    // 撤销不合适
+    async revocation () {
+      const res = await getRejectNum(this.comm_id)
+      console.log(res)
+      this.$message.success(res.data.msg)
+      this.inCommunicationC()
+    },
     // 数据处理
     async initialize () {
       const { data } = await getBase()
@@ -1197,8 +1225,6 @@ export default {
     },
     // 求简历
     async ResumeSeeking () {
-      // const { data } = await getChating(this.comm_id)
-      // console.log('求简历', data)
       console.log()
       const res = await getResume(this.hr.user_id, this.pidResume)
       console.log('简历', res)
@@ -1214,53 +1240,55 @@ export default {
       } else {
         // this.$message.success('暂无简历可查看')
         // this.numList = false
-        const { data } = await getChating(this.comm_id)
-        console.log('求简历', data)
+        const res = await getChating(this.comm_id)
+        console.log('求简历', res.data)
         console.log('求简历')
-        this.resume()
-        const _this = this
-        // 创建 RichContentMessage 对象
-        var title = '简历申请'
-        var description = 'hr请求您的简历是否同意？'
-        // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
-        // var url = 'http://www.rongcloud.cn'
+        if (res.code === 200) {
+          this.resume()
+          const _this = this
+          // 创建 RichContentMessage 对象
+          var title = '简历申请'
+          var description = 'hr请求您的简历是否同意？'
+          // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
+          // var url = 'http://www.rongcloud.cn'
 
-        var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description)
-        const targetId = _this.$store.state.num.targetId
-        // var conversationType = RongIMLib.ConversationType.PRIVATE
-        // 创建消息对象
-        var message = {
-          content: richContentMessage,
-          conversationType: RongIMLib.ConversationType.PRIVATE,
-          targetId: targetId
-        }
-
-        // 发送消息
-        RongIMClient.getInstance().sendMessage(RongIMLib.ConversationType.PRIVATE, targetId, message.content, {
-          onSuccess: function (message) {
-            console.log('Send RichContentMessage successfully.', message)
-            const say = {
-              css: 'right',
-              title: message.content.title,
-              content: message.content.content,
-              headImg: _this.$store.state.num.memberInfo.img,
-
-              messageName: message.content.messageName,
-              time: _this.nowTime,
-              targetId: message.targetId
-
-              // condition: 'false'
-
-            }
-
-            _this.answer.push(say)
-            _this.sayList.push(say)
-            console.log(say, _this.answer, _this.sayList)
-          },
-          onError: function (errorCode, message) {
-            console.log('Send RichContentMessage error: ' + errorCode)
+          var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description)
+          const targetId = _this.$store.state.num.targetId
+          // var conversationType = RongIMLib.ConversationType.PRIVATE
+          // 创建消息对象
+          var message = {
+            content: richContentMessage,
+            conversationType: RongIMLib.ConversationType.PRIVATE,
+            targetId: targetId
           }
-        })
+
+          // 发送消息
+          RongIMClient.getInstance().sendMessage(RongIMLib.ConversationType.PRIVATE, targetId, message.content, {
+            onSuccess: function (message) {
+              console.log('Send RichContentMessage successfully.', message)
+              const say = {
+                css: 'right',
+                title: message.content.title,
+                content: message.content.content,
+                headImg: _this.$store.state.num.memberInfo.img,
+
+                messageName: message.content.messageName,
+                time: _this.nowTime,
+                targetId: message.targetId
+
+                // condition: 'false'
+
+              }
+
+              _this.answer.push(say)
+              _this.sayList.push(say)
+              console.log(say, _this.answer, _this.sayList)
+            },
+            onError: function (errorCode, message) {
+              console.log('Send RichContentMessage error: ' + errorCode)
+            }
+          })
+        }
       }
     },
     // 地图
@@ -2511,7 +2539,7 @@ export default {
 .Btn {
   height: 35px;
   padding: 8px 2px;
-  font-size: 5px;
+  font-size: 14px;
   // padding-top: 10px;
   background-color: rgb(0, 186, 189);
   color: #fff;

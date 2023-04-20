@@ -248,6 +248,10 @@ export default {
 ::v-deep .el-textarea {
   border: 1px solid rgb(220, 223, 230);
 }
+::v-deep
+  .el-date-editor.el-range-editor.el-input__inner.el-date-editor--datetimerange {
+  width: 100%;
+}
 // ::v-deep .el-input__icon {
 //   line-height: 26px;
 // }

@@ -90,11 +90,23 @@ export default {
           const res = await getLogin(this.list)
 
           // console.log('data1', data1)
-          console.log('扫码了', this.list, res)
+          console.log('扫码了122', res)
           if (res.code === 1000) {
             setToken(res.skey)
-            this.$router.push('/dashboard')
-            clearInterval(this.task)
+            if (res.is_hr === true) {
+              console.log('1779')
+              setToken(res.skey)
+              this.$router.push('/dashboard')
+              clearInterval(this.task)
+            } else {
+              this.$message.success('此账号不是hr账户,请尝试其他登录方式')
+              // console.log('不是hr')
+              // setToken(res.skey)
+              this.$emit('HrTrue')
+              clearInterval(this.task)
+            }
+            // this.$router.push('/dashboard')
+            // clearInterval(this.task)
           } else {
             this.$message.success(res.data.msg)
           }

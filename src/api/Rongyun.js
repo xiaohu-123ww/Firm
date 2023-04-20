@@ -105,3 +105,11 @@ export function getRejectss (comm_id) {
 export function getCommunication (comm_id, pos_id) {
   return request.put(`/enterprise/change-position/?comm_id=${comm_id}&pos_id=${pos_id}`)
 }
+
+/**
+ * 撤销不合适
+ */
+
+export function getRejectNum (comm_id) {
+  return request.post(`/enterprise/reject/${comm_id}/`)
+}

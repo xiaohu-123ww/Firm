@@ -389,6 +389,7 @@
       :sends="sends"
       @weChatClone="weChatClone"
       @getPhoto="getPhoto"
+      @HrTrue="HrTrue"
     />
   </div>
 </template>
@@ -564,6 +565,16 @@ export default {
 
   },
   methods: {
+
+    HrTrue () {
+      // console.log('你吼')
+      // this.$router.push('/register')
+      this.sends = false
+      // this.registerShow = false
+      // this.show = true
+      // // this.retrievePassword = false
+      // this.flagShow = false
+    },
     // 微信你扫码按钮
     weChat () {
       this.$refs.num.createQrcode()
@@ -836,6 +847,8 @@ export default {
       })
       // }
     },
+    // 判断hr
+
     // 找回密码
     password () {
       this.retrievePassword = true
